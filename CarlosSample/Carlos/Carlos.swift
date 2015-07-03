@@ -30,3 +30,9 @@ extension String: FetchableType {
     return self
   }
 }
+
+extension NSURL: FetchableType {
+  public var key: String {
+    return absoluteString!
+  }
+}

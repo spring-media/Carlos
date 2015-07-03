@@ -19,7 +19,7 @@ public class MemoryCacheLevel: CacheLevel {
   public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
     println("Fetching key: \(key.key) on memory fetcher")
     if let result = internalCache.objectForKey(key.key) as? NSData {
-      println("Fetched \(result)")
+      println("Fetched \(key.key)")
       success(result)
     } else {
       println("Failed fetching \(key.key) in the memory cache")
