@@ -11,6 +11,7 @@ import Foundation
 struct CarlosGlobals {
   static let QueueNamePrefix = "com.carlos."
   static let Megabyte: UInt64 = 1024*1024
+  static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
 }
 
 public protocol CacheLevel {

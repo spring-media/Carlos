@@ -22,7 +22,6 @@
 		AD695D2E1B46D59C004E998D /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D2D1B46D59C004E998D /* Cache.swift */; };
 		AD695D301B46D5BD004E998D /* DiskCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D2F1B46D5BD004E998D /* DiskCacheLevel.swift */; };
 		AD695D321B46D5D0004E998D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D311B46D5D0004E998D /* Extensions.swift */; };
-		AD695D341B46D5F4004E998D /* FallbackFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D331B46D5F4004E998D /* FallbackFetcher.swift */; };
 		AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D391B46DB6D004E998D /* Crypto.swift */; };
 		AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */; };
 /* End PBXBuildFile section */
@@ -84,7 +83,6 @@
 		AD695D2D1B46D59C004E998D /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		AD695D2F1B46D5BD004E998D /* DiskCacheLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheLevel.swift; sourceTree = "<group>"; };
 		AD695D311B46D5D0004E998D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		AD695D331B46D5F4004E998D /* FallbackFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FallbackFetcher.swift; sourceTree = "<group>"; };
 		AD695D371B46DB5C004E998D /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		AD695D391B46DB6D004E998D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
@@ -169,7 +167,6 @@
 				AD695D2D1B46D59C004E998D /* Cache.swift */,
 				AD695D2F1B46D5BD004E998D /* DiskCacheLevel.swift */,
 				AD695D311B46D5D0004E998D /* Extensions.swift */,
-				AD695D331B46D5F4004E998D /* FallbackFetcher.swift */,
 				AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */,
 			);
 			path = Carlos;
@@ -354,7 +351,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD695D321B46D5D0004E998D /* Extensions.swift in Sources */,
-				AD695D341B46D5F4004E998D /* FallbackFetcher.swift in Sources */,
 				AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */,
 				AD695D2C1B46D590004E998D /* MemoryCacheLevel.swift in Sources */,
 				AD695D2E1B46D59C004E998D /* Cache.swift in Sources */,

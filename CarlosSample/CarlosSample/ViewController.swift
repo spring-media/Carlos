@@ -9,20 +9,12 @@
 import UIKit
 import Carlos
 
-func basePath() -> String {
-  let cachesPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
-  let hanekePathComponent = "com.carlos"
-  let basePath = cachesPath.stringByAppendingPathComponent(hanekePathComponent)
-  return basePath
-}
-
 class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    NSFileManager.defaultManager().createDirectoryAtPath(basePath(), withIntermediateDirectories: true, attributes: [:], error: nil)
-    let cache = Cache(levels: [MemoryCacheLevel(), DiskCache(path: basePath()), FallbackFetcher(staticvalue: "test".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!), NetworkFetcher()])
+    let cache = Cache(levels: [MemoryCacheLevel(), DiskCache(), NetworkFetcher()])
     
       cache.get("http://www.google.de", onSuccess: { value in
         println("Fetched successfully \(value)")

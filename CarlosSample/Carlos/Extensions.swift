@@ -20,15 +20,6 @@ extension NSHTTPURLResponse {
 }
 
 extension String {
-  func escapedFilename() -> String {
-    let originalString = self as NSString as CFString
-    let charactersToLeaveUnescaped = " \\" as NSString as CFString // TODO: Add more characters that are valid in paths but not in URLs
-    let legalURLCharactersToBeEscaped = "/:" as NSString as CFString
-    let encoding = CFStringBuiltInEncodings.UTF8.rawValue
-    let escapedPath = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, originalString, charactersToLeaveUnescaped, legalURLCharactersToBeEscaped, encoding)
-    return escapedPath as NSString as String
-  }
-  
   func MD5String() -> String {
     if let data = self.dataUsingEncoding(NSUTF8StringEncoding) {
       let MD5Calculator = MD5(data)
@@ -42,16 +33,6 @@ extension String {
       return MD5String as String
     } else {
       return self
-    }
-  }
-  
-  func MD5Filename() -> String {
-    let MD5String = self.MD5String()
-    let pathExtension = self.pathExtension
-    if count(pathExtension) > 0 {
-      return MD5String.stringByAppendingPathExtension(pathExtension) ?? MD5String
-    } else {
-      return MD5String
     }
   }
 }

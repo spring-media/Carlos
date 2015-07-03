@@ -12,7 +12,7 @@ public class Cache: CacheLevel {
   private let levels: [CacheLevel]
   private var memoryObserver: NSObjectProtocol!
   
-  public init(levels: [CacheLevel] = [MemoryCacheLevel()]) {
+  public init(levels: [CacheLevel] = [MemoryCacheLevel(), DiskCache()]) {
     self.levels = levels
     
     memoryObserver = NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidReceiveMemoryWarningNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { _ in
