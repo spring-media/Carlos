@@ -2,7 +2,7 @@
 //  CarlosTests.swift
 //  CarlosTests
 //
-//  Created by Esad Hajdarevic on 03/07/15.
+//  Created by Monaco, Vittorio on 03/07/15.
 //  Copyright (c) 2015 WeltN24. All rights reserved.
 //
 
