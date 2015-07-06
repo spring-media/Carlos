@@ -73,18 +73,20 @@ public class DiskCacheLevel: CacheLevel {
     })
   }
   
-  private func removeData(key : String) {
-    dispatch_async(cacheQueue, {
-      self.removeFileAtPath(self.pathForKey(key))
-    })
-  }
-  
   public func clear() {
     dispatch_async(cacheQueue, {
       for filePath in self.itemsInDirectory(self.path) {
         self.fileManager.removeItemAtPath(filePath, error: nil)
       }
       self.calculateSize()
+    })
+  }
+  
+  // MARK: Private
+  
+  private func removeData(key : String) {
+    dispatch_async(cacheQueue, {
+      self.removeFileAtPath(self.pathForKey(key))
     })
   }
   

@@ -31,6 +31,37 @@ internal struct CarlosGlobals {
   static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
 }
 
+/// Abstracts a memory watchdog on which you can subscribe to memory warning notifications and unsubscribe later on
+public protocol MemoryWatchdog {
+  /**
+  Starts listening to memory warning notifications on this memory watchdog
+  
+  :param: _ The closure to execute when a memory warning comes
+  
+  :returns: A token that you can use to unsubscribe from memory warning notifications
+  */
+  func listenToMemoryWarning(() -> Void) -> NSObjectProtocol
+  
+  /**
+  Stops listening to memory warning notifications on this memory watchdog
+  
+  :param: token The token that was first returned by the watchdog after a call to listenToMemoryWarning:
+  */
+  func unsubscribeToMemoryWarning(token: NSObjectProtocol)
+}
+
+extension NSNotificationCenter: MemoryWatchdog {
+  public func listenToMemoryWarning(notify: () -> Void) -> NSObjectProtocol {
+    return addObserverForName(UIApplicationDidReceiveMemoryWarningNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { _ in
+      notify()
+    })
+  }
+  
+  public func unsubscribeToMemoryWarning(token: NSObjectProtocol) {
+    removeObserver(token, name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+  }
+}
+
 /// An abstraction for a generic cache level
 public protocol CacheLevel {
   /**
