@@ -12,9 +12,14 @@ import Foundation
 public let CarlosErrorDomain = "CarlosErrorDomain"
 
 public enum FetchError: Int {
-  /// The error code used when a cache level doesn't have a value in the cache
+  /// Used when a cache level doesn't have a value in the cache
   case ValueNotInCache = 10100
+  
+  /// Used when no cache level was specified during initialization
   case NoCacheLevelsSpecified = 9900
+  
+  /// Used when the specified fetchable was invalid
+  case InvalidFetchable = 8900
 }
 
 internal func errorWithCode(code: Int) -> NSError {

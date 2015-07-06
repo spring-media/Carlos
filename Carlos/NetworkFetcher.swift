@@ -8,73 +8,63 @@
 
 import Foundation
 
+public enum NetworkFetcherError: Int {
+  case StatusCodeNot200 = 11100
+  case InvalidNetworkResponse = 11101
+  case NoDataRetrieved = 11102
+}
+
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
 public class NetworkFetcher: CacheLevel {
-  //TODO: Improve implementation
   private class Request {
-    let URL : NSURL
-    
-    var session : NSURLSession {
-      return NSURLSession.sharedSession()
-    }
-    
-    var task : NSURLSessionDataTask? = nil
+    private let URL : NSURL
+    private var task : NSURLSessionDataTask? = nil
     
     init(URL: NSURL, success succeed : (NSData) -> (), failure fail : ((NSError?) -> ())) {
       self.URL = URL
-      self.task = session.dataTaskWithURL(URL) {[weak self] (data, response, error) in
+      self.task = NSURLSession.sharedSession().dataTaskWithURL(URL) {[weak self] (data, response, error) in
         if let strongSelf = self {
-          strongSelf.onReceiveData(data, response: response, error: error, failure: fail, success: succeed)
+          strongSelf.dataReceived(data, response: response, error: error, failure: fail, success: succeed)
         }
       }
       task?.resume()
     }
     
     private func validate(response: NSHTTPURLResponse, withData data: NSData) -> Bool {
+      var responseIsValid = true
       let expectedContentLength = response.expectedContentLength
-      if (expectedContentLength > -1) {
-        let dataLength = data.length
-        return Int64(dataLength) >= expectedContentLength
+      if expectedContentLength > -1 {
+        responseIsValid = Int64(data.length) >= expectedContentLength
       }
-      return true
+      return responseIsValid
     }
     
-    private func onReceiveData(data : NSData!, response : NSURLResponse!, error : NSError!, failure fail : ((NSError?) -> ()), success succeed : (NSData) -> ()) {
-      let URL = self.URL
-      
+    private func dataReceived(data : NSData!, response : NSURLResponse!, error : NSError!, failure fail : ((NSError?) -> Void), success succeed : (NSData) -> Void) {
       if let error = error {
-        if error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
-          return
+        if error.domain != NSURLErrorDomain || error.code != NSURLErrorCancelled {
+          dispatch_async(dispatch_get_main_queue(), {
+            fail(error)
+          })
         }
-        
-        dispatch_async(dispatch_get_main_queue(), { fail(error) })
-        return
+      } else if let httpResponse = response as? NSHTTPURLResponse {
+        if httpResponse.statusCode != 200 {
+          failWithCode(.StatusCodeNot200, failure: fail)
+        } else if !validate(httpResponse, withData: data) {
+          failWithCode(.InvalidNetworkResponse, failure: fail)
+        } else if let data = data {
+          dispatch_async(dispatch_get_main_queue()) {
+            succeed(data)
+          }
+        } else {
+          failWithCode(.NoDataRetrieved, failure: fail)
+        }
       }
-      
-      // Intentionally avoiding `if let` to continue in golden path style.
-      let httpResponse = response as! NSHTTPURLResponse
-      if httpResponse.statusCode != 200 {
-        failWithCode(10, failure: fail)
-        return
-      }
-      
-      if !validate(httpResponse, withData: data) {
-        failWithCode(9, failure: fail)
-        return
-      }
-      
-      let value = data
-      if value == nil {
-        failWithCode(11, failure: fail)
-        return
-      }
-      
-      dispatch_async(dispatch_get_main_queue()) { succeed(value) }
     }
     
-    private func failWithCode(code: Int, failure fail : ((NSError?) -> ())) {
-      let error = NSError(domain: "Carlos", code: code, userInfo: nil)
-      dispatch_async(dispatch_get_main_queue()) { fail(error) }
+    private func failWithCode(code: NetworkFetcherError, failure fail : ((NSError?) -> ())) {
+      dispatch_async(dispatch_get_main_queue()) {
+        fail(errorWithCode(code.rawValue))
+      }
     }
   }
   
@@ -82,23 +72,28 @@ public class NetworkFetcher: CacheLevel {
   
   public init() {}
   
-  public func onMemoryWarning() {}
-  
   public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    let request = Request(URL: NSURL(string: fetchable.fetchableKey)!, success: { data in
-      Logger.log("Fetched \(fetchable.fetchableKey) from the network fetcher")
-      success(data)
-      self.pendingRequests[fetchable.fetchableKey] = nil
-    }, failure: { error in
-      Logger.log("Failed fetching \(fetchable.fetchableKey) from the network fetcher")
-      failure(error)
-      self.pendingRequests[fetchable.fetchableKey] = nil
-    })
-    
-    pendingRequests[fetchable.fetchableKey] = request
+    if let URL = NSURL(string: fetchable.fetchableKey) {
+      let request = Request(URL: URL, success: { data in
+        Logger.log("Fetched \(fetchable.fetchableKey) from the network fetcher")
+        success(data)
+        self.pendingRequests[fetchable.fetchableKey] = nil
+      }, failure: { error in
+        Logger.log("Failed fetching \(fetchable.fetchableKey) from the network fetcher")
+        failure(error)
+        self.pendingRequests[fetchable.fetchableKey] = nil
+      })
+      
+      pendingRequests[fetchable.fetchableKey] = request
+    } else {
+      Logger.log("Can't convert \(fetchable.fetchableKey) to NSURL")
+      failure(errorWithCode(FetchError.InvalidFetchable.rawValue))
+    }
   }
   
   public func set(value: NSData, forKey fetchable: FetchableType) {}
+  
+  public func onMemoryWarning() {}
   
   public func clear() {}
 }
