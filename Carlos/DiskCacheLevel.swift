@@ -81,13 +81,10 @@ public class DiskCacheLevel: CacheLevel {
   
   public func clear() {
     dispatch_async(cacheQueue, {
-      if let contents = self.fileManager.contentsOfDirectoryAtPath(self.path, error: nil) as? [String] {
-        for pathComponent in contents {
-          let filePath = self.path.stringByAppendingPathComponent(pathComponent)
-          self.fileManager.removeItemAtPath(filePath, error: nil)
-        }
-        self.calculateSize()
+      for filePath in self.itemsInDirectory(self.path) {
+        self.fileManager.removeItemAtPath(filePath, error: nil)
       }
+      self.calculateSize()
     })
   }
   
@@ -108,12 +105,9 @@ public class DiskCacheLevel: CacheLevel {
   
   private func calculateSize() {
     size = 0
-    if let contents = fileManager.contentsOfDirectoryAtPath(path, error: nil) as? [String] {
-      for pathComponent in contents {
-        let filePath = path.stringByAppendingPathComponent(pathComponent)
-        if let attributes: NSDictionary = fileManager.attributesOfItemAtPath(filePath, error: nil) {
-          size += attributes.fileSize()
-        }
+    for filePath in itemsInDirectory(path) {
+      if let attributes: NSDictionary = fileManager.attributesOfItemAtPath(filePath, error: nil) {
+        size += attributes.fileSize()
       }
     }
   }
@@ -153,36 +147,48 @@ public class DiskCacheLevel: CacheLevel {
       size -= attributes.fileSize()
     }
   }
-}
-
-private func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path: String, @noescape usingBlock block: (NSURL, inout Bool) -> Void) {
-  let property = NSURLContentModificationDateKey
-  if let directoryURL = NSURL(fileURLWithPath: path),
-     let contents = NSFileManager.defaultManager().contentsOfDirectoryAtURL(directoryURL, includingPropertiesForKeys: [property], options: .allZeros, error: nil) as? [NSURL] {
-    let sortedContents = contents.sorted({ (URL1, URL2) in
-      var value1: AnyObject?
-      if !URL1.getResourceValue(&value1, forKey: property, error: nil) {
-        return true
-      }
-      
-      var value2: AnyObject?
-      if !URL2.getResourceValue(&value2, forKey: property, error: nil) {
-        return false
-      }
-      
-      if let date1 = value1 as? NSDate, let date2 = value2 as? NSDate {
-        return date1.compare(date2) == .OrderedAscending
-      }
-      
-      return false
-    })
+  
+  private func itemsInDirectory(directory: String) -> [String] {
+    var items: [String] = []
     
-    for value in sortedContents {
-      var stop = false
-      block(value, &stop)
-      if stop {
-        break
+    if let contents = fileManager.contentsOfDirectoryAtPath(directory, error: nil) as? [String] {
+      items = contents.map {
+        directory.stringByAppendingPathComponent($0)
       }
+    }
+    
+    return items
+  }
+  
+  private func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path: String, @noescape usingBlock block: (NSURL, inout Bool) -> Void) {
+    let property = NSURLContentModificationDateKey
+    if let directoryURL = NSURL(fileURLWithPath: path),
+      let contents = fileManager.contentsOfDirectoryAtURL(directoryURL, includingPropertiesForKeys: [property], options: .allZeros, error: nil) as? [NSURL] {
+        let sortedContents = contents.sorted({ (URL1, URL2) in
+          var value1: AnyObject?
+          if !URL1.getResourceValue(&value1, forKey: property, error: nil) {
+            return true
+          }
+          
+          var value2: AnyObject?
+          if !URL2.getResourceValue(&value2, forKey: property, error: nil) {
+            return false
+          }
+          
+          if let date1 = value1 as? NSDate, let date2 = value2 as? NSDate {
+            return date1.compare(date2) == .OrderedAscending
+          }
+          
+          return false
+        })
+        
+        for value in sortedContents {
+          var stop = false
+          block(value, &stop)
+          if stop {
+            break
+          }
+        }
     }
   }
 }
