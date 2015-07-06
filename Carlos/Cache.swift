@@ -11,6 +11,7 @@ import Foundation
 /// The cache to use when interfacing with Carlos. Conforms to CacheLevel to provide all its meaningful methods, and has an internal list of cache levels that can be customized at initialization time.
 public final class Cache: CacheLevel {
   //TODO: Consider having a pool of cache requests to avoid double-requesting the same resource
+  //TODO: Make this class generic and add a transformation closure to convert from and to the generic type to NSData
   private let levels: [CacheLevel]
   private var memoryObserver: NSObjectProtocol!
   

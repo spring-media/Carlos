@@ -17,7 +17,7 @@ public final class MemoryCacheLevel: CacheLevel {
 
   :param: cost The total cost limit for the memory cache. Defaults to 50 MB
   */
-  public init(cost: Int = Int(50 * 1024 * 1024)) {
+  public init(cost: Int = 50 * 1024 * 1024) {
     internalCache = NSCache()
     internalCache.totalCostLimit = cost
   }
