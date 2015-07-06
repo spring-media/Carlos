@@ -8,6 +8,19 @@
 
 import Foundation
 
+/// The error domain used for Carlos errors
+public let CarlosErrorDomain = "CarlosErrorDomain"
+
+public enum FetchError: Int {
+  /// The error code used when a cache level doesn't have a value in the cache
+  case ValueNotInCache = 10100
+  case NoCacheLevelsSpecified = 9900
+}
+
+internal func errorWithCode(code: Int) -> NSError {
+  return NSError(domain: CarlosErrorDomain, code: code, userInfo: nil)
+}
+
 internal struct CarlosGlobals {
   static let QueueNamePrefix = "com.carlos."
   static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String

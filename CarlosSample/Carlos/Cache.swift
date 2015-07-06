@@ -10,6 +10,7 @@ import Foundation
 
 /// The cache to use when interfacing with Carlos. Conforms to CacheLevel to provide all its meaningful methods, and has an internal list of cache levels that can be customized at initialization time.
 public final class Cache: CacheLevel {
+  //TODO: Consider having a pool of cache requests to avoid double-requesting the same resource
   private let levels: [CacheLevel]
   private var memoryObserver: NSObjectProtocol!
   
@@ -44,8 +45,7 @@ public final class Cache: CacheLevel {
   
   private func lookup(key: FetchableType, levels: [CacheLevel], success: (NSData) -> Void, failure: (NSError?) -> Void) {
     if levels.isEmpty {
-      //TODO: Pass an error here
-      failure(nil)
+      failure(errorWithCode(FetchError.NoCacheLevelsSpecified.rawValue))
     } else {
       if let firstLevel = levels.first {
         firstLevel.get(key, onSuccess: { data in
