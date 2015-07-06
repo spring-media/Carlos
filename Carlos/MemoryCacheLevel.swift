@@ -17,9 +17,9 @@ public final class MemoryCacheLevel: CacheLevel {
 
   :param: cost The total cost limit for the memory cache. Defaults to 50 MB
   */
-  public init(cost: Int = 50 * 1024 * 1024) {
+  public init(capacity: Int = 50 * 1024 * 1024) {
     internalCache = NSCache()
-    internalCache.totalCostLimit = cost
+    internalCache.totalCostLimit = capacity
   }
   
   public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
@@ -37,7 +37,7 @@ public final class MemoryCacheLevel: CacheLevel {
   }
   
   public func set(value: NSData, forKey fetchable: FetchableType) {
-    internalCache.setObject(value, forKey: fetchable.fetchableKey)
+    internalCache.setObject(value, forKey: fetchable.fetchableKey, cost: value.length)
   }
   
   public func clear() {
