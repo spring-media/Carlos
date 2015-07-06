@@ -27,6 +27,7 @@
 		AD926F771B4A9CAC00F0CA09 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */; };
 		AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */; };
 		AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */; };
+		AD926F8E1B4AB2E500F0CA09 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F8D1B4AB2E500F0CA09 /* NetworkFetcherTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNotificationCenterFake.swift; sourceTree = "<group>"; };
 		AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
+		AD926F8D1B4AB2E500F0CA09 /* NetworkFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 			children = (
 				AD695D1A1B46CD73004E998D /* Supporting Files */,
 				AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */,
+				AD926F8D1B4AB2E500F0CA09 /* NetworkFetcherTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 			files = (
 				AD926F771B4A9CAC00F0CA09 /* CacheTests.swift in Sources */,
 				AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */,
+				AD926F8E1B4AB2E500F0CA09 /* NetworkFetcherTests.swift in Sources */,
 				AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
