@@ -22,9 +22,7 @@ public class DiskCacheLevel: CacheLevel {
   }
   
   private lazy var cacheQueue : dispatch_queue_t = {
-    let queueName = CarlosGlobals.QueueNamePrefix + self.path.lastPathComponent
-    let cacheQueue = dispatch_queue_create(queueName, nil)
-    return cacheQueue
+    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + self.path.lastPathComponent, nil)
   }()
   
   public func onMemoryWarning() {}
@@ -77,25 +75,23 @@ public class DiskCacheLevel: CacheLevel {
   
   private func removeData(key : String) {
     dispatch_async(cacheQueue, {
-      let path = self.pathForKey(key)
-      self.removeFileAtPath(path)
+      self.removeFileAtPath(self.pathForKey(key))
     })
   }
   
   public func clear() {
-    let cachePath = path
     dispatch_async(cacheQueue, {
-      if let contents = self.fileManager.contentsOfDirectoryAtPath(cachePath, error: nil) as? [String] {
+      if let contents = self.fileManager.contentsOfDirectoryAtPath(self.path, error: nil) as? [String] {
         for pathComponent in contents {
-          let path = cachePath.stringByAppendingPathComponent(pathComponent)
-          self.fileManager.removeItemAtPath(path, error: nil)
+          let filePath = self.path.stringByAppendingPathComponent(pathComponent)
+          self.fileManager.removeItemAtPath(filePath, error: nil)
         }
         self.calculateSize()
       }
     })
   }
   
-  private func updateAccessDate(@autoclosure(escaping) getData : () -> NSData?, key : String) {
+  private func updateAccessDate(@autoclosure(escaping) getData: () -> NSData?, key : String) {
     dispatch_async(cacheQueue, {
       let path = self.pathForKey(key)
       if !self.updateDiskAccessDateAtPath(path) && !self.fileManager.fileExistsAtPath(path) {
@@ -112,11 +108,10 @@ public class DiskCacheLevel: CacheLevel {
   
   private func calculateSize() {
     size = 0
-    let cachePath = path
-    if let contents = fileManager.contentsOfDirectoryAtPath(cachePath, error: nil) as? [String] {
+    if let contents = fileManager.contentsOfDirectoryAtPath(path, error: nil) as? [String] {
       for pathComponent in contents {
-        let path = cachePath.stringByAppendingPathComponent(pathComponent)
-        if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: nil) {
+        let filePath = path.stringByAppendingPathComponent(pathComponent)
+        if let attributes: NSDictionary = fileManager.attributesOfItemAtPath(filePath, error: nil) {
           size += attributes.fileSize()
         }
       }
@@ -124,64 +119,53 @@ public class DiskCacheLevel: CacheLevel {
   }
   
   private func controlCapacity() {
-    if size <= capacity {
-      return
-    }
-    
-    let cachePath = path
-    enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(cachePath) { (URL, _, inout stop: Bool) in
-      if let path = URL.path {
-        self.removeFileAtPath(path)
-        stop = self.size <= self.capacity
+    if size > capacity {
+      enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path) { (URL, inout stop: Bool) in
+        if let path = URL.path {
+          removeFileAtPath(path)
+          stop = size <= capacity
+        }
       }
     }
   }
   
-  private func setDataSync(data: NSData, key : String) {
+  private func setDataSync(data: NSData, key: String) {
     let path = pathForKey(key)
-    let previousAttributes : NSDictionary? = fileManager.attributesOfItemAtPath(path, error: nil)
-    let success = data.writeToFile(path, options: NSDataWritingOptions.AtomicWrite, error: nil)
-    if !success {
+    let previousAttributes: NSDictionary? = fileManager.attributesOfItemAtPath(path, error: nil)
+    if !data.writeToFile(path, options: .AtomicWrite, error: nil) {
       Logger.log("Failed to write key \(key) on the disk cache")
     }
     
-    if let attributes = previousAttributes {
-      size -= attributes.fileSize()
-    }
-    size += UInt64(data.length)
+    size += (UInt64(data.length) - (previousAttributes?.fileSize() ?? 0))
     
     controlCapacity()
   }
   
-  private func updateDiskAccessDateAtPath(path : String) -> Bool {
+  private func updateDiskAccessDateAtPath(path: String) -> Bool {
     return fileManager.setAttributes([
       NSFileModificationDate: NSDate()
     ], ofItemAtPath: path, error: nil)
   }
   
   private func removeFileAtPath(path: String) {
-    if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: nil) {
-      let fileSize = attributes.fileSize()
-      if fileManager.removeItemAtPath(path, error: nil) {
-        size -= fileSize
-      }
+    if let attributes: NSDictionary = fileManager.attributesOfItemAtPath(path, error: nil)
+       where fileManager.removeItemAtPath(path, error: nil) {
+      size -= attributes.fileSize()
     }
   }
 }
 
-private func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path: String, usingBlock block : (NSURL, Int, inout Bool) -> Void) {
+private func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path: String, @noescape usingBlock block: (NSURL, inout Bool) -> Void) {
   let property = NSURLContentModificationDateKey
-  let directoryURL = NSURL(fileURLWithPath: path)
-  if directoryURL == nil { return }
-  var error : NSError?
-  if let contents = NSFileManager.defaultManager().contentsOfDirectoryAtURL(directoryURL!, includingPropertiesForKeys: [property], options: NSDirectoryEnumerationOptions.allZeros, error: &error) as? [NSURL] {
-    
-    let sortedContents = contents.sorted({(URL1 : NSURL, URL2 : NSURL) -> Bool in
-      var value1 : AnyObject?
+  if let directoryURL = NSURL(fileURLWithPath: path),
+     let contents = NSFileManager.defaultManager().contentsOfDirectoryAtURL(directoryURL, includingPropertiesForKeys: [property], options: .allZeros, error: nil) as? [NSURL] {
+    let sortedContents = contents.sorted({ (URL1, URL2) in
+      var value1: AnyObject?
       if !URL1.getResourceValue(&value1, forKey: property, error: nil) {
         return true
       }
-      var value2 : AnyObject?
+      
+      var value2: AnyObject?
       if !URL2.getResourceValue(&value2, forKey: property, error: nil) {
         return false
       }
@@ -193,10 +177,12 @@ private func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath
       return false
     })
     
-    for (i, v) in enumerate(sortedContents) {
-      var stop : Bool = false
-      block(v, i, &stop)
-      if stop { break }
+    for value in sortedContents {
+      var stop = false
+      block(value, &stop)
+      if stop {
+        break
+      }
     }
   }
 }
