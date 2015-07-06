@@ -14,7 +14,6 @@
 		AD695CEF1B46CD65004E998D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD695CED1B46CD65004E998D /* LaunchScreen.xib */; };
 		AD695D0E1B46CD73004E998D /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = AD695D0D1B46CD73004E998D /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD695D141B46CD73004E998D /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD695D091B46CD73004E998D /* Carlos.framework */; };
-		AD695D1D1B46CD73004E998D /* CarlosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D1C1B46CD73004E998D /* CarlosTests.swift */; };
 		AD695D201B46CD73004E998D /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD695D091B46CD73004E998D /* Carlos.framework */; };
 		AD695D211B46CD73004E998D /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD695D091B46CD73004E998D /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AD695D2A1B46CD7E004E998D /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D291B46CD7E004E998D /* Carlos.swift */; };
@@ -78,7 +77,6 @@
 		AD695D0D1B46CD73004E998D /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
 		AD695D131B46CD73004E998D /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD695D1B1B46CD73004E998D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AD695D1C1B46CD73004E998D /* CarlosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarlosTests.swift; sourceTree = "<group>"; };
 		AD695D291B46CD7E004E998D /* Carlos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Carlos.swift; sourceTree = "<group>"; };
 		AD695D2B1B46D590004E998D /* MemoryCacheLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryCacheLevel.swift; sourceTree = "<group>"; };
 		AD695D2D1B46D59C004E998D /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
@@ -185,7 +183,6 @@
 		AD695D191B46CD73004E998D /* CarlosTests */ = {
 			isa = PBXGroup;
 			children = (
-				AD695D1C1B46CD73004E998D /* CarlosTests.swift */,
 				AD695D1A1B46CD73004E998D /* Supporting Files */,
 			);
 			path = CarlosTests;
@@ -366,7 +363,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD695D1D1B46CD73004E998D /* CarlosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
