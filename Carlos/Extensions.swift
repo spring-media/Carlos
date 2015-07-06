@@ -8,18 +8,6 @@
 
 import Foundation
 
-extension NSHTTPURLResponse {
-  //TODO: Rename (btw, do we need this?)
-  func hnk_validateLengthOfData(data : NSData) -> Bool {
-    let expectedContentLength = self.expectedContentLength
-    if (expectedContentLength > -1) {
-      let dataLength = data.length
-      return Int64(dataLength) >= expectedContentLength
-    }
-    return true
-  }
-}
-
 extension String {
   func MD5String() -> String {
     if let data = self.dataUsingEncoding(NSUTF8StringEncoding) {

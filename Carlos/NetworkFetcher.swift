@@ -30,6 +30,15 @@ public class NetworkFetcher: CacheLevel {
       task?.resume()
     }
     
+    private func validate(response: NSHTTPURLResponse, withData data: NSData) -> Bool {
+      let expectedContentLength = response.expectedContentLength
+      if (expectedContentLength > -1) {
+        let dataLength = data.length
+        return Int64(dataLength) >= expectedContentLength
+      }
+      return true
+    }
+    
     private func onReceiveData(data : NSData!, response : NSURLResponse!, error : NSError!, failure fail : ((NSError?) -> ()), success succeed : (NSData) -> ()) {
       let URL = self.URL
       
@@ -49,7 +58,7 @@ public class NetworkFetcher: CacheLevel {
         return
       }
       
-      if !httpResponse.hnk_validateLengthOfData(data) {
+      if !validate(httpResponse, withData: data) {
         failWithCode(9, failure: fail)
         return
       }
