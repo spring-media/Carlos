@@ -20,7 +20,7 @@ public class NetworkFetcher: CacheLevel {
     
     var task : NSURLSessionDataTask? = nil
     
-    init(URL: NSURL, failure fail : ((NSError?) -> ()), success succeed : (NSData) -> ()) {
+    init(URL: NSURL, success succeed : (NSData) -> (), failure fail : ((NSError?) -> ())) {
       self.URL = URL
       self.task = session.dataTaskWithURL(URL) {[weak self] (data, response, error) in
         if let strongSelf = self {
@@ -76,12 +76,13 @@ public class NetworkFetcher: CacheLevel {
   public func onMemoryWarning() {}
   
   public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    //TODO: Log access to the cache level
-    let request = Request(URL: NSURL(string: key.key)!, failure: { error in
-      failure(error)
-      self.pendingRequests[key.key] = nil
-    }, success: { data in
+    let request = Request(URL: NSURL(string: key.key)!, success: { data in
+      Logger.log("Fetched \(key.key) from the network fetcher")
       success(data)
+      self.pendingRequests[key.key] = nil
+    }, failure: { error in
+      Logger.log("Failed fetching \(key.key) from the network fetcher")
+      failure(error)
       self.pendingRequests[key.key] = nil
     })
     

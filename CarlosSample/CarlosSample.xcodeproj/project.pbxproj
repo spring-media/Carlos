@@ -24,6 +24,7 @@
 		AD695D321B46D5D0004E998D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D311B46D5D0004E998D /* Extensions.swift */; };
 		AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D391B46DB6D004E998D /* Crypto.swift */; };
 		AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */; };
+		AD76954C1B4A6CDE00EF53BC /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76954B1B4A6CDE00EF53BC /* Logger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		AD695D371B46DB5C004E998D /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		AD695D391B46DB6D004E998D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
+		AD76954B1B4A6CDE00EF53BC /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 				AD695D2F1B46D5BD004E998D /* DiskCacheLevel.swift */,
 				AD695D311B46D5D0004E998D /* Extensions.swift */,
 				AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */,
+				AD76954B1B4A6CDE00EF53BC /* Logger.swift */,
 			);
 			path = Carlos;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				AD695D301B46D5BD004E998D /* DiskCacheLevel.swift in Sources */,
 				AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */,
 				AD695D2A1B46CD7E004E998D /* Carlos.swift in Sources */,
+				AD76954C1B4A6CDE00EF53BC /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

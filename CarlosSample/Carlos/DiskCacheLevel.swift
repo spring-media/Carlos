@@ -50,23 +50,24 @@ public class DiskCacheLevel: CacheLevel {
   }
   
   public func set(value: NSData, forKey key: FetchableType) {
-    //TODO: Log access to the cache level
     dispatch_async(cacheQueue, {
+      Logger.log("Setting a value for the key \(key.key) on the disk cache \(self)")
       self.setDataSync(value, key: key.key)
     })
   }
   
   public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    //TODO: Log access to the cache level
     dispatch_async(cacheQueue, {
       let path = self.pathForKey(key.key)
       var error: NSError? = nil
       if let data = NSData(contentsOfFile: path, options: .allZeros, error: &error) {
+        Logger.log("Fetched \(key.key) on disk level")
         dispatch_async(dispatch_get_main_queue(), {
           success(data)
         })
         self.updateDiskAccessDateAtPath(path)
       } else {
+        Logger.log("Failed fetching \(key.key) on the disk cache")
         dispatch_async(dispatch_get_main_queue(), {
           failure(error)
         })
@@ -117,8 +118,6 @@ public class DiskCacheLevel: CacheLevel {
         let path = cachePath.stringByAppendingPathComponent(pathComponent)
         if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: nil) {
           size += attributes.fileSize()
-        } else {
-          println("Failed to read file size of \(path)") //TODO: Use a logger here
         }
       }
     }
@@ -145,7 +144,7 @@ public class DiskCacheLevel: CacheLevel {
     let previousAttributes : NSDictionary? = fileManager.attributesOfItemAtPath(path, error: nil)
     let success = data.writeToFile(path, options: NSDataWritingOptions.AtomicWrite, error: nil)
     if !success {
-      println("Failed to write key \(key)") //TODO: Use a logger here
+      Logger.log("Failed to write key \(key) on the disk cache")
     }
     
     if let attributes = previousAttributes {
