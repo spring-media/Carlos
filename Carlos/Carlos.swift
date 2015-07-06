@@ -15,8 +15,8 @@ public enum FetchError: Int {
   /// Used when a cache level doesn't have a value in the cache
   case ValueNotInCache = 10100
   
-  /// Used when no cache level was specified during initialization
-  case NoCacheLevelsSpecified = 9900
+  /// Used when no cache level did find the key
+  case NoCacheLevelsRemaining = 9900
   
   /// Used when the specified fetchable was invalid
   case InvalidFetchable = 8900

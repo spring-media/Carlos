@@ -47,19 +47,17 @@ public final class Cache: CacheLevel {
   }
   
   private func lookup(fetchable: FetchableType, levels: [CacheLevel], success: (NSData) -> Void, failure: (NSError?) -> Void) {
-    if levels.isEmpty {
-      failure(errorWithCode(FetchError.NoCacheLevelsSpecified.rawValue))
-    } else {
-      if let firstLevel = levels.first {
-        firstLevel.get(fetchable, onSuccess: { data in
+    if let firstLevel = levels.first {
+      firstLevel.get(fetchable, onSuccess: { data in
+        success(data)
+      }, onFailure: { error in
+        self.lookup(fetchable, levels: Array(levels[1..<levels.count]), success: { data in
+          firstLevel.set(data, forKey: fetchable)
           success(data)
-        }, onFailure: { error in
-          self.lookup(fetchable, levels: Array(levels[1..<levels.count]), success: { data in
-            firstLevel.set(data, forKey: fetchable)
-            success(data)
-          }, failure: failure)
-        })
-      }
+        }, failure: failure)
+      })
+    } else {
+      failure(errorWithCode(FetchError.NoCacheLevelsRemaining.rawValue))
     }
   }
   

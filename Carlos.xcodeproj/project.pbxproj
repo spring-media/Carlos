@@ -24,6 +24,9 @@
 		AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D391B46DB6D004E998D /* Crypto.swift */; };
 		AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */; };
 		AD926F621B4A746900F0CA09 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F611B4A746900F0CA09 /* Logger.swift */; };
+		AD926F771B4A9CAC00F0CA09 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */; };
+		AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */; };
+		AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +88,9 @@
 		AD695D391B46DB6D004E998D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
 		AD926F611B4A746900F0CA09 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = CarlosSample/Carlos/Logger.swift; sourceTree = SOURCE_ROOT; };
+		AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
+		AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNotificationCenterFake.swift; sourceTree = "<group>"; };
+		AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				AD695D1A1B46CD73004E998D /* Supporting Files */,
+				AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -192,6 +199,8 @@
 			isa = PBXGroup;
 			children = (
 				AD695D1B1B46CD73004E998D /* Info.plist */,
+				AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */,
+				AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -363,6 +372,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD926F771B4A9CAC00F0CA09 /* CacheTests.swift in Sources */,
+				AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */,
+				AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,6 +584,7 @@
 		AD695D271B46CD73004E998D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -583,6 +596,7 @@
 				INFOPLIST_FILE = CarlosTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarlosSample.app/CarlosSample";
 			};
 			name = Debug;
@@ -590,6 +604,7 @@
 		AD695D281B46CD73004E998D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
