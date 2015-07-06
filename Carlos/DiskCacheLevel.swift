@@ -129,11 +129,9 @@ public class DiskCacheLevel: CacheLevel {
     }
     
     let cachePath = path
-    fileManager.enumerateContentsOfDirectoryAtPath(cachePath, orderedByProperty: NSURLContentModificationDateKey, ascending: true) { (URL, _, inout stop: Bool) in
-      
+    enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(cachePath) { (URL, _, inout stop: Bool) in
       if let path = URL.path {
         self.removeFileAtPath(path)
-        
         stop = self.size <= self.capacity
       }
     }
@@ -167,6 +165,38 @@ public class DiskCacheLevel: CacheLevel {
       if fileManager.removeItemAtPath(path, error: nil) {
         size -= fileSize
       }
+    }
+  }
+}
+
+private func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path: String, usingBlock block : (NSURL, Int, inout Bool) -> Void) {
+  let property = NSURLContentModificationDateKey
+  let directoryURL = NSURL(fileURLWithPath: path)
+  if directoryURL == nil { return }
+  var error : NSError?
+  if let contents = NSFileManager.defaultManager().contentsOfDirectoryAtURL(directoryURL!, includingPropertiesForKeys: [property], options: NSDirectoryEnumerationOptions.allZeros, error: &error) as? [NSURL] {
+    
+    let sortedContents = contents.sorted({(URL1 : NSURL, URL2 : NSURL) -> Bool in
+      var value1 : AnyObject?
+      if !URL1.getResourceValue(&value1, forKey: property, error: nil) {
+        return true
+      }
+      var value2 : AnyObject?
+      if !URL2.getResourceValue(&value2, forKey: property, error: nil) {
+        return false
+      }
+      
+      if let date1 = value1 as? NSDate, let date2 = value2 as? NSDate {
+        return date1.compare(date2) == .OrderedAscending
+      }
+      
+      return false
+    })
+    
+    for (i, v) in enumerate(sortedContents) {
+      var stop : Bool = false
+      block(v, i, &stop)
+      if stop { break }
     }
   }
 }
