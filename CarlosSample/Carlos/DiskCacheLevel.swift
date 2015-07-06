@@ -1,5 +1,5 @@
 //
-//  DiskCacheLevel.swift
+//  DiskCacheLevelLevel.swift
 //  CarlosSample
 //
 //  Created by Monaco, Vittorio on 03/07/15.
@@ -8,7 +8,8 @@
 
 import Foundation
 
-public class DiskCache: CacheLevel {
+/// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
+public class DiskCacheLevel: CacheLevel {
   private let path: String
   private var size: UInt64 = 0
   private let fileManager: NSFileManager
@@ -28,7 +29,14 @@ public class DiskCache: CacheLevel {
   
   public func onMemoryWarning() {}
   
-  public init(path: String = CarlosGlobals.Caches.stringByAppendingPathComponent(CarlosGlobals.QueueNamePrefix + "default"), capacity: UInt64 = 100 * CarlosGlobals.Megabyte, fileManager: NSFileManager = NSFileManager.defaultManager()) {
+  /**
+  Initializes a new disk cache level
+  
+  :param: path The path to the disk storage. Defaults to a Carlos specific folder in the Caches sandbox folder.
+  :param: capacity The total capacity in bytes for the disk cache. Defaults to 100 MB
+  :param: fileManager The file manager to use. Defaults to the default NSFileManager. It's here mainly for dependency injection testing purposes.
+  */
+  public init(path: String = CarlosGlobals.Caches.stringByAppendingPathComponent(CarlosGlobals.QueueNamePrefix + "default"), capacity: UInt64 = 100 * 1024 * 1024, fileManager: NSFileManager = NSFileManager.defaultManager()) {
     self.path = path
     self.fileManager = fileManager
     self.capacity = capacity
@@ -42,12 +50,14 @@ public class DiskCache: CacheLevel {
   }
   
   public func set(value: NSData, forKey key: FetchableType) {
+    //TODO: Log access to the cache level
     dispatch_async(cacheQueue, {
       self.setDataSync(value, key: key.key)
     })
   }
   
   public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+    //TODO: Log access to the cache level
     dispatch_async(cacheQueue, {
       let path = self.pathForKey(key.key)
       var error: NSError? = nil
@@ -74,17 +84,12 @@ public class DiskCache: CacheLevel {
   public func clear() {
     let cachePath = path
     dispatch_async(cacheQueue, {
-      var error: NSError? = nil
-      if let contents = self.fileManager.contentsOfDirectoryAtPath(cachePath, error: &error) as? [String] {
+      if let contents = self.fileManager.contentsOfDirectoryAtPath(cachePath, error: nil) as? [String] {
         for pathComponent in contents {
           let path = cachePath.stringByAppendingPathComponent(pathComponent)
-          if !self.fileManager.removeItemAtPath(path, error: &error) {
-            println("Failed to remove path \(path)")
-          }
+          self.fileManager.removeItemAtPath(path, error: nil)
         }
         self.calculateSize()
-      } else {
-        println("Failed to list directory")
       }
     })
   }
@@ -95,43 +100,37 @@ public class DiskCache: CacheLevel {
       if !self.updateDiskAccessDateAtPath(path) && !self.fileManager.fileExistsAtPath(path) {
         if let data = getData() {
           self.setDataSync(data, key: key)
-        } else {
-          println("Failed to get data for key \(key)")
         }
       }
     })
   }
   
   private func pathForKey(key : String) -> String {
-    let filename = key.MD5String()
-    let keyPath = path.stringByAppendingPathComponent(filename)
-    return keyPath
+    return path.stringByAppendingPathComponent(key.MD5String())
   }
   
   private func calculateSize() {
     size = 0
     let cachePath = path
-    var error : NSError?
-    if let contents = fileManager.contentsOfDirectoryAtPath(cachePath, error: &error) as? [String] {
+    if let contents = fileManager.contentsOfDirectoryAtPath(cachePath, error: nil) as? [String] {
       for pathComponent in contents {
         let path = cachePath.stringByAppendingPathComponent(pathComponent)
-        if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: &error) {
+        if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: nil) {
           size += attributes.fileSize()
         } else {
-          println("Failed to read file size of \(path)")
+          println("Failed to read file size of \(path)") //TODO: Use a logger here
         }
       }
-    } else {
-      println("Failed to list directory")
     }
   }
   
   private func controlCapacity() {
-    if size <= capacity { return }
+    if size <= capacity {
+      return
+    }
     
     let cachePath = path
-    
-    fileManager.enumerateContentsOfDirectoryAtPath(cachePath, orderedByProperty: NSURLContentModificationDateKey, ascending: true) { (URL : NSURL, _, inout stop : Bool) -> Void in
+    fileManager.enumerateContentsOfDirectoryAtPath(cachePath, orderedByProperty: NSURLContentModificationDateKey, ascending: true) { (URL, _, inout stop: Bool) in
       
       if let path = URL.path {
         self.removeFileAtPath(path)
@@ -143,42 +142,32 @@ public class DiskCache: CacheLevel {
   
   private func setDataSync(data: NSData, key : String) {
     let path = pathForKey(key)
-    var error: NSError?
     let previousAttributes : NSDictionary? = fileManager.attributesOfItemAtPath(path, error: nil)
-    let success = data.writeToFile(path, options: NSDataWritingOptions.AtomicWrite, error:&error)
+    let success = data.writeToFile(path, options: NSDataWritingOptions.AtomicWrite, error: nil)
     if !success {
-      println("Failed to write key \(key)")
+      println("Failed to write key \(key)") //TODO: Use a logger here
     }
+    
     if let attributes = previousAttributes {
       size -= attributes.fileSize()
     }
     size += UInt64(data.length)
+    
     controlCapacity()
   }
   
   private func updateDiskAccessDateAtPath(path : String) -> Bool {
-    let now = NSDate()
-    var error : NSError?
-    let success = fileManager.setAttributes([NSFileModificationDate : now], ofItemAtPath: path, error: &error)
-    if !success {
-      println("Failed to update access date")
-    }
-    return success
+    return fileManager.setAttributes([
+      NSFileModificationDate: NSDate()
+    ], ofItemAtPath: path, error: nil)
   }
   
   private func removeFileAtPath(path: String) {
-    var error : NSError?
-    if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: &error) {
+    if let attributes : NSDictionary = fileManager.attributesOfItemAtPath(path, error: nil) {
       let fileSize = attributes.fileSize()
-      if fileManager.removeItemAtPath(path, error: &error) {
-        self.size -= fileSize
-      } else {
-        println("Failed to remove file")
+      if fileManager.removeItemAtPath(path, error: nil) {
+        size -= fileSize
       }
-    } else if let error = error where NSCocoaErrorDomain == error.domain && error.code == NSFileReadNoSuchFileError {
-      println("File not found")
-    } else {
-      println("Failed to remove file")
     }
   }
 }

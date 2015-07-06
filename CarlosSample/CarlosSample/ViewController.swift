@@ -14,7 +14,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let cache = Cache(levels: [MemoryCacheLevel(), DiskCache(), NetworkFetcher()])
+    let cache = Cache(levels: [MemoryCacheLevel(), DiskCacheLevel(), NetworkFetcher()])
     
       cache.get("http://www.google.de", onSuccess: { value in
         println("Fetched successfully \(value)")

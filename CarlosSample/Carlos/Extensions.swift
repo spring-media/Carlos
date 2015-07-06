@@ -9,6 +9,7 @@
 import Foundation
 
 extension NSHTTPURLResponse {
+  //TODO: Rename (btw, do we need this?)
   func hnk_validateLengthOfData(data : NSData) -> Bool {
     let expectedContentLength = self.expectedContentLength
     if (expectedContentLength > -1) {
@@ -37,15 +38,18 @@ extension String {
   }
 }
 
+//TODO: Do we need this?
 func < (lhs: NSDate, rhs: NSDate) -> Bool {
   return lhs.compare(rhs) == NSComparisonResult.OrderedAscending
 }
 
+//TODO: Do we need this?
 func < (lhs: NSNumber, rhs: NSNumber) -> Bool {
   return lhs.compare(rhs) == NSComparisonResult.OrderedAscending
 }
 
 extension NSFileManager {
+  //TODO: Do we need this?
   func enumerateContentsOfDirectoryAtPath(path : String, orderedByProperty property : String, ascending : Bool, usingBlock block : (NSURL, Int, inout Bool) -> Void ) {
     
     let directoryURL = NSURL(fileURLWithPath: path)

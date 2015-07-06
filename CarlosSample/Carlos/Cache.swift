@@ -8,15 +8,23 @@
 
 import Foundation
 
-public class Cache: CacheLevel {
+/// The cache to use when interfacing with Carlos. Conforms to CacheLevel to provide all its meaningful methods, and has an internal list of cache levels that can be customized at initialization time.
+public final class Cache: CacheLevel {
   private let levels: [CacheLevel]
   private var memoryObserver: NSObjectProtocol!
   
-  public init(levels: [CacheLevel] = [MemoryCacheLevel(), DiskCache()]) {
+  /**
+  Initializes a new Carlos Cache
+  
+  :param: levels The cache levels to use. Defaults to memory and disk.
+  */
+  public init(levels: [CacheLevel] = [MemoryCacheLevel(), DiskCacheLevel()]) {
     self.levels = levels
     
-    memoryObserver = NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidReceiveMemoryWarningNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { _ in
-      self.onMemoryWarning()
+    memoryObserver = NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidReceiveMemoryWarningNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { [weak self] _ in
+      if let strongSelf = self {
+        strongSelf.onMemoryWarning()
+      }
     })
   }
   
@@ -36,22 +44,24 @@ public class Cache: CacheLevel {
   
   private func lookup(key: FetchableType, levels: [CacheLevel], success: (NSData) -> Void, failure: (NSError?) -> Void) {
     if levels.isEmpty {
+      //TODO: Pass an error here
       failure(nil)
     } else {
       if let firstLevel = levels.first {
         firstLevel.get(key, onSuccess: { data in
           success(data)
-          }, onFailure: { error in
-            self.lookup(key, levels: Array(levels[1..<levels.count]), success: { data in
-              firstLevel.set(data, forKey: key)
-              success(data)
-              }, failure: failure)
+        }, onFailure: { error in
+          self.lookup(key, levels: Array(levels[1..<levels.count]), success: { data in
+            firstLevel.set(data, forKey: key)
+            success(data)
+          }, failure: failure)
         })
       }
     }
   }
   
   public func set(value: NSData, forKey key: FetchableType) {
+    //TODO: Consider if this is fine or we should set on all the levels!
     levels.first?.set(value, forKey: key)
   }
   

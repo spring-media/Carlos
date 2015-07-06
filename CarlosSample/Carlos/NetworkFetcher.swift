@@ -8,11 +8,16 @@
 
 import Foundation
 
+/// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
 public class NetworkFetcher: CacheLevel {
-  class Request {
+  //TODO: Improve implementation
+  private class Request {
     let URL : NSURL
     
-    var session : NSURLSession { return NSURLSession.sharedSession() }
+    var session : NSURLSession {
+      return NSURLSession.sharedSession()
+    }
+    
     var task : NSURLSessionDataTask? = nil
     
     init(URL: NSURL, failure fail : ((NSError?) -> ()), success succeed : (NSData) -> ()) {
@@ -71,7 +76,8 @@ public class NetworkFetcher: CacheLevel {
   public func onMemoryWarning() {}
   
   public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    let x = Request(URL: NSURL(string: key.key)!, failure: { error in
+    //TODO: Log access to the cache level
+    let request = Request(URL: NSURL(string: key.key)!, failure: { error in
       failure(error)
       self.pendingRequests[key.key] = nil
     }, success: { data in
@@ -79,7 +85,7 @@ public class NetworkFetcher: CacheLevel {
       self.pendingRequests[key.key] = nil
     })
     
-    pendingRequests[key.key] = x
+    pendingRequests[key.key] = request
   }
   
   public func set(value: NSData, forKey key: FetchableType) {}

@@ -118,7 +118,6 @@
 		AD695CD61B46CD65004E998D = {
 			isa = PBXGroup;
 			children = (
-				AD695D371B46DB5C004E998D /* libcommonCrypto.dylib */,
 				AD695CE11B46CD65004E998D /* CarlosSample */,
 				AD695D0A1B46CD73004E998D /* Carlos */,
 				AD695D191B46CD73004E998D /* CarlosTests */,
@@ -175,6 +174,7 @@
 		AD695D0B1B46CD73004E998D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD695D371B46DB5C004E998D /* libcommonCrypto.dylib */,
 				AD695D0C1B46CD73004E998D /* Info.plist */,
 				AD695D391B46DB6D004E998D /* Crypto.swift */,
 			);
