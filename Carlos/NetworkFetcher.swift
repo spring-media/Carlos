@@ -9,14 +9,20 @@
 import Foundation
 
 public enum NetworkFetcherError: Int {
-  case StatusCodeNot200 = 11100
+  /// Used when the status code of the network response is not included in the range 200..<300
+  case StatusCodeNotOk = 11100
+  
+  /// Used when the network response had an invalid size
   case InvalidNetworkResponse = 11101
+  
+  /// Used when the network request didn't manage to retrieve data
   case NoDataRetrieved = 11102
 }
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
 public class NetworkFetcher: CacheLevel {
   private class Request {
+    private static let ValidStatusCodes = 200..<300
     private let URL : NSURL
     private var task : NSURLSessionDataTask? = nil
     
@@ -47,8 +53,8 @@ public class NetworkFetcher: CacheLevel {
           })
         }
       } else if let httpResponse = response as? NSHTTPURLResponse {
-        if httpResponse.statusCode != 200 {
-          failWithCode(.StatusCodeNot200, failure: fail)
+        if !contains(Request.ValidStatusCodes, httpResponse.statusCode) {
+          failWithCode(.StatusCodeNotOk, failure: fail)
         } else if !validate(httpResponse, withData: data) {
           failWithCode(.InvalidNetworkResponse, failure: fail)
         } else if let data = data {
