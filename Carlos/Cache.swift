@@ -13,7 +13,7 @@ public final class Cache: CacheLevel {
   //TODO: Consider having a pool of cache requests to avoid double-requesting the same resource
   //TODO: Make this class generic and add a transformation closure to convert from and to the generic type to NSData
   private let levels: [CacheLevel]
-  private let memoryWatchdog: MemoryWatchdog
+  private let notificationCenter: NSNotificationCenter
   private var memoryObserver: NSObjectProtocol!
   
   /**
@@ -21,19 +21,19 @@ public final class Cache: CacheLevel {
   
   :param: levels The cache levels to use. Defaults to memory and disk.
   */
-  public init(levels: [CacheLevel] = [MemoryCacheLevel(), DiskCacheLevel()], memoryWatchdog: MemoryWatchdog = NSNotificationCenter.defaultCenter()) {
+  public init(levels: [CacheLevel] = [MemoryCacheLevel(), DiskCacheLevel()], notificationCenter: NSNotificationCenter = NSNotificationCenter.defaultCenter()) {
     self.levels = levels
-    self.memoryWatchdog = memoryWatchdog
+    self.notificationCenter = notificationCenter
     
-    memoryObserver = memoryWatchdog.listenToMemoryWarning { [weak self] in
+    memoryObserver = notificationCenter.addObserverForName(UIApplicationDidReceiveMemoryWarningNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { [weak self] _ in
       if let strongSelf = self {
         strongSelf.onMemoryWarning()
       }
-    }
+    })
   }
   
   deinit {
-    memoryWatchdog.unsubscribeToMemoryWarning(memoryObserver)
+    notificationCenter.removeObserver(memoryObserver, name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
   }
   
   public func onMemoryWarning() {
