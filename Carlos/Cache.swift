@@ -39,20 +39,20 @@ public final class Cache: CacheLevel {
     }
   }
   
-  public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    lookup(key, levels: levels, success: success, failure: failure)
+  public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+    lookup(fetchable, levels: levels, success: success, failure: failure)
   }
   
-  private func lookup(key: FetchableType, levels: [CacheLevel], success: (NSData) -> Void, failure: (NSError?) -> Void) {
+  private func lookup(fetchable: FetchableType, levels: [CacheLevel], success: (NSData) -> Void, failure: (NSError?) -> Void) {
     if levels.isEmpty {
       failure(errorWithCode(FetchError.NoCacheLevelsSpecified.rawValue))
     } else {
       if let firstLevel = levels.first {
-        firstLevel.get(key, onSuccess: { data in
+        firstLevel.get(fetchable, onSuccess: { data in
           success(data)
         }, onFailure: { error in
-          self.lookup(key, levels: Array(levels[1..<levels.count]), success: { data in
-            firstLevel.set(data, forKey: key)
+          self.lookup(fetchable, levels: Array(levels[1..<levels.count]), success: { data in
+            firstLevel.set(data, forKey: fetchable)
             success(data)
           }, failure: failure)
         })
@@ -60,14 +60,15 @@ public final class Cache: CacheLevel {
     }
   }
   
-  public func set(value: NSData, forKey key: FetchableType) {
-    //TODO: Consider if this is fine or we should set on all the levels!
-    levels.first?.set(value, forKey: key)
+  public func set(value: NSData, forKey fetchable: FetchableType) {
+    for level in levels {
+      level.set(value, forKey: fetchable)
+    }
   }
   
   public func clear() {
-    for fetcher in levels {
-      fetcher.clear()
+    for level in levels {
+      level.clear()
     }
   }
 }

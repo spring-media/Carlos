@@ -49,25 +49,25 @@ public class DiskCacheLevel: CacheLevel {
     })
   }
   
-  public func set(value: NSData, forKey key: FetchableType) {
+  public func set(value: NSData, forKey fetchable: FetchableType) {
     dispatch_async(cacheQueue, {
-      Logger.log("Setting a value for the key \(key.key) on the disk cache \(self)")
-      self.setDataSync(value, key: key.key)
+      Logger.log("Setting a value for the key \(fetchable.fetchableKey) on the disk cache \(self)")
+      self.setDataSync(value, key: fetchable.fetchableKey)
     })
   }
   
-  public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+  public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
     dispatch_async(cacheQueue, {
-      let path = self.pathForKey(key.key)
+      let path = self.pathForKey(fetchable.fetchableKey)
       var error: NSError? = nil
       if let data = NSData(contentsOfFile: path, options: .allZeros, error: &error) {
-        Logger.log("Fetched \(key.key) on disk level")
+        Logger.log("Fetched \(fetchable.fetchableKey) on disk level")
         dispatch_async(dispatch_get_main_queue(), {
           success(data)
         })
         self.updateDiskAccessDateAtPath(path)
       } else {
-        Logger.log("Failed fetching \(key.key) on the disk cache")
+        Logger.log("Failed fetching \(fetchable.fetchableKey) on the disk cache")
         dispatch_async(dispatch_get_main_queue(), {
           failure(error)
         })

@@ -22,12 +22,12 @@ public final class MemoryCacheLevel: CacheLevel {
     internalCache.totalCostLimit = cost
   }
   
-  public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    if let result = internalCache.objectForKey(key.key) as? NSData {
-      Logger.log("Fetched \(key.key) on memory level")
+  public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+    if let result = internalCache.objectForKey(fetchable.fetchableKey) as? NSData {
+      Logger.log("Fetched \(fetchable.fetchableKey) on memory level")
       success(result)
     } else {
-      Logger.log("Failed fetching \(key.key) on the memory cache")
+      Logger.log("Failed fetching \(fetchable.fetchableKey) on the memory cache")
       failure(errorWithCode(FetchError.ValueNotInCache.rawValue))
     }
   }
@@ -36,8 +36,8 @@ public final class MemoryCacheLevel: CacheLevel {
     clear()
   }
   
-  public func set(value: NSData, forKey key: FetchableType) {
-    internalCache.setObject(value, forKey: key.key)
+  public func set(value: NSData, forKey fetchable: FetchableType) {
+    internalCache.setObject(value, forKey: fetchable.fetchableKey)
   }
   
   public func clear() {

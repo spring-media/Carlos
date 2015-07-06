@@ -75,21 +75,21 @@ public class NetworkFetcher: CacheLevel {
   
   public func onMemoryWarning() {}
   
-  public func get(key: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    let request = Request(URL: NSURL(string: key.key)!, success: { data in
-      Logger.log("Fetched \(key.key) from the network fetcher")
+  public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+    let request = Request(URL: NSURL(string: fetchable.fetchableKey)!, success: { data in
+      Logger.log("Fetched \(fetchable.fetchableKey) from the network fetcher")
       success(data)
-      self.pendingRequests[key.key] = nil
+      self.pendingRequests[fetchable.fetchableKey] = nil
     }, failure: { error in
-      Logger.log("Failed fetching \(key.key) from the network fetcher")
+      Logger.log("Failed fetching \(fetchable.fetchableKey) from the network fetcher")
       failure(error)
-      self.pendingRequests[key.key] = nil
+      self.pendingRequests[fetchable.fetchableKey] = nil
     })
     
-    pendingRequests[key.key] = request
+    pendingRequests[fetchable.fetchableKey] = request
   }
   
-  public func set(value: NSData, forKey key: FetchableType) {}
+  public func set(value: NSData, forKey fetchable: FetchableType) {}
   
   public func clear() {}
 }
