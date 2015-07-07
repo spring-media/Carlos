@@ -14,7 +14,9 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let cache = MemoryCacheLevel() >>> DiskCacheLevel() >>> NetworkFetcher()
+    let cache = MemoryCacheLevel() >>> DiskCacheLevel() >>> (NetworkFetcher() <^> OneWayTransformationBox(transform: { str in
+      NSURL(string: str)!
+    }))
     
     cache.get("http://www.google.de", onSuccess: { value in
       println("Fetched successfully \(value)")
