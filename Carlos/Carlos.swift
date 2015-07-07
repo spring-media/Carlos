@@ -38,7 +38,7 @@ Adds a memory warning listener on the given cache
 
 :returns: The token that you should use later on to unsubscribe
 */
-public func listenToMemoryWarnings<A, B>(cache: BasicCache<A, B>) -> NSObjectProtocol {
+public func listenToMemoryWarnings<A: CacheLevel where A: AnyObject>(cache: A) -> NSObjectProtocol {
   return NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidReceiveMemoryWarningNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { [weak cache] _ in
     if let cache = cache {
       cache.onMemoryWarning()
