@@ -14,13 +14,13 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let cache = Cache(levels: [MemoryCacheLevel(), DiskCacheLevel(), NetworkFetcher()])
+    let cache = MemoryCacheLevel() >>> DiskCacheLevel() >>> NetworkFetcher()
     
-      cache.get("http://www.google.de", onSuccess: { value in
-        println("Fetched successfully \(value)")
-      }, onFailure: { error in
-        println("Error \(error) during fetch")
-      })
+    cache.get("http://www.google.de", onSuccess: { value in
+      println("Fetched successfully \(value)")
+    }, onFailure: { error in
+      println("Error \(error) during fetch")
+    })
     
     let delayTime = dispatch_time(DISPATCH_TIME_NOW,
       Int64(2 * Double(NSEC_PER_SEC)))

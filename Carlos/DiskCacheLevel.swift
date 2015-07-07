@@ -9,7 +9,11 @@
 import Foundation
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
+//TODO: Make this generic in some way?
 public class DiskCacheLevel: CacheLevel {
+  public typealias KeyType = String
+  public typealias OutputType = NSData
+  
   private let path: String
   private var size: UInt64 = 0
   private let fileManager: NSFileManager
@@ -47,25 +51,25 @@ public class DiskCacheLevel: CacheLevel {
     })
   }
   
-  public func set(value: NSData, forKey fetchable: FetchableType) {
+  public func set(value: NSData, forKey fetchable: String) {
     dispatch_async(cacheQueue, {
-      Logger.log("Setting a value for the key \(fetchable.fetchableKey) on the disk cache \(self)")
-      self.setDataSync(value, key: fetchable.fetchableKey)
+      Logger.log("Setting a value for the key \(fetchable) on the disk cache \(self)")
+      self.setDataSync(value, key: fetchable)
     })
   }
   
-  public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+  public func get(fetchable: String, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
     dispatch_async(cacheQueue, {
-      let path = self.pathForKey(fetchable.fetchableKey)
+      let path = self.pathForKey(fetchable)
       var error: NSError? = nil
       if let data = NSData(contentsOfFile: path, options: .allZeros, error: &error) {
-        Logger.log("Fetched \(fetchable.fetchableKey) on disk level")
+        Logger.log("Fetched \(fetchable) on disk level")
         dispatch_async(dispatch_get_main_queue(), {
           success(data)
         })
         self.updateDiskAccessDateAtPath(path)
       } else {
-        Logger.log("Failed fetching \(fetchable.fetchableKey) on the disk cache")
+        Logger.log("Failed fetching \(fetchable) on the disk cache")
         dispatch_async(dispatch_get_main_queue(), {
           failure(error)
         })

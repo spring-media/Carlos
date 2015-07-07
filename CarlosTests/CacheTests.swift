@@ -11,9 +11,10 @@ import XCTest
 import Carlos
 
 class CacheTests: XCTestCase {
-  var sut: Cache!
+  var sut: BasicCache<String, NSData>!
   var notificationCenter: NSNotificationCenterFake!
-  var levels: [CacheLevel] = []
+  var levels: [CacheLevelFake] = []
+  var token: NSObjectProtocol!
   
   override func setUp() {
     super.setUp()
@@ -24,30 +25,21 @@ class CacheTests: XCTestCase {
       CacheLevelFake()
     ]
     
-    sut = Cache(levels: levels, notificationCenter: notificationCenter)
+    sut = levels.first! >>> levels.last!
+    token = listenToMemoryWarnings(sut)
   }
   
-  func testSubscribesToMemoryWarningNotification() {
-    XCTAssertNotNil(notificationCenter.subscribedToNotificationWithName, "Cache should subscribe to some notification")
+  override func tearDown() {
+    super.tearDown()
     
-    if let notificationName = notificationCenter.subscribedToNotificationWithName {
-      XCTAssertEqual(notificationName, UIApplicationDidReceiveMemoryWarningNotification, "Cache should subscribe to memory warning notifications")
-    }
-  }
-  
-  func testNotifiesLevelsWhenMemoryWarning() {
-    notificationCenter.simulateNotification()
-    
-    for level in levels {
-      XCTAssertTrue((level as! CacheLevelFake).receivedMemoryWarning, "Every cache level should be notified of the memory warning")
-    }
+    unsubscribeToMemoryWarnings(token)
   }
   
   func testNotifiesLevelsWhenClearing() {
     sut.clear()
     
     for level in levels {
-      XCTAssertTrue((level as! CacheLevelFake).cleared, "Every cache level should be cleared")
+      XCTAssertTrue(level.cleared, "Every cache level should be cleared")
     }
   }
   
@@ -58,14 +50,14 @@ class CacheTests: XCTestCase {
     sut.set(data, forKey: key)
     
     for level in levels {
-      XCTAssertNotNil((level as! CacheLevelFake).didSetValue, "Cache should set the value on every cache level")
-      XCTAssertNotNil((level as! CacheLevelFake).didSetKey, "Cache should set the key on every cache level")
+      XCTAssertNotNil(level.didSetValue, "Cache should set the value on every cache level")
+      XCTAssertNotNil(level.didSetKey, "Cache should set the key on every cache level")
       
-      if let dataSet = (level as? CacheLevelFake)?.didSetValue {
+      if let dataSet = level.didSetValue {
         XCTAssertEqual(dataSet, data, "Cache should set the right value on every cache level")
       }
       
-      if let keySet = (level as? CacheLevelFake)?.didSetKey {
+      if let keySet = level.didSetKey {
         XCTAssertEqual(keySet, key, "Cache should set the right key on every cache level")
       }
     }
@@ -74,7 +66,7 @@ class CacheTests: XCTestCase {
   func testGetStopsAtFirstLevelIfSucceeds() {
     let key = "testKey"
     
-    let firstLevel = levels.first as! CacheLevelFake
+    let firstLevel = levels.first!
     firstLevel.valueToReturn = "testResult".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
     
     sut.get(key, onSuccess: { data in
@@ -83,26 +75,16 @@ class CacheTests: XCTestCase {
     })
     
     XCTAssertNotNil(firstLevel.didGetWithKey, "Should ask the first level of course")
-    XCTAssertNil((levels.last as! CacheLevelFake).didGetWithKey, "Should not ask the second level")
+    XCTAssertNil(levels.last!.didGetWithKey, "Should not ask the second level")
     
     if let keyUsed = firstLevel.didGetWithKey {
       XCTAssertEqual(keyUsed, key, "Should use the right key")
     }
   }
   
-  func testGetFailsWhenNoLevelsAreSpecified() {
-    let cache = Cache(levels: [], notificationCenter: notificationCenter)
-    
-    cache.get("testKey", onSuccess: { data in
-      XCTFail("Should not get here")
-    }, onFailure: { error in
-      XCTAssertEqual(error!.code, FetchError.NoCacheLevelsRemaining.rawValue, "Should use the right error")
-    })
-  }
-  
   func testGetPassesTheCachedDataWhenOnFirstLevel() {
     let expectedValue = "testResultToReturn"
-    let firstLevel = levels.first as! CacheLevelFake
+    let firstLevel = levels.first!
     firstLevel.valueToReturn = expectedValue.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
     
     sut.get("testKey", onSuccess: { data in
@@ -118,11 +100,11 @@ class CacheTests: XCTestCase {
     sut.get(key, onSuccess: { data in
       XCTFail("Should not get here")
     }, onFailure: { error in
-      XCTAssertEqual(error!.code, FetchError.NoCacheLevelsRemaining.rawValue, "Should use the right error")
+      XCTAssertEqual(error!.code, -1, "Should use the error provided by the last cache level")
     })
     
     for level in levels {
-      XCTAssertNotNil((level as! CacheLevelFake).didGetWithKey, "Should ask every level before failing")
+      XCTAssertNotNil(level.didGetWithKey, "Should ask every level before failing")
     }
   }
   
@@ -130,8 +112,8 @@ class CacheTests: XCTestCase {
     let expectedValue = "testResultToReturn"
     let key = "testKey"
     
-    let firstLevel = levels.first as! CacheLevelFake
-    let secondLevel = levels.last as! CacheLevelFake
+    let firstLevel = levels.first!
+    let secondLevel = levels.last!
     
     firstLevel.valueToReturn = nil
     secondLevel.valueToReturn = expectedValue.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
@@ -159,8 +141,8 @@ class CacheTests: XCTestCase {
     let expectedValue = "testResultToReturn"
     let key = "testKey"
     
-    let firstLevel = levels.first as! CacheLevelFake
-    let secondLevel = levels.last as! CacheLevelFake
+    let firstLevel = levels.first!
+    let secondLevel = levels.last!
     
     firstLevel.valueToReturn = nil
     secondLevel.valueToReturn = expectedValue.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)

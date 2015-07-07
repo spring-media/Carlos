@@ -31,8 +31,35 @@ internal struct CarlosGlobals {
   static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
 }
 
+/**
+Adds a memory warning listener on the given cache
+
+:param: cache The cache that should listen to the memory warnings. Usually it's the top level cache result of the cache levels composition
+
+:returns: The token that you should use later on to unsubscribe
+*/
+public func listenToMemoryWarnings<A, B>(cache: BasicCache<A, B>) -> NSObjectProtocol {
+  return NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidReceiveMemoryWarningNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: { [weak cache] _ in
+    if let cache = cache {
+      cache.onMemoryWarning()
+    }
+  })
+}
+
+/**
+Removes the memory warning listener
+
+:param: token The token you got from the call to listenToMemoryWarning: previously
+*/
+public func unsubscribeToMemoryWarnings(token: NSObjectProtocol) {
+  NSNotificationCenter.defaultCenter().removeObserver(token, name: UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+}
+
 /// An abstraction for a generic cache level
 public protocol CacheLevel {
+  typealias KeyType
+  typealias OutputType
+  
   /**
   Tries to get a value from the cache level
   
@@ -40,7 +67,7 @@ public protocol CacheLevel {
   :param: success The closure to execute when the value is found
   :param: failure The closure to execute when no value is found for the given key on the cache level
   */
-  func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+  func get(fetchable: KeyType, onSuccess success: (OutputType) -> Void, onFailure failure: (NSError?) -> Void)
   
   /**
   Tries to set a value on the cache level
@@ -48,7 +75,7 @@ public protocol CacheLevel {
   :param: value The bytes to set on the cache level
   :param: fetchable The key of the value you're trying to set
   */
-  func set(value: NSData, forKey fetchable: FetchableType)
+  func set(value: OutputType, forKey fetchable: KeyType)
   
   /**
   Asks to clear the cache level
@@ -61,20 +88,74 @@ public protocol CacheLevel {
   func onMemoryWarning()
 }
 
-/// An abstraction for a generic key that can be used for cache levels
-public protocol FetchableType {
-  /// The underlying key to use for the cache
-  var fetchableKey: String { get }
+infix operator >>> { associativity left }
+
+internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A, B> {
+  return BasicCache<A, B>(getClosure: { (key, success, failure) in
+    closure(key: key , success: success, failure: failure)
+  }, setClosure: { (_, _) in }, clearClosure: { }, memoryClosure: { })
 }
 
-extension String: FetchableType {
-  public var fetchableKey: String {
-    return self
-  }
+/**
+Composes two cache closures
+
+:param: firstBox The first cache closure
+:param: secondBox The second cache closure
+
+:returns: A new cache level that is the result of the composition of the two cache closures
+*/
+public func >>><A, B>(firstBox: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, secondBox: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A, B> {
+  return wrapClosureIntoCacheLevel(firstBox) >>> wrapClosureIntoCacheLevel(secondBox)
 }
 
-extension NSURL: FetchableType {
-  public var fetchableKey: String {
-    return absoluteString!
-  }
+/**
+Composes two cache levels
+
+:param: firstBox The first cache level
+:param: secondBox The second cache level
+
+:returns: A new cache level that is the result of the composition of the two cache levels
+*/
+public func >>><A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstBox: A, secondBox: B) -> BasicCache<A.KeyType, A.OutputType> {
+  return BasicCache<A.KeyType, A.OutputType>(getClosure: { (key, success, failure) in
+    firstBox.get(key, onSuccess: success, onFailure: { error in
+      secondBox.get(key, onSuccess: { result in
+        firstBox.set(result, forKey: key)
+        success(result)
+        }, onFailure: failure)
+    })
+    }, setClosure: { (key, value) in
+      firstBox.set(value, forKey: key)
+      secondBox.set(value, forKey: key)
+    }, clearClosure: {
+      firstBox.clear()
+      secondBox.clear()
+    }, memoryClosure: {
+      firstBox.onMemoryWarning()
+      secondBox.onMemoryWarning()
+  })
+}
+
+/**
+Composes a cache level with a cache closure
+
+:param: firstBox The cache level
+:param: secondBox The cache closure
+
+:returns: A new cache level that is the result of the composition of the cache level with the cache closure
+*/
+public func >>><A: CacheLevel>(firstBox: A, secondBox: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A.KeyType, A.OutputType> {
+  return firstBox >>> wrapClosureIntoCacheLevel(secondBox)
+}
+
+/**
+Composes a cache closure with a cache level
+
+:param: firstBox The cache closure
+:param: secondBox The cache level
+
+:returns: A new cache level that is the result of the composition of the cache closure with the cache level
+*/
+public func >>><A: CacheLevel>(firstBox: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void, secondBox: A) -> BasicCache<A.KeyType, A.OutputType> {
+  return wrapClosureIntoCacheLevel(firstBox) >>> secondBox
 }

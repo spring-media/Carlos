@@ -11,7 +11,7 @@ import XCTest
 import Carlos
 
 class MemoryCacheTests: XCTestCase {
-  var sut: MemoryCacheLevel!
+  var sut: MemoryCacheLevel<NSData>!
   
   let size = 100
   let keys = ["key1", "key2", "key3", "key4"]

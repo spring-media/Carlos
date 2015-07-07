@@ -8,8 +8,27 @@
 
 import Foundation
 
+public protocol ExpensiveObject {
+  var cost: Int { get }
+}
+
+extension NSData: ExpensiveObject {
+  public var cost: Int {
+    return self.length
+  }
+}
+
+extension String: ExpensiveObject {
+  public var cost: Int {
+    return count(self)
+  }
+}
+
 /// This class is a memory cache level. It internally uses NSCache, and has a configurable total cost limit that defaults to 50 MB.
-public final class MemoryCacheLevel: CacheLevel {
+public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: CacheLevel {
+  public typealias KeyType = String
+  public typealias OutputType = T
+  
   private let internalCache: NSCache
   
   /**
@@ -22,12 +41,12 @@ public final class MemoryCacheLevel: CacheLevel {
     internalCache.totalCostLimit = capacity
   }
   
-  public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    if let result = internalCache.objectForKey(fetchable.fetchableKey) as? NSData {
-      Logger.log("Fetched \(fetchable.fetchableKey) on memory level")
+  public func get(fetchable: String, onSuccess success: (T) -> Void, onFailure failure: (NSError?) -> Void) {
+    if let result = internalCache.objectForKey(fetchable) as? T {
+      Logger.log("Fetched \(fetchable) on memory level")
       success(result)
     } else {
-      Logger.log("Failed fetching \(fetchable.fetchableKey) on the memory cache")
+      Logger.log("Failed fetching \(fetchable) on the memory cache")
       failure(errorWithCode(FetchError.ValueNotInCache.rawValue))
     }
   }
@@ -36,8 +55,8 @@ public final class MemoryCacheLevel: CacheLevel {
     clear()
   }
   
-  public func set(value: NSData, forKey fetchable: FetchableType) {
-    internalCache.setObject(value, forKey: fetchable.fetchableKey, cost: value.length)
+  public func set(value: T, forKey fetchable: String) {
+    internalCache.setObject(value, forKey: fetchable, cost: value.cost)
   }
   
   public func clear() {

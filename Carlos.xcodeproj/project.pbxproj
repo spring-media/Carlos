@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD456DFD1B4C0E770022B52E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD456DFC1B4C0E770022B52E /* Transformer.swift */; };
+		AD456DFF1B4C0F7A0022B52E /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD456DFE1B4C0F7A0022B52E /* BasicCache.swift */; };
 		AD695CE51B46CD65004E998D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695CE41B46CD65004E998D /* AppDelegate.swift */; };
 		AD695CE71B46CD65004E998D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695CE61B46CD65004E998D /* ViewController.swift */; };
 		AD695CEA1B46CD65004E998D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD695CE81B46CD65004E998D /* Main.storyboard */; };
@@ -18,7 +20,6 @@
 		AD695D211B46CD73004E998D /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD695D091B46CD73004E998D /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AD695D2A1B46CD7E004E998D /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D291B46CD7E004E998D /* Carlos.swift */; };
 		AD695D2C1B46D590004E998D /* MemoryCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D2B1B46D590004E998D /* MemoryCacheLevel.swift */; };
-		AD695D2E1B46D59C004E998D /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D2D1B46D59C004E998D /* Cache.swift */; };
 		AD695D301B46D5BD004E998D /* DiskCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D2F1B46D5BD004E998D /* DiskCacheLevel.swift */; };
 		AD695D321B46D5D0004E998D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D311B46D5D0004E998D /* Extensions.swift */; };
 		AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D391B46DB6D004E998D /* Crypto.swift */; };
@@ -74,6 +75,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD456DFC1B4C0E770022B52E /* Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
+		AD456DFE1B4C0F7A0022B52E /* BasicCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCache.swift; sourceTree = "<group>"; };
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD695CE31B46CD65004E998D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD695CE41B46CD65004E998D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,7 +91,6 @@
 		AD695D1B1B46CD73004E998D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD695D291B46CD7E004E998D /* Carlos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Carlos.swift; sourceTree = "<group>"; };
 		AD695D2B1B46D590004E998D /* MemoryCacheLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryCacheLevel.swift; sourceTree = "<group>"; };
-		AD695D2D1B46D59C004E998D /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		AD695D2F1B46D5BD004E998D /* DiskCacheLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheLevel.swift; sourceTree = "<group>"; };
 		AD695D311B46D5D0004E998D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AD695D391B46DB6D004E998D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
@@ -181,10 +183,11 @@
 				AD695D0B1B46CD73004E998D /* Supporting Files */,
 				AD695D291B46CD7E004E998D /* Carlos.swift */,
 				AD695D2B1B46D590004E998D /* MemoryCacheLevel.swift */,
-				AD695D2D1B46D59C004E998D /* Cache.swift */,
 				AD695D2F1B46D5BD004E998D /* DiskCacheLevel.swift */,
 				AD695D311B46D5D0004E998D /* Extensions.swift */,
 				AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */,
+				AD456DFC1B4C0E770022B52E /* Transformer.swift */,
+				AD456DFE1B4C0F7A0022B52E /* BasicCache.swift */,
 			);
 			path = Carlos;
 			sourceTree = "<group>";
@@ -376,9 +379,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD695D321B46D5D0004E998D /* Extensions.swift in Sources */,
+				AD456DFD1B4C0E770022B52E /* Transformer.swift in Sources */,
 				AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */,
 				AD695D2C1B46D590004E998D /* MemoryCacheLevel.swift in Sources */,
-				AD695D2E1B46D59C004E998D /* Cache.swift in Sources */,
+				AD456DFF1B4C0F7A0022B52E /* BasicCache.swift in Sources */,
 				AD695D301B46D5BD004E998D /* DiskCacheLevel.swift in Sources */,
 				AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */,
 				AD695D2A1B46CD7E004E998D /* Carlos.swift in Sources */,

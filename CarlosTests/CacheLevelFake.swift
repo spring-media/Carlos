@@ -10,17 +10,20 @@ import Foundation
 import Carlos
 
 class CacheLevelFake: CacheLevel {
+  typealias KeyType = String
+  typealias OutputType = NSData
+
   var didSetValue: NSData?
   var didSetKey: String?
-  func set(value: NSData, forKey fetchable: FetchableType) {
+  func set(value: NSData, forKey fetchable: String) {
     didSetValue = value
-    didSetKey = fetchable.fetchableKey
+    didSetKey = fetchable
   }
   
   var didGetWithKey: String?
   var valueToReturn: NSData?
-  func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    didGetWithKey = fetchable.fetchableKey
+  func get(fetchable: String, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+    didGetWithKey = fetchable
     
     if let value = valueToReturn {
       success(value)
