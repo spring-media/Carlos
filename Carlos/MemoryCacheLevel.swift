@@ -56,6 +56,7 @@ public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: Cach
   }
   
   public func set(value: T, forKey fetchable: String) {
+    Logger.log("Setting a value for the key \(fetchable) on the memory cache \(self)")
     internalCache.setObject(value, forKey: fetchable, cost: value.cost)
   }
   
