@@ -22,7 +22,7 @@ public enum NetworkFetcherError: Int {
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
 //TODO: Think about how to make possible a NSURL key type and still make it work with other levels in the pipeline
 public class NetworkFetcher: CacheLevel {
-  public typealias KeyType = String
+  public typealias KeyType = NSURL
   public typealias OutputType = NSData
   
   private class Request {
@@ -82,26 +82,21 @@ public class NetworkFetcher: CacheLevel {
   
   public init() {}
   
-  public func get(fetchable: String, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
-    if let URL = NSURL(string: fetchable) {
-      let request = Request(URL: URL, success: { data in
-        Logger.log("Fetched \(fetchable) from the network fetcher")
-        success(data)
-        self.pendingRequests[fetchable] = nil
-      }, failure: { error in
-        Logger.log("Failed fetching \(fetchable) from the network fetcher")
-        failure(error)
-        self.pendingRequests[fetchable] = nil
-      })
-      
-      pendingRequests[fetchable] = request
-    } else {
-      Logger.log("Can't convert \(fetchable) to NSURL")
-      failure(errorWithCode(FetchError.InvalidFetchable.rawValue))
-    }
+  public func get(fetchable: NSURL, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+    let request = Request(URL: fetchable, success: { data in
+      Logger.log("Fetched \(fetchable) from the network fetcher")
+      success(data)
+      self.pendingRequests[fetchable.absoluteString!] = nil
+    }, failure: { error in
+      Logger.log("Failed fetching \(fetchable) from the network fetcher")
+      failure(error)
+      self.pendingRequests[fetchable.absoluteString!] = nil
+    })
+    
+    pendingRequests[fetchable.absoluteString!] = request
   }
   
-  public func set(value: NSData, forKey fetchable: String) {}
+  public func set(value: NSData, forKey fetchable: NSURL) {}
   
   public func onMemoryWarning() {}
   

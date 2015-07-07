@@ -1,5 +1,5 @@
 //
-//  Transformer.swift
+//  TwoWayTransformer.swift
 //  Carlos
 //
 //  Created by Monaco, Vittorio on 07/07/15.
@@ -9,9 +9,9 @@
 import Foundation
 
 /// Abstract an object that can transform values to another type and back to the original one
-public protocol Transformer {
-  typealias TypeA
-  typealias TypeB
+public protocol TwoWayTransformer {
+  typealias TypeIn
+  typealias TypeOut
   
   /**
   Apply the forward transformation from A to B
@@ -20,7 +20,7 @@ public protocol Transformer {
   
   :returns: The transformed value
   */
-  func forwardTransform(val: TypeA) -> TypeB
+  func forwardTransform(val: TypeIn) -> TypeOut
   
   /**
   Apply the inverse transformation from B to A
@@ -29,28 +29,59 @@ public protocol Transformer {
   
   :returns: The original value
   */
-  func inverseTransform(val: TypeB) -> TypeA
+  func inverseTransform(val: TypeOut) -> TypeIn
 }
 
-/// Simple implementation of the Transformer protocol
-public struct TransformationBox<A, B>: Transformer {
-  public typealias TypeA = A
-  public typealias TypeB = B
+/// Abstract an object that can transform values to another type
+public protocol OneWayTransformer {
+  typealias TypeIn
+  typealias TypeOut
   
-  private let forwardTransformClosure: A -> B
-  private let inverseTransformClosure: B -> A
+  /**
+  Apply the transformation from A to B
   
-  public init(forwardTransform: (A -> B), inverseTransform: (B -> A)) {
+  :param: val The value to transform
+  
+  :returns: The transformed value
+  */
+  func transform(val: TypeIn) -> TypeOut
+}
+
+/// Simple implementation of the TwoWayTransformer protocol
+public struct TwoWayTransformationBox<I, O>: TwoWayTransformer {
+  public typealias TypeIn = I
+  public typealias TypeOut = O
+  
+  private let forwardTransformClosure: I -> O
+  private let inverseTransformClosure: O -> I
+  
+  public init(forwardTransform: (I -> O), inverseTransform: (O -> I)) {
     self.forwardTransformClosure = forwardTransform
     self.inverseTransformClosure = inverseTransform
   }
   
-  public func forwardTransform(val: A) -> B {
+  public func forwardTransform(val: I) -> O {
     return forwardTransformClosure(val)
   }
   
-  public func inverseTransform(val: TypeB) -> TypeA {
+  public func inverseTransform(val: O) -> I {
     return inverseTransformClosure(val)
+  }
+}
+
+/// Simple implementation of the TwoWayTransformer protocol
+public struct OneWayTransformationBox<I, O>: OneWayTransformer {
+  public typealias TypeIn = I
+  public typealias TypeOut = O
+  
+  private let transformClosure: I -> O
+  
+  public init(transform: (I -> O)) {
+    self.transformClosure = transform
+  }
+  
+  public func transform(val: TypeIn) -> TypeOut {
+    return transformClosure(val)
   }
 }
 
@@ -64,7 +95,7 @@ Applies a transformation to a cache closure
 
 :returns: A new cache level result of the transformation of the original cache level
 */
-public func <*><A, B, C: Transformer where C.TypeA == B>(cacheLevel: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, transformationBox: C) -> BasicCache<A, C.TypeB> {
+public func <*><A, B, C: TwoWayTransformer where C.TypeIn == B>(cacheLevel: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, transformationBox: C) -> BasicCache<A, C.TypeOut> {
   return wrapClosureIntoCacheLevel(cacheLevel) <*> transformationBox
 }
 
@@ -76,18 +107,50 @@ Applies a transformation to a cache level
 
 :returns: A new cache level result of the transformation of the original cache level
 */
-public func <*><A: CacheLevel, B: Transformer where A.OutputType == B.TypeA>(cacheLevel: A, transformationBox: B) -> BasicCache<A.KeyType, B.TypeB> {
-  return BasicCache<A.KeyType, B.TypeB>(getClosure: { (key, success, failure) in
+public func <*><A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cacheLevel: A, transformationBox: B) -> BasicCache<A.KeyType, B.TypeOut> {
+  return BasicCache<A.KeyType, B.TypeOut>(getClosure: { (key, success, failure) in
     cacheLevel.get(key, onSuccess: { result in
       success(transformationBox.forwardTransform(result))
-      }, onFailure: { error in
-        failure(error)
-    })
-    }, setClosure: { (key, value) in
-      cacheLevel.set(transformationBox.inverseTransform(value), forKey: key)
-    }, clearClosure: {
-      cacheLevel.clear()
-    }, memoryClosure: {
-      cacheLevel.onMemoryWarning()
+    }, onFailure: failure)
+  }, setClosure: { (key, value) in
+    cacheLevel.set(transformationBox.inverseTransform(value), forKey: key)
+  }, clearClosure: {
+    cacheLevel.clear()
+  }, memoryClosure: {
+    cacheLevel.onMemoryWarning()
+  })
+}
+
+infix operator <^> { associativity left }
+
+/**
+Applies a transformation to a cache closure
+
+:param: cacheLevel The cache closure you want to transform
+:param: transformationBox The transformation you want to apply
+
+:returns: A new cache level result of the transformation of the original cache level
+*/
+public func <^><A, B, C: OneWayTransformer where C.TypeOut == A>(cacheLevel: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, transformationBox: C) -> BasicCache<C.TypeIn, B> {
+  return wrapClosureIntoCacheLevel(cacheLevel) <^> transformationBox
+}
+
+/**
+Applies a transformation to a cache level
+
+:param: cacheLevel The cache level you want to transform
+:param: transformationBox The transformation you want to apply
+
+:returns: A new cache level result of the transformation of the original cache level
+*/
+public func <^><A: CacheLevel, B: OneWayTransformer where A.KeyType == B.TypeOut>(cacheLevel: A, transformationBox: B) -> BasicCache<B.TypeIn, A.OutputType> {
+  return BasicCache<B.TypeIn, A.OutputType>(getClosure: { (key, success, failure) in
+    cacheLevel.get(transformationBox.transform(key), onSuccess: success, onFailure: failure)
+  }, setClosure: { (key, value) in
+    cacheLevel.set(value, forKey: transformationBox.transform(key))
+  }, clearClosure: {
+    cacheLevel.clear()
+  }, memoryClosure: {
+    cacheLevel.onMemoryWarning()
   })
 }
