@@ -57,7 +57,10 @@ public func unsubscribeToMemoryWarnings(token: NSObjectProtocol) {
 
 /// An abstraction for a generic cache level
 public protocol CacheLevel {
+  /// A typealias for the key the cache level accepts
   typealias KeyType
+  
+  /// A typealias for the data the cache returns in the success closure
   typealias OutputType
   
   /**
@@ -99,63 +102,63 @@ internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A, success: B -> Vo
 /**
 Composes two cache closures
 
-:param: firstBox The first cache closure
-:param: secondBox The second cache closure
+:param: firstFetcher The first cache closure
+:param: secondFetcher The second cache closure
 
 :returns: A new cache level that is the result of the composition of the two cache closures
 */
-public func >>><A, B>(firstBox: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, secondBox: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A, B> {
-  return wrapClosureIntoCacheLevel(firstBox) >>> wrapClosureIntoCacheLevel(secondBox)
+public func >>><A, B>(firstFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, secondFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A, B> {
+  return wrapClosureIntoCacheLevel(firstFetcher) >>> wrapClosureIntoCacheLevel(secondFetcher)
 }
 
 /**
 Composes two cache levels
 
-:param: firstBox The first cache level
-:param: secondBox The second cache level
+:param: firstCache The first cache level
+:param: secondCache The second cache level
 
 :returns: A new cache level that is the result of the composition of the two cache levels
 */
-public func >>><A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstBox: A, secondBox: B) -> BasicCache<A.KeyType, A.OutputType> {
+public func >>><A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
   return BasicCache<A.KeyType, A.OutputType>(getClosure: { (key, success, failure) in
-    firstBox.get(key, onSuccess: success, onFailure: { error in
-      secondBox.get(key, onSuccess: { result in
-        firstBox.set(result, forKey: key)
+    firstCache.get(key, onSuccess: success, onFailure: { error in
+      secondCache.get(key, onSuccess: { result in
+        firstCache.set(result, forKey: key)
         success(result)
-        }, onFailure: failure)
+      }, onFailure: failure)
     })
-    }, setClosure: { (key, value) in
-      firstBox.set(value, forKey: key)
-      secondBox.set(value, forKey: key)
-    }, clearClosure: {
-      firstBox.clear()
-      secondBox.clear()
-    }, memoryClosure: {
-      firstBox.onMemoryWarning()
-      secondBox.onMemoryWarning()
+  }, setClosure: { (key, value) in
+    firstCache.set(value, forKey: key)
+    secondCache.set(value, forKey: key)
+  }, clearClosure: {
+    firstCache.clear()
+    secondCache.clear()
+  }, memoryClosure: {
+    firstCache.onMemoryWarning()
+    secondCache.onMemoryWarning()
   })
 }
 
 /**
 Composes a cache level with a cache closure
 
-:param: firstBox The cache level
-:param: secondBox The cache closure
+:param: cache The cache level
+:param: fetchClosure The cache closure
 
 :returns: A new cache level that is the result of the composition of the cache level with the cache closure
 */
-public func >>><A: CacheLevel>(firstBox: A, secondBox: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A.KeyType, A.OutputType> {
-  return firstBox >>> wrapClosureIntoCacheLevel(secondBox)
+public func >>><A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A.KeyType, A.OutputType> {
+  return cache >>> wrapClosureIntoCacheLevel(fetchClosure)
 }
 
 /**
 Composes a cache closure with a cache level
 
-:param: firstBox The cache closure
-:param: secondBox The cache level
+:param: fetchClosure The cache closure
+:param: cache The cache level
 
 :returns: A new cache level that is the result of the composition of the cache closure with the cache level
 */
-public func >>><A: CacheLevel>(firstBox: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void, secondBox: A) -> BasicCache<A.KeyType, A.OutputType> {
-  return wrapClosureIntoCacheLevel(firstBox) >>> secondBox
+public func >>><A: CacheLevel>(fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+  return wrapClosureIntoCacheLevel(fetchClosure) >>> cache
 }
