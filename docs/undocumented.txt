@@ -1,0 +1,27 @@
+NetworkFetcher.swift
+	public enum NetworkFetcherError: Int
+	public init() {}
+	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func set(value: NSData, forKey fetchable: FetchableType) {}
+	public func onMemoryWarning() {}
+	public func clear() {}
+MemoryCacheLevel.swift
+	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func onMemoryWarning()
+	public func set(value: NSData, forKey fetchable: FetchableType)
+	public func clear()
+Cache.swift
+	public func onMemoryWarning()
+	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func set(value: NSData, forKey fetchable: FetchableType)
+	public func clear()
+DiskCacheLevel.swift
+	public var capacity: UInt64 = 0
+	public func onMemoryWarning() {}
+	public func set(value: NSData, forKey fetchable: FetchableType)
+	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func clear()
+Carlos.swift
+	public enum FetchError: Int
+	public var fetchableKey: String
+	public var fetchableKey: String
