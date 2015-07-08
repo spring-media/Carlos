@@ -107,7 +107,7 @@ Composes two cache closures
 
 :returns: A new cache level that is the result of the composition of the two cache closures
 */
-public func >>><A, B>(firstFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, secondFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A, B> {
+public func compose<A, B>(firstFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, secondFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A, B> {
   return wrapClosureIntoCacheLevel(firstFetcher) >>> wrapClosureIntoCacheLevel(secondFetcher)
 }
 
@@ -119,23 +119,23 @@ Composes two cache levels
 
 :returns: A new cache level that is the result of the composition of the two cache levels
 */
-public func >>><A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
+public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
   return BasicCache<A.KeyType, A.OutputType>(getClosure: { (key, success, failure) in
     firstCache.get(key, onSuccess: success, onFailure: { error in
       secondCache.get(key, onSuccess: { result in
         firstCache.set(result, forKey: key)
         success(result)
-      }, onFailure: failure)
+        }, onFailure: failure)
     })
-  }, setClosure: { (key, value) in
-    firstCache.set(value, forKey: key)
-    secondCache.set(value, forKey: key)
-  }, clearClosure: {
-    firstCache.clear()
-    secondCache.clear()
-  }, memoryClosure: {
-    firstCache.onMemoryWarning()
-    secondCache.onMemoryWarning()
+    }, setClosure: { (key, value) in
+      firstCache.set(value, forKey: key)
+      secondCache.set(value, forKey: key)
+    }, clearClosure: {
+      firstCache.clear()
+      secondCache.clear()
+    }, memoryClosure: {
+      firstCache.onMemoryWarning()
+      secondCache.onMemoryWarning()
   })
 }
 
@@ -147,7 +147,7 @@ Composes a cache level with a cache closure
 
 :returns: A new cache level that is the result of the composition of the cache level with the cache closure
 */
-public func >>><A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A.KeyType, A.OutputType> {
+public func compose<A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A.KeyType, A.OutputType> {
   return cache >>> wrapClosureIntoCacheLevel(fetchClosure)
 }
 
@@ -159,6 +159,54 @@ Composes a cache closure with a cache level
 
 :returns: A new cache level that is the result of the composition of the cache closure with the cache level
 */
-public func >>><A: CacheLevel>(fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+public func compose<A: CacheLevel>(fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return wrapClosureIntoCacheLevel(fetchClosure) >>> cache
+}
+
+/**
+Composes two cache closures
+
+:param: firstFetcher The first cache closure
+:param: secondFetcher The second cache closure
+
+:returns: A new cache level that is the result of the composition of the two cache closures
+*/
+public func >>><A, B>(firstFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, secondFetcher: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A, B> {
+  return compose(firstFetcher, secondFetcher)
+}
+
+/**
+Composes two cache levels
+
+:param: firstCache The first cache level
+:param: secondCache The second cache level
+
+:returns: A new cache level that is the result of the composition of the two cache levels
+*/
+public func >>><A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
+  return compose(firstCache, secondCache)
+}
+
+/**
+Composes a cache level with a cache closure
+
+:param: cache The cache level
+:param: fetchClosure The cache closure
+
+:returns: A new cache level that is the result of the composition of the cache level with the cache closure
+*/
+public func >>><A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void) -> BasicCache<A.KeyType, A.OutputType> {
+  return compose(cache, wrapClosureIntoCacheLevel(fetchClosure))
+}
+
+/**
+Composes a cache closure with a cache level
+
+:param: fetchClosure The cache closure
+:param: cache The cache level
+
+:returns: A new cache level that is the result of the composition of the cache closure with the cache level
+*/
+public func >>><A: CacheLevel>(fetchClosure: (key: A.KeyType, success: A.OutputType -> Void, failure: NSError? -> Void) -> Void, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+  return compose(wrapClosureIntoCacheLevel(fetchClosure), cache)
 }
