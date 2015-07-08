@@ -1,27 +1,40 @@
+OneWayTransformer.swift
+	public init(transform: (I -> O))
+	public func transform(val: TypeIn) -> TypeOut
 NetworkFetcher.swift
 	public enum NetworkFetcherError: Int
+	public class NetworkFetcher: CacheLevel
 	public init() {}
-	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
-	public func set(value: NSData, forKey fetchable: FetchableType) {}
+	public func get(fetchable: NSURL, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func set(value: NSData, forKey fetchable: NSURL) {}
 	public func onMemoryWarning() {}
 	public func clear() {}
 MemoryCacheLevel.swift
-	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public protocol ExpensiveObject
+	var cost: Int { get }
+	public var cost: Int
+	public var cost: Int
+	public var cost: Int
+	public func get(fetchable: String, onSuccess success: (T) -> Void, onFailure failure: (NSError?) -> Void)
 	public func onMemoryWarning()
-	public func set(value: NSData, forKey fetchable: FetchableType)
+	public func set(value: T, forKey fetchable: String)
 	public func clear()
-Cache.swift
+BasicCache.swift
+	public init(getClosure: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, setClosure: (key: A, value: B) -> Void, clearClosure: () -> Void, memoryClosure: () -> Void)
+	public func get(fetchable: A, onSuccess success: (B) -> Void, onFailure failure: (NSError?) -> Void)
+	public func set(value: B, forKey fetchable: A)
+	public func clear()
 	public func onMemoryWarning()
-	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
-	public func set(value: NSData, forKey fetchable: FetchableType)
-	public func clear()
 DiskCacheLevel.swift
+	public class DiskCacheLevel: CacheLevel
 	public var capacity: UInt64 = 0
 	public func onMemoryWarning() {}
-	public func set(value: NSData, forKey fetchable: FetchableType)
-	public func get(fetchable: FetchableType, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func set(value: NSData, forKey fetchable: String)
+	public func get(fetchable: String, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
 	public func clear()
+TwoWayTransformer.swift
+	public init(forwardTransform: (I -> O), inverseTransform: (O -> I))
+	public func forwardTransform(val: I) -> O
+	public func inverseTransform(val: O) -> I
 Carlos.swift
 	public enum FetchError: Int
-	public var fetchableKey: String
-	public var fetchableKey: String

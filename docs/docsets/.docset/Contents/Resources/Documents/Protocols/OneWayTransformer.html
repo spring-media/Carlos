@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>String Extension Reference</title>
+    <title>OneWayTransformer Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/String" class="dashAnchor"></a>
-    <a title="String Extension Reference"></a>
+    <a name="//apple_ref/swift/Protocol/OneWayTransformer" class="dashAnchor"></a>
+    <a title="OneWayTransformer Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a> (59% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html"> Reference</a>
         <img id="carat" src="../img/carat.png" />
-        String Extension Reference
+        OneWayTransformer Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -151,8 +151,9 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>String</h1>
-            
+            <h1>OneWayTransformer</h1>
+            <p>Abstract an object that can transform values to another type</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -160,9 +161,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vE6CarlosSS4costSi"></a>
-                    <a name="//apple_ref/swift/Property/cost" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vE6CarlosSS4costSi">cost</a>
+                    <a name="/s:FP6Carlos17OneWayTransformer9transformUS0__U___FQPS0_FQS1_6TypeInQS1_7TypeOut"></a>
+                    <a name="//apple_ref/swift/Method/transform(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Carlos17OneWayTransformer9transformUS0__U___FQPS0_FQS1_6TypeInQS1_7TypeOut">transform(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -170,8 +171,95 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Apply the transformation from A to B</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">val</span><span class="p">:</span> <span class="kt">TypeIn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">TypeOut</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>val</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value to transform</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The transformed value</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Carlos17OneWayTransformer6TypeIn"></a>
+                    <a name="//apple_ref/swift/Alias/TypeIn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Carlos17OneWayTransformer6TypeIn">TypeIn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The input type of the transformer</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">TypeIn</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Carlos17OneWayTransformer7TypeOut"></a>
+                    <a name="//apple_ref/swift/Alias/TypeOut" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Carlos17OneWayTransformer7TypeOut">TypeOut</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The output type of the transformer</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">TypeOut</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
