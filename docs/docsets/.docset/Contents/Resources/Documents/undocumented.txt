@@ -5,7 +5,7 @@ NetworkFetcher.swift
 	public enum NetworkFetcherError: Int
 	public class NetworkFetcher: CacheLevel
 	public init() {}
-	public func get(fetchable: NSURL, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func get(fetchable: KeyType) -> CacheRequest<OutputType>
 	public func set(value: NSData, forKey fetchable: NSURL) {}
 	public func onMemoryWarning() {}
 	public func clear() {}
@@ -15,13 +15,13 @@ MemoryCacheLevel.swift
 	public var cost: Int
 	public var cost: Int
 	public var cost: Int
-	public func get(fetchable: String, onSuccess success: (T) -> Void, onFailure failure: (NSError?) -> Void)
+	public func get(fetchable: KeyType) -> CacheRequest<OutputType>
 	public func onMemoryWarning()
 	public func set(value: T, forKey fetchable: String)
 	public func clear()
 BasicCache.swift
-	public init(getClosure: (key: A, success: B -> Void, failure: NSError? -> Void) -> Void, setClosure: (key: A, value: B) -> Void, clearClosure: () -> Void, memoryClosure: () -> Void)
-	public func get(fetchable: A, onSuccess success: (B) -> Void, onFailure failure: (NSError?) -> Void)
+	public init(getClosure: (key: A) -> CacheRequest<B>, setClosure: (key: A, value: B) -> Void, clearClosure: () -> Void, memoryClosure: () -> Void)
+	public func get(fetchable: KeyType) -> CacheRequest<OutputType>
 	public func set(value: B, forKey fetchable: A)
 	public func clear()
 	public func onMemoryWarning()
@@ -30,7 +30,7 @@ DiskCacheLevel.swift
 	public var capacity: UInt64 = 0
 	public func onMemoryWarning() {}
 	public func set(value: NSData, forKey fetchable: String)
-	public func get(fetchable: String, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void)
+	public func get(fetchable: KeyType) -> CacheRequest<OutputType>
 	public func clear()
 TwoWayTransformer.swift
 	public init(forwardTransform: (I -> O), inverseTransform: (O -> I))

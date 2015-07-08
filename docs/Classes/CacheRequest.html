@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>NetworkFetcher Class Reference</title>
+    <title>CacheRequest Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/NetworkFetcher" class="dashAnchor"></a>
-    <a title="NetworkFetcher Class Reference"></a>
+    <a name="//apple_ref/swift/Class/CacheRequest" class="dashAnchor"></a>
+    <a title="CacheRequest Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a> (65% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html"> Reference</a>
         <img id="carat" src="../img/carat.png" />
-        NetworkFetcher Class Reference
+        CacheRequest Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -178,8 +178,8 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>NetworkFetcher</h1>
-            <p>Undocumented</p>
+            <h1>CacheRequest</h1>
+            <p>This class wraps a cache request future</p>
 
           </section>
           <section class="section task-group-section">
@@ -188,9 +188,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Carlos14NetworkFetchercFMS0_FT_S0_"></a>
+                    <a name="/s:FC6Carlos12CacheRequestcU__FMGS0_Q__FT_GS0_Q__"></a>
                     <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Carlos14NetworkFetchercFMS0_FT_S0_">init()</a>
+                    <a class="token" href="#/s:FC6Carlos12CacheRequestcU__FMGS0_Q__FT_GS0_Q__">init()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -198,7 +198,161 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Creates a new CacheRequest</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Carlos12CacheRequest7succeedU__FGS0_Q__FQ_T_"></a>
+                    <a name="//apple_ref/swift/Method/succeed(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Carlos12CacheRequest7succeedU__FGS0_Q__FQ_T_">succeed(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Makes the request succeed with a value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">succeed</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value found for the request</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Carlos12CacheRequest4failU__FGS0_Q__FGSqCSo7NSError_T_"></a>
+                    <a name="//apple_ref/swift/Method/fail(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Carlos12CacheRequest4failU__FGS0_Q__FGSqCSo7NSError_T_">fail(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Makes the request fail with an error</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fail</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>error</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The optional error that caused the request to fail</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Carlos12CacheRequest9onSuccessU__FGS0_Q__FFQ_T_GS0_Q__"></a>
+                    <a name="//apple_ref/swift/Method/onSuccess(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Carlos12CacheRequest9onSuccessU__FGS0_Q__FFQ_T_GS0_Q__">onSuccess(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a listener for the success event of this request</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">onSuccess</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">CacheRequest</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure that should be called when the request succeeds, taking the value as a parameter</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The updated request</p>
 
                       </div>
                     </section>
@@ -207,9 +361,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Carlos14NetworkFetcher3getFS0_FCSo5NSURLGCS_12CacheRequestCSo6NSData_"></a>
-                    <a name="//apple_ref/swift/Method/get(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Carlos14NetworkFetcher3getFS0_FCSo5NSURLGCS_12CacheRequestCSo6NSData_">get(_:)</a>
+                    <a name="/s:FC6Carlos12CacheRequest9onFailureU__FGS0_Q__FFGSqCSo7NSError_T_GS0_Q__"></a>
+                    <a name="//apple_ref/swift/Method/onFailure(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Carlos12CacheRequest9onFailureU__FGS0_Q__FFGSqCSo7NSError_T_GS0_Q__">onFailure(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -217,64 +371,40 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Adds a listener for the failure event of this request</p>
 
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC6Carlos14NetworkFetcher3setFS0_FTCSo6NSData6forKeyCSo5NSURL_T_"></a>
-                    <a name="//apple_ref/swift/Method/set(_:forKey:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Carlos14NetworkFetcher3setFS0_FTCSo6NSData6forKeyCSo5NSURL_T_">set(_:forKey:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">onFailure</span><span class="p">(</span><span class="nv">failure</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">CacheRequest</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
 
+                        </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC6Carlos14NetworkFetcher15onMemoryWarningFS0_FT_T_"></a>
-                    <a name="//apple_ref/swift/Method/onMemoryWarning()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Carlos14NetworkFetcher15onMemoryWarningFS0_FT_T_">onMemoryWarning()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure that should be called when the request fails, taking the error as a parameter</p>
 
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC6Carlos14NetworkFetcher5clearFS0_FT_T_"></a>
-                    <a name="//apple_ref/swift/Method/clear()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Carlos14NetworkFetcher5clearFS0_FT_T_">clear()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The updated request</p>
 
                       </div>
                     </section>

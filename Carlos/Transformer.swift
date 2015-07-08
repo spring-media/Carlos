@@ -24,7 +24,15 @@ public func transformValues<A, B, C: TwoWayTransformer where C.TypeIn == B>(fetc
   return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer)
 }
 
-public func mutateCacheRequest<A, B: TwoWayTransformer where A == B.TypeIn>(origin: CacheRequest<A>, transformer: B) -> CacheRequest<B.TypeOut> {
+/**
+Mutates a CacheRequest from a type A to a type B through a TwoWayTransformer (maybe it could also be a OneWayTransformer)
+
+:param: origin The original CacheRequest
+:param: transformer The TwoWayTransformer from A to B
+
+:returns: A new CacheRequest<B>
+*/
+internal func mutateCacheRequest<A, B: TwoWayTransformer where A == B.TypeIn>(origin: CacheRequest<A>, transformer: B) -> CacheRequest<B.TypeOut> {
   let mutatedRequest = CacheRequest<B.TypeOut>()
   
   origin
