@@ -9,22 +9,7 @@
 import Foundation
 
 /// Abstract an object that can transform values to another type and back to the original one
-public protocol TwoWayTransformer {
-  /// The input type of the transformation
-  typealias TypeIn
-  
-  /// The output type of the transformation
-  typealias TypeOut
-  
-  /**
-  Apply the forward transformation from A to B
-  
-  :param: val The value to transform
-  
-  :returns: The transformed value
-  */
-  func forwardTransform(val: TypeIn) -> TypeOut
-  
+public protocol TwoWayTransformer: OneWayTransformer {
   /**
   Apply the inverse transformation from B to A
   
@@ -43,16 +28,16 @@ public struct TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  private let forwardTransformClosure: I -> O
+  private let transformClosure: I -> O
   private let inverseTransformClosure: O -> I
   
-  public init(forwardTransform: (I -> O), inverseTransform: (O -> I)) {
-    self.forwardTransformClosure = forwardTransform
+  public init(transform: (I -> O), inverseTransform: (O -> I)) {
+    self.transformClosure = transform
     self.inverseTransformClosure = inverseTransform
   }
   
-  public func forwardTransform(val: I) -> O {
-    return forwardTransformClosure(val)
+  public func transform(val: I) -> O {
+    return transformClosure(val)
   }
   
   public func inverseTransform(val: O) -> I {
