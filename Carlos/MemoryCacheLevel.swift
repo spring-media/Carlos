@@ -24,6 +24,12 @@ extension String: ExpensiveObject {
   }
 }
 
+extension NSString: ExpensiveObject {
+  public var cost: Int {
+    return self.length
+  }
+}
+
 /// This class is a memory cache level. It internally uses NSCache, and has a configurable total cost limit that defaults to 50 MB.
 public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: CacheLevel {
   public typealias KeyType = String
