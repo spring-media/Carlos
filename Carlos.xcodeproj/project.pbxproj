@@ -27,11 +27,8 @@
 		AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D391B46DB6D004E998D /* Crypto.swift */; };
 		AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */; };
 		AD926F621B4A746900F0CA09 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F611B4A746900F0CA09 /* Logger.swift */; };
-		AD926F771B4A9CAC00F0CA09 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */; };
 		AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */; };
 		AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */; };
-		AD926F901B4AB3B300F0CA09 /* MemoryCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F8F1B4AB3B300F0CA09 /* MemoryCacheTests.swift */; };
-		AD926F921B4AC01000F0CA09 /* DiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F911B4AC01000F0CA09 /* DiskCacheTests.swift */; };
 		AD926F941B4AC26E00F0CA09 /* NSFileManagerFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F931B4AC26E00F0CA09 /* NSFileManagerFake.swift */; };
 		AD926F961B4ACC9E00F0CA09 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F951B4ACC9E00F0CA09 /* StringExtension.swift */; };
 		AD926F981B4ACCFA00F0CA09 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F971B4ACCFA00F0CA09 /* Crypto.swift */; };
@@ -99,11 +96,8 @@
 		AD695D391B46DB6D004E998D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
 		AD926F611B4A746900F0CA09 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = CarlosSample/Carlos/Logger.swift; sourceTree = SOURCE_ROOT; };
-		AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNotificationCenterFake.swift; sourceTree = "<group>"; };
 		AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
-		AD926F8F1B4AB3B300F0CA09 /* MemoryCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryCacheTests.swift; sourceTree = "<group>"; };
-		AD926F911B4AC01000F0CA09 /* DiskCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheTests.swift; sourceTree = "<group>"; };
 		AD926F931B4AC26E00F0CA09 /* NSFileManagerFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFileManagerFake.swift; sourceTree = "<group>"; };
 		AD926F951B4ACC9E00F0CA09 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		AD926F971B4ACCFA00F0CA09 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Crypto.swift; path = Carlos/Crypto.swift; sourceTree = SOURCE_ROOT; };
@@ -209,9 +203,6 @@
 			isa = PBXGroup;
 			children = (
 				AD695D1A1B46CD73004E998D /* Supporting Files */,
-				AD926F761B4A9CAC00F0CA09 /* CacheTests.swift */,
-				AD926F8F1B4AB3B300F0CA09 /* MemoryCacheTests.swift */,
-				AD926F911B4AC01000F0CA09 /* DiskCacheTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -399,13 +390,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD926F771B4A9CAC00F0CA09 /* CacheTests.swift in Sources */,
-				AD926F921B4AC01000F0CA09 /* DiskCacheTests.swift in Sources */,
 				AD926F941B4AC26E00F0CA09 /* NSFileManagerFake.swift in Sources */,
 				AD926F981B4ACCFA00F0CA09 /* Crypto.swift in Sources */,
 				AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */,
 				AD926F961B4ACC9E00F0CA09 /* StringExtension.swift in Sources */,
-				AD926F901B4AB3B300F0CA09 /* MemoryCacheTests.swift in Sources */,
 				AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

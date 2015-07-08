@@ -82,18 +82,21 @@ public class NetworkFetcher: CacheLevel {
   
   public init() {}
   
-  public func get(fetchable: NSURL, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+  public func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+    let result = CacheRequest<OutputType>()
+    
     let request = Request(URL: fetchable, success: { data in
       Logger.log("Fetched \(fetchable) from the network fetcher")
-      success(data)
+      result.succeed(data)
       self.pendingRequests[fetchable.absoluteString!] = nil
     }, failure: { error in
       Logger.log("Failed fetching \(fetchable) from the network fetcher")
-      failure(error)
+      result.fail(error)
       self.pendingRequests[fetchable.absoluteString!] = nil
     })
     
     pendingRequests[fetchable.absoluteString!] = request
+    return result
   }
   
   public func set(value: NSData, forKey fetchable: NSURL) {}

@@ -47,14 +47,17 @@ public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: Cach
     internalCache.totalCostLimit = capacity
   }
   
-  public func get(fetchable: String, onSuccess success: (T) -> Void, onFailure failure: (NSError?) -> Void) {
+  public func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+    let request = CacheRequest<T>()
     if let result = internalCache.objectForKey(fetchable) as? T {
       Logger.log("Fetched \(fetchable) on memory level")
-      success(result)
+      request.succeed(result)
     } else {
       Logger.log("Failed fetching \(fetchable) on the memory cache")
-      failure(errorWithCode(FetchError.ValueNotInCache.rawValue))
+      request.fail(errorWithCode(FetchError.ValueNotInCache.rawValue))
     }
+    
+    return request
   }
   
   public func onMemoryWarning() {

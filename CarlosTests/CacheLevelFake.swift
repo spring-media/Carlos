@@ -22,14 +22,17 @@ class CacheLevelFake: CacheLevel {
   
   var didGetWithKey: String?
   var valueToReturn: NSData?
-  func get(fetchable: String, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+  func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+    let request = CacheRequest<OutputType>()
     didGetWithKey = fetchable
     
     if let value = valueToReturn {
-      success(value)
+      request.succeed(value)
     } else {
-      failure(NSError(domain: "Test", code: -1, userInfo: nil))
+      request.fail(NSError(domain: "Test", code: -1, userInfo: nil))
     }
+    
+    return request
   }
   
   var cleared = false

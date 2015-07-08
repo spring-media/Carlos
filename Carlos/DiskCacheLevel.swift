@@ -58,23 +58,27 @@ public class DiskCacheLevel: CacheLevel {
     })
   }
   
-  public func get(fetchable: String, onSuccess success: (NSData) -> Void, onFailure failure: (NSError?) -> Void) {
+  public func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+    let request = CacheRequest<OutputType>()
+    
     dispatch_async(cacheQueue, {
       let path = self.pathForKey(fetchable)
       var error: NSError? = nil
       if let data = NSData(contentsOfFile: path, options: .allZeros, error: &error) {
         Logger.log("Fetched \(fetchable) on disk level")
         dispatch_async(dispatch_get_main_queue(), {
-          success(data)
+          request.succeed(data)
         })
         self.updateDiskAccessDateAtPath(path)
       } else {
         Logger.log("Failed fetching \(fetchable) on the disk cache")
         dispatch_async(dispatch_get_main_queue(), {
-          failure(error)
+          request.fail(error)
         })
       }
     })
+    
+    return request
   }
   
   public func clear() {

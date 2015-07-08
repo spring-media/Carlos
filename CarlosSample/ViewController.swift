@@ -18,7 +18,8 @@ class TestCache: CacheLevel {
   typealias KeyType = NSURL
   typealias OutputType = NSData
   
-  func get(fetchable: KeyType, onSuccess success: (OutputType) -> Void, onFailure failure: (NSError?) -> Void) {
+  func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+    return CacheRequest<OutputType>()
   }
   
   func clear() {
@@ -38,8 +39,8 @@ class TestCache2: CacheLevel {
   typealias KeyType = NSData
   typealias OutputType = NSData
   
-  func get(fetchable: KeyType, onSuccess success: (OutputType) -> Void, onFailure failure: (NSError?) -> Void) {
-    
+  func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+    return CacheRequest<OutputType>()
   }
   
   func set(value: OutputType, forKey fetchable: KeyType) {
@@ -72,20 +73,24 @@ class ViewController: UIViewController {
     let cache: BasicCache<Test, NSData> = (testToString =>> MemoryCacheLevel()) >>> (testToString =>> DiskCacheLevel()) >>> (testToURL =>> NetworkFetcher()) >>> ((testToURL =>> TestCache()) >>> (testToData =>> TestCache2()))
     
     let testToFetch = Test(x: 1, y: NSURL(string: "http://www.google.de")!)
-    cache.get(testToFetch, onSuccess: { value in
-      println("Fetched successfully \(value)")
-    }, onFailure: { error in
-      println("Error \(error) during fetch")
-    })
+    cache.get(testToFetch)
+      .onSuccess({ value in
+        println("Fetched successfully \(value)")
+      })
+      .onFailure({ error in
+        println("Error \(error) during fetch")
+      })
     
     let delayTime = dispatch_time(DISPATCH_TIME_NOW,
       Int64(2 * Double(NSEC_PER_SEC)))
     dispatch_after(delayTime, dispatch_get_main_queue()) {
-      cache.get(testToFetch, onSuccess: { value in
-        println("Fetched successfully \(value)")
-      }, onFailure: { error in
-        println("Error \(error) during fetch")
-      })
+      cache.get(testToFetch)
+        .onSuccess({ value in
+          println("Fetched successfully \(value)")
+        })
+        .onFailure({ error in
+          println("Error \(error) during fetch")
+        })
     }
   }
 }
