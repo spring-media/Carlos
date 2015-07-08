@@ -33,8 +33,8 @@ DiskCacheLevel.swift
 	public func get(fetchable: KeyType) -> CacheRequest<OutputType>
 	public func clear()
 TwoWayTransformer.swift
-	public init(forwardTransform: (I -> O), inverseTransform: (O -> I))
-	public func forwardTransform(val: I) -> O
+	public init(transform: (I -> O), inverseTransform: (O -> I))
+	public func transform(val: I) -> O
 	public func inverseTransform(val: O) -> I
 Carlos.swift
 	public enum FetchError: Int

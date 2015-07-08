@@ -75,7 +75,7 @@ class ViewController: UIViewController {
     let testToFetch = Test(x: 1, y: NSURL(string: "http://www.google.de")!)
     cache.get(testToFetch)
       .onSuccess({ value in
-        println("Fetched successfully \(value)")
+        println("Fetched successfully value")
       })
       .onFailure({ error in
         println("Error \(error) during fetch")
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
     dispatch_after(delayTime, dispatch_get_main_queue()) {
       cache.get(testToFetch)
         .onSuccess({ value in
-          println("Fetched successfully \(value)")
+          println("Fetched successfully value")
         })
         .onFailure({ error in
           println("Error \(error) during fetch")
