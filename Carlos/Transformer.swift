@@ -8,22 +8,6 @@
 
 import Foundation
 
-infix operator >>= { associativity left }
-
-/**
-Applies a transformation to a cache closure
-The transformation works by changing the type of the value the cache returns when succeeding
-Use this transformation when you store a value type but want to mount the cache in a pipeline that works with other value types
-
-:param: fetchClosure The cache closure you want to transform
-:param: transformer The transformation you want to apply
-
-:returns: A new cache level result of the transformation of the original cache level
-*/
-public func transformValues<A, B, C: TwoWayTransformer where C.TypeIn == B>(fetchClosure: (key: A) -> CacheRequest<B>, transformer: C) -> BasicCache<A, C.TypeOut> {
-  return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer)
-}
-
 /**
 Mutates a CacheRequest from a type A to a type B through a OneWayTransformer
 
@@ -53,12 +37,28 @@ Mutates a CacheRequest from a type A to a type B through a OneWayTransformer
 internal func mutateCacheRequest<A, B>(origin: CacheRequest<A>, transformerClosure: A -> B) -> CacheRequest<B> {
   let mutatedRequest = CacheRequest<B>()
   let transformationBox = wrapClosureIntoOneWayTransformer(transformerClosure)
-
+  
   origin
     .onFailure({ mutatedRequest.fail($0) })
     .onSuccess({ mutatedRequest.succeed(transformationBox.transform($0)) })
   
   return mutatedRequest
+}
+
+infix operator >>= { associativity left }
+
+/**
+Applies a transformation to a cache closure
+The transformation works by changing the type of the value the cache returns when succeeding
+Use this transformation when you store a value type but want to mount the cache in a pipeline that works with other value types
+
+:param: fetchClosure The cache closure you want to transform
+:param: transformer The transformation you want to apply
+
+:returns: A new cache level result of the transformation of the original cache level
+*/
+public func transformValues<A, B, C: TwoWayTransformer where C.TypeIn == B>(fetchClosure: (key: A) -> CacheRequest<B>, transformer: C) -> BasicCache<A, C.TypeOut> {
+  return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer)
 }
 
 /**
@@ -247,8 +247,4 @@ Use this transformation when you use a domain specific key or a wrapper key that
 */
 public func =>><A: CacheLevel, B>(transformerClosure: B -> A.KeyType, cache: A) -> BasicCache<B, A.OutputType> {
   return transformKeys(wrapClosureIntoOneWayTransformer(transformerClosure), cache)
-}
-
-internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> B) -> OneWayTransformationBox<A, B> {
-  return OneWayTransformationBox<A, B>(transform: transformerClosure)
 }

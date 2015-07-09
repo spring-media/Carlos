@@ -27,6 +27,13 @@
 		AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D391B46DB6D004E998D /* Crypto.swift */; };
 		AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */; };
 		AD705A851B4EBE8600870FE2 /* PoolCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705A841B4EBE8600870FE2 /* PoolCache.swift */; };
+		AD705A981B4EC70F00870FE2 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705A971B4EC70F00870FE2 /* Errors.swift */; };
+		AD705A9A1B4EC72000870FE2 /* MemoryWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705A991B4EC72000870FE2 /* MemoryWarning.swift */; };
+		AD705A9C1B4EC72D00870FE2 /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705A9B1B4EC72D00870FE2 /* CacheRequest.swift */; };
+		AD705A9E1B4EC73A00870FE2 /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705A9D1B4EC73A00870FE2 /* Conditioned.swift */; };
+		AD705AA01B4EC74800870FE2 /* Pooled.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705A9F1B4EC74800870FE2 /* Pooled.swift */; };
+		AD705AA21B4EC75A00870FE2 /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705AA11B4EC75A00870FE2 /* Composed.swift */; };
+		AD705AA41B4EC78000870FE2 /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705AA31B4EC78000870FE2 /* Transformers.swift */; };
 		AD926F621B4A746900F0CA09 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F611B4A746900F0CA09 /* Logger.swift */; };
 		AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */; };
 		AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */; };
@@ -97,6 +104,13 @@
 		AD695D391B46DB6D004E998D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
 		AD705A841B4EBE8600870FE2 /* PoolCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCache.swift; sourceTree = "<group>"; };
+		AD705A971B4EC70F00870FE2 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		AD705A991B4EC72000870FE2 /* MemoryWarning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryWarning.swift; sourceTree = "<group>"; };
+		AD705A9B1B4EC72D00870FE2 /* CacheRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRequest.swift; sourceTree = "<group>"; };
+		AD705A9D1B4EC73A00870FE2 /* Conditioned.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conditioned.swift; sourceTree = "<group>"; };
+		AD705A9F1B4EC74800870FE2 /* Pooled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pooled.swift; sourceTree = "<group>"; };
+		AD705AA11B4EC75A00870FE2 /* Composed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Composed.swift; sourceTree = "<group>"; };
+		AD705AA31B4EC78000870FE2 /* Transformers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformers.swift; sourceTree = "<group>"; };
 		AD926F611B4A746900F0CA09 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = CarlosSample/Carlos/Logger.swift; sourceTree = SOURCE_ROOT; };
 		AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNotificationCenterFake.swift; sourceTree = "<group>"; };
 		AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
@@ -189,6 +203,13 @@
 				5289EDF01B4C49EB00AD90EF /* TwoWayTransformer.swift */,
 				5289EDF21B4C4A0900AD90EF /* OneWayTransformer.swift */,
 				AD705A841B4EBE8600870FE2 /* PoolCache.swift */,
+				AD705A971B4EC70F00870FE2 /* Errors.swift */,
+				AD705A991B4EC72000870FE2 /* MemoryWarning.swift */,
+				AD705A9B1B4EC72D00870FE2 /* CacheRequest.swift */,
+				AD705A9D1B4EC73A00870FE2 /* Conditioned.swift */,
+				AD705A9F1B4EC74800870FE2 /* Pooled.swift */,
+				AD705AA11B4EC75A00870FE2 /* Composed.swift */,
+				AD705AA31B4EC78000870FE2 /* Transformers.swift */,
 			);
 			path = Carlos;
 			sourceTree = "<group>";
@@ -377,16 +398,23 @@
 			files = (
 				5289EDF31B4C4A0900AD90EF /* OneWayTransformer.swift in Sources */,
 				AD695D321B46D5D0004E998D /* Extensions.swift in Sources */,
+				AD705AA41B4EC78000870FE2 /* Transformers.swift in Sources */,
 				AD456DFD1B4C0E770022B52E /* Transformer.swift in Sources */,
 				AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */,
 				AD695D2C1B46D590004E998D /* MemoryCacheLevel.swift in Sources */,
+				AD705A9A1B4EC72000870FE2 /* MemoryWarning.swift in Sources */,
 				AD456DFF1B4C0F7A0022B52E /* BasicCache.swift in Sources */,
 				AD695D301B46D5BD004E998D /* DiskCacheLevel.swift in Sources */,
+				AD705A981B4EC70F00870FE2 /* Errors.swift in Sources */,
+				AD705AA01B4EC74800870FE2 /* Pooled.swift in Sources */,
 				5289EDF11B4C49EB00AD90EF /* TwoWayTransformer.swift in Sources */,
+				AD705AA21B4EC75A00870FE2 /* Composed.swift in Sources */,
 				AD705A851B4EBE8600870FE2 /* PoolCache.swift in Sources */,
 				AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */,
+				AD705A9E1B4EC73A00870FE2 /* Conditioned.swift in Sources */,
 				AD695D2A1B46CD7E004E998D /* Carlos.swift in Sources */,
 				AD926F621B4A746900F0CA09 /* Logger.swift in Sources */,
+				AD705A9C1B4EC72D00870FE2 /* CacheRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
