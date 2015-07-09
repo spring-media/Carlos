@@ -1,11 +1,3 @@
-//
-//  BasicCache.swift
-//  Carlos
-//
-//  Created by Monaco, Vittorio on 07/07/15.
-//  Copyright (c) 2015 WeltN24. All rights reserved.
-//
-
 import Foundation
 
 /// A wrapper cache that explicitly takes get, set, clear and memory warning closures

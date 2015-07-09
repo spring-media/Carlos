@@ -1,11 +1,3 @@
-//
-//  OneWayTransformer.swift
-//  Carlos
-//
-//  Created by Vittorio Monaco on 07/07/15.
-//  Copyright (c) 2015 WeltN24. All rights reserved.
-//
-
 import Foundation
 
 /// Abstract an object that can transform values to another type
