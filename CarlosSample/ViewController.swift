@@ -56,6 +56,20 @@ class TestCache2: CacheLevel {
   }
 }
 
+extension Test: Hashable {
+  var hashValue: Int {
+    return x
+  }
+}
+
+extension Test: Equatable {
+  
+}
+
+func ==(lhs: Test, rhs: Test) -> Bool {
+  return lhs.x == rhs.x && lhs.y == rhs.y
+}
+
 class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -70,28 +84,34 @@ class ViewController: UIViewController {
       x.y.absoluteString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
     })
     
-    let cache: BasicCache<Test, NSData> = (testToString =>> MemoryCacheLevel()) >>> (testToString =>> DiskCacheLevel()) >>> (testToURL =>> NetworkFetcher()) >>> ((testToURL =>> TestCache()) >>> (testToData =>> TestCache2()))
+    let normalCache = (testToString =>> MemoryCacheLevel()) >>> (testToString =>> DiskCacheLevel()) >>> (testToURL =>> NetworkFetcher()) >>> ((testToURL =>> TestCache()) >>> (testToData =>> TestCache2()))
     
-    let testToFetch = Test(x: 1, y: NSURL(string: "http://www.google.de")!)
+    let cache = pooled(normalCache)
+    
+    let testToFetch = Test(x: 1, y: NSURL(string: "http://www.repubblica.it")!)
     cache.get(testToFetch)
       .onSuccess({ value in
-        println("Fetched successfully value")
+        println("Fetched successfully repubblica")
       })
       .onFailure({ error in
-        println("Error \(error) during fetch")
+        println("Error \(error) during fetch of repubblica")
       })
     
-    let delayTime = dispatch_time(DISPATCH_TIME_NOW,
-      Int64(2 * Double(NSEC_PER_SEC)))
-    dispatch_after(delayTime, dispatch_get_main_queue()) {
-      cache.get(testToFetch)
-        .onSuccess({ value in
-          println("Fetched successfully value")
-        })
-        .onFailure({ error in
-          println("Error \(error) during fetch")
-        })
-    }
+    cache.get(testToFetch)
+      .onSuccess({ value in
+        println("Fetched successfully repubblica")
+      })
+      .onFailure({ error in
+        println("Error \(error) during fetch of repubblica")
+      })
+    
+    cache.get(Test(x: 2, y: NSURL(string: "http://google.de")!))
+      .onSuccess({ value in
+        println("Fetched successfully google")
+      })
+      .onFailure({ error in
+        println("Error \(error) during fetch of google")
+      })
   }
 }
 

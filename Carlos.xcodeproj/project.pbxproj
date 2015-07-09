@@ -26,6 +26,7 @@
 		AD695D321B46D5D0004E998D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D311B46D5D0004E998D /* Extensions.swift */; };
 		AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D391B46DB6D004E998D /* Crypto.swift */; };
 		AD695D3C1B46DCFC004E998D /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */; };
+		AD705A851B4EBE8600870FE2 /* PoolCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD705A841B4EBE8600870FE2 /* PoolCache.swift */; };
 		AD926F621B4A746900F0CA09 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F611B4A746900F0CA09 /* Logger.swift */; };
 		AD926F791B4A9E4100F0CA09 /* NSNotificationCenterFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */; };
 		AD926F7B1B4A9E5100F0CA09 /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */; };
@@ -95,6 +96,7 @@
 		AD695D311B46D5D0004E998D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AD695D391B46DB6D004E998D /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		AD695D3B1B46DCFC004E998D /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
+		AD705A841B4EBE8600870FE2 /* PoolCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCache.swift; sourceTree = "<group>"; };
 		AD926F611B4A746900F0CA09 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = CarlosSample/Carlos/Logger.swift; sourceTree = SOURCE_ROOT; };
 		AD926F781B4A9E4100F0CA09 /* NSNotificationCenterFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNotificationCenterFake.swift; sourceTree = "<group>"; };
 		AD926F7A1B4A9E5100F0CA09 /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				AD456DFE1B4C0F7A0022B52E /* BasicCache.swift */,
 				5289EDF01B4C49EB00AD90EF /* TwoWayTransformer.swift */,
 				5289EDF21B4C4A0900AD90EF /* OneWayTransformer.swift */,
+				AD705A841B4EBE8600870FE2 /* PoolCache.swift */,
 			);
 			path = Carlos;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				AD456DFF1B4C0F7A0022B52E /* BasicCache.swift in Sources */,
 				AD695D301B46D5BD004E998D /* DiskCacheLevel.swift in Sources */,
 				5289EDF11B4C49EB00AD90EF /* TwoWayTransformer.swift in Sources */,
+				AD705A851B4EBE8600870FE2 /* PoolCache.swift in Sources */,
 				AD695D3A1B46DB6D004E998D /* Crypto.swift in Sources */,
 				AD695D2A1B46CD7E004E998D /* Carlos.swift in Sources */,
 				AD926F621B4A746900F0CA09 /* Logger.swift in Sources */,
