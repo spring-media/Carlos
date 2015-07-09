@@ -8,6 +8,17 @@
 
 import Foundation
 
+/**
+Builds a convenience NSError with error code FetchError.ValueNotInCache
+
+:returns: An initialized NSError with the Carlos error domain and the ValueNotInCache error code.
+
+:discussion: The userInfo dictionary is empty
+*/
+public func valueNotInCacheError() -> NSError {
+  return errorWithCode(FetchError.ValueNotInCache.rawValue)
+}
+
 infix operator >>= { associativity left }
 
 /**
