@@ -246,16 +246,24 @@ Composes two cache levels
 :returns: A new cache level that is the result of the composition of the two cache levels
 */
 public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
-  return BasicCache<A.KeyType, A.OutputType>(getClosure: { key in
-    let firstRequest = firstCache.get(key)
-    return firstRequest.onFailure({ error in
-      secondCache.get(key).onSuccess({ result in
-        firstRequest.succeed(result)
-        firstCache.set(result, forKey: key)
-      }).onFailure({ error in
-        firstRequest.fail(error)
-      })
-    })
+  return BasicCache<A.KeyType, A.OutputType>(
+    getClosure: { key in
+      let request = CacheRequest<A.OutputType>()
+      
+      firstCache.get(key)
+        .onSuccess({ result in
+          request.succeed(result)
+        })
+        .onFailure({ error in
+          secondCache.get(key).onSuccess({ result in
+            request.succeed(result)
+            firstCache.set(result, forKey: key)
+          }).onFailure({ error in
+            request.fail(error)
+          })
+        })
+      
+      return request
     }, setClosure: { (key, value) in
       firstCache.set(value, forKey: key)
       secondCache.set(value, forKey: key)
@@ -265,7 +273,8 @@ public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A
     }, memoryClosure: {
       firstCache.onMemoryWarning()
       secondCache.onMemoryWarning()
-  })
+    }
+  )
 }
 
 /**
