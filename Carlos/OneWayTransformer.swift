@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 /// Abstract an object that can transform values to another type
 public protocol OneWayTransformer {
@@ -42,5 +43,62 @@ public struct OneWayTransformationBox<I, O>: OneWayTransformer {
   
   public func transform(val: TypeIn) -> TypeOut {
     return transformClosure(val)
+  }
+}
+
+extension NSDateFormatter: TwoWayTransformer {
+  public typealias TypeIn = NSDate
+  public typealias TypeOut = String
+  
+  public func transform(val: TypeIn) -> TypeOut {
+    return stringFromDate(val)
+  }
+  
+  public func inverseTransform(val: TypeOut) -> TypeIn {
+    return dateFromString(val)!
+  }
+}
+
+extension NSNumberFormatter: TwoWayTransformer {
+  public typealias TypeIn = NSNumber
+  public typealias TypeOut = String
+  
+  public func transform(val: TypeIn) -> TypeOut {
+    return stringFromNumber(val) ?? ""
+  }
+  
+  public func inverseTransform(val: TypeOut) -> TypeIn {
+    return numberFromString(val) ?? 0
+  }
+}
+
+extension NSDateComponentsFormatter: OneWayTransformer {
+  public typealias TypeIn = NSDateComponents
+  public typealias TypeOut = String
+  
+  public func transform(val: TypeIn) -> TypeOut {
+    return stringFromDateComponents(val) ?? ""
+  }
+}
+
+extension NSByteCountFormatter: OneWayTransformer {
+  public typealias TypeIn = Int64
+  public typealias TypeOut = String
+  
+  public func transform(val: TypeIn) -> TypeOut {
+    return stringFromByteCount(val)
+  }
+}
+
+extension MKDistanceFormatter: TwoWayTransformer {
+  public typealias TypeIn = CLLocationDistance
+  public typealias TypeOut = String
+  
+  public func transform(val: TypeIn) -> TypeOut {
+    return stringFromDistance(val)
+  }
+  
+  public func inverseTransform(val: TypeOut) -> TypeIn {
+    return distanceFromString(val)
   }
 }
