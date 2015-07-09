@@ -44,3 +44,18 @@ public struct TwoWayTransformationBox<I, O>: TwoWayTransformer {
     return inverseTransformClosure(val)
   }
 }
+
+/**
+Inverts a TwoWayTransformer
+
+:param: transformer The TwoWayTransformer you want to invert
+
+:returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
+*/
+public func invert<A: TwoWayTransformer, B, C where A.TypeIn == B, A.TypeOut == C>(transformer: A) -> TwoWayTransformationBox<C, B> {
+  return TwoWayTransformationBox<C, B>(transform: { input in
+    transformer.inverseTransform(input)
+  }, inverseTransform: { output in
+    transformer.transform(output)
+  })
+}

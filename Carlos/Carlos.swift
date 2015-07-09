@@ -20,10 +20,24 @@ public enum FetchError: Int {
   
   /// Used when the specified fetchable was invalid
   case InvalidFetchable = 8900
+  
+  /// Used when the fetchable doesn't satisfy the cache condition
+  case ConditionNotSatisfied = 8901
 }
 
 internal func errorWithCode(code: Int) -> NSError {
   return NSError(domain: CarlosErrorDomain, code: code, userInfo: nil)
+}
+
+/**
+Builds a convenience NSError with error code FetchError.ValueNotInCache
+
+:returns: An initialized NSError with the Carlos error domain and the ValueNotInCache error code.
+
+:discussion: The userInfo dictionary is empty
+*/
+public func valueNotInCacheError() -> NSError {
+  return errorWithCode(FetchError.ValueNotInCache.rawValue)
 }
 
 internal struct CarlosGlobals {
@@ -132,6 +146,39 @@ public class CacheRequest<T> {
     
     return self
   }
+}
+
+/**
+Wraps a CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
+
+:param: cache The cache level you want to decorate
+:param: condition The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally.
+
+:returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
+
+:discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
+*/
+public func conditioned<A: CacheLevel, B where A.KeyType == B>(cache: A, condition: (B) -> Bool) -> BasicCache<B, A.OutputType> {
+  return BasicCache<B, A.OutputType>(
+    getClosure: { (key) in
+      let request = CacheRequest<A.OutputType>()
+      
+      if condition(key) {
+        cache.get(key).onSuccess({ result in
+          request.succeed(result)
+        })
+      } else {
+        request.fail(errorWithCode(FetchError.ConditionNotSatisfied.rawValue))
+      }
+      
+      return request
+    },
+    setClosure: { (key, value) in
+      cache.set(value, forKey: key)
+    },
+    clearClosure: { cache.clear() },
+    memoryClosure: { cache.onMemoryWarning() }
+  )
 }
 
 /// An abstraction for a generic cache level

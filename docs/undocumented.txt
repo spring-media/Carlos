@@ -1,6 +1,19 @@
 OneWayTransformer.swift
+	public typealias TypeIn = NSDateComponents
+	public typealias TypeIn = NSDate
+	public typealias TypeIn = CLLocationDistance
+	public typealias TypeIn = NSNumber
+	public typealias TypeIn = Int64
 	public init(transform: (I -> O))
 	public func transform(val: TypeIn) -> TypeOut
+	public func transform(val: TypeIn) -> TypeOut
+	public func inverseTransform(val: TypeOut) -> TypeIn
+	public func transform(val: TypeIn) -> TypeOut
+	public func inverseTransform(val: TypeOut) -> TypeIn
+	public func transform(val: TypeIn) -> TypeOut
+	public func transform(val: TypeIn) -> TypeOut
+	public func transform(val: TypeIn) -> TypeOut
+	public func inverseTransform(val: TypeOut) -> TypeIn
 NetworkFetcher.swift
 	public enum NetworkFetcherError: Int
 	public class NetworkFetcher: CacheLevel
