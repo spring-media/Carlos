@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
+		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
 		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -117,6 +118,7 @@
 		52089A1C1B4F8CFD006E1335 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Vendor/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
 		52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = ../Vendor/Quick/Externals/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
+		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		52635A1D1B4F0F3D00F187EE /* Carlos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Carlos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			children = (
 				52635A681B4F110500F187EE /* Supporting Files */,
 				523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */,
+				523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
