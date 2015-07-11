@@ -38,34 +38,6 @@ extension NSNumberFormatter: TwoWayTransformer {
 }
 
 /**
-NSDateComponentsFormatter extension to conform to the OneWayTransformer protocol
-
-This class transforms from NSDateComponents to String
-*/
-extension NSDateComponentsFormatter: OneWayTransformer {
-  public typealias TypeIn = NSDateComponents
-  public typealias TypeOut = String
-  
-  public func transform(val: TypeIn) -> TypeOut {
-    return stringFromDateComponents(val) ?? ""
-  }
-}
-
-/**
-NSByteCountFormatter extension to conform to the OneWayTransformer protocol
-
-This class transforms from Int64 to String
-*/
-extension NSByteCountFormatter: OneWayTransformer {
-  public typealias TypeIn = Int64
-  public typealias TypeOut = String
-  
-  public func transform(val: TypeIn) -> TypeOut {
-    return stringFromByteCount(val)
-  }
-}
-
-/**
 MKDistanceFormatter extension to conform to the TwoWayTransformer protocol
 
 This class transforms from CLLocationDistance to String (transform) and viceversa (inverseTransform)

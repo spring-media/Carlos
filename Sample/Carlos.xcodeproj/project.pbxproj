@@ -32,6 +32,9 @@
 		52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
 		52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
 		52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
+		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
+		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
+		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
 		AD695CE51B46CD65004E998D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695CE41B46CD65004E998D /* AppDelegate.swift */; };
 		AD695CE71B46CD65004E998D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD695CE61B46CD65004E998D /* ViewController.swift */; };
 		AD695CEA1B46CD65004E998D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD695CE81B46CD65004E998D /* Main.storyboard */; };
@@ -96,6 +99,34 @@
 			remoteGlobalIDString = 52635A1C1B4F0F3D00F187EE;
 			remoteInfo = Carlos;
 		};
+		52F064401B51ABF400145C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74291940169200FFFC47;
+			remoteInfo = "Nimble-iOS";
+		};
+		52F064421B51ABF400145C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74341940169200FFFC47;
+			remoteInfo = "Nimble-iOSTests";
+		};
+		52F064441B51ABF400145C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EAD195C0D6300ED456B;
+			remoteInfo = "Nimble-OSX";
+		};
+		52F064461B51ABF400145C98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EB7195C0D6300ED456B;
+			remoteInfo = "Nimble-OSXTests";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -143,6 +174,9 @@
 		52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TwoWayTransformer.swift; path = ../../Carlos/TwoWayTransformer.swift; sourceTree = "<group>"; };
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatterTransformerTests.swift; sourceTree = "<group>"; };
+		52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTransformerTests.swift; sourceTree = "<group>"; };
+		52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKDistanceFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		7125763FA112BF618F1B0F73 /* Pods-CarlosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarlosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CarlosTests/Pods-CarlosTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E75A8F39308A7998DCD90E0 /* Pods_CarlosSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,6 +279,9 @@
 				52635A681B4F110500F187EE /* Supporting Files */,
 				523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */,
 				523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */,
+				52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */,
+				52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */,
+				52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -257,6 +294,17 @@
 				52635A691B4F110500F187EE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		52F0643A1B51ABF300145C98 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52F064411B51ABF400145C98 /* Nimble.framework */,
+				52F064431B51ABF400145C98 /* NimbleTests.xctest */,
+				52F064451B51ABF400145C98 /* Nimble.framework */,
+				52F064471B51ABF400145C98 /* NimbleTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AD695CD61B46CD65004E998D = {
@@ -413,6 +461,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 52F0643A1B51ABF300145C98 /* Products */;
+					ProjectRef = 52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */;
+				},
+				{
 					ProductGroup = 523257BD1B51991600A10A56 /* Products */;
 					ProjectRef = 52089A1C1B4F8CFD006E1335 /* Quick.xcodeproj */;
 				},
@@ -467,6 +519,34 @@
 			fileType = wrapper.cfbundle;
 			path = "QuickFocused-iOSTests.xctest";
 			remoteRef = 523257CF1B51991600A10A56 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52F064411B51ABF400145C98 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = 52F064401B51ABF400145C98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52F064431B51ABF400145C98 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = 52F064421B51ABF400145C98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52F064451B51ABF400145C98 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = 52F064441B51ABF400145C98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		52F064471B51ABF400145C98 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = 52F064461B51ABF400145C98 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -529,7 +609,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
+				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
+				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
