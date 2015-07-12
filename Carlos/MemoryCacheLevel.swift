@@ -1,22 +1,27 @@
 import Foundation
 
+/// Abstracts objects that have a cost (useful for the MemoryCacheLevel)
 public protocol ExpensiveObject {
+  /// The cost of the object
   var cost: Int { get }
 }
 
 extension NSData: ExpensiveObject {
+  /// The number of bytes of the data block
   public var cost: Int {
     return self.length
   }
 }
 
 extension String: ExpensiveObject {
+  /// The number of characters of the string
   public var cost: Int {
     return count(self)
   }
 }
 
 extension NSString: ExpensiveObject {
+  /// The number of characters of the NSString
   public var cost: Int {
     return self.length
   }

@@ -13,6 +13,7 @@
 		526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339761B52450C00074CB9 /* ConditionedCacheTests.swift */; };
 		526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339781B524B3400074CB9 /* CacheRequestTests.swift */; };
 		5263397B1B52536700074CB9 /* KeyTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397A1B52536700074CB9 /* KeyTransformationTests.swift */; };
+		5263397D1B525D1600074CB9 /* MemoryCacheLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */; };
 		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -160,6 +161,7 @@
 		526339761B52450C00074CB9 /* ConditionedCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedCacheTests.swift; sourceTree = "<group>"; };
 		526339781B524B3400074CB9 /* CacheRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRequestTests.swift; sourceTree = "<group>"; };
 		5263397A1B52536700074CB9 /* KeyTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformationTests.swift; sourceTree = "<group>"; };
+		5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryCacheLevelTests.swift; sourceTree = "<group>"; };
 		52635A1D1B4F0F3D00F187EE /* Carlos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Carlos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				526339761B52450C00074CB9 /* ConditionedCacheTests.swift */,
 				526339781B524B3400074CB9 /* CacheRequestTests.swift */,
 				5263397A1B52536700074CB9 /* KeyTransformationTests.swift */,
+				5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -640,6 +643,7 @@
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
+				5263397D1B525D1600074CB9 /* MemoryCacheLevelTests.swift in Sources */,
 				5263397B1B52536700074CB9 /* KeyTransformationTests.swift in Sources */,
 				52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */,
 				526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */,
