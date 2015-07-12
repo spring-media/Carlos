@@ -7,6 +7,23 @@
 
 > A simple but flexible cache.
 
+# Contents of this Readme
+
+- [What is Carlos?](what-is-carlos)
+- [Installation](installation)
+- [Usage](usage)
+  - [Usage examples](usage-examples)
+  - [Creating requests](creating-requests)
+  - [Key transformations](key-transformations)
+  - [Value transformations](value-transformations)
+  - [Pooling requests](pooling-requests)
+  - [Conditioning caches](conditioning-caches)
+  - [Listening to memory warnings](listening-to-memory-warnings)
+  - [Creating custom levels](creating-custom-levels)
+  - [Composing with closures](composing-with-closures)
+- [Authors](authors)
+- [License](license)
+
 ## What is Carlos?
 
 Carlos is a small set of classes, global functions (that will be replaced by protocol extensions with Swift 2.0) and convenience operators to realize custom, flexible and powerful cache layers in your application.
@@ -15,15 +32,28 @@ By default, Carlos ships with an in-memory cache, a disk cache and a simple netw
 
 With Carlos you can:
 
-- create more layers and fetchers depending on your needs, either through classes or with simple closures
-- combine layers
+- create more levels and fetchers depending on your needs, either [through classes](creating-custom-levels) or with [simple closures](composing-with-closures)
+- [combine layers](usage-examples)
 - sort the different layers depending on what makes most sense for you
-- transform the key each layer will get, or the values each layer will output (this means you're free to implement every layer independing on how it will be used later on)
-- react to memory pressure events in your app
+- [transform the key](key-transformations) each layer will get, [or the values](value-transformations) each layer will output (this means you're free to implement every layer independing on how it will be used later on)
+- [react to memory pressure events](listening-to-memory-warnings) in your app
 - automatically populate upper layers when one of the lower layers fetches a value for a key, so the next time the first layer will already have it cached
-- enable or disable specific layers of your composed cache depending on boolean conditions
-- easily pool requests so that expensive layers don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
+- enable or disable specific layers of your composed cache depending on [boolean conditions](conditioning-caches)
+- easily [pool requests](pooling-requests) so that expensive layers don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
+
+## Installation
+
+Carlos is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```
+pod "Carlos"
+```
+
+If you don't use CocoaPods, you can still add Carlos as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
+
+`Carthage` support is in the works.
 
 ## Usage
 
@@ -70,7 +100,7 @@ If you try to compile this code, it will actually fail! Why is that?
 
 `NetworkFetcher` only accepts `NSURL` keys. That makes sense, since it's using the keys to fetch data from the network. But we don't want necessarily to have URL keys all around our cache. How can we do it?
 
-## Key transformations
+### Key transformations
 
 Key transformations are meant to make it possible to plug cache levels in whatever cache you're building.
 
@@ -120,7 +150,7 @@ That's not all, though.
 
 What if our disk cache only stores `NSData`, but we want our memory cache to conveniently store `UIImage` instances instead? 
 
-## Value transformations
+### Value transformations
 
 Value transformers let you have a cache that (let's say) stores `NSData` and mutate it to a cache that stores `UIImage` values. Let's see how:
 
@@ -130,7 +160,7 @@ let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> N
 
 This memory layer can now replace the one we had before, with the difference that it will internally store `UIImage` values!
 
-## Pooling requests
+### Pooling requests
 
 When you have a working cache, but some of your levels are expensive (say a Network fetcher or a database fetcher), you may want to pool requests in a way that multiple requests for the same key, coming together before one of them completes, are grouped so that when one completes all of the other complete as well without having to actually perform the expensive operation multiple times. 
 
@@ -161,7 +191,7 @@ func ==(lhs: Image, rhs: Image) -> Bool {
 
 Now we can execute multiple fetches for the same `Image` value and be sure that only one network request will be started.
 
-## Conditioning caches 
+### Conditioning caches 
 
 Sometimes we may have levels that should only be queried under some conditions. Let's say we have a `DatabaseLevel` that should only be triggered when users enable a given setting in the app that actually starts storing data in the database. We may want to avoid accessing the database if the setting is disabled in the first place.
 
@@ -183,7 +213,7 @@ let conditionedCache = { key in
 
 At runtime, if the variable `appSettingIsEnabled` is `false`, the `get` request will skip the level (or fail if this was the only or last level in the cache). If `true`, the `get` request will be executed. 
 
-## Listening to memory warnings
+### Listening to memory warnings
 
 If we store big objects in memory in our cache levels, we may want to be notified of memory warning events. This is where the `listenToMemoryWarnings` and `unsubscribeToMemoryWarnings` functions come handy:
 
@@ -201,7 +231,7 @@ With the first call, the cache level and all its composing levels will get a cal
 With the second call, the behavior will stop.
 
 
-## Creating custom levels
+### Creating custom levels
 
 Creating custom levels is easy and encouraged (there are multiple cache libraries already available if you only need memory, disk and network functionality).
 
@@ -227,7 +257,7 @@ The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarn
 
 This sample cache can now be pipelined to a list of other caches, transforming its keys or values if needed as we saw in the earlier paragraphs.
 
-## Composing with closures
+### Composing with closures
 
 Sometimes we could have simple fetchers that don't need `set`, `clear` and `onMemoryWarning` implementations because they don't store anything. In this case we can pipeline fetch closures instead of full-blown caches.
 
@@ -240,23 +270,6 @@ This fetcher can be plugged in and replace the `NetworkFetcher` for example:
 ```
 let cache = pooled(memoryLayer >>> diskLayer >>> fetcherLayer)
 ```
-
-## Requirements
-
-The project has no dependencies. If you want to contribute, please clone the submodules by running `git submodule update --init --recursive`
-
-## Installation
-
-Carlos is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```
-pod "Carlos"
-```
-
-If you don't use CocoaPods, you can still add Carlos as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
-
-`Carthage` support is in the works.
 
 ## Authors
 
