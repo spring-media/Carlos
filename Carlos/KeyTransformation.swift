@@ -65,19 +65,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 :returns: A new cache level result of the transformation of the original cache level
 */
 public func transformKeys<A: CacheLevel, B>(transformerClosure: B -> A.KeyType, cache: A) -> BasicCache<B, A.OutputType> {
-  let transformationBox = wrapClosureIntoOneWayTransformer(transformerClosure)
-  
-  return BasicCache<B, A.OutputType>(
-    getClosure: { key in
-      return cache.get(transformationBox.transform(key))
-    }, setClosure: { (key, value) in
-      cache.set(value, forKey: transformationBox.transform(key))
-    }, clearClosure: {
-      cache.clear()
-    }, memoryClosure: {
-      cache.onMemoryWarning()
-    }
-  )
+  return transformKeys(wrapClosureIntoOneWayTransformer(transformerClosure), cache)
 }
 
 /**
