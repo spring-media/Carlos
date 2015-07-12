@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
 		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
+		526339691B5242CC00074CB9 /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339681B5242CC00074CB9 /* KeyTransformation.swift */; };
 		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -28,7 +29,7 @@
 		52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */; };
 		52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4A1B4F0F6F00F187EE /* PoolCache.swift */; };
 		52635A5E1B4F0F6F00F187EE /* Pooled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4B1B4F0F6F00F187EE /* Pooled.swift */; };
-		52635A5F1B4F0F6F00F187EE /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4C1B4F0F6F00F187EE /* Transformer.swift */; };
+		52635A5F1B4F0F6F00F187EE /* ValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */; };
 		52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
 		52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
 		52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
@@ -152,6 +153,7 @@
 		52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = ../Vendor/Quick/Externals/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
+		526339681B5242CC00074CB9 /* KeyTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformation.swift; sourceTree = "<group>"; };
 		52635A1D1B4F0F3D00F187EE /* Carlos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Carlos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
@@ -171,7 +173,7 @@
 		52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OneWayTransformer.swift; path = ../../Carlos/OneWayTransformer.swift; sourceTree = "<group>"; };
 		52635A4A1B4F0F6F00F187EE /* PoolCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PoolCache.swift; path = ../../Carlos/PoolCache.swift; sourceTree = "<group>"; };
 		52635A4B1B4F0F6F00F187EE /* Pooled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pooled.swift; path = ../../Carlos/Pooled.swift; sourceTree = "<group>"; };
-		52635A4C1B4F0F6F00F187EE /* Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transformer.swift; path = ../../Carlos/Transformer.swift; sourceTree = "<group>"; };
+		52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueTransformation.swift; path = ../../Carlos/ValueTransformation.swift; sourceTree = "<group>"; };
 		52635A4D1B4F0F6F00F187EE /* Transformers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transformers.swift; path = ../../Carlos/Transformers.swift; sourceTree = "<group>"; };
 		52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TwoWayTransformer.swift; path = ../../Carlos/TwoWayTransformer.swift; sourceTree = "<group>"; };
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +246,7 @@
 		52635A1E1B4F0F3D00F187EE /* Carlos */ = {
 			isa = PBXGroup;
 			children = (
+				52635A1F1B4F0F3D00F187EE /* Supporting Files */,
 				52635A3C1B4F0F6F00F187EE /* BasicCache.swift */,
 				52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */,
 				52635A3E1B4F0F6F00F187EE /* Carlos.swift */,
@@ -260,11 +263,11 @@
 				52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */,
 				52635A4A1B4F0F6F00F187EE /* PoolCache.swift */,
 				52635A4B1B4F0F6F00F187EE /* Pooled.swift */,
-				52635A4C1B4F0F6F00F187EE /* Transformer.swift */,
+				52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */,
 				52635A4D1B4F0F6F00F187EE /* Transformers.swift */,
 				52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */,
 				52635A211B4F0F3D00F187EE /* Carlos.h */,
-				52635A1F1B4F0F3D00F187EE /* Supporting Files */,
+				526339681B5242CC00074CB9 /* KeyTransformation.swift */,
 			);
 			path = Carlos;
 			sourceTree = "<group>";
@@ -605,8 +608,9 @@
 				52635A591B4F0F6F00F187EE /* MemoryCacheLevel.swift in Sources */,
 				52635A511B4F0F6F00F187EE /* Carlos.swift in Sources */,
 				52635A4F1B4F0F6F00F187EE /* BasicCache.swift in Sources */,
-				52635A5F1B4F0F6F00F187EE /* Transformer.swift in Sources */,
+				52635A5F1B4F0F6F00F187EE /* ValueTransformation.swift in Sources */,
 				52635A581B4F0F6F00F187EE /* Logger.swift in Sources */,
+				526339691B5242CC00074CB9 /* KeyTransformation.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
 				52635A5E1B4F0F6F00F187EE /* Pooled.swift in Sources */,
