@@ -9,20 +9,20 @@
 
 # Contents of this Readme
 
-- [What is Carlos?](what-is-carlos)
-- [Installation](installation)
-- [Usage](usage)
-  - [Usage examples](usage-examples)
-  - [Creating requests](creating-requests)
-  - [Key transformations](key-transformations)
-  - [Value transformations](value-transformations)
-  - [Pooling requests](pooling-requests)
-  - [Conditioning caches](conditioning-caches)
-  - [Listening to memory warnings](listening-to-memory-warnings)
-  - [Creating custom levels](creating-custom-levels)
-  - [Composing with closures](composing-with-closures)
-- [Authors](authors)
-- [License](license)
+- [What is Carlos?](#what-is-carlos)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Usage examples](#usage-examples)
+  - [Creating requests](#creating-requests)
+  - [Key transformations](#key-transformations)
+  - [Value transformations](#value-transformations)
+  - [Pooling requests](#pooling-requests)
+  - [Conditioning caches](#conditioning-caches)
+  - [Listening to memory warnings](#listening-to-memory-warnings)
+  - [Creating custom levels](#creating-custom-levels)
+  - [Composing with closures](#composing-with-closures)
+- [Authors](#authors)
+- [License](#license)
 
 ## What is Carlos?
 
@@ -32,14 +32,14 @@ By default, Carlos ships with an in-memory cache, a disk cache and a simple netw
 
 With Carlos you can:
 
-- create more levels and fetchers depending on your needs, either [through classes](creating-custom-levels) or with [simple closures](composing-with-closures)
-- [combine layers](usage-examples)
+- create more levels and fetchers depending on your needs, either [through classes](#creating-custom-levels) or with [simple closures](#composing-with-closures)
+- [combine layers](#usage-examples)
 - sort the different layers depending on what makes most sense for you
-- [transform the key](key-transformations) each layer will get, [or the values](value-transformations) each layer will output (this means you're free to implement every layer independing on how it will be used later on)
-- [react to memory pressure events](listening-to-memory-warnings) in your app
+- [transform the key](#key-transformations) each layer will get, [or the values](#value-transformations) each layer will output (this means you're free to implement every layer independing on how it will be used later on)
+- [react to memory pressure events](#listening-to-memory-warnings) in your app
 - automatically populate upper layers when one of the lower layers fetches a value for a key, so the next time the first layer will already have it cached
-- enable or disable specific layers of your composed cache depending on [boolean conditions](conditioning-caches)
-- easily [pool requests](pooling-requests) so that expensive layers don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
+- enable or disable specific layers of your composed cache depending on [boolean conditions](#conditioning-caches)
+- easily [pool requests](#pooling-requests) so that expensive layers don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
 
 ## Installation
@@ -74,7 +74,11 @@ Getting a value for a given key on this cache will first try getting it on the m
 To fetch a value from a cache, use the `get` method.
 
 ```
-cache.get("key").onSuccess({ value in    println("I found \(value)!")}).onFailure({ error in    println("An error occurred :( \(error)")})
+cache.get("key").onSuccess({ value in
+    println("I found \(value)!")
+}).onFailure({ error in
+    println("An error occurred :( \(error)")
+})
 ```
 
 You can also store the request somewhere and then attach multiple `onSuccess` or `onFailure` listeners to it:
@@ -82,9 +86,16 @@ You can also store the request somewhere and then attach multiple `onSuccess` or
 ```
 let request = cache.get("key")
 
-request.onSuccess({ value in    println("I found \(value)!")})
-[... somewhere else]
-request.onSuccess({ value in    println("I also can read \(value)!")})
+request.onSuccess({ value in
+    println("I found \(value)!")
+})
+
+[... somewhere else]
+
+
+request.onSuccess({ value in
+    println("I also can read \(value)!")
+})
 
 ```
 
@@ -131,7 +142,19 @@ struct Image {
   let URL: NSURL
 }
 
-let imageToString = OneWayTransformationBox(transform: { (image: Image) -> String in    image.identifier})    let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> NSURL in    image.URL})    let memoryLayer = imageToString =>> MemoryCacheLevel<NSData>()let diskLayer = imageToString =>> DiskCacheLevel()let networkLayer = imageToURL =>> NetworkFetcher()    let cache = memoryLayer >>> diskLayer >>> networkLayer
+let imageToString = OneWayTransformationBox(transform: { (image: Image) -> String in
+    image.identifier
+})
+    
+let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> NSURL in
+    image.URL
+})
+    
+let memoryLayer = imageToString =>> MemoryCacheLevel<NSData>()
+let diskLayer = imageToString =>> DiskCacheLevel()
+let networkLayer = imageToURL =>> NetworkFetcher()
+    
+let cache = memoryLayer >>> diskLayer >>> networkLayer
 ```
 
 All the transformer objects could be replaced with closures as we did in the previous example, and the whole cache could be created in one line, if needed.
@@ -155,7 +178,14 @@ What if our disk cache only stores `NSData`, but we want our memory cache to con
 Value transformers let you have a cache that (let's say) stores `NSData` and mutate it to a cache that stores `UIImage` values. Let's see how:
 
 ```
-let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> NSData in    UIImagePNGRepresentation(image)}, inverseTransform: { (data: NSData) -> UIImage in    UIImage(data: data)!})    let memoryLayer = imageToString =>> MemoryCacheLevel<UIImage>() =>> dataTransformer    
+let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> NSData in
+    UIImagePNGRepresentation(image)
+}, inverseTransform: { (data: NSData) -> UIImage in
+    UIImage(data: data)!
+})
+    
+let memoryLayer = imageToString =>> MemoryCacheLevel<UIImage>() =>> dataTransformer
+    
 ``` 
 
 This memory layer can now replace the one we had before, with the difference that it will internally store `UIImage` values!
@@ -218,7 +248,8 @@ At runtime, if the variable `appSettingIsEnabled` is `false`, the `get` request 
 If we store big objects in memory in our cache levels, we may want to be notified of memory warning events. This is where the `listenToMemoryWarnings` and `unsubscribeToMemoryWarnings` functions come handy:
 
 ```
-let token = listenToMemoryWarnings(cache)```
+let token = listenToMemoryWarnings(cache)
+```
 
 and later
 
@@ -238,7 +269,31 @@ Creating custom levels is easy and encouraged (there are multiple cache librarie
 Let's see how to do it:
 
 ```
-class MyLevel: CacheLevel {  typealias KeyType = Int  typealias OutputType = Float    func get(key: KeyType) -> CacheRequest<OutputType> {    let request = CacheRequest<OutputType>()        // Perform the fetch and either succeed or fail    request.succeed(1.0)        return request  }    func set(value: OutputType, forKey key: KeyType) {    // Store the value (db, memory, file, etc)  }    func clear() {    // Clear the stored values  }    func onMemoryWarning() {    // A memory warning event came. React appropriately  }}
+class MyLevel: CacheLevel {
+  typealias KeyType = Int
+  typealias OutputType = Float
+  
+  func get(key: KeyType) -> CacheRequest<OutputType> {
+    let request = CacheRequest<OutputType>()
+    
+    // Perform the fetch and either succeed or fail
+    request.succeed(1.0)
+    
+    return request
+  }
+  
+  func set(value: OutputType, forKey key: KeyType) {
+    // Store the value (db, memory, file, etc)
+  }
+  
+  func clear() {
+    // Clear the stored values
+  }
+  
+  func onMemoryWarning() {
+    // A memory warning event came. React appropriately
+  }
+}
 ```
 
 The above class conforms to the `CacheLevel` protocol (needed by all the global functions and operators). 
@@ -262,7 +317,14 @@ This sample cache can now be pipelined to a list of other caches, transforming i
 Sometimes we could have simple fetchers that don't need `set`, `clear` and `onMemoryWarning` implementations because they don't store anything. In this case we can pipeline fetch closures instead of full-blown caches.
 
 ```
-let fetcherLayer = { (image: Image) -> CacheRequest<NSData> in    let request = CacheRequest<NSData>()          request.succeed(NSData(contentsOfURL: image.URL)!)          return request}    
+let fetcherLayer = { (image: Image) -> CacheRequest<NSData> in
+    let request = CacheRequest<NSData>()
+      
+    request.succeed(NSData(contentsOfURL: image.URL)!)
+      
+    return request
+}
+    
 ```
 
 This fetcher can be plugged in and replace the `NetworkFetcher` for example:
