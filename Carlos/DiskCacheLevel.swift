@@ -132,7 +132,7 @@ public class DiskCacheLevel: CacheLevel {
       Logger.log("Failed to write key \(key) on the disk cache")
     }
     
-    size += (UInt64(data.length) - (previousAttributes?.fileSize() ?? 0))
+    size += UInt64(max(0, data.length - Int((previousAttributes?.fileSize() ?? 0))))
     
     controlCapacity()
   }

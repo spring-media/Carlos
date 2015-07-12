@@ -18,6 +18,8 @@
 		526339811B52805000074CB9 /* MemoryWarningNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */; };
 		526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339821B52866900074CB9 /* BasicCacheTests.swift */; };
 		526339851B52A82800074CB9 /* CompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339841B52A82800074CB9 /* CompositionTests.swift */; };
+		526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339881B52B51C00074CB9 /* DiskCacheTests.swift */; };
+		526339941B52BC6D00074CB9 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; };
 		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -170,6 +172,7 @@
 		526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryWarningNotificationTests.swift; sourceTree = "<group>"; };
 		526339821B52866900074CB9 /* BasicCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCacheTests.swift; sourceTree = "<group>"; };
 		526339841B52A82800074CB9 /* CompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositionTests.swift; sourceTree = "<group>"; };
+		526339881B52B51C00074CB9 /* DiskCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheTests.swift; sourceTree = "<group>"; };
 		52635A1D1B4F0F3D00F187EE /* Carlos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Carlos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 				526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */,
 				526339821B52866900074CB9 /* BasicCacheTests.swift */,
 				526339841B52A82800074CB9 /* CompositionTests.swift */,
+				526339881B52B51C00074CB9 /* DiskCacheTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -652,8 +656,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				526339811B52805000074CB9 /* MemoryWarningNotificationTests.swift in Sources */,
+				526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */,
 				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
+				526339941B52BC6D00074CB9 /* Crypto.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
 				526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */,

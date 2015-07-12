@@ -3,17 +3,44 @@ import Quick
 import Nimble
 import Carlos
 
-class MemoryCacheLevelTests: QuickSpec {
+private func filesInDirectory(directory: String) -> [String] {
+  return (NSFileManager.defaultManager().contentsOfDirectoryAtPath(directory, error: nil) as? [String]) ?? []
+}
+
+extension String {
+  private func MD5String() -> String {
+    if let data = self.dataUsingEncoding(NSUTF8StringEncoding) {
+      let MD5Calculator = MD5(data)
+      let MD5Data = MD5Calculator.calculate()
+      let resultBytes = UnsafeMutablePointer<CUnsignedChar>(MD5Data.bytes)
+      let resultEnumerator = UnsafeBufferPointer<CUnsignedChar>(start: resultBytes, count: MD5Data.length)
+      let MD5String = NSMutableString()
+      for c in resultEnumerator {
+        MD5String.appendFormat("%02x", c)
+      }
+      return MD5String as String
+    } else {
+      return self
+    }
+  }
+}
+
+class DiskCacheTests: QuickSpec {
   override func spec() {
-    describe("Memory cache level") {
-      var cache: MemoryCacheLevel<NSString>!
+    describe("DiskCacheLevel") {
+      var cache: DiskCacheLevel!
+      let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String).stringByAppendingPathComponent("com.carlos.default")
+      var fileManager: NSFileManager!
       
       beforeEach {
-        cache = MemoryCacheLevel<NSString>(capacity: 100)
+        fileManager = NSFileManager.defaultManager()
+        fileManager.removeItemAtPath(path, error: nil)
+        
+        cache = DiskCacheLevel(path: path, capacity: 100)
       }
       
       context("when calling get") {
-        var result: NSString?
+        var result: NSData?
         let key = "test-key"
         var failureSentinel: Bool?
         
@@ -22,22 +49,22 @@ class MemoryCacheLevelTests: QuickSpec {
         }
         
         it("should fail") {
-          expect(failureSentinel).to(beTrue())
+          expect(failureSentinel).toEventually(beTrue())
         }
         
         it("should not succeed") {
-          expect(result).to(beNil())
+          expect(result).toEventually(beNil())
         }
         
         context("when setting a value for that key") {
-          let value = "value to set"
+          let value = "value to set".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
           
           beforeEach {
             failureSentinel = nil
             
             cache.set(value, forKey: key)
           }
-         
+          
           context("when getting the value for another key") {
             let anotherKey = "test_key_2"
             
@@ -46,11 +73,11 @@ class MemoryCacheLevelTests: QuickSpec {
             }
             
             it("should not succeed") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should fail") {
-              expect(failureSentinel).notTo(beNil())
+              expect(failureSentinel).toEventuallyNot(beNil())
             }
           }
         }
@@ -58,12 +85,20 @@ class MemoryCacheLevelTests: QuickSpec {
       
       context("when calling set") {
         let key = "key"
-        let value = "value"
-        var result: NSString?
+        let value = "value".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+        var result: NSData?
         var failureSentinel: Bool?
         
         beforeEach {
           cache.set(value, forKey: key)
+        }
+        
+        it("should save the key on disk") {
+          expect(fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
+        }
+        
+        it("should save the data on disk") {
+          expect(NSData(contentsOfFile: path.stringByAppendingPathComponent(key.MD5String()))).toEventually(equal(value))
         }
         
         context("when calling get") {
@@ -72,19 +107,27 @@ class MemoryCacheLevelTests: QuickSpec {
           }
           
           it("should succeed") {
-            expect(result).to(equal(value))
+            expect(result).toEventually(equal(value))
           }
           
           it("should not fail") {
-            expect(failureSentinel).to(beNil())
+            expect(failureSentinel).toEventually(beNil())
           }
         }
         
         context("when setting a different value for the same key") {
-          let newValue = "another value"
+          let newValue = "another value".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
           
           beforeEach {
             cache.set(newValue, forKey: key)
+          }
+          
+          it("should keep the key on disk") {
+            expect(fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
+          }
+          
+          it("should overwrite the data on disk") {
+            expect(NSData(contentsOfFile: path.stringByAppendingPathComponent(key.MD5String()))).toEventually(equal(newValue))
           }
           
           context("when calling get") {
@@ -93,7 +136,7 @@ class MemoryCacheLevelTests: QuickSpec {
             }
             
             it("should succeed with the overwritten value") {
-              expect(result).to(equal(newValue))
+              expect(result).toEventually(equal(newValue))
             }
           }
         }
@@ -108,7 +151,7 @@ class MemoryCacheLevelTests: QuickSpec {
           
           beforeEach {
             for (key, value) in zip(otherKeys, otherValues) {
-              cache.set(value, forKey: key)
+              cache.set(value.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, forKey: key)
             }
           }
           
@@ -119,7 +162,7 @@ class MemoryCacheLevelTests: QuickSpec {
               cache.get(key).onFailure({ _ in evictedAtLeastOne = true })
             }
             
-            expect(evictedAtLeastOne).to(beTrue())
+            expect(evictedAtLeastOne).toEventually(beTrue())
           }
         }
         
@@ -130,17 +173,21 @@ class MemoryCacheLevelTests: QuickSpec {
             cache.clear()
           }
           
+          it("should remove all the files on disk") {
+            expect({ filesInDirectory(path) }).toEventually(beEmpty())
+          }
+          
           context("when calling get") {
             beforeEach {
               cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
             }
             
             it("should fail") {
-              expect(failureSentinel).to(beTrue())
+              expect(failureSentinel).toEventually(beTrue())
             }
             
             it("should not succeed") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
           }
         }
@@ -158,12 +205,12 @@ class MemoryCacheLevelTests: QuickSpec {
                 cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
               }
               
-              it("should fail") {
-                expect(failureSentinel).to(beTrue())
+              it("should not fail") {
+                expect(failureSentinel).toEventually(beNil())
               }
               
-              it("should not succeed") {
-                expect(result).to(beNil())
+              it("should succeed") {
+                expect(result).toEventually(equal(value))
               }
             }
           }
