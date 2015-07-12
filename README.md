@@ -21,25 +21,26 @@
   - [Listening to memory warnings](#listening-to-memory-warnings)
   - [Creating custom levels](#creating-custom-levels)
   - [Composing with closures](#composing-with-closures)
+- [Tests](#tests)
 - [Authors](#authors)
 - [License](#license)
 
 ## What is Carlos?
 
-Carlos is a small set of classes, global functions (that will be replaced by protocol extensions with Swift 2.0) and convenience operators to realize custom, flexible and powerful cache layers in your application.
+Carlos is a small set of classes, global functions (that will be replaced by protocol extensions with Swift 2.0) and convenience operators to **realize custom, flexible and powerful cache layers** in your application.
 
-By default, Carlos ships with an in-memory cache, a disk cache and a simple network fetcher. 
+By default, **Carlos ships with an in-memory cache, a disk cache and a simple network fetcher** (disk cache and network fetcher are inspired by [HanekeSwift](https://github.com/Haneke/HanekeSwift)). 
 
 With Carlos you can:
 
-- create more levels and fetchers depending on your needs, either [through classes](#creating-custom-levels) or with [simple closures](#composing-with-closures)
-- [combine layers](#usage-examples)
-- sort the different layers depending on what makes most sense for you
-- [transform the key](#key-transformations) each layer will get, [or the values](#value-transformations) each layer will output (this means you're free to implement every layer independing on how it will be used later on)
+- **create levels and fetchers** depending on your needs, either [through classes](#creating-custom-levels) or with [simple closures](#composing-with-closures)
+- [combine levels](#usage-examples)
+- sort the different levels depending on what makes most sense for you
+- [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on)
 - [react to memory pressure events](#listening-to-memory-warnings) in your app
-- automatically populate upper layers when one of the lower layers fetches a value for a key, so the next time the first layer will already have it cached
-- enable or disable specific layers of your composed cache depending on [boolean conditions](#conditioning-caches)
-- easily [pool requests](#pooling-requests) so that expensive layers don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
+- **automatically populate upper levels when one of the lower levels fetches a value** for a key, so the next time the first level will already have it cached
+- enable or disable specific levels of your composed cache depending on [boolean conditions](#conditioning-caches)
+- easily [**pool requests**](#pooling-requests) so that expensive levels don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
 
 ## Installation
@@ -99,7 +100,7 @@ request.onSuccess({ value in
 
 ```
 
-When the cache request succeeds, all its listeners are called. And even if you add a listener after the request already did its job, you will still get the callback.
+**When the cache request succeeds, all its listeners are called**. And **even if you add a listener after the request already did its job, you will still get the callback**.
 
 This cache is not very useful, though. It will never *actively* fetch values, just store them for later use. Let's try to make it more interesting:
 
@@ -121,7 +122,7 @@ Let's see how they work:
 let transformedCache = { NSURL(string: $0)! } =>> NetworkFetcher()
 ``` 
 
-With the line above, we're saying that all the keys coming into the NetworkFetcher layer have to be transformed to `NSURL` values first. We can now plug this cache into our previous structure:
+With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into our previous structure:
 
 ```
 let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel() >>> transformedCache
@@ -150,14 +151,14 @@ let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> NSURL in
     image.URL
 })
     
-let memoryLayer = imageToString =>> MemoryCacheLevel<NSData>()
-let diskLayer = imageToString =>> DiskCacheLevel()
-let networkLayer = imageToURL =>> NetworkFetcher()
+let memoryLevel = imageToString =>> MemoryCacheLevel<NSData>()
+let diskLevel = imageToString =>> DiskCacheLevel()
+let networkLevel = imageToURL =>> NetworkFetcher()
     
-let cache = memoryLayer >>> diskLayer >>> networkLayer
+let cache = memoryLevel >>> diskLevel >>> networkLevel
 ```
 
-All the transformer objects could be replaced with closures as we did in the previous example, and the whole cache could be created in one line, if needed.
+*All the transformer objects could be replaced with closures* as we did in the previous example, and the whole cache could be created in one line, if needed.
 
 Now we can perform safe requests like this:
 
@@ -184,23 +185,23 @@ let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> N
     UIImage(data: data)!
 })
     
-let memoryLayer = imageToString =>> MemoryCacheLevel<UIImage>() =>> dataTransformer
+let memoryLevel = imageToString =>> MemoryCacheLevel<UIImage>() =>> dataTransformer
     
 ``` 
 
-This memory layer can now replace the one we had before, with the difference that it will internally store `UIImage` values!
+This memory level can now replace the one we had before, with the difference that it will internally store `UIImage` values!
 
 ### Pooling requests
 
-When you have a working cache, but some of your levels are expensive (say a Network fetcher or a database fetcher), you may want to pool requests in a way that multiple requests for the same key, coming together before one of them completes, are grouped so that when one completes all of the other complete as well without having to actually perform the expensive operation multiple times. 
+When you have a working cache, but some of your levels are expensive (say a Network fetcher or a database fetcher), **you may want to pool requests in a way that multiple requests for the same key, coming together before one of them completes, are grouped so that when one completes all of the other complete as well without having to actually perform the expensive operation multiple times**.
 
 This functionality comes with Carlos.
 
 ```
-let cache = pooled(memoryLayer >>> diskLayer >>> networkLayer)
+let cache = pooled(memoryLevel >>> diskLevel >>> networkLevel)
 ```
 
-Keep in mind that the key must be hashable for the `pooled` function to work:
+Keep in mind that the key must conform to the `Hashable` protocol for the `pooled` function to work:
 
 
 ```
@@ -317,7 +318,7 @@ This sample cache can now be pipelined to a list of other caches, transforming i
 Sometimes we could have simple fetchers that don't need `set`, `clear` and `onMemoryWarning` implementations because they don't store anything. In this case we can pipeline fetch closures instead of full-blown caches.
 
 ```
-let fetcherLayer = { (image: Image) -> CacheRequest<NSData> in
+let fetcherLevel = { (image: Image) -> CacheRequest<NSData> in
     let request = CacheRequest<NSData>()
       
     request.succeed(NSData(contentsOfURL: image.URL)!)
@@ -330,8 +331,16 @@ let fetcherLayer = { (image: Image) -> CacheRequest<NSData> in
 This fetcher can be plugged in and replace the `NetworkFetcher` for example:
 
 ```
-let cache = pooled(memoryLayer >>> diskLayer >>> fetcherLayer)
+let cache = pooled(memoryLevel >>> diskLevel >>> fetcherLevel)
 ```
+
+## Tests
+
+Carlos is thouroughly tested so that the features it's designed to provide are safe for refactoring and as much as possible bug-free. 
+
+We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
+
+As of today, there are **400+ tests** for Carlos (see the folder `Sample/CarlosTests`), and overall the tests codebase is *almost double the size* of the production codebase.
 
 ## Authors
 
