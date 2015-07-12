@@ -1,7 +1,5 @@
 import Foundation
 
-infix operator =>> { associativity left }
-
 /**
 Applies a transformation to a cache closure
 The transformation works by changing the type of the key the cache accepts

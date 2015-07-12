@@ -19,7 +19,7 @@ public protocol OneWayTransformer {
 }
 
 /// Simple implementation of the TwoWayTransformer protocol
-public class OneWayTransformationBox<I, O>: OneWayTransformer {
+public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   /// The input type of the transformation box
   public typealias TypeIn = I
   

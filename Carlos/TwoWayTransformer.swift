@@ -13,7 +13,7 @@ public protocol TwoWayTransformer: OneWayTransformer {
 }
 
 /// Simple implementation of the TwoWayTransformer protocol
-public struct TwoWayTransformationBox<I, O>: TwoWayTransformer {
+public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The input type of the transformation box
   public typealias TypeIn = I
   

@@ -1,7 +1,7 @@
 import Foundation
 
 /// A wrapper cache that explicitly takes get, set, clear and memory warning closures
-public class BasicCache<A, B>: CacheLevel {
+public final class BasicCache<A, B>: CacheLevel {
   public typealias KeyType = A
   public typealias OutputType = B
   

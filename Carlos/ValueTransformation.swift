@@ -8,8 +8,8 @@ Mutates a CacheRequest from a type A to a type B through a OneWayTransformer
 
 :returns: A new CacheRequest<B>
 */
-internal func mutateCacheRequest<A, B: OneWayTransformer where A == B.TypeIn>(origin: CacheRequest<A>, transformer: B) -> CacheRequest<B.TypeOut> {
-  let mutatedRequest = CacheRequest<B.TypeOut>()
+internal func mutateCacheRequest<A: OneWayTransformer>(origin: CacheRequest<A.TypeIn>, transformer: A) -> CacheRequest<A.TypeOut> {
+  let mutatedRequest = CacheRequest<A.TypeOut>()
   
   origin
     .onFailure({ mutatedRequest.fail($0) })
@@ -27,17 +27,8 @@ Mutates a CacheRequest from a type A to a type B through a OneWayTransformer
 :returns: A new CacheRequest<B>
 */
 internal func mutateCacheRequest<A, B>(origin: CacheRequest<A>, transformerClosure: A -> B) -> CacheRequest<B> {
-  let mutatedRequest = CacheRequest<B>()
-  let transformationBox = wrapClosureIntoOneWayTransformer(transformerClosure)
-  
-  origin
-    .onFailure({ mutatedRequest.fail($0) })
-    .onSuccess({ mutatedRequest.succeed(transformationBox.transform($0)) })
-  
-  return mutatedRequest
+  return mutateCacheRequest(origin, wrapClosureIntoOneWayTransformer(transformerClosure))
 }
-
-infix operator >>= { associativity left }
 
 /**
 Applies a transformation to a cache closure
@@ -49,7 +40,7 @@ Use this transformation when you store a value type but want to mount the cache 
 
 :returns: A new cache level result of the transformation of the original cache level
 */
-public func transformValues<A, B, C: TwoWayTransformer where C.TypeIn == B>(fetchClosure: (key: A) -> CacheRequest<B>, transformer: C) -> BasicCache<A, C.TypeOut> {
+public func transformValues<A, B: TwoWayTransformer>(fetchClosure: (key: A) -> CacheRequest<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
   return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer)
 }
 
@@ -87,7 +78,7 @@ Use this transformation when you store a value type but want to mount the cache 
 
 :returns: A new cache level result of the transformation of the original cache level
 */
-public func >>=<A, B, C: TwoWayTransformer where C.TypeIn == B>(fetchClosure: (key: A) -> CacheRequest<B>, transformer: C) -> BasicCache<A, C.TypeOut> {
+public func =>><A, B: TwoWayTransformer>(fetchClosure: (key: A) -> CacheRequest<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
   return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer)
 }
 
@@ -101,6 +92,6 @@ Use this transformation when you store a value type but want to mount the cache 
 
 :returns: A new cache result of the transformation of the original cache
 */
-public func >>=<A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> {
+public func =>><A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> {
   return transformValues(cache, transformer)
 }

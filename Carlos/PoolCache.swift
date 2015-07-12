@@ -1,6 +1,6 @@
 import Foundation
 
-public class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLevel {
+public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLevel {
   public typealias KeyType = C.KeyType
   public typealias OutputType = C.OutputType
   
