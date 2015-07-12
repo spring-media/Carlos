@@ -12,7 +12,7 @@ public func listenToMemoryWarnings<A: CacheLevel where A: AnyObject>(cache: A) -
     if let cache = cache {
       cache.onMemoryWarning()
     }
-    })
+  })
 }
 
 /**
