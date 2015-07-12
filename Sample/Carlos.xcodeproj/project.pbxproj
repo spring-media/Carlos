@@ -17,6 +17,7 @@
 		5263397F1B52760F00074CB9 /* ValueTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */; };
 		526339811B52805000074CB9 /* MemoryWarningNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */; };
 		526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339821B52866900074CB9 /* BasicCacheTests.swift */; };
+		526339851B52A82800074CB9 /* CompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339841B52A82800074CB9 /* CompositionTests.swift */; };
 		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -168,6 +169,7 @@
 		5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformationTests.swift; sourceTree = "<group>"; };
 		526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryWarningNotificationTests.swift; sourceTree = "<group>"; };
 		526339821B52866900074CB9 /* BasicCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCacheTests.swift; sourceTree = "<group>"; };
+		526339841B52A82800074CB9 /* CompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositionTests.swift; sourceTree = "<group>"; };
 		52635A1D1B4F0F3D00F187EE /* Carlos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Carlos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */,
 				526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */,
 				526339821B52866900074CB9 /* BasicCacheTests.swift */,
+				526339841B52A82800074CB9 /* CompositionTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 				5263397F1B52760F00074CB9 /* ValueTransformationTests.swift in Sources */,
 				5263397D1B525D1600074CB9 /* MemoryCacheLevelTests.swift in Sources */,
 				5263397B1B52536700074CB9 /* KeyTransformationTests.swift in Sources */,
+				526339851B52A82800074CB9 /* CompositionTests.swift in Sources */,
 				52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */,
 				526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */,
 				526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */,
