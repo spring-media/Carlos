@@ -22,6 +22,7 @@
   - [Creating custom levels](#creating-custom-levels)
   - [Composing with closures](#composing-with-closures)
 - [Tests](#tests)
+- [Future development](#future-development)
 - [Authors](#authors)
 - [License](#license)
 
@@ -341,6 +342,18 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
 As of today, there are **400+ tests** for Carlos (see the folder `Sample/CarlosTests`), and overall the tests codebase is *almost double the size* of the production codebase.
+
+## Future development
+
+Carlos is under development and [here](https://github.com/WeltN24/Carlos/issues) you can see all the open issues. They are assigned to milestones so that you can have an idea of when a given feature will be shipped.
+
+If you want to contribute to this repo, please:
+
+- Create an issue explaining your problem and your solution
+- Create a branch with the issue number and a short abstract of the feature name
+- Implement your solution
+- Write tests (untested features won't be merged)
+- When all the tests are written and green, create a pull request, with a short description of the approach taken
 
 ## Authors
 
