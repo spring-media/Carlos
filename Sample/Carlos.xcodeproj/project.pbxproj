@@ -32,6 +32,8 @@
 		52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
 		52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
 		52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
+		52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD551B51BA140000084A /* CacheLevelFake.swift */; };
+		52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD571B51BAD20000084A /* PoolCacheTests.swift */; };
 		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
@@ -174,6 +176,8 @@
 		52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TwoWayTransformer.swift; path = ../../Carlos/TwoWayTransformer.swift; sourceTree = "<group>"; };
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52BBFD551B51BA140000084A /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
+		52BBFD571B51BAD20000084A /* PoolCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCacheTests.swift; sourceTree = "<group>"; };
 		52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKDistanceFormatterTransformerTests.swift; sourceTree = "<group>"; };
@@ -282,6 +286,7 @@
 				52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */,
 				52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */,
 				52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */,
+				52BBFD571B51BAD20000084A /* PoolCacheTests.swift */,
 			);
 			path = CarlosTests;
 			sourceTree = "<group>";
@@ -289,11 +294,20 @@
 		52635A681B4F110500F187EE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				52BBFD4A1B51BA070000084A /* Fakes */,
 				52089A311B4F8D0B006E1335 /* Nimble.xcodeproj */,
 				52089A1C1B4F8CFD006E1335 /* Quick.xcodeproj */,
 				52635A691B4F110500F187EE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		52BBFD4A1B51BA070000084A /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				52BBFD551B51BA140000084A /* CacheLevelFake.swift */,
+			);
+			path = Fakes;
 			sourceTree = "<group>";
 		};
 		52F0643A1B51ABF300145C98 /* Products */ = {
@@ -611,7 +625,9 @@
 			files = (
 				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
+				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
+				52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */,
 				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
 			);

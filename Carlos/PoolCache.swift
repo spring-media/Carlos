@@ -1,11 +1,11 @@
 import Foundation
 
-public class PoolCache<A: Hashable, B, C: CacheLevel where C.KeyType == A, C.OutputType == B>: CacheLevel {
-  public typealias KeyType = A
-  public typealias OutputType = B
+public class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLevel {
+  public typealias KeyType = C.KeyType
+  public typealias OutputType = C.OutputType
   
   private let internalCache: C
-  private var requestsPool: [A: CacheRequest<B>] = [:]
+  private var requestsPool: [C.KeyType: CacheRequest<C.OutputType>] = [:]
   
   public init(internalCache: C) {
     self.internalCache = internalCache
@@ -35,7 +35,7 @@ public class PoolCache<A: Hashable, B, C: CacheLevel where C.KeyType == A, C.Out
     return request
   }
   
-  public func set(value: B, forKey fetchable: A) {
+  public func set(value: C.OutputType, forKey fetchable: C.KeyType) {
     internalCache.set(value, forKey: fetchable)
   }
   
