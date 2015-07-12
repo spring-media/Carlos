@@ -10,7 +10,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 
 :returns: A new cache level result of the transformation of the original cache level
 */
-public func transformKeys<A, B, C: OneWayTransformer where C.TypeOut == A>(transformer: C, fetchClosure: (key: A) -> CacheRequest<B>) -> BasicCache<C.TypeIn, B> {
+public func transformKeys<A, B: OneWayTransformer>(transformer: B, fetchClosure: (key: B.TypeOut) -> CacheRequest<A>) -> BasicCache<B.TypeIn, A> {
   return transformKeys(transformer, wrapClosureIntoCacheLevel(fetchClosure))
 }
 
@@ -76,7 +76,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 
 :returns: A new cache level result of the transformation of the original cache level
 */
-public func =>><A, B, C: OneWayTransformer where C.TypeOut == A>(transformer: C, fetchClosure: (key: A) -> CacheRequest<B>) -> BasicCache<C.TypeIn, B> {
+public func =>><A, B: OneWayTransformer>(transformer: B, fetchClosure: (key: B.TypeOut) -> CacheRequest<A>) -> BasicCache<B.TypeIn, A> {
   return transformKeys(transformer, wrapClosureIntoCacheLevel(fetchClosure))
 }
 
