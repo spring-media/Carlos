@@ -11,32 +11,32 @@ public class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLevel {
     self.internalCache = internalCache
   }
   
-  public func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+  public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request: CacheRequest<OutputType>
     
-    if let pooledRequest = requestsPool[fetchable] {
-      Logger.log("Using pooled request \(pooledRequest) for fetchable \(fetchable)")
+    if let pooledRequest = requestsPool[key] {
+      Logger.log("Using pooled request \(pooledRequest) for key \(key)")
       request = pooledRequest
     } else {
-      request = internalCache.get(fetchable)
-      requestsPool[fetchable] = request
+      request = internalCache.get(key)
+      requestsPool[key] = request
       
-      Logger.log("Creating a new request \(request) for fetchable \(fetchable)")
+      Logger.log("Creating a new request \(request) for key \(key)")
       
       request
         .onSuccess({ result in
-          self.requestsPool[fetchable] = nil
+          self.requestsPool[key] = nil
         })
         .onFailure({ error in
-          self.requestsPool[fetchable] = nil
+          self.requestsPool[key] = nil
         })
     }
     
     return request
   }
   
-  public func set(value: C.OutputType, forKey fetchable: C.KeyType) {
-    internalCache.set(value, forKey: fetchable)
+  public func set(value: C.OutputType, forKey key: C.KeyType) {
+    internalCache.set(value, forKey: key)
   }
   
   public func clear() {

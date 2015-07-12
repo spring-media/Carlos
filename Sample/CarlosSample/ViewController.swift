@@ -18,7 +18,7 @@ class TestCache: CacheLevel {
   typealias KeyType = NSURL
   typealias OutputType = NSData
   
-  func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+  func get(key: KeyType) -> CacheRequest<OutputType> {
     return CacheRequest<OutputType>()
   }
   
@@ -26,7 +26,7 @@ class TestCache: CacheLevel {
     
   }
   
-  func set(value: OutputType, forKey fetchable: KeyType) {
+  func set(value: OutputType, forKey key: KeyType) {
     
   }
   
@@ -39,11 +39,11 @@ class TestCache2: CacheLevel {
   typealias KeyType = NSData
   typealias OutputType = NSData
   
-  func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+  func get(key: KeyType) -> CacheRequest<OutputType> {
     return CacheRequest<OutputType>()
   }
   
-  func set(value: OutputType, forKey fetchable: KeyType) {
+  func set(value: OutputType, forKey key: KeyType) {
     
   }
   

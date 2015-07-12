@@ -43,27 +43,27 @@ public class DiskCacheLevel: CacheLevel {
     })
   }
   
-  public func set(value: NSData, forKey fetchable: String) {
+  public func set(value: NSData, forKey key: String) {
     dispatch_async(cacheQueue, {
-      Logger.log("Setting a value for the key \(fetchable) on the disk cache \(self)")
-      self.setDataSync(value, key: fetchable)
+      Logger.log("Setting a value for the key \(key) on the disk cache \(self)")
+      self.setDataSync(value, key: key)
     })
   }
   
-  public func get(fetchable: KeyType) -> CacheRequest<OutputType> {
+  public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request = CacheRequest<OutputType>()
     
     dispatch_async(cacheQueue, {
-      let path = self.pathForKey(fetchable)
+      let path = self.pathForKey(key)
       var error: NSError? = nil
       if let data = NSData(contentsOfFile: path, options: .allZeros, error: &error) {
-        Logger.log("Fetched \(fetchable) on disk level")
+        Logger.log("Fetched \(key) on disk level")
         dispatch_async(dispatch_get_main_queue(), {
           request.succeed(data)
         })
         self.updateDiskAccessDateAtPath(path)
       } else {
-        Logger.log("Failed fetching \(fetchable) on the disk cache")
+        Logger.log("Failed fetching \(key) on the disk cache")
         dispatch_async(dispatch_get_main_queue(), {
           request.fail(error)
         })

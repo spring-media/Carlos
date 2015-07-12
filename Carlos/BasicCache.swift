@@ -17,12 +17,12 @@ public class BasicCache<A, B>: CacheLevel {
     self.memoryClosure = memoryClosure
   }
   
-  public func get(fetchable: KeyType) -> CacheRequest<OutputType> {
-    return getClosure(key: fetchable)
+  public func get(key: KeyType) -> CacheRequest<OutputType> {
+    return getClosure(key: key)
   }
   
-  public func set(value: B, forKey fetchable: A) {
-    setClosure(key: fetchable, value: value)
+  public func set(value: B, forKey key: A) {
+    setClosure(key: key, value: value)
   }
   
   public func clear() {

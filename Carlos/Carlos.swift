@@ -26,19 +26,19 @@ public protocol CacheLevel {
   /**
   Tries to get a value from the cache level
   
-  :param: fetchable The key of the value you would like to get
+  :param: key The key of the value you would like to get
   
   :returns: a CacheRequest that you can attach success and failure closures to
   */
-  func get(fetchable: KeyType) -> CacheRequest<OutputType>
+  func get(key: KeyType) -> CacheRequest<OutputType>
   
   /**
   Tries to set a value on the cache level
   
   :param: value The bytes to set on the cache level
-  :param: fetchable The key of the value you're trying to set
+  :param: key The key of the value you're trying to set
   */
-  func set(value: OutputType, forKey fetchable: KeyType)
+  func set(value: OutputType, forKey key: KeyType)
   
   /**
   Asks to clear the cache level

@@ -12,7 +12,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 :discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
-public func <?><A: CacheLevel, B where A.KeyType == B>(condition: (B) -> (Bool, NSError?), cache: A) -> BasicCache<B, A.OutputType> {
+public func <?><A: CacheLevel>(condition: (A.KeyType) -> (Bool, NSError?), cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return conditioned(cache, condition)
 }
 
@@ -26,8 +26,8 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 :discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
-public func conditioned<A: CacheLevel, B where A.KeyType == B>(cache: A, condition: (B) -> (Bool, NSError?)) -> BasicCache<B, A.OutputType> {
-  return BasicCache<B, A.OutputType>(
+public func conditioned<A: CacheLevel>(cache: A, condition: (A.KeyType) -> (Bool, NSError?)) -> BasicCache<A.KeyType, A.OutputType> {
+  return BasicCache<A.KeyType, A.OutputType>(
     getClosure: { (key) in
       let request = CacheRequest<A.OutputType>()
       
@@ -35,6 +35,8 @@ public func conditioned<A: CacheLevel, B where A.KeyType == B>(cache: A, conditi
       if passesCondition {
         cache.get(key).onSuccess({ result in
           request.succeed(result)
+        }).onFailure({ error in
+          request.fail(error)
         })
       } else {
         request.fail(error ?? errorWithCode(FetchError.ConditionNotSatisfied.rawValue))

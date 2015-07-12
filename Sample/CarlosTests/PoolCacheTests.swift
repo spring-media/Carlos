@@ -256,14 +256,19 @@ class PoolCacheTests: QuickSpec {
         cache = PoolCache<CacheLevelFake<String, Int>>(internalCache: internalCache)
       }
       
-      itBehavesLike("a pooled cache") { ["cache": cache, "internalCache": internalCache] }
+      itBehavesLike("a pooled cache") {
+        [
+          "cache": cache,
+          "internalCache": internalCache
+        ]
+      }
     }
   }
 }
 
 class PooledOperatorTests: QuickSpec {
   override func spec() {
-    describe("PoolCache") {
+    describe("The pooled function") {
       var cache: PoolCache<CacheLevelFake<String, Int>>!
       var internalCache: CacheLevelFake<String, Int>!
       
@@ -272,7 +277,12 @@ class PooledOperatorTests: QuickSpec {
         cache = pooled(internalCache)
       }
       
-      itBehavesLike("a pooled cache") { ["cache": cache, "internalCache": internalCache] }
+      itBehavesLike("a pooled cache") {
+        [
+          "cache": cache,
+          "internalCache": internalCache
+        ]
+      }
     }
   }
 }

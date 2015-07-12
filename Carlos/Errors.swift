@@ -10,10 +10,10 @@ public enum FetchError: Int {
   /// Used when no cache level did find the key
   case NoCacheLevelsRemaining = 9900
   
-  /// Used when the specified fetchable was invalid
-  case InvalidFetchable = 8900
+  /// Used when the specified key was invalid
+  case InvalidKey = 8900
   
-  /// Used when the fetchable doesn't satisfy the cache condition
+  /// Used when the key doesn't satisfy the cache condition
   case ConditionNotSatisfied = 8901
 }
 
