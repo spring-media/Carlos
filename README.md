@@ -11,6 +11,7 @@
 
 - [What is Carlos?](#what-is-carlos)
 - [Installation](#installation)
+- [Requirements](#requirements)
 - [Usage](#usage)
   - [Usage examples](#usage-examples)
   - [Creating requests](#creating-requests)
@@ -55,7 +56,17 @@ pod "Carlos"
 
 If you don't use CocoaPods, you can still add Carlos as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
 
+- Drag `Carlos.xcodeproj` to your project
+- Select your app target
+- Click the `+` button on the `Embedded binaries` section
+- Add `Carlos.framework`
+
 `Carthage` support is in the works.
+
+## Requirements
+
+- iOS 8.0+
+- Xcode 6.3
 
 ## Usage
 
