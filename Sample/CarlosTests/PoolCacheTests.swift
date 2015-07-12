@@ -3,15 +3,15 @@ import Quick
 import Nimble
 import Carlos
 
-class PoolCacheTests: QuickSpec {
-  override func spec() {
-    describe("PoolCache") {
+class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
+  override class func configure(configuration: Configuration) {
+    sharedExamples("a pooled cache") { (sharedExampleContext: SharedExampleContext) in
       var cache: PoolCache<CacheLevelFake<String, Int>>!
       var internalCache: CacheLevelFake<String, Int>!
       
       beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = PoolCache<CacheLevelFake<String, Int>>(internalCache: internalCache)
+        cache = sharedExampleContext()["cache"] as? PoolCache<CacheLevelFake<String, Int>>
+        internalCache = sharedExampleContext()["internalCache"] as? CacheLevelFake<String, Int>
       }
       
       context("when calling get") {
@@ -59,7 +59,7 @@ class PoolCacheTests: QuickSpec {
           it("should pass the right key") {
             expect(internalCache.didGetKey).to(equal(otherKey))
           }
-        
+          
           context("as long as the request doesn't succeed or fail, when other requests with the same key are made") {
             beforeEach {
               cache.get(otherKey)
@@ -241,6 +241,38 @@ class PoolCacheTests: QuickSpec {
           }
         }
       }
+    }
+  }
+}
+
+class PoolCacheTests: QuickSpec {
+  override func spec() {
+    describe("PoolCache") {
+      var cache: PoolCache<CacheLevelFake<String, Int>>!
+      var internalCache: CacheLevelFake<String, Int>!
+      
+      beforeEach {
+        internalCache = CacheLevelFake<String, Int>()
+        cache = PoolCache<CacheLevelFake<String, Int>>(internalCache: internalCache)
+      }
+      
+      itBehavesLike("a pooled cache") { ["cache": cache, "internalCache": internalCache] }
+    }
+  }
+}
+
+class PooledOperatorTests: QuickSpec {
+  override func spec() {
+    describe("PoolCache") {
+      var cache: PoolCache<CacheLevelFake<String, Int>>!
+      var internalCache: CacheLevelFake<String, Int>!
+      
+      beforeEach {
+        internalCache = CacheLevelFake<String, Int>()
+        cache = pooled(internalCache)
+      }
+      
+      itBehavesLike("a pooled cache") { ["cache": cache, "internalCache": internalCache] }
     }
   }
 }
