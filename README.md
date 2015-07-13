@@ -74,7 +74,7 @@ To run the example project, clone the repo.
 
 ### Usage examples
 
-```
+```swift
 let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel()
 ```
 
@@ -86,7 +86,7 @@ Getting a value for a given key on this cache will first try getting it on the m
 
 To fetch a value from a cache, use the `get` method.
 
-```
+```swift
 cache.get("key").onSuccess({ value in
     println("I found \(value)!")
 }).onFailure({ error in
@@ -96,7 +96,7 @@ cache.get("key").onSuccess({ value in
 
 You can also store the request somewhere and then attach multiple `onSuccess` or `onFailure` listeners to it:
 
-```
+```swift
 let request = cache.get("key")
 
 request.onSuccess({ value in
@@ -116,7 +116,7 @@ request.onSuccess({ value in
 
 This cache is not very useful, though. It will never *actively* fetch values, just store them for later use. Let's try to make it more interesting:
 
-```
+```swift
 let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel() >>> NetworkFetcher()
 ```
 
@@ -130,26 +130,26 @@ Key transformations are meant to make it possible to plug cache levels in whatev
 
 Let's see how they work:
 
-```    
+```swift    
 let transformedCache = { NSURL(string: $0)! } =>> NetworkFetcher()
 ``` 
 
 With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into our previous structure:
 
-```
+```swift
 let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel() >>> transformedCache
 ```
 
 or 
 
-```
+```swift
 let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel() >>> ({ NSURL(string: $0)! } =>> NetworkFetcher())
 ```
 
 This will now compile. 
 If this doesn't look very safe (one could always pass string garbage as a key and it won't magically translate to a `NSURL`!), we can still use a domain specific structure as a key, assuming it contains both `String` and `NSURL` values:
 
-```
+```swift
 struct Image {
   let identifier: String
   let URL: NSURL
@@ -174,7 +174,7 @@ let cache = memoryLevel >>> diskLevel >>> networkLevel
 
 Now we can perform safe requests like this:
 
-```
+```swift
 let image = Image(identifier: "550e8400-e29b-41d4-a716-446655440000", URL: NSURL(string: "http://goo.gl/KcGz8T")!)
 
 cache.get(image).onSuccess({ value in
@@ -190,7 +190,7 @@ What if our disk cache only stores `NSData`, but we want our memory cache to con
 
 Value transformers let you have a cache that (let's say) stores `NSData` and mutate it to a cache that stores `UIImage` values. Let's see how:
 
-```
+```swift
 let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> NSData in
     UIImagePNGRepresentation(image)
 }, inverseTransform: { (data: NSData) -> UIImage in
@@ -209,14 +209,14 @@ When you have a working cache, but some of your levels are expensive (say a Netw
 
 This functionality comes with Carlos.
 
-```
+```swift
 let cache = pooled(memoryLevel >>> diskLevel >>> networkLevel)
 ```
 
 Keep in mind that the key must conform to the `Hashable` protocol for the `pooled` function to work:
 
 
-```
+```swift
 extension Image: Hashable {
   var hashValue: Int {
     return identifier.hashValue
@@ -238,7 +238,7 @@ Now we can execute multiple fetches for the same `Image` value and be sure that 
 
 Sometimes we may have levels that should only be queried under some conditions. Let's say we have a `DatabaseLevel` that should only be triggered when users enable a given setting in the app that actually starts storing data in the database. We may want to avoid accessing the database if the setting is disabled in the first place.
 
-```
+```swift
 let conditionedCache = conditioned(cache, { key in
   return (appSettingIsEnabled, nil)
 })
@@ -248,7 +248,7 @@ The closure gets the key the cache was asked to fetch and has to return a boolea
 
 The same effect can be obtained through the `<?>` operator:
 
-```
+```swift
 let conditionedCache = { key in
   return (appSettingIsEnabled, nil)
 } <?> cache
@@ -260,13 +260,13 @@ At runtime, if the variable `appSettingIsEnabled` is `false`, the `get` request 
 
 If we store big objects in memory in our cache levels, we may want to be notified of memory warning events. This is where the `listenToMemoryWarnings` and `unsubscribeToMemoryWarnings` functions come handy:
 
-```
+```swift
 let token = listenToMemoryWarnings(cache)
 ```
 
 and later
 
-```
+```swift
 unsubscribeToMemoryWarnings(token)
 ```
 
@@ -281,7 +281,7 @@ Creating custom levels is easy and encouraged (there are multiple cache librarie
 
 Let's see how to do it:
 
-```
+```swift
 class MyLevel: CacheLevel {
   typealias KeyType = Int
   typealias OutputType = Float
@@ -329,7 +329,7 @@ This sample cache can now be pipelined to a list of other caches, transforming i
 
 Sometimes we could have simple fetchers that don't need `set`, `clear` and `onMemoryWarning` implementations because they don't store anything. In this case we can pipeline fetch closures instead of full-blown caches.
 
-```
+```swift
 let fetcherLevel = { (image: Image) -> CacheRequest<NSData> in
     let request = CacheRequest<NSData>()
       
@@ -342,7 +342,7 @@ let fetcherLevel = { (image: Image) -> CacheRequest<NSData> in
 
 This fetcher can be plugged in and replace the `NetworkFetcher` for example:
 
-```
+```swift
 let cache = pooled(memoryLevel >>> diskLevel >>> fetcherLevel)
 ```
 
