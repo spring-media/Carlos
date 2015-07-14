@@ -129,7 +129,7 @@ public class DiskCacheLevel: CacheLevel {
     let path = pathForKey(key)
     let previousAttributes: NSDictionary? = fileManager.attributesOfItemAtPath(path, error: nil)
     if !data.writeToFile(path, options: .AtomicWrite, error: nil) {
-      Logger.log("Failed to write key \(key) on the disk cache")
+      Logger.log("Failed to write key \(key) on the disk cache", .Error)
     }
     
     size += UInt64(max(0, data.length - Int((previousAttributes?.fileSize() ?? 0))))
