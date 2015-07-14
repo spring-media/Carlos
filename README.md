@@ -374,7 +374,7 @@ Carlos was made in-house by WeltN24
 
 Vittorio Monaco, vittorio.monaco@weltn24.de, @vittoriom
 
-Esad Hajradevic, @esad
+Esad Hajdarevic, @esad
 
 ## License
 
