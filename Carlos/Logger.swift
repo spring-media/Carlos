@@ -8,7 +8,7 @@ class Logger {
   }
 
   private static let queue = {
-    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "logger", nil)
+    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "logger", DISPATCH_QUEUE_SERIAL)
   }
 
   /**
