@@ -82,7 +82,7 @@ public class NetworkFetcher: CacheLevel {
       result.succeed(data)
       self.pendingRequests[key.absoluteString!] = nil
     }, failure: { error in
-      Logger.log("Failed fetching \(key) from the network fetcher", level: Logger.Level.Error)
+      Logger.log("Failed fetching \(key) from the network fetcher", level: .Error)
       result.fail(error)
       self.pendingRequests[key.absoluteString!] = nil
     })
