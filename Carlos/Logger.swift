@@ -27,7 +27,7 @@ public class Logger {
   
   :discussion: This method uses the output closure internally to output the message
   */
-  public static func log(message: String, level: Level = Level.Debug) {
+  public static func log(message: String, _ level: Level = Level.Debug) {
     output(message, level)
   }
 }
