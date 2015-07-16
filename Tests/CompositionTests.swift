@@ -459,11 +459,11 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
 
 class CompositionTests: QuickSpec {
   override func spec() {
+    var cache1: CacheLevelFake<String, Int>!
+    var cache2: CacheLevelFake<String, Int>!
+    var composedCache: BasicCache<String, Int>!
+    
     describe("Cache composition using two cache levels with the global function") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
@@ -481,10 +481,6 @@ class CompositionTests: QuickSpec {
     }
     
     describe("Cache composition using two cache levels with the operator") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
@@ -502,10 +498,6 @@ class CompositionTests: QuickSpec {
     }
     
     describe("Cache composition using a cache level and a fetch closure, with the global function") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
@@ -523,10 +515,6 @@ class CompositionTests: QuickSpec {
     }
     
     describe("Cache composition using a cache level and a fetch closure, with the operator") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
@@ -544,10 +532,6 @@ class CompositionTests: QuickSpec {
     }
     
     describe("Cache composition using a fetch closure and a cache level, with the global function") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
@@ -565,10 +549,6 @@ class CompositionTests: QuickSpec {
     }
     
     describe("Cache composition using a fetch closure and a cache level, with the operator") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
@@ -586,10 +566,6 @@ class CompositionTests: QuickSpec {
     }
     
     describe("Cache composition using two fetch closures, with the global function") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
@@ -607,10 +583,6 @@ class CompositionTests: QuickSpec {
     }
     
     describe("Cache composition using two fetch closures, with the operator") {
-      var cache1: CacheLevelFake<String, Int>!
-      var cache2: CacheLevelFake<String, Int>!
-      var composedCache: BasicCache<String, Int>!
-      
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()

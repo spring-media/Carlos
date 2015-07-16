@@ -128,11 +128,11 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
 
 class KeyTransformationTests: QuickSpec {
   override func spec() {
+    var cache: BasicCache<Int, Int>!
+    var internalCache: CacheLevelFake<String, Int>!
+    var transformer: OneWayTransformationBox<Int, String>!
+    
     describe("Key transformation using a transformer and a cache, with the global function") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         transformer = OneWayTransformationBox<Int, String>(transform: { "\($0 + 1)" })
@@ -149,10 +149,6 @@ class KeyTransformationTests: QuickSpec {
     }
     
     describe("Key transformation using a transformer and a cache, with the operator") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         transformer = OneWayTransformationBox<Int, String>(transform: { "\($0 + 1)" })
@@ -169,10 +165,6 @@ class KeyTransformationTests: QuickSpec {
     }
     
     describe("Key transformation using a transformation closure and a cache, with the global function") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         let transformationClosure: Int -> String = { "\($0 + 1)" }
@@ -190,10 +182,6 @@ class KeyTransformationTests: QuickSpec {
     }
     
     describe("Key transformation using a transformation closure and a cache, with the operator") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         let transformationClosure: Int -> String = { "\($0 + 1)" }
@@ -211,10 +199,6 @@ class KeyTransformationTests: QuickSpec {
     }
     
     describe("Key transformation using a transformation closure and a fetch closure, with the global function") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         let transformationClosure: Int -> String = { "\($0 + 1)" }
@@ -233,10 +217,6 @@ class KeyTransformationTests: QuickSpec {
     }
     
     describe("Key transformation using a transformation closure and a fetch closure, with the operator") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         let transformationClosure: Int -> String = { "\($0 + 1)" }
@@ -255,10 +235,6 @@ class KeyTransformationTests: QuickSpec {
     }
     
     describe("Key transformation using a transformer and a fetch closure, with the global function") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         let fetchClosure = internalCache.get
@@ -276,9 +252,6 @@ class KeyTransformationTests: QuickSpec {
     }
     
     describe("Key transformation using a transformer and a fetch closure, with the operator") {
-      var cache: BasicCache<Int, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: OneWayTransformationBox<Int, String>!
       
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()

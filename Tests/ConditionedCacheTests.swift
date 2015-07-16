@@ -154,11 +154,11 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
 
 class ConditionedCacheTests: QuickSpec {
   override func spec() {
+    var cache: BasicCache<String, Int>!
+    var internalCache: CacheLevelFake<String, Int>!
+    let errorCode = 101
+    
     describe("The conditioned function") {
-      var cache: BasicCache<String, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      let errorCode = 101
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = conditioned(internalCache, { key in
@@ -174,21 +174,13 @@ class ConditionedCacheTests: QuickSpec {
         ]
       }
     }
-  }
-}
-
-class ConditionedOperatorTests: QuickSpec {
-  override func spec() {
+    
     describe("The conditioned cache operator") {
-      var cache: BasicCache<String, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      let errorCode = 101
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = { key in
           return (count(key) >= 5, NSError(domain: "Test", code: errorCode, userInfo: nil))
-        } <?> internalCache
+          } <?> internalCache
       }
       
       itBehavesLike("a conditioned cache") {

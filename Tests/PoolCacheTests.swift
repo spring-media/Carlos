@@ -247,10 +247,10 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
 
 class PoolCacheTests: QuickSpec {
   override func spec() {
+    var cache: PoolCache<CacheLevelFake<String, Int>>!
+    var internalCache: CacheLevelFake<String, Int>!
+    
     describe("PoolCache") {
-      var cache: PoolCache<CacheLevelFake<String, Int>>!
-      var internalCache: CacheLevelFake<String, Int>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = PoolCache<CacheLevelFake<String, Int>>(internalCache: internalCache)
@@ -263,15 +263,8 @@ class PoolCacheTests: QuickSpec {
         ]
       }
     }
-  }
-}
-
-class PooledOperatorTests: QuickSpec {
-  override func spec() {
+    
     describe("The pooled function") {
-      var cache: PoolCache<CacheLevelFake<String, Int>>!
-      var internalCache: CacheLevelFake<String, Int>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = pooled(internalCache)

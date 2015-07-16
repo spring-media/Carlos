@@ -132,11 +132,11 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
 
 class ValueTransformationTests: QuickSpec {
   override func spec() {
+    var cache: BasicCache<String, String>!
+    var internalCache: CacheLevelFake<String, Int>!
+    var transformer: TwoWayTransformationBox<Int, String>!
+    
     describe("Value transformation using a transformer and a cache, with the global function") {
-      var cache: BasicCache<String, String>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: TwoWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         transformer = TwoWayTransformationBox(transform: { "\($0)" }, inverseTransform: { $0.toInt()! })
@@ -153,10 +153,6 @@ class ValueTransformationTests: QuickSpec {
     }
     
     describe("Value transformation using a transformer and a cache, with the operator") {
-      var cache: BasicCache<String, String>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: TwoWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         transformer = TwoWayTransformationBox(transform: { "\($0)" }, inverseTransform: { $0.toInt()! })
@@ -173,10 +169,6 @@ class ValueTransformationTests: QuickSpec {
     }
     
     describe("Value transformation using a transformer and a fetch closure, with the global function") {
-      var cache: BasicCache<String, String>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: TwoWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         transformer = TwoWayTransformationBox(transform: { "\($0)" }, inverseTransform: { $0.toInt()! })
@@ -194,10 +186,6 @@ class ValueTransformationTests: QuickSpec {
     }
     
     describe("Value transformation using a transformer and a fetch closure, with the operator") {
-      var cache: BasicCache<String, String>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: TwoWayTransformationBox<Int, String>!
-      
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         transformer = TwoWayTransformationBox(transform: { "\($0)" }, inverseTransform: { $0.toInt()! })
