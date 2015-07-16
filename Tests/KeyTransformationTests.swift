@@ -3,6 +3,12 @@ import Quick
 import Nimble
 import Carlos
 
+private struct KeyTransformationsSharedExamplesContext {
+  static let CacheToTest = "cache"
+  static let InternalCache = "internalCache"
+  static let Transformer = "transformer"
+}
+
 class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
     sharedExamples("a fetch closure with transformed keys") { (sharedExampleContext: SharedExampleContext) in
@@ -11,9 +17,9 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       var transformer: OneWayTransformationBox<Int, String>!
       
       beforeEach {
-        cache = sharedExampleContext()["cache"] as? BasicCache<Int, Int>
-        internalCache = sharedExampleContext()["internalCache"] as? CacheLevelFake<String, Int>
-        transformer = sharedExampleContext()["transformer"] as? OneWayTransformationBox<Int, String>
+        cache = sharedExampleContext()[KeyTransformationsSharedExamplesContext.CacheToTest] as? BasicCache<Int, Int>
+        internalCache = sharedExampleContext()[KeyTransformationsSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
+        transformer = sharedExampleContext()[KeyTransformationsSharedExamplesContext.Transformer] as? OneWayTransformationBox<Int, String>
       }
       
       context("when calling get") {
@@ -69,16 +75,16 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       var transformer: OneWayTransformationBox<Int, String>!
       
       beforeEach {
-        cache = sharedExampleContext()["cache"] as? BasicCache<Int, Int>
-        internalCache = sharedExampleContext()["internalCache"] as? CacheLevelFake<String, Int>
-        transformer = sharedExampleContext()["transformer"] as? OneWayTransformationBox<Int, String>
+        cache = sharedExampleContext()[KeyTransformationsSharedExamplesContext.CacheToTest] as? BasicCache<Int, Int>
+        internalCache = sharedExampleContext()[KeyTransformationsSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
+        transformer = sharedExampleContext()[KeyTransformationsSharedExamplesContext.Transformer] as? OneWayTransformationBox<Int, String>
       }
       
       itBehavesLike("a fetch closure with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
       
@@ -141,9 +147,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -157,9 +163,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -174,9 +180,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -191,9 +197,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -209,9 +215,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -227,9 +233,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -244,9 +250,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -262,9 +268,9 @@ class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed keys") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }

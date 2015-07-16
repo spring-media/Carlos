@@ -3,6 +3,12 @@ import Quick
 import Nimble
 import Carlos
 
+private struct ValueTransformationsSharedExamplesContext {
+  static let CacheToTest = "cache"
+  static let InternalCache = "internalCache"
+  static let Transformer = "transformer"
+}
+
 class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
     sharedExamples("a fetch closure with transformed values") { (sharedExampleContext: SharedExampleContext) in
@@ -11,9 +17,9 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
       var transformer: TwoWayTransformationBox<Int, String>!
       
       beforeEach {
-        cache = sharedExampleContext()["cache"] as? BasicCache<String, String>
-        internalCache = sharedExampleContext()["internalCache"] as? CacheLevelFake<String, Int>
-        transformer = sharedExampleContext()["transformer"] as? TwoWayTransformationBox<Int, String>
+        cache = sharedExampleContext()[ValueTransformationsSharedExamplesContext.CacheToTest] as? BasicCache<String, String>
+        internalCache = sharedExampleContext()[ValueTransformationsSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
+        transformer = sharedExampleContext()[ValueTransformationsSharedExamplesContext.Transformer] as? TwoWayTransformationBox<Int, String>
       }
       
       context("when calling get") {
@@ -73,16 +79,16 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
       var transformer: TwoWayTransformationBox<Int, String>!
       
       beforeEach {
-        cache = sharedExampleContext()["cache"] as? BasicCache<String, String>
-        internalCache = sharedExampleContext()["internalCache"] as? CacheLevelFake<String, Int>
-        transformer = sharedExampleContext()["transformer"] as? TwoWayTransformationBox<Int, String>
+        cache = sharedExampleContext()[ValueTransformationsSharedExamplesContext.CacheToTest] as? BasicCache<String, String>
+        internalCache = sharedExampleContext()[ValueTransformationsSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
+        transformer = sharedExampleContext()[ValueTransformationsSharedExamplesContext.Transformer] as? TwoWayTransformationBox<Int, String>
       }
       
       itBehavesLike("a fetch closure with transformed values") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
+          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
+          ValueTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
       
@@ -145,9 +151,9 @@ class ValueTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed values") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
+          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
+          ValueTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -161,9 +167,9 @@ class ValueTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed values") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
+          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
+          ValueTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -178,9 +184,9 @@ class ValueTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed values") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
+          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
+          ValueTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }
@@ -195,9 +201,9 @@ class ValueTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed values") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "transformer": transformer
+          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
+          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
+          ValueTransformationsSharedExamplesContext.Transformer: transformer
         ]
       }
     }

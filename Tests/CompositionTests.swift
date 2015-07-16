@@ -3,6 +3,12 @@ import Quick
 import Nimble
 import Carlos
 
+private struct ComposedCacheSharedExamplesContext {
+  static let CacheToTest = "composedCache"
+  static let FirstComposedCache = "cache1"
+  static let SecondComposedCache = "cache2"
+}
+
 class CompositionSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
     sharedExamples("get without considering set calls") { (sharedExampleContext: SharedExampleContext) in
@@ -11,9 +17,9 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
       context("when calling get") {
@@ -160,9 +166,9 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
       context("when calling get") {
@@ -196,9 +202,9 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         itBehavesLike("get without considering set calls") {
           [
-            "cache1": cache1,
-            "cache2": cache2,
-            "composedCache": composedCache
+            ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+            ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+            ComposedCacheSharedExamplesContext.CacheToTest: composedCache
           ]
         }
         
@@ -243,9 +249,9 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
       context("when calling set") {
@@ -296,9 +302,9 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
           
       context("when calling set") {
@@ -349,16 +355,16 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
       itBehavesLike("get without considering set calls") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -369,24 +375,24 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
       itBehavesLike("get without considering set calls") {
         [
-        "cache1": cache1,
-        "cache2": cache2,
-        "composedCache": composedCache
+        ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+        ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+        ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
       
       itBehavesLike("second cache is a cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -397,24 +403,24 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
 
       itBehavesLike("get on caches") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
 
       itBehavesLike("first cache is a cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -425,32 +431,32 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
-        cache1 = sharedExampleContext()["cache1"] as? CacheLevelFake<String, Int>
-        cache2 = sharedExampleContext()["cache2"] as? CacheLevelFake<String, Int>
-        composedCache = sharedExampleContext()["composedCache"] as? BasicCache<String, Int>
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
       itBehavesLike("get on caches") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
         
       itBehavesLike("first cache is a cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
       
       itBehavesLike("second cache is a cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -473,9 +479,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composed cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -490,9 +496,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composed cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -507,9 +513,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composition of a cache and a fetch closure") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -524,9 +530,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composition of a cache and a fetch closure") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -541,9 +547,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composition of a fetch closure and a cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -558,9 +564,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composition of a fetch closure and a cache") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -575,9 +581,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composition of two fetch closures") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }
@@ -592,9 +598,9 @@ class CompositionTests: QuickSpec {
       
       itBehavesLike("a composition of two fetch closures") {
         [
-          "cache1": cache1,
-          "cache2": cache2,
-          "composedCache": composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
     }

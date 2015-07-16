@@ -3,6 +3,12 @@ import Quick
 import Nimble
 import Carlos
 
+private struct ConditionedCacheSharedExamplesContext {
+  static let CacheToTest = "cache"
+  static let InternalCache = "internalCache"
+  static let ErrorCode = "errorCode"
+}
+
 class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
     sharedExamples("a conditioned cache") { (sharedExampleContext: SharedExampleContext) in
@@ -11,9 +17,9 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
       var errorCode: Int!
       
       beforeEach {
-        cache = sharedExampleContext()["cache"] as? BasicCache<String, Int>
-        internalCache = sharedExampleContext()["internalCache"] as? CacheLevelFake<String, Int>
-        errorCode = sharedExampleContext()["errorCode"] as? Int
+        cache = sharedExampleContext()[ConditionedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
+        internalCache = sharedExampleContext()[ConditionedCacheSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
+        errorCode = sharedExampleContext()[ConditionedCacheSharedExamplesContext.ErrorCode] as? Int
       }
       
       context("when calling get") {
@@ -168,9 +174,9 @@ class ConditionedCacheTests: QuickSpec {
       
       itBehavesLike("a conditioned cache") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "errorCode": errorCode
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
+          ConditionedCacheSharedExamplesContext.ErrorCode: errorCode
         ]
       }
     }
@@ -185,9 +191,9 @@ class ConditionedCacheTests: QuickSpec {
       
       itBehavesLike("a conditioned cache") {
         [
-          "cache": cache,
-          "internalCache": internalCache,
-          "errorCode": errorCode
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
+          ConditionedCacheSharedExamplesContext.ErrorCode: errorCode
         ]
       }
     }

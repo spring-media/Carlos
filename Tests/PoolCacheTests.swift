@@ -3,6 +3,11 @@ import Quick
 import Nimble
 import Carlos
 
+private struct PoolCacheSharedExamplesContext {
+  static let CacheToTest = "cache"
+  static let InternalCache = "internalCache"
+}
+
 class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
     sharedExamples("a pooled cache") { (sharedExampleContext: SharedExampleContext) in
@@ -10,8 +15,8 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
       var internalCache: CacheLevelFake<String, Int>!
       
       beforeEach {
-        cache = sharedExampleContext()["cache"] as? PoolCache<CacheLevelFake<String, Int>>
-        internalCache = sharedExampleContext()["internalCache"] as? CacheLevelFake<String, Int>
+        cache = sharedExampleContext()[PoolCacheSharedExamplesContext.CacheToTest] as? PoolCache<CacheLevelFake<String, Int>>
+        internalCache = sharedExampleContext()[PoolCacheSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
       }
       
       context("when calling get") {
@@ -258,8 +263,8 @@ class PoolCacheTests: QuickSpec {
       
       itBehavesLike("a pooled cache") {
         [
-          "cache": cache,
-          "internalCache": internalCache
+          PoolCacheSharedExamplesContext.CacheToTest: cache,
+          PoolCacheSharedExamplesContext.InternalCache: internalCache
         ]
       }
     }
@@ -272,8 +277,8 @@ class PoolCacheTests: QuickSpec {
       
       itBehavesLike("a pooled cache") {
         [
-          "cache": cache,
-          "internalCache": internalCache
+          PoolCacheSharedExamplesContext.CacheToTest: cache,
+          PoolCacheSharedExamplesContext.InternalCache: internalCache
         ]
       }
     }
