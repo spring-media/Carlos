@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Platform](https://img.shields.io/cocoapods/p/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 
-> A simple but flexible cache.
+> A simple but flexible cache, written in Swift for iOS apps.
 
 # Contents of this Readme
 
@@ -66,7 +66,7 @@ If you don't use CocoaPods, you can still add Carlos as a submodule, drag and dr
 ## Requirements
 
 - iOS 8.0+
-- Xcode 6.3
+- Xcode 6.3+
 
 ## Usage
 
