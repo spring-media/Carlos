@@ -1,5 +1,27 @@
 import Foundation
 
+/**
+Wraps a CacheLevel with a requests pool
+
+:param: cache The cache level you want to decorate
+
+:returns: A PoolCache that will pool requests coming to the decorated cache. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
+*/
+public func pooled<A: CacheLevel where A.KeyType: Hashable>(cache: A) -> PoolCache<A> {
+  return PoolCache(internalCache: cache)
+}
+
+/**
+Wraps a fetcher closure with a requests pool
+
+:param: fetcherClosure The fetcher closure you want to decorate
+
+:returns: A PoolCache that will pool requests coming to the closure. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
+*/
+public func pooled<A, B>(fetcherClosure: (key: A) -> CacheRequest<B>) -> PoolCache<BasicCache<A, B>> {
+  return pooled(wrapClosureIntoCacheLevel(fetcherClosure))
+}
+
 public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLevel {
   public typealias KeyType = C.KeyType
   public typealias OutputType = C.OutputType

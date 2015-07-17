@@ -39,7 +39,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 :returns: A new cache level result of the transformation of the original cache level
 */
 public func transformKeys<A: CacheLevel, B: OneWayTransformer where A.KeyType == B.TypeOut>(transformer: B, cache: A) -> BasicCache<B.TypeIn, A.OutputType> {
-  return BasicCache<B.TypeIn, A.OutputType>(
+  return BasicCache(
     getClosure: { key in
       return cache.get(transformer.transform(key))
     }, setClosure: { (key, value) in

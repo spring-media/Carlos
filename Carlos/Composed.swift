@@ -23,7 +23,7 @@ Composes two cache levels
 :returns: A new cache level that is the result of the composition of the two cache levels
 */
 public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
-  return BasicCache<A.KeyType, A.OutputType>(
+  return BasicCache(
     getClosure: { key in
       let request = CacheRequest<A.OutputType>()
       

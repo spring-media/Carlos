@@ -38,7 +38,6 @@
 		52635A5B1B4F0F6F00F187EE /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A481B4F0F6F00F187EE /* NetworkFetcher.swift */; };
 		52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */; };
 		52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4A1B4F0F6F00F187EE /* PoolCache.swift */; };
-		52635A5E1B4F0F6F00F187EE /* Pooled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4B1B4F0F6F00F187EE /* Pooled.swift */; };
 		52635A5F1B4F0F6F00F187EE /* ValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */; };
 		52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
 		52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
@@ -191,7 +190,6 @@
 		52635A481B4F0F6F00F187EE /* NetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
 		52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformer.swift; sourceTree = "<group>"; };
 		52635A4A1B4F0F6F00F187EE /* PoolCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCache.swift; sourceTree = "<group>"; };
-		52635A4B1B4F0F6F00F187EE /* Pooled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pooled.swift; sourceTree = "<group>"; };
 		52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformation.swift; sourceTree = "<group>"; };
 		52635A4D1B4F0F6F00F187EE /* Transformers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformers.swift; sourceTree = "<group>"; };
 		52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformer.swift; sourceTree = "<group>"; };
@@ -272,7 +270,6 @@
 				52635A481B4F0F6F00F187EE /* NetworkFetcher.swift */,
 				52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */,
 				52635A4A1B4F0F6F00F187EE /* PoolCache.swift */,
-				52635A4B1B4F0F6F00F187EE /* Pooled.swift */,
 				52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */,
 				52635A4D1B4F0F6F00F187EE /* Transformers.swift */,
 				52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */,
@@ -646,7 +643,6 @@
 				526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
-				52635A5E1B4F0F6F00F187EE /* Pooled.swift in Sources */,
 				52635A561B4F0F6F00F187EE /* Errors.swift in Sources */,
 				52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */,
 				52635A551B4F0F6F00F187EE /* DiskCacheLevel.swift in Sources */,

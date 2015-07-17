@@ -6,13 +6,13 @@ internal struct CarlosGlobals {
 }
 
 internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
-  return BasicCache<A, B>(getClosure: { key in
+  return BasicCache(getClosure: { key in
     return closure(key: key)
   }, setClosure: { (_, _) in }, clearClosure: { }, memoryClosure: { })
 }
 
 internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> B) -> OneWayTransformationBox<A, B> {
-  return OneWayTransformationBox<A, B>(transform: transformerClosure)
+  return OneWayTransformationBox(transform: transformerClosure)
 }
 
 infix operator =>> { associativity left }

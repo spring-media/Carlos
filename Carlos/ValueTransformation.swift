@@ -55,7 +55,7 @@ Use this transformation when you store a value type but want to mount the cache 
 :returns: A new cache result of the transformation of the original cache
 */
 public func transformValues<A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> {
-  return BasicCache<A.KeyType, B.TypeOut>(
+  return BasicCache(
     getClosure: { key in
       return mutateCacheRequest(cache.get(key), transformer)
     }, setClosure: { (key, value) in

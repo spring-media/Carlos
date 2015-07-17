@@ -27,7 +27,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 :discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
 public func conditioned<A: CacheLevel>(cache: A, condition: (A.KeyType) -> (Bool, NSError?)) -> BasicCache<A.KeyType, A.OutputType> {
-  return BasicCache<A.KeyType, A.OutputType>(
+  return BasicCache(
     getClosure: { (key) in
       let request = CacheRequest<A.OutputType>()
       
