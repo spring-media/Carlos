@@ -24,12 +24,6 @@ public func capRequests<A, B>(fetcherClosure: (key: A) -> CacheRequest<B>, reque
   return capRequests(wrapClosureIntoCacheLevel(fetcherClosure), requestsCap)
 }
 
-/// Keep track of pending requests by key and a decoy request
-private struct PendingRequest<A, B> {
-  let key: A
-  let request: CacheRequest<B>
-}
-
 /** 
 This class keeps track of how many ongoing requests there are for a given cache and takes care of having a cap of maximum concurrent requests in case parallel access can be expensive (e.g. database or network requests).
 
