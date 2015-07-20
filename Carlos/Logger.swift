@@ -28,6 +28,7 @@ public class Logger {
   :discussion: This method uses the output closure internally to output the message
   */
   public static func log(message: String, _ level: Level = Level.Debug) {
+    //TODO: Should we always dispatch on the main queue? What happens if a client sets an output closure? We shouldn't want him to also create a queue just to make sure that all the operations he writes in the closure will be executed on the same (or main) queue..
     output(message, level)
   }
 }
