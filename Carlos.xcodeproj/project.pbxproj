@@ -12,6 +12,8 @@
 		524840531B5D2B5300450D56 /* ExamplesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524840521B5D2B5300450D56 /* ExamplesListViewController.swift */; };
 		524840551B5D2D4400450D56 /* ExampleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524840541B5D2D4400450D56 /* ExampleCell.swift */; };
 		524840571B5D323400450D56 /* SimpleCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524840561B5D323400450D56 /* SimpleCacheSampleViewController.swift */; };
+		5248405B1B5D4E2E00450D56 /* MemoryWarningSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5248405A1B5D4E2E00450D56 /* MemoryWarningSampleViewController.swift */; };
+		524840671B5D4F9E00450D56 /* BaseCacheViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524840661B5D4F9E00450D56 /* BaseCacheViewController.swift */; };
 		526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339741B52435C00074CB9 /* KeyTransformation.swift */; };
 		526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339761B52450C00074CB9 /* ConditionedCacheTests.swift */; };
 		526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339781B524B3400074CB9 /* CacheRequestTests.swift */; };
@@ -167,6 +169,8 @@
 		524840521B5D2B5300450D56 /* ExamplesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExamplesListViewController.swift; sourceTree = "<group>"; };
 		524840541B5D2D4400450D56 /* ExampleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleCell.swift; sourceTree = "<group>"; };
 		524840561B5D323400450D56 /* SimpleCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleCacheSampleViewController.swift; sourceTree = "<group>"; };
+		5248405A1B5D4E2E00450D56 /* MemoryWarningSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryWarningSampleViewController.swift; sourceTree = "<group>"; };
+		524840661B5D4F9E00450D56 /* BaseCacheViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCacheViewController.swift; sourceTree = "<group>"; };
 		526339741B52435C00074CB9 /* KeyTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformation.swift; sourceTree = "<group>"; };
 		526339761B52450C00074CB9 /* ConditionedCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedCacheTests.swift; sourceTree = "<group>"; };
 		526339781B524B3400074CB9 /* CacheRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRequestTests.swift; sourceTree = "<group>"; };
@@ -367,6 +371,8 @@
 				524840521B5D2B5300450D56 /* ExamplesListViewController.swift */,
 				524840541B5D2D4400450D56 /* ExampleCell.swift */,
 				524840561B5D323400450D56 /* SimpleCacheSampleViewController.swift */,
+				5248405A1B5D4E2E00450D56 /* MemoryWarningSampleViewController.swift */,
+				524840661B5D4F9E00450D56 /* BaseCacheViewController.swift */,
 			);
 			path = Sample;
 			sourceTree = SOURCE_ROOT;
@@ -690,6 +696,8 @@
 				524840531B5D2B5300450D56 /* ExamplesListViewController.swift in Sources */,
 				AD695CE51B46CD65004E998D /* AppDelegate.swift in Sources */,
 				524840571B5D323400450D56 /* SimpleCacheSampleViewController.swift in Sources */,
+				524840671B5D4F9E00450D56 /* BaseCacheViewController.swift in Sources */,
+				5248405B1B5D4E2E00450D56 /* MemoryWarningSampleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VM7-XC-H0K">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Examples List View Controller-->
@@ -70,6 +71,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="pIu-kR-eaS" kind="show" identifier="simpleCache" id="5dU-FT-vcl"/>
+                        <segue destination="cPe-S0-2ZW" kind="show" identifier="memoryWarning" id="Q7g-M3-nP3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -151,6 +153,97 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0gK-iK-6sw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1878" y="325"/>
+        </scene>
+        <!--Memory Warning Sample View Controller-->
+        <scene sceneID="hma-DI-OkF">
+            <objects>
+                <viewController id="cPe-S0-2ZW" customClass="MemoryWarningSampleViewController" customModule="CarlosSample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lGA-6z-QuD"/>
+                        <viewControllerLayoutGuide type="bottom" id="odO-Gz-ACa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wfX-xx-MEv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sad-b1-Sf1">
+                                <rect key="frame" x="15" y="50" width="570" height="466"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZeE-lX-MYe">
+                                <rect key="frame" x="15" y="15" width="34" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UcN-2z-7j8">
+                                <rect key="frame" x="57" y="10" width="298" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="cPe-S0-2ZW" id="vOp-Kn-4b0"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LSb-vc-hw5">
+                                <rect key="frame" x="405" y="10" width="179" height="30"/>
+                                <state key="normal" title="Simulate memory warning">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="simulateMemoryWarning:" destination="cPe-S0-2ZW" eventType="touchUpInside" id="36R-6L-W7c"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKd-Xf-aTr">
+                                <rect key="frame" x="365" y="10" width="30" height="30"/>
+                                <state key="normal" title="GET">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fetchButtonTapped:" destination="cPe-S0-2ZW" eventType="touchUpInside" id="2LI-gz-Ndz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="odO-Gz-ACa" firstAttribute="top" secondItem="sad-b1-Sf1" secondAttribute="bottom" constant="20" id="75R-bY-2bh"/>
+                            <constraint firstItem="ZeE-lX-MYe" firstAttribute="leading" secondItem="wfX-xx-MEv" secondAttribute="leading" constant="15" id="98s-yv-TMK"/>
+                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="JfM-a2-tv0"/>
+                            <constraint firstItem="sad-b1-Sf1" firstAttribute="top" secondItem="UcN-2z-7j8" secondAttribute="bottom" constant="10" id="LCI-VZ-S3v"/>
+                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="centerY" secondItem="LSb-vc-hw5" secondAttribute="centerY" id="LjY-5z-L3n"/>
+                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="LSb-vc-hw5" secondAttribute="trailing" constant="15" id="MYM-My-Sc6"/>
+                            <constraint firstItem="UcN-2z-7j8" firstAttribute="centerY" secondItem="aKd-Xf-aTr" secondAttribute="centerY" id="Qd5-eU-WaN"/>
+                            <constraint firstItem="UcN-2z-7j8" firstAttribute="leading" secondItem="ZeE-lX-MYe" secondAttribute="trailing" constant="8" id="aOp-mr-EF5"/>
+                            <constraint firstItem="ZeE-lX-MYe" firstAttribute="top" secondItem="lGA-6z-QuD" secondAttribute="bottom" constant="15" id="cgO-By-MJg"/>
+                            <constraint firstItem="ZeE-lX-MYe" firstAttribute="centerY" secondItem="UcN-2z-7j8" secondAttribute="centerY" id="iLe-ba-FKz"/>
+                            <constraint firstItem="ZeE-lX-MYe" firstAttribute="top" secondItem="wfX-xx-MEv" secondAttribute="top" constant="15" id="j3U-fG-vQy"/>
+                            <constraint firstAttribute="trailing" secondItem="sad-b1-Sf1" secondAttribute="trailing" constant="15" id="kdC-7e-N73"/>
+                            <constraint firstItem="sad-b1-Sf1" firstAttribute="leading" secondItem="wfX-xx-MEv" secondAttribute="leading" constant="15" id="nUp-ab-dyE"/>
+                            <constraint firstItem="LSb-vc-hw5" firstAttribute="leading" secondItem="aKd-Xf-aTr" secondAttribute="trailing" constant="10" id="vtB-0g-SjT"/>
+                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="UcN-2z-7j8" secondAttribute="trailing" constant="10" id="xd5-Xo-icA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="xka-DN-lvr"/>
+                            <constraint firstAttribute="trailing" secondItem="aKd-Xf-aTr" secondAttribute="trailing" constant="15" id="yDy-4M-x7H"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="j3U-fG-vQy"/>
+                                <exclude reference="JfM-a2-tv0"/>
+                                <exclude reference="MYM-My-Sc6"/>
+                                <exclude reference="yDy-4M-x7H"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="eventsLogView" destination="sad-b1-Sf1" id="Ghy-FJ-gwc"/>
+                        <outlet property="fetchButton" destination="aKd-Xf-aTr" id="Xrn-vK-1Fr"/>
+                        <outlet property="urlKeyField" destination="UcN-2z-7j8" id="A4D-vD-O79"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vs5-mw-GDF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1878" y="1005"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UhF-5b-PDi">

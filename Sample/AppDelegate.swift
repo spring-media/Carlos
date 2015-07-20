@@ -1,4 +1,5 @@
 import UIKit
+import Carlos
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -9,4 +10,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     return true
   }
+}
+
+func simpleCache() -> BasicCache<NSURL, NSData> {
+  return ({ (input: NSURL) -> String in
+    input.absoluteString!
+  } =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> NetworkFetcher()
 }

@@ -2,45 +2,22 @@ import Foundation
 import UIKit
 import Carlos
 
-class SimpleCacheSampleViewController: UIViewController {
-  @IBOutlet weak var urlKeyField: UITextField!
-  @IBOutlet weak var fetchButton: UIButton!
-  @IBOutlet weak var eventsLogView: UITextView!
-  
+class SimpleCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<NSURL, NSData>!
   
-  @IBAction func fetchButtonTapped(sender: AnyObject) {
-    cache.get(NSURL(string: urlKeyField.text)!)
+  override func fetchRequested() {
+    super.fetchRequested()
     
-    urlKeyField.resignFirstResponder()
+    cache.get(NSURL(string: urlKeyField.text)!)
   }
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    title = "Simple cache"
-    
-    let urlToString = OneWayTransformationBox(transform: { (input: NSURL) -> String in
-      input.absoluteString!
-    })
-    
-    cache = (urlToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> NetworkFetcher()
-    
-    Logger.output = { (message, _) in
-      NSOperationQueue.mainQueue().addOperationWithBlock {
-        self.eventsLogView.text = "\(self.eventsLogView.text)\(message)\n"
-      }
-    }
+  override func titleForScreen() -> String {
+    return "Simple cache"
   }
-}
-
-extension SimpleCacheSampleViewController: UITextFieldDelegate {
-  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    let newText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+  
+  override func setupCache() {
+    super.setupCache()
     
-    let textIsURL = NSURL(string: newText) != nil
-    fetchButton.enabled = textIsURL
-    
-    return true
+    cache = simpleCache()
   }
 }

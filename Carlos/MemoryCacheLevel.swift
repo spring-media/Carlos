@@ -34,6 +34,13 @@ extension UIImage: ExpensiveObject {
   }
 }
 
+extension NSURL: ExpensiveObject {
+  /// The size of the URL 
+  public var cost: Int {
+    return absoluteString!.cost
+  }
+}
+
 /// This class is a memory cache level. It internally uses NSCache, and has a configurable total cost limit that defaults to 50 MB.
 public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: CacheLevel {
   public typealias KeyType = String
