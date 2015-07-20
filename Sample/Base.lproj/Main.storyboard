@@ -167,7 +167,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sad-b1-Sf1">
-                                <rect key="frame" x="15" y="50" width="570" height="466"/>
+                                <rect key="frame" x="15" y="86" width="570" height="429.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -180,24 +180,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UcN-2z-7j8">
-                                <rect key="frame" x="57" y="10" width="298" height="30"/>
+                                <rect key="frame" x="57" y="10" width="487" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="cPe-S0-2ZW" id="vOp-Kn-4b0"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LSb-vc-hw5">
-                                <rect key="frame" x="405" y="10" width="179" height="30"/>
-                                <state key="normal" title="Simulate memory warning">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="simulateMemoryWarning:" destination="cPe-S0-2ZW" eventType="touchUpInside" id="36R-6L-W7c"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKd-Xf-aTr">
-                                <rect key="frame" x="365" y="10" width="30" height="30"/>
+                                <rect key="frame" x="554" y="10" width="30" height="30"/>
                                 <state key="normal" title="GET">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -205,16 +196,42 @@
                                     <action selector="fetchButtonTapped:" destination="cPe-S0-2ZW" eventType="touchUpInside" id="2LI-gz-Ndz"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Listen to memory warnings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6H-F9-JmE">
+                                <rect key="frame" x="15" y="55" width="208" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kHb-dy-ALY">
+                                <rect key="frame" x="233" y="50" width="51" height="31"/>
+                                <connections>
+                                    <action selector="memoryWarningSwitchValueChanged:" destination="cPe-S0-2ZW" eventType="valueChanged" id="40y-r3-z1D"/>
+                                </connections>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LSb-vc-hw5">
+                                <rect key="frame" x="405" y="51" width="179" height="30"/>
+                                <state key="normal" title="Simulate memory warning">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="simulateMemoryWarning:" destination="cPe-S0-2ZW" eventType="touchUpInside" id="36R-6L-W7c"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="sad-b1-Sf1" firstAttribute="top" secondItem="LSb-vc-hw5" secondAttribute="bottom" constant="5" id="1KA-SL-nxb"/>
                             <constraint firstItem="odO-Gz-ACa" firstAttribute="top" secondItem="sad-b1-Sf1" secondAttribute="bottom" constant="20" id="75R-bY-2bh"/>
                             <constraint firstItem="ZeE-lX-MYe" firstAttribute="leading" secondItem="wfX-xx-MEv" secondAttribute="leading" constant="15" id="98s-yv-TMK"/>
+                            <constraint firstItem="kHb-dy-ALY" firstAttribute="leading" secondItem="A6H-F9-JmE" secondAttribute="trailing" constant="10" id="DP9-Hs-9SP"/>
                             <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="JfM-a2-tv0"/>
                             <constraint firstItem="sad-b1-Sf1" firstAttribute="top" secondItem="UcN-2z-7j8" secondAttribute="bottom" constant="10" id="LCI-VZ-S3v"/>
+                            <constraint firstItem="LSb-vc-hw5" firstAttribute="top" secondItem="aKd-Xf-aTr" secondAttribute="bottom" constant="2" id="LP1-ox-FW6"/>
+                            <constraint firstItem="A6H-F9-JmE" firstAttribute="centerY" secondItem="LSb-vc-hw5" secondAttribute="centerY" id="LWd-Fs-AfH"/>
                             <constraint firstItem="aKd-Xf-aTr" firstAttribute="centerY" secondItem="LSb-vc-hw5" secondAttribute="centerY" id="LjY-5z-L3n"/>
                             <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="LSb-vc-hw5" secondAttribute="trailing" constant="15" id="MYM-My-Sc6"/>
                             <constraint firstItem="UcN-2z-7j8" firstAttribute="centerY" secondItem="aKd-Xf-aTr" secondAttribute="centerY" id="Qd5-eU-WaN"/>
+                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="trailing" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="UFz-xS-Y9U"/>
                             <constraint firstItem="UcN-2z-7j8" firstAttribute="leading" secondItem="ZeE-lX-MYe" secondAttribute="trailing" constant="8" id="aOp-mr-EF5"/>
                             <constraint firstItem="ZeE-lX-MYe" firstAttribute="top" secondItem="lGA-6z-QuD" secondAttribute="bottom" constant="15" id="cgO-By-MJg"/>
                             <constraint firstItem="ZeE-lX-MYe" firstAttribute="centerY" secondItem="UcN-2z-7j8" secondAttribute="centerY" id="iLe-ba-FKz"/>
@@ -224,12 +241,19 @@
                             <constraint firstItem="LSb-vc-hw5" firstAttribute="leading" secondItem="aKd-Xf-aTr" secondAttribute="trailing" constant="10" id="vtB-0g-SjT"/>
                             <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="UcN-2z-7j8" secondAttribute="trailing" constant="10" id="xd5-Xo-icA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="xka-DN-lvr"/>
+                            <constraint firstItem="A6H-F9-JmE" firstAttribute="centerY" secondItem="kHb-dy-ALY" secondAttribute="centerY" id="y73-se-6u5"/>
                             <constraint firstAttribute="trailing" secondItem="aKd-Xf-aTr" secondAttribute="trailing" constant="15" id="yDy-4M-x7H"/>
+                            <constraint firstItem="A6H-F9-JmE" firstAttribute="leading" secondItem="ZeE-lX-MYe" secondAttribute="leading" id="zAB-qK-IKu"/>
+                            <constraint firstItem="A6H-F9-JmE" firstAttribute="top" secondItem="ZeE-lX-MYe" secondAttribute="bottom" constant="20" id="zvC-DE-mwT"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="j3U-fG-vQy"/>
+                                <exclude reference="LCI-VZ-S3v"/>
+                                <exclude reference="LP1-ox-FW6"/>
+                                <exclude reference="vtB-0g-SjT"/>
                                 <exclude reference="JfM-a2-tv0"/>
+                                <exclude reference="LjY-5z-L3n"/>
                                 <exclude reference="MYM-My-Sc6"/>
                                 <exclude reference="yDy-4M-x7H"/>
                             </mask>
