@@ -19,7 +19,7 @@ class ExamplesListViewController: UIViewController {
       Example(name: "Memory warnings", shortDescription: "Simple stack with memory warnings listeners", segueIdentifier: "memoryWarning")
     ]),
     ExamplesListSection(name: "Advanced", samples: [
-      Example(name: "Complex cache", shortDescription: "Custom stack with key and value transformations", segueIdentifier: ""),
+      Example(name: "Complex cache", shortDescription: "Custom stack with key and value transformations", segueIdentifier: "complexCache"),
       Example(name: "Conditioned cache", shortDescription: "Simple stack with conditioned levels", segueIdentifier: ""),
       Example(name: "Pooled cache", shortDescription: "Simple stack with requests pooling", segueIdentifier: "")
     ])

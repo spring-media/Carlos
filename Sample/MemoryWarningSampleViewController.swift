@@ -9,7 +9,7 @@ class MemoryWarningSampleViewController: BaseCacheViewController {
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(NSURL(string: urlKeyField.text)!)
+    cache.get(NSURL(string: urlKeyField?.text ?? "")!)
   }
   
   override func titleForScreen() -> String {

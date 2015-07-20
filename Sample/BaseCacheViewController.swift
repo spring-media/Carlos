@@ -3,7 +3,7 @@ import UIKit
 import Carlos
 
 class BaseCacheViewController: UIViewController {
-  @IBOutlet weak var urlKeyField: UITextField!
+  @IBOutlet weak var urlKeyField: UITextField?
   @IBOutlet weak var fetchButton: UIButton!
   @IBOutlet weak var eventsLogView: UITextView!
   
@@ -36,7 +36,7 @@ class BaseCacheViewController: UIViewController {
   @IBAction func fetchButtonTapped(sender: AnyObject) {
     fetchRequested()
     
-    urlKeyField.resignFirstResponder()
+    urlKeyField?.resignFirstResponder()
   }
 }
 
