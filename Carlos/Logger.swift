@@ -9,7 +9,7 @@ public class Logger {
     case Error = "Error"
   }
 
-  private static var queue = dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "logger", DISPATCH_QUEUE_SERIAL)
+  private static let queue = dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "logger", DISPATCH_QUEUE_SERIAL)
 
   /**
   Called to output the log message. Override for custom logging.
