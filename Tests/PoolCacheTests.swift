@@ -269,7 +269,21 @@ class PoolCacheTests: QuickSpec {
       }
     }
     
-    describe("The pooled function") {
+//    describe("The pooled function, applied to a fetcher closure") {
+//      beforeEach {
+//        internalCache = CacheLevelFake<String, Int>()
+//        cache = pooled(internalCache.get)
+//      }
+//      
+//      itBehavesLike("a pooled cache") {
+//        [
+//          PoolCacheSharedExamplesContext.CacheToTest: cache,
+//          PoolCacheSharedExamplesContext.InternalCache: internalCache
+//        ]
+//      }
+//    }
+    
+    describe("The pooled function, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = pooled(internalCache)

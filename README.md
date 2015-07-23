@@ -18,6 +18,7 @@
   - [Key transformations](#key-transformations)
   - [Value transformations](#value-transformations)
   - [Pooling requests](#pooling-requests)
+  - [Limiting concurrent requests](#limiting-concurrent-requests)
   - [Conditioning caches](#conditioning-caches)
   - [Listening to memory warnings](#listening-to-memory-warnings)
   - [Creating custom levels](#creating-custom-levels)
@@ -233,6 +234,19 @@ func ==(lhs: Image, rhs: Image) -> Bool {
 ```
 
 Now we can execute multiple fetches for the same `Image` value and be sure that only one network request will be started.
+
+### Limiting concurrent requests
+
+If you want to limit the number of concurrent requests a cache level can take, independently of the key (otherwise, see the [pooling requests](#pooling-requests) paragraph), you may want to have a look at the `capRequests` function.
+
+This is how it looks in practice:
+```swift
+let myCache = MyFirstLevel() >>> MySecondLevel()
+
+let cappedCache = capRequests(myCache, 3)
+```
+
+`cappedCache` will now only accept a maximum of `3` concurrent `get` operations. If a fourth request comes, it will be enqueued and executed only at a later point when one of the executing requests is done. This may be useful when a resource is only accessible by a limited number of consumers at the same time, and creating another connection to the resource could be expensive or decrease the performance of the already executing requests.
 
 ### Conditioning caches 
 

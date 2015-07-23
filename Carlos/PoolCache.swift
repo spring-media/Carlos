@@ -22,6 +22,9 @@ public func pooled<A, B>(fetcherClosure: (key: A) -> CacheRequest<B>) -> PoolCac
   return pooled(wrapClosureIntoCacheLevel(fetcherClosure))
 }
 
+/**
+A CacheLevel that pools incoming get requests. This means that multiple requests for the same key will be pooled and only one will be actually executed (so that expensive operations like network or file system fetches will only be done once).
+*/
 public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLevel {
   public typealias KeyType = C.KeyType
   public typealias OutputType = C.OutputType
