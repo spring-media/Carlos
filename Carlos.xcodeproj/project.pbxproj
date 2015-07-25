@@ -20,6 +20,8 @@
 		5208637E1B64268E00F740C7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208637A1B64268E00F740C7 /* LaunchScreen.xib */; };
 		5208637F1B64268E00F740C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5208637C1B64268E00F740C7 /* Main.storyboard */; };
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
+		520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */; };
+		520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */; };
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
 		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
 		5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253F3D81B57D7DD0035B1FB /* RequestCapperCacheTests.swift */; };
@@ -187,6 +189,8 @@
 		5208637B1B64268E00F740C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5208637D1B64268E00F740C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PooledCacheSampleViewController.swift; sourceTree = "<group>"; };
+		520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CappedRequestCacheSampleViewController.swift; sourceTree = "<group>"; };
+		520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayedNetworkFetcher.swift; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		5253F3D81B57D7DD0035B1FB /* RequestCapperCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCapperCacheTests.swift; sourceTree = "<group>"; };
@@ -401,6 +405,8 @@
 				5208636E1B64268000F740C7 /* SimpleCacheSampleViewController.swift */,
 				AD695CE21B46CD65004E998D /* Supporting Files */,
 				520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */,
+				520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */,
+				520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */,
 			);
 			path = Sample;
 			sourceTree = SOURCE_ROOT;
@@ -729,8 +735,10 @@
 			files = (
 				520863731B64268000F740C7 /* ExampleCell.swift in Sources */,
 				520863701B64268000F740C7 /* BaseCacheViewController.swift in Sources */,
+				520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */,
 				5208636F1B64268000F740C7 /* AppDelegate.swift in Sources */,
 				520863721B64268000F740C7 /* ConditionedCacheSampleViewController.swift in Sources */,
+				520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */,
 				520863741B64268000F740C7 /* ExamplesListViewController.swift in Sources */,
 				520863711B64268000F740C7 /* ComplexCacheSampleViewController.swift in Sources */,
 				520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */,

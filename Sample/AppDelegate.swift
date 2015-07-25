@@ -17,3 +17,9 @@ func simpleCache() -> BasicCache<NSURL, NSData> {
     input.absoluteString!
   } =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> NetworkFetcher()
 }
+
+func delayedNetworkCache() -> BasicCache<NSURL, NSData> {
+  return ({ (input: NSURL) -> String in
+    input.absoluteString!
+  } =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> DelayedNetworkFetcher()
+}

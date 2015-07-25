@@ -57,6 +57,10 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
     let request = CacheRequest<OutputType>()
     let deferredRequestOperation = DeferredCacheRequestOperation(decoyRequest: request, key: key, cache: internalCache)
     
+    if requestsQueue.operationCount >= requestsQueue.maxConcurrentOperationCount {
+      Logger.log("Reached request cap, enqueueing request", .Info)
+    }
+    
     requestsQueue.addOperation(deferredRequestOperation)
     
     return request

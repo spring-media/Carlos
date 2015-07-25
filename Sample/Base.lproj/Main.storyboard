@@ -75,6 +75,7 @@
                         <segue destination="gIf-ro-V0s" kind="show" identifier="complexCache" id="ToB-8w-NSa"/>
                         <segue destination="jL4-x1-bK7" kind="show" identifier="conditionedCache" id="QWJ-yc-wQc"/>
                         <segue destination="U7q-Zo-Ph8" kind="show" identifier="pooledCache" id="g0G-lb-If9"/>
+                        <segue destination="ev2-68-d1a" kind="show" identifier="cappedCache" id="lqm-hG-vhE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -555,6 +556,88 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lah-mn-lYd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1938" y="1800"/>
+        </scene>
+        <!--Capped Request Cache Sample View Controller-->
+        <scene sceneID="tMa-7P-zZW">
+            <objects>
+                <viewController id="ev2-68-d1a" customClass="CappedRequestCacheSampleViewController" customModule="CarlosSample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dcz-Fe-j0r"/>
+                        <viewControllerLayoutGuide type="bottom" id="My7-Eq-Po8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="85J-Bg-WY9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ste-bP-uAl">
+                                <rect key="frame" x="15" y="115" width="570" height="401"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8n-ow-xq9">
+                                <rect key="frame" x="15" y="20" width="34" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V5X-yT-dKR">
+                                <rect key="frame" x="555" y="20" width="30" height="30"/>
+                                <state key="normal" title="GET">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fetchButtonTapped:" destination="ev2-68-d1a" eventType="touchUpInside" id="Qi6-0t-lZQ"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zbn-D2-WSU">
+                                <rect key="frame" x="57" y="20" width="488" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ev2-68-d1a" id="zzE-gO-Mro"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Kjk-6m-jn6">
+                                <rect key="frame" x="15" y="65" width="570" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="nAo-JI-ove"/>
+                                </constraints>
+                                <string key="text">This cache is capped at 3 requests. If more than 3 pending requests are executing, others will be enqueued and wait for at least one to finish.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="G8n-ow-xq9" firstAttribute="centerY" secondItem="zbn-D2-WSU" secondAttribute="centerY" id="Blj-0q-eVu"/>
+                            <constraint firstItem="G8n-ow-xq9" firstAttribute="top" secondItem="Dcz-Fe-j0r" secondAttribute="bottom" constant="20" id="IgT-6x-OXP"/>
+                            <constraint firstItem="Ste-bP-uAl" firstAttribute="top" secondItem="Kjk-6m-jn6" secondAttribute="bottom" constant="10" id="JgM-KX-xdx"/>
+                            <constraint firstAttribute="trailing" secondItem="V5X-yT-dKR" secondAttribute="trailing" constant="15" id="Jyn-VO-ob4"/>
+                            <constraint firstItem="V5X-yT-dKR" firstAttribute="leading" secondItem="zbn-D2-WSU" secondAttribute="trailing" constant="10" id="MGX-2E-nCM"/>
+                            <constraint firstItem="V5X-yT-dKR" firstAttribute="top" secondItem="Dcz-Fe-j0r" secondAttribute="bottom" constant="20" id="Pwj-de-rpk"/>
+                            <constraint firstItem="My7-Eq-Po8" firstAttribute="top" secondItem="Ste-bP-uAl" secondAttribute="bottom" constant="20" id="Qhr-cs-x8F"/>
+                            <constraint firstItem="Ste-bP-uAl" firstAttribute="leading" secondItem="85J-Bg-WY9" secondAttribute="leading" constant="15" id="c8r-Yd-iAg"/>
+                            <constraint firstAttribute="trailing" secondItem="Ste-bP-uAl" secondAttribute="trailing" constant="15" id="faS-oQ-CXz"/>
+                            <constraint firstItem="Kjk-6m-jn6" firstAttribute="trailing" secondItem="V5X-yT-dKR" secondAttribute="trailing" id="gET-cI-9Hb"/>
+                            <constraint firstItem="G8n-ow-xq9" firstAttribute="leading" secondItem="85J-Bg-WY9" secondAttribute="leading" constant="15" id="qyX-Yz-5lo"/>
+                            <constraint firstItem="Kjk-6m-jn6" firstAttribute="top" secondItem="G8n-ow-xq9" secondAttribute="bottom" constant="15" id="rdT-NL-iSA"/>
+                            <constraint firstItem="Kjk-6m-jn6" firstAttribute="leading" secondItem="G8n-ow-xq9" secondAttribute="leading" id="toN-oU-zbn"/>
+                            <constraint firstItem="zbn-D2-WSU" firstAttribute="centerY" secondItem="V5X-yT-dKR" secondAttribute="centerY" id="woB-qe-Uxk"/>
+                            <constraint firstItem="zbn-D2-WSU" firstAttribute="leading" secondItem="G8n-ow-xq9" secondAttribute="trailing" constant="8" id="yFB-pK-s89"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="eventsLogView" destination="Ste-bP-uAl" id="CRa-BO-j49"/>
+                        <outlet property="fetchButton" destination="V5X-yT-dKR" id="TCG-Ek-rtM"/>
+                        <outlet property="urlKeyField" destination="zbn-D2-WSU" id="rJv-60-GMg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7BV-Pn-LEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1938" y="2549"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UhF-5b-PDi">
