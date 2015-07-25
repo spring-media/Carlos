@@ -283,7 +283,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIm-5Y-B6a">
-                                <rect key="frame" x="10" y="10" width="45.5" height="20.5"/>
+                                <rect key="frame" x="10" y="10" width="193.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -301,20 +301,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BBY-oO-Ku8">
-                                <rect key="frame" x="105" y="6" width="430" height="30"/>
+                                <rect key="frame" x="253" y="6" width="282" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEr-bX-yV4">
-                                <rect key="frame" x="105" y="46" width="100" height="30"/>
+                                <rect key="frame" x="253" y="46" width="60" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="owT-N0-gY7"/>
+                                    <constraint firstAttribute="width" constant="60" id="owT-N0-gY7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hge-tE-qbS">
-                                <rect key="frame" x="105" y="86" width="430" height="30"/>
+                                <rect key="frame" x="253" y="86" width="282" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="URL"/>
                             </textField>
@@ -333,6 +333,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Custom cache will fail with negative identifiers" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="4Q0-op-ZWe">
+                                <rect key="frame" x="328" y="41" width="257" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="6G0-1a-ncq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -349,22 +358,27 @@
                             <constraint firstItem="s3E-lA-2v8" firstAttribute="leading" secondItem="pcF-5E-GOH" secondAttribute="leading" id="KpI-dB-vqZ"/>
                             <constraint firstItem="yIm-5Y-B6a" firstAttribute="leading" secondItem="2N0-8r-Hbq" secondAttribute="leading" constant="10" id="P3f-IJ-4M1"/>
                             <constraint firstItem="s3E-lA-2v8" firstAttribute="centerY" secondItem="hEr-bX-yV4" secondAttribute="centerY" id="SNs-TF-TxF"/>
+                            <constraint firstItem="4Q0-op-ZWe" firstAttribute="centerY" secondItem="hEr-bX-yV4" secondAttribute="centerY" id="V2o-Nv-GeY"/>
                             <constraint firstItem="yIm-5Y-B6a" firstAttribute="centerY" secondItem="BBY-oO-Ku8" secondAttribute="centerY" id="VbB-ya-NBZ"/>
                             <constraint firstItem="s3E-lA-2v8" firstAttribute="top" secondItem="yIm-5Y-B6a" secondAttribute="bottom" constant="20" id="XgW-Ti-DPT"/>
                             <constraint firstItem="pcF-5E-GOH" firstAttribute="top" secondItem="s3E-lA-2v8" secondAttribute="bottom" constant="20" id="Y0K-1E-xLj"/>
                             <constraint firstItem="hEr-bX-yV4" firstAttribute="trailing" secondItem="Hge-tE-qbS" secondAttribute="trailing" id="amp-fa-YsO"/>
+                            <constraint firstItem="4Q0-op-ZWe" firstAttribute="leading" secondItem="hEr-bX-yV4" secondAttribute="trailing" constant="15" id="bUc-sm-yco"/>
+                            <constraint firstItem="4Q0-op-ZWe" firstAttribute="trailing" secondItem="BBY-oO-Ku8" secondAttribute="trailing" id="cVP-dd-wVz"/>
                             <constraint firstItem="hEr-bX-yV4" firstAttribute="leading" secondItem="Hge-tE-qbS" secondAttribute="leading" id="geD-ja-fNs"/>
                             <constraint firstItem="hXi-Q3-Wks" firstAttribute="top" secondItem="X4q-4j-FS4" secondAttribute="bottom" constant="10" id="jfd-VA-9jR"/>
                             <constraint firstItem="hXi-Q3-Wks" firstAttribute="leading" secondItem="BBY-oO-Ku8" secondAttribute="trailing" constant="20" id="kfW-3F-ebn"/>
                             <constraint firstItem="BBY-oO-Ku8" firstAttribute="trailing" secondItem="Hge-tE-qbS" secondAttribute="trailing" id="nRU-vP-5BN"/>
                             <constraint firstItem="ntU-3t-idC" firstAttribute="top" secondItem="Hge-tE-qbS" secondAttribute="bottom" constant="20" id="nh8-Uf-utc"/>
                             <constraint firstItem="yIm-5Y-B6a" firstAttribute="top" secondItem="X4q-4j-FS4" secondAttribute="bottom" constant="10" id="rGV-TT-Jvg"/>
+                            <constraint firstItem="4Q0-op-ZWe" firstAttribute="trailing" secondItem="hXi-Q3-Wks" secondAttribute="trailing" id="ygw-BB-3af"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="FLZ-jg-WNf"/>
                                 <exclude reference="EfR-rA-vWh"/>
                                 <exclude reference="amp-fa-YsO"/>
+                                <exclude reference="cVP-dd-wVz"/>
                             </mask>
                         </variation>
                     </view>
