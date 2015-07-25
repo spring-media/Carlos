@@ -21,7 +21,7 @@ class ExamplesListViewController: UIViewController {
     ExamplesListSection(name: "Advanced", samples: [
       Example(name: "Complex cache", shortDescription: "Custom stack with key and value transformations", segueIdentifier: "complexCache"),
       Example(name: "Conditioned cache", shortDescription: "Simple stack with conditioned levels", segueIdentifier: "conditionedCache"),
-      Example(name: "Pooled cache", shortDescription: "Simple stack with requests pooling", segueIdentifier: ""),
+      Example(name: "Pooled cache", shortDescription: "Simple stack with requests pooling", segueIdentifier: "pooledCache"),
       Example(name: "Capped cache", shortDescription: "Simple stack with requests capping", segueIdentifier: "")
     ])
   ]
