@@ -13,6 +13,24 @@ public class CacheRequest<T> {
   public init() {}
   
   /**
+  Initializes a new CacheRequest and makes it immediately succeed with the given value
+  
+  :param: value The success value of the request
+  */
+  public init(value: T) {
+    succeed(value)
+  }
+  
+  /**
+  Initializes a new CacheRequest and makes it immediately fail with the given error
+  
+  :param: error The error of the request
+  */
+  public init(error: NSError?) {
+    fail(error)
+  }
+  
+  /**
   Makes the request succeed with a value
   
   :param: value The value found for the request
