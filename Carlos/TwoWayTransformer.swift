@@ -23,15 +23,35 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   private let transformClosure: I -> O
   private let inverseTransformClosure: O -> I
   
+  /**
+  Initializes a new instance of a 2-way transformation box
+  
+  :param: transform The transformation closure to convert a value of type TypeIn to a value of type TypeOut
+  :param: inverseTransform The transformation closure to convert a value of type TypeOut to a value of type TypeIn
+  */
   public init(transform: (I -> O), inverseTransform: (O -> I)) {
     self.transformClosure = transform
     self.inverseTransformClosure = inverseTransform
   }
   
+  /**
+  Converts a value of type TypeIn to a value of type TypeOut
+  
+  :param: val The value to convert
+  
+  :returns: The converted value
+  */
   public func transform(val: I) -> O {
     return transformClosure(val)
   }
   
+  /**
+  Converts a value of type TypeOut to a value of type TypeIn
+  
+  :param: val The value to convert
+  
+  :returns: The converted value
+  */
   public func inverseTransform(val: O) -> I {
     return inverseTransformClosure(val)
   }

@@ -43,6 +43,7 @@ extension NSURL: ExpensiveObject {
 
 /// This class is a memory cache level. It internally uses NSCache, and has a configurable total cost limit that defaults to 50 MB.
 public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: CacheLevel {
+  /// At the moment the memory cache level only accepts String keys
   public typealias KeyType = String
   public typealias OutputType = T
   
@@ -58,6 +59,13 @@ public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: Cach
     internalCache.totalCostLimit = capacity
   }
   
+  /**
+  Synchronously gets a value for the given key
+  
+  :param: key The key for the value
+  
+  :returns: A CacheRequest where you can call onSuccess and onFailure to be notified of the result of the fetch
+  */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request = CacheRequest<T>()
     if let result = internalCache.objectForKey(key) as? T {
@@ -71,15 +79,27 @@ public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: Cach
     return request
   }
   
+  /**
+  Clears the contents of the cache
+  */
   public func onMemoryWarning() {
     clear()
   }
   
+  /**
+  Sets a value for the given key
+  
+  :param: value The value to set
+  :param: key The key for the value
+  */
   public func set(value: T, forKey key: String) {
     Logger.log("Setting a value for the key \(key) on the memory cache \(self)")
     internalCache.setObject(value, forKey: key, cost: value.cost)
   }
   
+  /**
+  Clears the contents of the cache
+  */
   public func clear() {
     internalCache.removeAllObjects()
   }

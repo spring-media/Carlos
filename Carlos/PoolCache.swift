@@ -32,10 +32,22 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   private let internalCache: C
   private var requestsPool: [C.KeyType: CacheRequest<C.OutputType>] = [:]
   
+  /**
+  Creates a new instance of a pooled cache
+  
+  :param: internalCache The CacheLevel instance that this pooled cache will manage
+  */
   public init(internalCache: C) {
     self.internalCache = internalCache
   }
   
+  /**
+  Asks the cache to get the value for the given key
+  
+  :param: key The key for the value
+  
+  :returns: A CacheRequest that could either have been just created or it could have been reused from a pool of pending CacheRequests if there is a CacheRequest for the same key going on at the moment.
+  */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request: CacheRequest<OutputType>
     
@@ -60,14 +72,26 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
     return request
   }
   
+  /**
+  Sets a value for the given key on the managed cache
+  
+  :param: value The value to set
+  :param: key The key for the value
+  */
   public func set(value: C.OutputType, forKey key: C.KeyType) {
     internalCache.set(value, forKey: key)
   }
   
+  /**
+  Clears the managed cache
+  */
   public func clear() {
     internalCache.clear()
   }
   
+  /**
+  Notifies the managed cache that a memory warning event was thrown
+  */
   public func onMemoryWarning() {
     internalCache.onMemoryWarning()
   }

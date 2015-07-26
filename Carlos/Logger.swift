@@ -2,6 +2,7 @@ import Foundation
 
 /// A simple logger to use instead of println with configurable output closure
 public class Logger {
+  /// The level of the logged message
   public enum Level : String {
     case Debug = "Debug"
     case Info = "Info"

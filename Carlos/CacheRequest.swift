@@ -1,6 +1,6 @@
 import Foundation
 
-/// This class wraps a cache request future
+/// This class wraps a cache request future, where you can attach failure and success callbacks.
 public class CacheRequest<T> {
   private var failureListeners: [(NSError?) -> Void] = []
   private var successListeners: [(T) -> Void] = []

@@ -28,10 +28,22 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   
   private let transformClosure: I -> O
   
+  /**
+  Initializes a 1-way transformation box with the given closure
+  
+  :param: transform The transformation closure to convert a value of type TypeIn into a value of type TypeOut
+  */
   public init(transform: (I -> O)) {
     self.transformClosure = transform
   }
   
+  /**
+  Transforms a value of type TypeIn into a value of type TypeOut
+  
+  :param: val The value to convert
+  
+  :returns: The converted value
+  */
   public func transform(val: TypeIn) -> TypeOut {
     return transformClosure(val)
   }

@@ -53,6 +53,13 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
     }()
   }
   
+  /**
+  Tries to get a value for the given key from the managed cache
+  
+  :param: key The key for the value
+  
+  :returns: A CacheRequest that could either be immediately executed or deferred depending on how many requests are currently pending.
+  */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request = CacheRequest<OutputType>()
     let deferredRequestOperation = DeferredCacheRequestOperation(decoyRequest: request, key: key, cache: internalCache)
@@ -66,14 +73,27 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
     return request
   }
   
+  /**
+  Sets a value for the given key on the managed cache
+  
+  :param: key The key for the value
+  
+  :discussion: Calls to this method are not capped
+  */
   public func set(value: OutputType, forKey key: KeyType) {
     internalCache.set(value, forKey: key)
   }
   
+  /**
+  Forwards the memory warning event to the managed cache
+  */
   public func onMemoryWarning() {
     internalCache.onMemoryWarning()
   }
   
+  /**
+  Clears the managed cache
+  */
   public func clear() {
     internalCache.clear()
   }

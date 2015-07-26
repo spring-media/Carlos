@@ -2,12 +2,15 @@ import Foundation
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
 public class DiskCacheLevel<T: NSCoding>: CacheLevel {
+  /// At the moment the disk cache level only accepts String keys
   public typealias KeyType = String
   public typealias OutputType = T
   
   private let path: String
   private var size: UInt64 = 0
   private let fileManager: NSFileManager
+  
+  /// The capacity of the cache
   public var capacity: UInt64 = 0 {
     didSet {
       dispatch_async(self.cacheQueue, {
@@ -20,6 +23,9 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
     return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + self.path.lastPathComponent, nil)
   }()
   
+  /**
+  This method is a no-op since all the contents of the cache are stored on disk, so removing them would have no benefit for memory pressure
+  */
   public func onMemoryWarning() {}
   
   /**
@@ -42,6 +48,12 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
     })
   }
   
+  /**
+  Asynchronously sets a value for the given key
+  
+  :param: value The value to save on disk
+  :param: key The key for the value
+  */
   public func set(value: T, forKey key: String) {
     dispatch_async(cacheQueue, {
       Logger.log("Setting a value for the key \(key) on the disk cache \(self)")
@@ -49,6 +61,13 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
     })
   }
   
+  /**
+  Asynchronously gets the value for the given key
+  
+  :param: key The key for the value
+  
+  :returns: A CacheRequest where you can call onSuccess and onFailure to be notified of the result of the fetch
+  */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request = CacheRequest<OutputType>()
     
@@ -72,6 +91,11 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
     return request
   }
   
+  /**
+  Asynchronously clears the contents of the cache
+  
+  All the cached files will be removed from the disk storage
+  */
   public func clear() {
     dispatch_async(cacheQueue, {
       for filePath in self.itemsInDirectory(self.path) {

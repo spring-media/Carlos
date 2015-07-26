@@ -10,6 +10,14 @@ public final class BasicCache<A, B>: CacheLevel {
   private let clearClosure: () -> Void
   private let memoryClosure: () -> Void
   
+  /**
+  Initializes a new instance of a BasicCache specifying closures for get, set, clear and onMemoryWarning, thus determining the behavior of the cache level as a whole
+  
+  :param: getClosure The closure to execute when you call get(key) on this instance
+  :param: setClosure The closure to execute when you call set(value, key) on this instance
+  :param: clearClosure The closure to execute when you call clear() on this instance
+  :param: memoryClosure The closure to execute when you call onMemoryWarning() on this instance, or when a memory warning is thrown by the system and the cache level is listening for memory pressure events
+  */
   public init(getClosure: (key: A) -> CacheRequest<B>, setClosure: (key: A, value: B) -> Void, clearClosure: () -> Void, memoryClosure: () -> Void) {
     self.getClosure = getClosure
     self.setClosure = setClosure
@@ -17,18 +25,43 @@ public final class BasicCache<A, B>: CacheLevel {
     self.memoryClosure = memoryClosure
   }
   
+  /**
+  Asks the cache to get the value for a given key
+  
+  :param: key The key you want to get the value for
+  
+  :returns: The result of the getClosure specified when initializing the instance
+  */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     return getClosure(key: key)
   }
   
+  /**
+  Asks the cache to set a value for the given key
+  
+  :param: value The value to set on the cache
+  :param: key The key to use for the given value
+  
+  :discussion: This call executes the setClosure specified when initializing the instance
+  */
   public func set(value: B, forKey key: A) {
     setClosure(key: key, value: value)
   }
   
+  /**
+  Asks the cache to clear its contents
+  
+  :discussion: This call executes the clearClosure specified when initializing the instance
+  */
   public func clear() {
     clearClosure()
   }
   
+  /**
+  Tells the cache that a memory warning event was received
+  
+  :discussion: This call executes the memoryClosure specified when initializing the instance
+  */
   public func onMemoryWarning() {
     memoryClosure()
   }

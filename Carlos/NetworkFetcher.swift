@@ -13,7 +13,10 @@ public enum NetworkFetcherError: Int {
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
 public class NetworkFetcher: CacheLevel {
+  /// The network cache accepts only NSURL keys
   public typealias KeyType = NSURL
+  
+  /// The network cache returns only NSData values
   public typealias OutputType = NSData
   
   private class Request {
@@ -71,8 +74,18 @@ public class NetworkFetcher: CacheLevel {
   
   private var pendingRequests: [String: Request] = [:]
   
+  /**
+  Initializes a new instance of a NetworkFetcher
+  */
   public init() {}
   
+  /**
+  Asks the cache to get a value for the given key
+  
+  :param: key The key for the value. It represents the URL to fetch the value
+  
+  :returns: A CacheRequest that you can use to get the asynchronous results of the network fetch
+  */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let result = CacheRequest<OutputType>()
     
@@ -90,9 +103,18 @@ public class NetworkFetcher: CacheLevel {
     return result
   }
   
+  /**
+  This call is a no-op
+  */
   public func set(value: NSData, forKey key: NSURL) {}
   
+  /**
+  This call is a no-op
+  */
   public func onMemoryWarning() {}
   
+  /**
+  This call is a no-op
+  */
   public func clear() {}
 }
