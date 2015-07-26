@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
   s.version          = "0.1.0"
   s.summary          = "A simple but flexible cache."
   s.description      = <<-DESC
+			Carlos is a small set of classes, global functions (that will be replaced by protocol extensions with Swift 2.0) and convenience operators to realize custom, flexible and powerful cache layers in your application.
                        DESC
   s.homepage         = "https://github.com/WeltN24/Carlos"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
