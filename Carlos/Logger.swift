@@ -14,7 +14,7 @@ public class Logger {
   /**
   Called to output the log message. Override for custom logging.
   */
-  public static var output: (String, Level) -> Void = { msg, level in
+  public static var output: (String, Level) -> Void = { (msg, level) in
     dispatch_async(queue) {
       println("[Carlos][\(level.rawValue)]: \(msg)")
     }
@@ -25,10 +25,11 @@ public class Logger {
   
   :param: message The message to log
   
-  :discussion: This method uses the output closure internally to output the message
+  :discussion: This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
   */
   public static func log(message: String, _ level: Level = Level.Debug) {
-    //TODO: Should we always dispatch on the main queue? What happens if a client sets an output closure? We shouldn't want him to also create a queue just to make sure that all the operations he writes in the closure will be executed on the same (or main) queue..
-    output(message, level)
+    dispatch_async(dispatch_get_main_queue()) {
+      self.output(message, level)
+    }
   }
 }

@@ -47,10 +47,14 @@ public class DeferredCacheRequestOperation<C: CacheLevel>: GenericOperation {
     
     cache.get(key)
       .onSuccess({ result in
-        self.decoy.succeed(result)
+        dispatch_async(dispatch_get_main_queue()) {
+          self.decoy.succeed(result)
+        }
         self.state = .Finished
       }).onFailure({ error in
-        self.decoy.fail(error)
+        dispatch_async(dispatch_get_main_queue()) {
+          self.decoy.fail(error)
+        }
         self.state = .Finished
       })
   }

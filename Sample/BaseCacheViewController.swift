@@ -15,9 +15,7 @@ class BaseCacheViewController: UIViewController {
     setupCache()
     
     Logger.output = { (message, _) in
-      dispatch_async(dispatch_get_main_queue()) {
-        self.eventsLogView.text = "\(self.eventsLogView.text)\(message)\n"
-      }
+      self.eventsLogView.text = "\(self.eventsLogView.text)\(message)\n"
     }
   }
   

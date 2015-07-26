@@ -12,7 +12,6 @@ public enum NetworkFetcherError: Int {
 }
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
-//TODO: Think about how to make possible a NSURL key type and still make it work with other levels in the pipeline
 public class NetworkFetcher: CacheLevel {
   public typealias KeyType = NSURL
   public typealias OutputType = NSData

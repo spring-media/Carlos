@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VM7-XC-H0K">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Examples List View Controller-->
@@ -343,7 +342,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sad-b1-Sf1">
-                                <rect key="frame" x="15" y="86" width="570" height="429.5"/>
+                                <rect key="frame" x="15" y="130" width="570" height="386"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -356,7 +355,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UcN-2z-7j8">
-                                <rect key="frame" x="57" y="10" width="487" height="30"/>
+                                <rect key="frame" x="57" y="10" width="488" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -364,7 +363,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKd-Xf-aTr">
-                                <rect key="frame" x="554" y="10" width="30" height="30"/>
+                                <rect key="frame" x="555" y="10" width="30" height="30"/>
                                 <state key="normal" title="GET">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -385,7 +384,7 @@
                                 </connections>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LSb-vc-hw5">
-                                <rect key="frame" x="405" y="51" width="179" height="30"/>
+                                <rect key="frame" x="15" y="85" width="179" height="30"/>
                                 <state key="normal" title="Simulate memory warning">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -396,44 +395,24 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="sad-b1-Sf1" firstAttribute="top" secondItem="LSb-vc-hw5" secondAttribute="bottom" constant="5" id="1KA-SL-nxb"/>
+                            <constraint firstItem="sad-b1-Sf1" firstAttribute="top" secondItem="LSb-vc-hw5" secondAttribute="bottom" constant="15" id="1KA-SL-nxb"/>
                             <constraint firstItem="odO-Gz-ACa" firstAttribute="top" secondItem="sad-b1-Sf1" secondAttribute="bottom" constant="20" id="75R-bY-2bh"/>
                             <constraint firstItem="ZeE-lX-MYe" firstAttribute="leading" secondItem="wfX-xx-MEv" secondAttribute="leading" constant="15" id="98s-yv-TMK"/>
                             <constraint firstItem="kHb-dy-ALY" firstAttribute="leading" secondItem="A6H-F9-JmE" secondAttribute="trailing" constant="10" id="DP9-Hs-9SP"/>
-                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="JfM-a2-tv0"/>
-                            <constraint firstItem="sad-b1-Sf1" firstAttribute="top" secondItem="UcN-2z-7j8" secondAttribute="bottom" constant="10" id="LCI-VZ-S3v"/>
-                            <constraint firstItem="LSb-vc-hw5" firstAttribute="top" secondItem="aKd-Xf-aTr" secondAttribute="bottom" constant="2" id="LP1-ox-FW6"/>
-                            <constraint firstItem="A6H-F9-JmE" firstAttribute="centerY" secondItem="LSb-vc-hw5" secondAttribute="centerY" id="LWd-Fs-AfH"/>
-                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="centerY" secondItem="LSb-vc-hw5" secondAttribute="centerY" id="LjY-5z-L3n"/>
-                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="LSb-vc-hw5" secondAttribute="trailing" constant="15" id="MYM-My-Sc6"/>
+                            <constraint firstAttribute="trailing" secondItem="aKd-Xf-aTr" secondAttribute="trailing" constant="15" id="HaO-p6-dar"/>
+                            <constraint firstItem="LSb-vc-hw5" firstAttribute="top" secondItem="A6H-F9-JmE" secondAttribute="bottom" constant="10" id="Jro-9I-jxl"/>
                             <constraint firstItem="UcN-2z-7j8" firstAttribute="centerY" secondItem="aKd-Xf-aTr" secondAttribute="centerY" id="Qd5-eU-WaN"/>
-                            <constraint firstItem="aKd-Xf-aTr" firstAttribute="trailing" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="UFz-xS-Y9U"/>
                             <constraint firstItem="UcN-2z-7j8" firstAttribute="leading" secondItem="ZeE-lX-MYe" secondAttribute="trailing" constant="8" id="aOp-mr-EF5"/>
                             <constraint firstItem="ZeE-lX-MYe" firstAttribute="top" secondItem="lGA-6z-QuD" secondAttribute="bottom" constant="15" id="cgO-By-MJg"/>
+                            <constraint firstItem="A6H-F9-JmE" firstAttribute="leading" secondItem="LSb-vc-hw5" secondAttribute="leading" id="eKa-kC-z64"/>
                             <constraint firstItem="ZeE-lX-MYe" firstAttribute="centerY" secondItem="UcN-2z-7j8" secondAttribute="centerY" id="iLe-ba-FKz"/>
-                            <constraint firstItem="ZeE-lX-MYe" firstAttribute="top" secondItem="wfX-xx-MEv" secondAttribute="top" constant="15" id="j3U-fG-vQy"/>
                             <constraint firstAttribute="trailing" secondItem="sad-b1-Sf1" secondAttribute="trailing" constant="15" id="kdC-7e-N73"/>
                             <constraint firstItem="sad-b1-Sf1" firstAttribute="leading" secondItem="wfX-xx-MEv" secondAttribute="leading" constant="15" id="nUp-ab-dyE"/>
-                            <constraint firstItem="LSb-vc-hw5" firstAttribute="leading" secondItem="aKd-Xf-aTr" secondAttribute="trailing" constant="10" id="vtB-0g-SjT"/>
                             <constraint firstItem="aKd-Xf-aTr" firstAttribute="leading" secondItem="UcN-2z-7j8" secondAttribute="trailing" constant="10" id="xd5-Xo-icA"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="LSb-vc-hw5" secondAttribute="trailing" id="xka-DN-lvr"/>
                             <constraint firstItem="A6H-F9-JmE" firstAttribute="centerY" secondItem="kHb-dy-ALY" secondAttribute="centerY" id="y73-se-6u5"/>
-                            <constraint firstAttribute="trailing" secondItem="aKd-Xf-aTr" secondAttribute="trailing" constant="15" id="yDy-4M-x7H"/>
                             <constraint firstItem="A6H-F9-JmE" firstAttribute="leading" secondItem="ZeE-lX-MYe" secondAttribute="leading" id="zAB-qK-IKu"/>
                             <constraint firstItem="A6H-F9-JmE" firstAttribute="top" secondItem="ZeE-lX-MYe" secondAttribute="bottom" constant="20" id="zvC-DE-mwT"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="j3U-fG-vQy"/>
-                                <exclude reference="LCI-VZ-S3v"/>
-                                <exclude reference="LP1-ox-FW6"/>
-                                <exclude reference="vtB-0g-SjT"/>
-                                <exclude reference="JfM-a2-tv0"/>
-                                <exclude reference="LjY-5z-L3n"/>
-                                <exclude reference="MYM-My-Sc6"/>
-                                <exclude reference="yDy-4M-x7H"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="eventsLogView" destination="sad-b1-Sf1" id="Ghy-FJ-gwc"/>

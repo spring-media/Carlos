@@ -1,7 +1,6 @@
 import Foundation
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
-//TODO: Make this generic in some way?
 public class DiskCacheLevel<T: NSCoding>: CacheLevel {
   public typealias KeyType = String
   public typealias OutputType = T
