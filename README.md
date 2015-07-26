@@ -23,6 +23,7 @@
   - [Listening to memory warnings](#listening-to-memory-warnings)
   - [Creating custom levels](#creating-custom-levels)
   - [Composing with closures](#composing-with-closures)
+  - [Built-in levels](#built-in-levels)
 - [Tests](#tests)
 - [Future development](#future-development)
 - [Authors](#authors)
@@ -363,13 +364,30 @@ This fetcher can be plugged in and replace the `NetworkFetcher` for example:
 let cache = pooled(memoryLevel >>> diskLevel >>> fetcherLevel)
 ```
 
+### Built-in levels
+
+Carlos comes with 3 cache levels out of the box:
+
+- MemoryCacheLevel
+- DiskCacheLevel
+- NetworkFetcher
+
+**MemoryCacheLevel** is a volatile cache that internally stores its values in an `NSCache` instance. The capacity can be specified through the initializer, and it supports clearing under memory pressure (if the level is [subscribed to memory warning notifications](#listening-to-memory-warnings)). 
+It accepts `String` keys and can store values of a given type, as long as it conforms to the `ExpensiveObject` protocol. `NSData`, `String`, `UIImage`, `NSURL` already conform to this protocol out of the box.
+
+**DiskCacheLevel** is a persistent cache that asynchronously stores its values on disk. The capacity can be specified through the initializer, so that the disk size will never get too big.
+It accepts `String` keys and can store values of a given type, as long as it conforms to the `NSCoding` protocol.
+
+**NetworkFetcher** is a cache level that asynchronously fetches values over the network. 
+It accepts `NSURL` keys and returns `NSData` values.
+
 ## Tests
 
 Carlos is thouroughly tested so that the features it's designed to provide are safe for refactoring and as much as possible bug-free. 
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are **400+ tests** for Carlos (see the folder `Sample/CarlosTests`), and overall the tests codebase is *almost double the size* of the production codebase.
+As of today, there are **500+ tests** for Carlos (see the folder `Sample/CarlosTests`), and overall the tests codebase is *almost double the size* of the production codebase.
 
 ## Future development
 
@@ -389,7 +407,7 @@ Carlos was made in-house by WeltN24
 
 ### Contributors:
 
-Vittorio Monaco, vittorio.monaco@weltn24.de, @vittoriom
+Vittorio Monaco, vittorio.monaco@weltn24.de, @vittoriom on Github, @Vittorio_Monaco on Twitter
 
 Esad Hajdarevic, @esad
 
