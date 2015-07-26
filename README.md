@@ -27,6 +27,7 @@
 - [Future development](#future-development)
 - [Authors](#authors)
 - [License](#license)
+- [Acknowledgements](#acknowledgements)
 
 ## What is Carlos?
 
@@ -240,13 +241,15 @@ Now we can execute multiple fetches for the same `Image` value and be sure that 
 If you want to limit the number of concurrent requests a cache level can take, independently of the key (otherwise, see the [pooling requests](#pooling-requests) paragraph), you may want to have a look at the `capRequests` function.
 
 This is how it looks in practice:
-```swift
+
+```swift
 let myCache = MyFirstLevel() >>> MySecondLevel()
 
 let cappedCache = capRequests(myCache, 3)
 ```
 
-`cappedCache` will now only accept a maximum of `3` concurrent `get` operations. If a fourth request comes, it will be enqueued and executed only at a later point when one of the executing requests is done. This may be useful when a resource is only accessible by a limited number of consumers at the same time, and creating another connection to the resource could be expensive or decrease the performance of the already executing requests.
+`cappedCache` will now only accept a maximum of `3` concurrent `get` operations. If a fourth request comes, it will be enqueued and executed only at a later point when one of the executing requests is done. This may be useful when a resource is only accessible by a limited number of consumers at the same time, and creating another connection to the resource could be expensive or decrease the performance of the already executing requests.
+
 
 ### Conditioning caches 
 
@@ -393,3 +396,12 @@ Esad Hajdarevic, @esad
 ## License
 
 Carlos is available under the MIT license. See the LICENSE file for more info.
+
+## Acknowledgements
+
+Carlos internally uses:
+
+- **Crypto** (available on [Github](https://github.com/krzyzanowskim/CryptoSwift)), unmodified.
+- **ConcurrentOperation** (by [Caleb Davenport](https://github.com/calebd)), unmodified.
+
+The **NetworkFetcher** class and **DiskCacheLevel** class are inspired by [Haneke](https://github.com/Haneke/HanekeSwift). Their source code has been heavily modified, but adapting the original files has proven valuable for Carlos development.
