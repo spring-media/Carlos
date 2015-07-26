@@ -28,7 +28,7 @@ extension String {
 class DiskCacheTests: QuickSpec {
   override func spec() {
     describe("DiskCacheLevel") {
-      var cache: DiskCacheLevel!
+      var cache: DiskCacheLevel<NSData>!
       let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String).stringByAppendingPathComponent("com.carlos.default")
       var fileManager: NSFileManager!
       
@@ -36,7 +36,7 @@ class DiskCacheTests: QuickSpec {
         fileManager = NSFileManager.defaultManager()
         fileManager.removeItemAtPath(path, error: nil)
         
-        cache = DiskCacheLevel(path: path, capacity: 100)
+        cache = DiskCacheLevel(path: path, capacity: 400)
       }
       
       context("when calling get") {
@@ -98,7 +98,7 @@ class DiskCacheTests: QuickSpec {
         }
         
         it("should save the data on disk") {
-          expect(NSData(contentsOfFile: path.stringByAppendingPathComponent(key.MD5String()))).toEventually(equal(value))
+          expect(NSKeyedUnarchiver.unarchiveObjectWithFile(path.stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(value))
         }
         
         context("when calling get") {
@@ -127,7 +127,7 @@ class DiskCacheTests: QuickSpec {
           }
           
           it("should overwrite the data on disk") {
-            expect(NSData(contentsOfFile: path.stringByAppendingPathComponent(key.MD5String()))).toEventually(equal(newValue))
+            expect(NSKeyedUnarchiver.unarchiveObjectWithFile(path.stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(newValue))
           }
           
           context("when calling get") {

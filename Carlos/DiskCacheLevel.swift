@@ -2,9 +2,9 @@ import Foundation
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
 //TODO: Make this generic in some way?
-public class DiskCacheLevel: CacheLevel {
+public class DiskCacheLevel<T: NSCoding>: CacheLevel {
   public typealias KeyType = String
-  public typealias OutputType = NSData
+  public typealias OutputType = T
   
   private let path: String
   private var size: UInt64 = 0
@@ -43,7 +43,7 @@ public class DiskCacheLevel: CacheLevel {
     })
   }
   
-  public func set(value: NSData, forKey key: String) {
+  public func set(value: T, forKey key: String) {
     dispatch_async(cacheQueue, {
       Logger.log("Setting a value for the key \(key) on the disk cache \(self)")
       self.setDataSync(value, key: key)
@@ -55,17 +55,17 @@ public class DiskCacheLevel: CacheLevel {
     
     dispatch_async(cacheQueue, {
       let path = self.pathForKey(key)
-      var error: NSError? = nil
-      if let data = NSData(contentsOfFile: path, options: .allZeros, error: &error) {
+      
+      if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as? T {
         Logger.log("Fetched \(key) on disk level")
         dispatch_async(dispatch_get_main_queue(), {
-          request.succeed(data)
+          request.succeed(obj)
         })
         self.updateDiskAccessDateAtPath(path)
       } else {
         Logger.log("Failed fetching \(key) on the disk cache")
         dispatch_async(dispatch_get_main_queue(), {
-          request.fail(error)
+          request.fail(nil)
         })
       }
     })
@@ -90,7 +90,7 @@ public class DiskCacheLevel: CacheLevel {
     })
   }
   
-  private func updateAccessDate(@autoclosure(escaping) getData: () -> NSData?, key : String) {
+  private func updateAccessDate(@autoclosure(escaping) getData: () -> T?, key : String) {
     dispatch_async(cacheQueue, {
       let path = self.pathForKey(key)
       if !self.updateDiskAccessDateAtPath(path) && !self.fileManager.fileExistsAtPath(path) {
@@ -105,13 +105,20 @@ public class DiskCacheLevel: CacheLevel {
     return path.stringByAppendingPathComponent(key.MD5String())
   }
   
-  private func calculateSize() {
-    size = 0
-    for filePath in itemsInDirectory(path) {
-      if let attributes: NSDictionary = fileManager.attributesOfItemAtPath(filePath, error: nil) {
-        size += attributes.fileSize()
-      }
+  private func sizeForFileAtPath(filePath: String) -> UInt64 {
+    var size: UInt64 = 0
+    
+    if let attributes: NSDictionary = fileManager.attributesOfItemAtPath(filePath, error: nil) {
+      size = attributes.fileSize()
     }
+    
+    return size
+  }
+  
+  private func calculateSize() {
+    size = itemsInDirectory(path).reduce(0, combine: { (accumulator, filePath) in
+      accumulator + sizeForFileAtPath(filePath)
+    })
   }
   
   private func controlCapacity() {
@@ -125,14 +132,14 @@ public class DiskCacheLevel: CacheLevel {
     }
   }
   
-  private func setDataSync(data: NSData, key: String) {
+  private func setDataSync(data: T, key: String) {
     let path = pathForKey(key)
-    let previousAttributes: NSDictionary? = fileManager.attributesOfItemAtPath(path, error: nil)
-    if !data.writeToFile(path, options: .AtomicWrite, error: nil) {
+    let previousSize = sizeForFileAtPath(path)
+    if !NSKeyedArchiver.archiveRootObject(data, toFile: path) {
       Logger.log("Failed to write key \(key) on the disk cache", .Error)
     }
     
-    size += UInt64(max(0, data.length - Int((previousAttributes?.fileSize() ?? 0))))
+    size += max(0, sizeForFileAtPath(path) - previousSize)
     
     controlCapacity()
   }
