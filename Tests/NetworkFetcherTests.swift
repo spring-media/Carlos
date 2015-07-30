@@ -20,15 +20,15 @@ class NetworkFetcherTests: QuickSpec {
         sut = NetworkFetcher()
       }
 
-      context("simulatenous requests") {
+      context("simultaneous requests") {
         var finished = 0
-        let simulatenousRequests = 3
+        let simultaneousRequests = 3
 
         beforeEach {
           let url = NSURL(string:"http://www.google.com/images/logos/google_logo_41.png")!
           let lockQueue = dispatch_queue_create("com.carlos.test", nil)
 
-          for i in 0..<simulatenousRequests {
+          for i in 0..<simultaneousRequests {
             sut.get(url).onSuccess({ data in
               dispatch_sync(lockQueue) {
                 finished++
@@ -38,7 +38,7 @@ class NetworkFetcherTests: QuickSpec {
         }
 
         it("should complete all requests") {
-          expect(finished).toEventually(equal(simulatenousRequests), timeout: 10)
+          expect(finished).toEventually(equal(simultaneousRequests), timeout: 10)
         }
       }
     }
