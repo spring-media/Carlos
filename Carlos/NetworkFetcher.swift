@@ -73,7 +73,7 @@ public class NetworkFetcher: CacheLevel {
   }
 
   private lazy var lockQueue: dispatch_queue_t = {
-    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "NetworkFetcher", nil)
+    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "networkfetcher", DISPATCH_QUEUE_SERIAL)
   }()
 
   private var pendingRequests: [Request] = []

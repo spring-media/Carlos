@@ -20,7 +20,7 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
   }
   
   private lazy var cacheQueue : dispatch_queue_t = {
-    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + self.path.lastPathComponent, nil)
+    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + self.path.lastPathComponent, DISPATCH_QUEUE_SERIAL)
   }()
   
   /**
