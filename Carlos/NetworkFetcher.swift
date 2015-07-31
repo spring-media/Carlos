@@ -86,16 +86,7 @@ public class NetworkFetcher: CacheLevel {
 
   private func removePendingRequests(request: Request) {
     dispatch_async(lockQueue) {
-      var idx: Int?
-
-      for (index, obj) in enumerate(self.pendingRequests) {
-        if request === obj {
-          idx = index
-          break
-        }
-      }
-
-      if let idx = idx {
+      if let idx = filter(enumerate(self.pendingRequests), { $1 === request }).first?.index {
         self.pendingRequests.removeAtIndex(idx)
       }
     }
