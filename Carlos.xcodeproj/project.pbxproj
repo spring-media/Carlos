@@ -68,6 +68,7 @@
 		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
+		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 		C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
 /* End PBXBuildFile section */
@@ -240,6 +241,7 @@
 		7125763FA112BF618F1B0F73 /* Pods-CarlosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarlosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CarlosTests/Pods-CarlosTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E75A8F39308A7998DCD90E0 /* Pods_CarlosSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcherTests.swift; sourceTree = "<group>"; };
 		C7C5D9431B55475B00CDB402 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Vendor/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		C7C5D9521B55476300CDB402 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Vendor/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -331,6 +333,7 @@
 				52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */,
 				52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */,
 				52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */,
+				C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */,
 				52BBFD571B51BAD20000084A /* PoolCacheTests.swift */,
 				526339761B52450C00074CB9 /* ConditionedCacheTests.swift */,
 				526339781B524B3400074CB9 /* CacheRequestTests.swift */,
@@ -725,6 +728,7 @@
 				526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */,
 				526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */,
 				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
+				C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

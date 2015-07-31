@@ -24,7 +24,7 @@ public class NetworkFetcher: CacheLevel {
     private let URL : NSURL
     private var task : NSURLSessionDataTask? = nil
     
-    init(URL: NSURL, success succeed : (NSData) -> (), failure fail : ((NSError?) -> ())) {
+    init(URL: NSURL, success succeed : (NSData,Request) -> (), failure fail : ((NSError?,Request) -> ())) {
       self.URL = URL
       self.task = NSURLSession.sharedSession().dataTaskWithURL(URL) {[weak self] (data, response, error) in
         if let strongSelf = self {
@@ -43,11 +43,11 @@ public class NetworkFetcher: CacheLevel {
       return responseIsValid
     }
     
-    private func dataReceived(data : NSData!, response : NSURLResponse!, error : NSError!, failure fail : ((NSError?) -> Void), success succeed : (NSData) -> Void) {
+    private func dataReceived(data : NSData!, response : NSURLResponse!, error : NSError!, failure fail : ((NSError?,Request) -> Void), success succeed : (NSData,Request) -> Void) {
       if let error = error {
         if error.domain != NSURLErrorDomain || error.code != NSURLErrorCancelled {
           dispatch_async(dispatch_get_main_queue(), {
-            fail(error)
+            fail(error,self)
           })
         }
       } else if let httpResponse = response as? NSHTTPURLResponse {
@@ -57,7 +57,7 @@ public class NetworkFetcher: CacheLevel {
           failWithCode(.InvalidNetworkResponse, failure: fail)
         } else if let data = data {
           dispatch_async(dispatch_get_main_queue()) {
-            succeed(data)
+            succeed(data,self)
           }
         } else {
           failWithCode(.NoDataRetrieved, failure: fail)
@@ -65,15 +65,33 @@ public class NetworkFetcher: CacheLevel {
       }
     }
     
-    private func failWithCode(code: NetworkFetcherError, failure fail : ((NSError?) -> ())) {
+    private func failWithCode(code: NetworkFetcherError, failure fail : ((NSError?,Request) -> ())) {
       dispatch_async(dispatch_get_main_queue()) {
-        fail(errorWithCode(code.rawValue))
+        fail(errorWithCode(code.rawValue),self)
       }
     }
   }
-  
-  private var pendingRequests: [String: Request] = [:]
-  
+
+  private lazy var lockQueue: dispatch_queue_t = {
+    return dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "networkfetcher", DISPATCH_QUEUE_SERIAL)
+  }()
+
+  private var pendingRequests: [Request] = []
+
+  private func addPendingRequest(request: Request) {
+    dispatch_async(lockQueue) {
+      self.pendingRequests.append(request)
+    }
+  }
+
+  private func removePendingRequests(request: Request) {
+    dispatch_async(lockQueue) {
+      if let idx = filter(enumerate(self.pendingRequests), { $1 === request }).first?.index {
+        self.pendingRequests.removeAtIndex(idx)
+      }
+    }
+  }
+
   /**
   Initializes a new instance of a NetworkFetcher
   */
@@ -89,17 +107,16 @@ public class NetworkFetcher: CacheLevel {
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let result = CacheRequest<OutputType>()
     
-    let request = Request(URL: key, success: { data in
+    let request = Request(URL: key, success: { data,request in
       Logger.log("Fetched \(key) from the network fetcher")
       result.succeed(data)
-      self.pendingRequests[key.absoluteString!] = nil
-    }, failure: { error in
+      self.removePendingRequests(request)
+    }, failure: { error, request in
       Logger.log("Failed fetching \(key) from the network fetcher", .Error)
       result.fail(error)
-      self.pendingRequests[key.absoluteString!] = nil
+      self.removePendingRequests(request)
     })
-    
-    pendingRequests[key.absoluteString!] = request
+    self.addPendingRequest(request)
     return result
   }
   
