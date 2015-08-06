@@ -173,7 +173,7 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a cache, with the global function") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String = { "\($0 + 1)" }
+        let transformationClosure: Int -> String? = { "\($0 + 1)" }
         transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
         cache = transformKeys(transformationClosure, internalCache)
       }
@@ -190,7 +190,7 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a cache, with the operator") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String = { "\($0 + 1)" }
+        let transformationClosure: Int -> String? = { "\($0 + 1)" }
         transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
         cache = transformationClosure =>> internalCache
       }
@@ -207,7 +207,7 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a fetch closure, with the global function") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String = { "\($0 + 1)" }
+        let transformationClosure: Int -> String? = { "\($0 + 1)" }
         let fetchClosure = internalCache.get
         transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
         cache = transformKeys(transformationClosure, fetchClosure)
@@ -225,7 +225,7 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a fetch closure, with the operator") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String = { "\($0 + 1)" }
+        let transformationClosure: Int -> String? = { "\($0 + 1)" }
         let fetchClosure = internalCache.get
         transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
         cache = transformationClosure =>> fetchClosure
