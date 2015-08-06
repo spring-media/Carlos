@@ -85,6 +85,13 @@ This line will generate a cache that takes `String` keys and returns `NSData` va
 Setting a value for a given key on this cache will set it for both the levels.
 Getting a value for a given key on this cache will first try getting it on the memory level, and if it cannot find one, will ask the disk level. In case both levels don't have a value, the request will fail.
 
+Carlos comes with a `CacheProvider` class so that standard caches are easily accessible. As of version `0.2.0`, `CacheProvider` has 2 static functions:
+
+- `CacheProvider.dataCache()` to create a cache that takes `NSURL` keys and returns `NSData` values
+- `CacheProvider.imageCache()` to create a cache that takes `NSURL` keys and returns `UIImage` values
+
+
+
 ### Creating requests
 
 To fetch a value from a cache, use the `get` method.
