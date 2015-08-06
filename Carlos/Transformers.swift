@@ -10,11 +10,11 @@ extension NSDateFormatter: TwoWayTransformer {
   public typealias TypeIn = NSDate
   public typealias TypeOut = String
   
-  public func transform(val: TypeIn) -> TypeOut {
+  public func transform(val: TypeIn) -> TypeOut? {
     return stringFromDate(val)
   }
   
-  public func inverseTransform(val: TypeOut) -> TypeIn {
+  public func inverseTransform(val: TypeOut) -> TypeIn? {
     return dateFromString(val)!
   }
 }
@@ -28,12 +28,12 @@ extension NSNumberFormatter: TwoWayTransformer {
   public typealias TypeIn = NSNumber
   public typealias TypeOut = String
   
-  public func transform(val: TypeIn) -> TypeOut {
-    return stringFromNumber(val) ?? ""
+  public func transform(val: TypeIn) -> TypeOut? {
+    return stringFromNumber(val)
   }
   
-  public func inverseTransform(val: TypeOut) -> TypeIn {
-    return numberFromString(val) ?? 0
+  public func inverseTransform(val: TypeOut) -> TypeIn? {
+    return numberFromString(val)
   }
 }
 
@@ -46,11 +46,11 @@ extension MKDistanceFormatter: TwoWayTransformer {
   public typealias TypeIn = CLLocationDistance
   public typealias TypeOut = String
   
-  public func transform(val: TypeIn) -> TypeOut {
+  public func transform(val: TypeIn) -> TypeOut? {
     return stringFromDistance(val)
   }
   
-  public func inverseTransform(val: TypeOut) -> TypeIn {
+  public func inverseTransform(val: TypeOut) -> TypeIn? {
     return distanceFromString(val)
   }
 }

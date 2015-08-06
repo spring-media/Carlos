@@ -12,8 +12,16 @@ internal func mutateCacheRequest<A: OneWayTransformer>(origin: CacheRequest<A.Ty
   let mutatedRequest = CacheRequest<A.TypeOut>()
   
   origin
-    .onFailure({ mutatedRequest.fail($0) })
-    .onSuccess({ mutatedRequest.succeed(transformer.transform($0)) })
+    .onFailure({
+      mutatedRequest.fail($0)
+    })
+    .onSuccess({
+      if let transformedValue = transformer.transform($0) {
+        mutatedRequest.succeed(transformedValue)
+      } else {
+        mutatedRequest.fail(nil) //TODO: More meaningful error here
+      }
+    })
   
   return mutatedRequest
 }
@@ -26,7 +34,7 @@ Mutates a CacheRequest from a type A to a type B through a OneWayTransformer
 
 :returns: A new CacheRequest<B>
 */
-internal func mutateCacheRequest<A, B>(origin: CacheRequest<A>, transformerClosure: A -> B) -> CacheRequest<B> {
+internal func mutateCacheRequest<A, B>(origin: CacheRequest<A>, transformerClosure: A -> B?) -> CacheRequest<B> {
   return mutateCacheRequest(origin, wrapClosureIntoOneWayTransformer(transformerClosure))
 }
 
@@ -59,7 +67,9 @@ public func transformValues<A: CacheLevel, B: TwoWayTransformer where A.OutputTy
     getClosure: { key in
       return mutateCacheRequest(cache.get(key), transformer)
     }, setClosure: { (key, value) in
-      cache.set(transformer.inverseTransform(value), forKey: key)
+      if let transformedValue = transformer.inverseTransform(value) {
+        cache.set(transformedValue, forKey: key)
+      }
     }, clearClosure: {
       cache.clear()
     }, memoryClosure: {

@@ -11,7 +11,7 @@ internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> CacheRequest<
   }, setClosure: { (_, _) in }, clearClosure: { }, memoryClosure: { })
 }
 
-internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> B) -> OneWayTransformationBox<A, B> {
+internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> B?) -> OneWayTransformationBox<A, B> {
   return OneWayTransformationBox(transform: transformerClosure)
 }
 

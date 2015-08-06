@@ -9,7 +9,7 @@ public protocol TwoWayTransformer: OneWayTransformer {
   
   :returns: The original value
   */
-  func inverseTransform(val: TypeOut) -> TypeIn
+  func inverseTransform(val: TypeOut) -> TypeIn?
 }
 
 /// Simple implementation of the TwoWayTransformer protocol
@@ -20,8 +20,8 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  private let transformClosure: I -> O
-  private let inverseTransformClosure: O -> I
+  private let transformClosure: I -> O?
+  private let inverseTransformClosure: O -> I?
   
   /**
   Initializes a new instance of a 2-way transformation box
@@ -29,7 +29,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   :param: transform The transformation closure to convert a value of type TypeIn to a value of type TypeOut
   :param: inverseTransform The transformation closure to convert a value of type TypeOut to a value of type TypeIn
   */
-  public init(transform: (I -> O), inverseTransform: (O -> I)) {
+  public init(transform: (I -> O?), inverseTransform: (O -> I?)) {
     self.transformClosure = transform
     self.inverseTransformClosure = inverseTransform
   }
@@ -41,7 +41,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   :returns: The converted value
   */
-  public func transform(val: I) -> O {
+  public func transform(val: I) -> O? {
     return transformClosure(val)
   }
   
@@ -52,7 +52,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   :returns: The converted value
   */
-  public func inverseTransform(val: O) -> I {
+  public func inverseTransform(val: O) -> I? {
     return inverseTransformClosure(val)
   }
 }

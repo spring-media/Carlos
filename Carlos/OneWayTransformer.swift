@@ -15,7 +15,7 @@ public protocol OneWayTransformer {
   
   :returns: The transformed value
   */
-  func transform(val: TypeIn) -> TypeOut
+  func transform(val: TypeIn) -> TypeOut?
 }
 
 /// Simple implementation of the TwoWayTransformer protocol
@@ -26,14 +26,14 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  private let transformClosure: I -> O
+  private let transformClosure: I -> O?
   
   /**
   Initializes a 1-way transformation box with the given closure
   
   :param: transform The transformation closure to convert a value of type TypeIn into a value of type TypeOut
   */
-  public init(transform: (I -> O)) {
+  public init(transform: (I -> O?)) {
     self.transformClosure = transform
   }
   
@@ -44,7 +44,7 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   
   :returns: The converted value
   */
-  public func transform(val: TypeIn) -> TypeOut {
+  public func transform(val: TypeIn) -> TypeOut? {
     return transformClosure(val)
   }
 }
