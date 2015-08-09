@@ -28,7 +28,7 @@ extension String {
 class DiskCacheTests: QuickSpec {
   override func spec() {
     describe("DiskCacheLevel") {
-      var cache: DiskCacheLevel<NSData>!
+      var cache: DiskCacheLevel<String, NSData>!
       let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String).stringByAppendingPathComponent("com.carlos.default")
       var fileManager: NSFileManager!
       
