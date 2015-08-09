@@ -23,47 +23,79 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       }
       
       context("when calling get") {
-        let key = 12
-        var successValue: Int?
-        var failureValue: NSError?
-        var fakeRequest: CacheRequest<Int>!
-        
-        beforeEach {
-          fakeRequest = CacheRequest<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest
-          
-          cache.get(key).onSuccess({ successValue = $0 }).onFailure({ failureValue = $0 })
-        }
-        
-        it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledGet).to(equal(1))
-        }
-        
-        it("should transform the key first") {
-          expect(internalCache.didGetKey).to(equal(transformer.transform(key)))
-        }
-        
-        context("when the request succeeds") {
-          let value = 101
+        context("when the transformation closure returns a value") {
+          let key = 12
+          var successValue: Int?
+          var failureValue: NSError?
+          var fakeRequest: CacheRequest<Int>!
           
           beforeEach {
-            fakeRequest.succeed(value)
+            fakeRequest = CacheRequest<Int>()
+            internalCache.cacheRequestToReturn = fakeRequest
+            
+            cache.get(key).onSuccess({ successValue = $0 }).onFailure({ failureValue = $0 })
           }
           
-          it("should call the original success closure") {
-            expect(successValue).to(equal(value))
+          it("should forward the call to the internal cache") {
+            expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+          }
+          
+          it("should transform the key first") {
+            expect(internalCache.didGetKey).to(equal(transformer.transform(key)))
+          }
+          
+          context("when the request succeeds") {
+            let value = 101
+            
+            beforeEach {
+              fakeRequest.succeed(value)
+            }
+            
+            it("should call the original success closure") {
+              expect(successValue).to(equal(value))
+            }
+          }
+          
+          context("when the request fails") {
+            let errorCode = -110
+            
+            beforeEach {
+              fakeRequest.fail(NSError(domain: "test", code: errorCode, userInfo: nil))
+            }
+            
+            it("should call the original failure closure") {
+              expect(failureValue?.code).to(equal(errorCode))
+            }
           }
         }
         
-        context("when the request fails") {
-          let errorCode = -110
+        context("when the transformation closure returns nil") {
+          let key = -12
+          var successValue: Int?
+          var failureValue: NSError?
+          var fakeRequest: CacheRequest<Int>!
           
           beforeEach {
-            fakeRequest.fail(NSError(domain: "test", code: errorCode, userInfo: nil))
+            fakeRequest = CacheRequest<Int>()
+            internalCache.cacheRequestToReturn = fakeRequest
+            
+            cache.get(key).onSuccess({ successValue = $0 }).onFailure({ failureValue = $0 })
+          }
+          
+          it("should not forward the call to the internal cache") {
+            expect(internalCache.numberOfTimesCalledGet).to(equal(0))
+          }
+          
+          it("should not call the original success closure") {
+            expect(successValue).to(beNil())
           }
           
           it("should call the original failure closure") {
-            expect(failureValue?.code).to(equal(errorCode))
+            expect(failureValue).notTo(beNil())
+          }
+          
+          it("should pass the right error code") {
+            expect(failureValue?.code).to(equal(FetchError.KeyTransformationFailed.rawValue))
           }
         }
       }
@@ -89,23 +121,38 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       }
       
       context("when calling set") {
-        let key = 10
-        let value = 222
-        
-        beforeEach {
-          cache.set(value, forKey: key)
+        context("when the transformation closure returns a value") {
+          let key = 10
+          let value = 222
+          
+          beforeEach {
+            cache.set(value, forKey: key)
+          }
+          
+          it("should forward the call to the internal cache") {
+            expect(internalCache.numberOfTimesCalledSet).to(equal(1))
+          }
+          
+          it("should transform the key first") {
+            expect(internalCache.didSetKey).to(equal(transformer.transform(key)))
+          }
+          
+          it("should pass the right value") {
+            expect(internalCache.didSetValue).to(equal(value))
+          }
         }
         
-        it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledSet).to(equal(1))
-        }
-        
-        it("should transform the key first") {
-          expect(internalCache.didSetKey).to(equal(transformer.transform(key)))
-        }
-        
-        it("should pass the right value") {
-          expect(internalCache.didSetValue).to(equal(value))
+        context("when the transformation closure fails") {
+          let key = -10
+          let value = 222
+          
+          beforeEach {
+            cache.set(value, forKey: key)
+          }
+          
+          it("should not forward the call to the internal cache") {
+            expect(internalCache.numberOfTimesCalledSet).to(equal(0))
+          }
         }
       }
       
@@ -137,11 +184,18 @@ class KeyTransformationTests: QuickSpec {
     var cache: BasicCache<Int, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
+    let transformationClosure: Int -> String? = {
+      if $0 > 0 {
+        return "\($0 + 1)"
+      } else {
+        return nil
+      }
+    }
     
     describe("Key transformation using a transformer and a cache, with the global function") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox<Int, String>(transform: { "\($0 + 1)" })
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformKeys(transformer, internalCache)
       }
       
@@ -157,7 +211,7 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformer and a cache, with the operator") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox<Int, String>(transform: { "\($0 + 1)" })
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformer =>> internalCache
       }
       
@@ -173,8 +227,7 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a cache, with the global function") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String? = { "\($0 + 1)" }
-        transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformKeys(transformationClosure, internalCache)
       }
       
@@ -190,8 +243,7 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a cache, with the operator") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String? = { "\($0 + 1)" }
-        transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformationClosure =>> internalCache
       }
       
@@ -207,9 +259,8 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a fetch closure, with the global function") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String? = { "\($0 + 1)" }
         let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformKeys(transformationClosure, fetchClosure)
       }
       
@@ -225,9 +276,8 @@ class KeyTransformationTests: QuickSpec {
     describe("Key transformation using a transformation closure and a fetch closure, with the operator") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        let transformationClosure: Int -> String? = { "\($0 + 1)" }
         let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox<Int, String>(transform: transformationClosure)
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformationClosure =>> fetchClosure
       }
       
@@ -244,7 +294,7 @@ class KeyTransformationTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox<Int, String>(transform: { "\($0 + 1)" })
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformKeys(transformer, fetchClosure)
       }
       
@@ -262,7 +312,7 @@ class KeyTransformationTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox<Int, String>(transform: { "\($0 + 1)" })
+        transformer = OneWayTransformationBox(transform: transformationClosure)
         cache = transformer =>> fetchClosure
       }
       
