@@ -127,12 +127,10 @@ request.onSuccess({ value in
 This cache is not very useful, though. It will never *actively* fetch values, just store them for later use. Let's try to make it more interesting:
 
 ```swift
-let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel() >>> NetworkFetcher()
+let cache = MemoryCacheLevel() >>> DiskCacheLevel() >>> NetworkFetcher()
 ```
 
-If you try to compile this code, it will actually fail! Why is that?
-
-`NetworkFetcher` only accepts `NSURL` keys. That makes sense, since it's using the keys to fetch data from the network. But we don't want necessarily to have URL keys all around our cache. How can we do it?
+This will create a cache level that takes `NSURL` keys and stores `NSData` values (the type is inferred from the `NetworkFetcher` hard-requirement of `NSURL` keys and `NSData` values, while `MemoryCacheLevel` and `DiskCacheLevel` are much more flexible as described later).
 
 ### Key transformations
 
@@ -141,23 +139,22 @@ Key transformations are meant to make it possible to plug cache levels in whatev
 Let's see how they work:
 
 ```swift    
-let transformedCache = { NSURL(string: $0)! } =>> NetworkFetcher()
+let transformedCache = { NSURL(string: $0) } =>> NetworkFetcher()
 ``` 
 
-With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into our previous structure:
+With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into a previously defined cache level that takes `String` keys:
 
 ```swift
-let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel() >>> transformedCache
+let cache = MemoryCacheLevel<String, NSData>() >>> transformedCache
 ```
 
 or 
 
 ```swift
-let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel() >>> ({ NSURL(string: $0)! } =>> NetworkFetcher())
+let cache = MemoryCacheLevel<String, NSData>() >>> ({ NSURL(string: $0) } =>> NetworkFetcher())
 ```
 
-This will now compile. 
-If this doesn't look very safe (one could always pass string garbage as a key and it won't magically translate to a `NSURL`!), we can still use a domain specific structure as a key, assuming it contains both `String` and `NSURL` values:
+If this doesn't look very safe (one could always pass string garbage as a key and it won't magically translate to a `NSURL`, thus causing the `NetworkFetcher` to silently fail), we can still use a domain specific structure as a key, assuming it contains both `String` and `NSURL` values:
 
 ```swift
 struct Image {
@@ -174,7 +171,7 @@ let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> NSURL in
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, NSData>()
-let diskLevel = imageToString =>> DiskCacheLevel()
+let diskLevel = imageToString =>> DiskCacheLevel<String, NSData>()
 let networkLevel = imageToURL =>> NetworkFetcher()
     
 let cache = memoryLevel >>> diskLevel >>> networkLevel
@@ -204,7 +201,7 @@ Value transformers let you have a cache that (let's say) stores `NSData` and mut
 let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> NSData in
     UIImagePNGRepresentation(image)
 }, inverseTransform: { (data: NSData) -> UIImage in
-    UIImage(data: data)!
+    UIImage(data: data)
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, UIImage>() =>> dataTransformer
@@ -212,6 +209,8 @@ let memoryLevel = imageToString =>> MemoryCacheLevel<String, UIImage>() =>> data
 ``` 
 
 This memory level can now replace the one we had before, with the difference that it will internally store `UIImage` values!
+
+Keep in mind that, as with key transformations, if your transformation closure fails (either the forward transformation or the inverse transformation), the cache level will be skipped, as if the fetch would fail. Same considerations apply for `set` calls.
 
 ### Pooling requests
 
@@ -274,7 +273,7 @@ The closure gets the key the cache was asked to fetch and has to return a boolea
 The same effect can be obtained through the `<?>` operator:
 
 ```swift
-let conditionedCache = { key in
+let conditionedCache = { _ in
   return (appSettingIsEnabled, nil)
 } <?> cache
 ```
@@ -380,7 +379,7 @@ Carlos comes with 3 cache levels out of the box:
 - NetworkFetcher
 
 **MemoryCacheLevel** is a volatile cache that internally stores its values in an `NSCache` instance. The capacity can be specified through the initializer, and it supports clearing under memory pressure (if the level is [subscribed to memory warning notifications](#listening-to-memory-warnings)). 
-It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `ExpensiveObject` protocol. `NSData`, `String`, `NSString` `UIImage`, `NSURL` already conform to the latter protocol out of the box, while `String` and `NSString` conform to the `StringConvertible` protocol.
+It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `ExpensiveObject` protocol. `NSData`, `String`, `NSString` `UIImage`, `NSURL` already conform to the latter protocol out of the box, while `String`, `NSString` and `NSURL` conform to the `StringConvertible` protocol.
 
 **DiskCacheLevel** is a persistent cache that asynchronously stores its values on disk. The capacity can be specified through the initializer, so that the disk size will never get too big.
 It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `NSCoding` protocol.
@@ -394,7 +393,7 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are **500+ tests** for Carlos (see the folder `Sample/CarlosTests`), and overall the tests codebase is *almost double the size* of the production codebase.
+As of today, there are **550+ tests** for Carlos (see the folder `Sample/CarlosTests`), and overall the tests codebase is *almost double the size* of the production codebase.
 
 ## Future development
 
