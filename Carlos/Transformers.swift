@@ -15,7 +15,7 @@ extension NSDateFormatter: TwoWayTransformer {
   }
   
   public func inverseTransform(val: TypeOut) -> TypeIn? {
-    return dateFromString(val)!
+    return dateFromString(val)
   }
 }
 
