@@ -37,7 +37,7 @@ extension UIImage: ExpensiveObject {
 extension NSURL: ExpensiveObject {
   /// The size of the URL 
   public var cost: Int {
-    return absoluteString!.cost
+    return absoluteString?.cost ?? 0
   }
 }
 
