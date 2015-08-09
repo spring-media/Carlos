@@ -1,9 +1,9 @@
 import Foundation
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
-public class DiskCacheLevel<T: NSCoding>: CacheLevel {
+public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   /// At the moment the disk cache level only accepts String keys
-  public typealias KeyType = String
+  public typealias KeyType = K
   public typealias OutputType = T
   
   private let path: String
@@ -54,9 +54,9 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
   :param: value The value to save on disk
   :param: key The key for the value
   */
-  public func set(value: T, forKey key: String) {
+  public func set(value: T, forKey key: K) {
     dispatch_async(cacheQueue, {
-      Logger.log("Setting a value for the key \(key) on the disk cache \(self)")
+      Logger.log("Setting a value for the key \(key.toString()) on the disk cache \(self)")
       self.setDataSync(value, key: key)
     })
   }
@@ -75,13 +75,13 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
       let path = self.pathForKey(key)
       
       if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as? T {
-        Logger.log("Fetched \(key) on disk level")
+        Logger.log("Fetched \(key.toString()) on disk level")
         dispatch_async(dispatch_get_main_queue(), {
           request.succeed(obj)
         })
         self.updateDiskAccessDateAtPath(path)
       } else {
-        Logger.log("Failed fetching \(key) on the disk cache")
+        Logger.log("Failed fetching \(key.toString()) on the disk cache")
         dispatch_async(dispatch_get_main_queue(), {
           request.fail(nil)
         })
@@ -107,13 +107,13 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
   
   // MARK: Private
   
-  private func removeData(key : String) {
+  private func removeData(key: K) {
     dispatch_async(cacheQueue, {
       self.removeFileAtPath(self.pathForKey(key))
     })
   }
   
-  private func updateAccessDate(@autoclosure(escaping) getData: () -> T?, key : String) {
+  private func updateAccessDate(@autoclosure(escaping) getData: () -> T?, key: K) {
     dispatch_async(cacheQueue, {
       let path = self.pathForKey(key)
       if !self.updateDiskAccessDateAtPath(path) && !self.fileManager.fileExistsAtPath(path) {
@@ -124,8 +124,8 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
     })
   }
   
-  private func pathForKey(key : String) -> String {
-    return path.stringByAppendingPathComponent(key.MD5String())
+  private func pathForKey(key: K) -> String {
+    return path.stringByAppendingPathComponent(key.toString().MD5String())
   }
   
   private func sizeForFileAtPath(filePath: String) -> UInt64 {
@@ -155,11 +155,11 @@ public class DiskCacheLevel<T: NSCoding>: CacheLevel {
     }
   }
   
-  private func setDataSync(data: T, key: String) {
+  private func setDataSync(data: T, key: K) {
     let path = pathForKey(key)
     let previousSize = sizeForFileAtPath(path)
     if !NSKeyedArchiver.archiveRootObject(data, toFile: path) {
-      Logger.log("Failed to write key \(key) on the disk cache", .Error)
+      Logger.log("Failed to write key \(key.toString()) on the disk cache", .Error)
     }
     
     size += max(0, sizeForFileAtPath(path) - previousSize)

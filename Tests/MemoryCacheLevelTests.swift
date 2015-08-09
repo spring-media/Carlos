@@ -6,10 +6,10 @@ import Carlos
 class MemoryCacheLevelTests: QuickSpec {
   override func spec() {
     describe("Memory cache level") {
-      var cache: MemoryCacheLevel<NSString>!
+      var cache: MemoryCacheLevel<String, NSString>!
       
       beforeEach {
-        cache = MemoryCacheLevel<NSString>(capacity: 100)
+        cache = MemoryCacheLevel(capacity: 100)
       }
       
       context("when calling get") {

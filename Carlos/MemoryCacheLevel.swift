@@ -37,14 +37,14 @@ extension UIImage: ExpensiveObject {
 extension NSURL: ExpensiveObject {
   /// The size of the URL 
   public var cost: Int {
-    return absoluteString!.cost
+    return absoluteString?.cost ?? 0
   }
 }
 
 /// This class is a memory cache level. It internally uses NSCache, and has a configurable total cost limit that defaults to 50 MB.
-public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: CacheLevel {
+public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: ExpensiveObject>: CacheLevel {
   /// At the moment the memory cache level only accepts String keys
-  public typealias KeyType = String
+  public typealias KeyType = K
   public typealias OutputType = T
   
   private let internalCache: NSCache
@@ -68,11 +68,11 @@ public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: Cach
   */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request = CacheRequest<T>()
-    if let result = internalCache.objectForKey(key) as? T {
-      Logger.log("Fetched \(key) on memory level")
+    if let result = internalCache.objectForKey(key.toString()) as? T {
+      Logger.log("Fetched \(key.toString()) on memory level")
       request.succeed(result)
     } else {
-      Logger.log("Failed fetching \(key) on the memory cache")
+      Logger.log("Failed fetching \(key.toString()) on the memory cache")
       request.fail(errorWithCode(FetchError.ValueNotInCache.rawValue))
     }
     
@@ -92,9 +92,9 @@ public final class MemoryCacheLevel<T: AnyObject where T: ExpensiveObject>: Cach
   :param: value The value to set
   :param: key The key for the value
   */
-  public func set(value: T, forKey key: String) {
-    Logger.log("Setting a value for the key \(key) on the memory cache \(self)")
-    internalCache.setObject(value, forKey: key, cost: value.cost)
+  public func set(value: T, forKey key: K) {
+    Logger.log("Setting a value for the key \(key.toString()) on the memory cache \(self)")
+    internalCache.setObject(value, forKey: key.toString(), cost: value.cost)
   }
   
   /**

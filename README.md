@@ -78,7 +78,7 @@ To run the example project, clone the repo.
 ### Usage examples
 
 ```swift
-let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel()
+let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel()
 ```
 
 This line will generate a cache that takes `String` keys and returns `NSData` values.
@@ -127,7 +127,7 @@ request.onSuccess({ value in
 This cache is not very useful, though. It will never *actively* fetch values, just store them for later use. Let's try to make it more interesting:
 
 ```swift
-let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel() >>> NetworkFetcher()
+let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel() >>> NetworkFetcher()
 ```
 
 If you try to compile this code, it will actually fail! Why is that?
@@ -147,13 +147,13 @@ let transformedCache = { NSURL(string: $0)! } =>> NetworkFetcher()
 With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into our previous structure:
 
 ```swift
-let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel() >>> transformedCache
+let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel() >>> transformedCache
 ```
 
 or 
 
 ```swift
-let cache = MemoryCacheLevel<NSData>() >>> DiskCacheLevel() >>> ({ NSURL(string: $0)! } =>> NetworkFetcher())
+let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel() >>> ({ NSURL(string: $0)! } =>> NetworkFetcher())
 ```
 
 This will now compile. 
@@ -173,7 +173,7 @@ let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> NSURL in
     image.URL
 })
     
-let memoryLevel = imageToString =>> MemoryCacheLevel<NSData>()
+let memoryLevel = imageToString =>> MemoryCacheLevel<String, NSData>()
 let diskLevel = imageToString =>> DiskCacheLevel()
 let networkLevel = imageToURL =>> NetworkFetcher()
     
@@ -207,7 +207,7 @@ let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> N
     UIImage(data: data)!
 })
     
-let memoryLevel = imageToString =>> MemoryCacheLevel<UIImage>() =>> dataTransformer
+let memoryLevel = imageToString =>> MemoryCacheLevel<String, UIImage>() =>> dataTransformer
     
 ``` 
 
@@ -380,10 +380,10 @@ Carlos comes with 3 cache levels out of the box:
 - NetworkFetcher
 
 **MemoryCacheLevel** is a volatile cache that internally stores its values in an `NSCache` instance. The capacity can be specified through the initializer, and it supports clearing under memory pressure (if the level is [subscribed to memory warning notifications](#listening-to-memory-warnings)). 
-It accepts `String` keys and can store values of a given type, as long as it conforms to the `ExpensiveObject` protocol. `NSData`, `String`, `UIImage`, `NSURL` already conform to this protocol out of the box.
+It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `ExpensiveObject` protocol. `NSData`, `String`, `NSString` `UIImage`, `NSURL` already conform to the latter protocol out of the box, while `String` and `NSString` conform to the `StringConvertible` protocol.
 
 **DiskCacheLevel** is a persistent cache that asynchronously stores its values on disk. The capacity can be specified through the initializer, so that the disk size will never get too big.
-It accepts `String` keys and can store values of a given type, as long as it conforms to the `NSCoding` protocol.
+It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `NSCoding` protocol.
 
 **NetworkFetcher** is a cache level that asynchronously fetches values over the network. 
 It accepts `NSURL` keys and returns `NSData` values.
