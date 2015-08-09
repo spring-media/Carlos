@@ -13,9 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 func simpleCache() -> BasicCache<NSURL, NSData> {
-  return ({ $0.absoluteString } =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> NetworkFetcher()
+  return CacheProvider.dataCache()
 }
 
 func delayedNetworkCache() -> BasicCache<NSURL, NSData> {
-  return ({ $0.absoluteString } =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> DelayedNetworkFetcher()
+  return MemoryCacheLevel() >>> DiskCacheLevel() >>> DelayedNetworkFetcher()
 }
