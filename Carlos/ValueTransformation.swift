@@ -19,7 +19,7 @@ internal func mutateCacheRequest<A: OneWayTransformer>(origin: CacheRequest<A.Ty
       if let transformedValue = transformer.transform($0) {
         mutatedRequest.succeed(transformedValue)
       } else {
-        mutatedRequest.fail(nil) //TODO: More meaningful error here
+        mutatedRequest.fail(errorWithCode(FetchError.ValueTransformationFailed.rawValue))
       }
     })
   
