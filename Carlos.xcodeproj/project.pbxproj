@@ -234,6 +234,7 @@
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCapperCache.swift; sourceTree = "<group>"; };
+		52B6D3541B79307900A403E2 /* Carlos.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Carlos.playground; sourceTree = "<group>"; };
 		52BBFD551B51BA140000084A /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
 		52BBFD571B51BAD20000084A /* PoolCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCacheTests.swift; sourceTree = "<group>"; };
 		52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentOperation.swift; sourceTree = "<group>"; };
@@ -382,6 +383,7 @@
 		AD695CD61B46CD65004E998D = {
 			isa = PBXGroup;
 			children = (
+				52B6D3541B79307900A403E2 /* Carlos.playground */,
 				AD695CE11B46CD65004E998D /* Sample */,
 				52635A1E1B4F0F3D00F187EE /* Carlos */,
 				52635A671B4F110500F187EE /* CarlosTests */,
