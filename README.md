@@ -11,6 +11,7 @@
 
 - [What is Carlos?](#what-is-carlos)
 - [Installation](#installation)
+- [Playground](#playground)
 - [Requirements](#requirements)
 - [Usage](#usage)
   - [Usage examples](#usage-examples)
@@ -65,6 +66,18 @@ If you don't use CocoaPods, you can still add Carlos as a submodule, drag and dr
 - Add `Carlos.framework`
 
 `Carthage` support is in the works.
+
+## Playground
+
+We ship a small Xcode Playground with the project, so you can quickly see how Carlos works and experiment with your custom layers, layers combinations and different configurations for requests pooling, capping, etc.
+
+To use our Playground, please follow these steps:
+
+- Open the Xcode project `Carlos.xcodeproj`
+- Select the `Carlos` framework target, and a **64-bit platform** (e.g. iPhone 6)
+- Build the target with `⌘+B`
+- Click the Playground file `Carlos.playground`
+- Write your code
 
 ## Requirements
 
