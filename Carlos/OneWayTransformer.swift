@@ -13,7 +13,7 @@ public protocol OneWayTransformer {
   
   :param: val The value to transform
   
-  :returns: The transformed value
+  :returns: The transformed value, or .None if the transformation failed
   */
   func transform(val: TypeIn) -> TypeOut?
 }

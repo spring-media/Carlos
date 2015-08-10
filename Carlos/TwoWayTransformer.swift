@@ -7,7 +7,7 @@ public protocol TwoWayTransformer: OneWayTransformer {
   
   :param: val The value to inverse transform
   
-  :returns: The original value
+  :returns: The original value, or .None if the transformation failed
   */
   func inverseTransform(val: TypeOut) -> TypeIn?
 }
