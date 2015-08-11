@@ -61,6 +61,7 @@
 		52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
 		52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		527C65471B7A66D90005023B /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
+		527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65521B7A89440005023B /* SwitchCacheTests.swift */; };
 		52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */; };
 		52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD551B51BA140000084A /* CacheLevelFake.swift */; };
 		52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD571B51BAD20000084A /* PoolCacheTests.swift */; };
@@ -235,6 +236,7 @@
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		527C65461B7A66D90005023B /* SwitchCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCache.swift; sourceTree = "<group>"; };
+		527C65521B7A89440005023B /* SwitchCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheTests.swift; sourceTree = "<group>"; };
 		52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCapperCache.swift; sourceTree = "<group>"; };
 		52B6D3541B79307900A403E2 /* Carlos.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Carlos.playground; sourceTree = "<group>"; };
 		52BBFD551B51BA140000084A /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				5253F3D81B57D7DD0035B1FB /* RequestCapperCacheTests.swift */,
 				52E6E24B1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift */,
 				5243C4BE1B77686300737B3B /* StringConvertibleTests.swift */,
+				527C65521B7A89440005023B /* SwitchCacheTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -733,6 +736,7 @@
 				526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */,
 				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
+				527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */,
 				526339941B52BC6D00074CB9 /* Crypto.swift in Sources */,
 				5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
