@@ -9,11 +9,12 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(NSURL(string: urlKeyField?.text ?? "")!).onFailure { error in
-      if let error = error {
-        self.eventsLogView.text = "\(self.eventsLogView.text)Failed because of condition: \"\(error.localizedDescription)\"\n"
+    cache.get(NSURL(string: urlKeyField?.text ?? "")!)
+      .onFailure { error in
+        if let error = error {
+          self.eventsLogView.text = "\(self.eventsLogView.text)Failed because of condition: \"\(error.localizedDescription)\"\n"
+        }
       }
-    }
   }
   
   override func titleForScreen() -> String {
