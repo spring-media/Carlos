@@ -31,12 +31,12 @@ public func <?><A, B>(condition: A -> (Bool, NSError?), fetchClosure: (key: A) -
 /**
 Wraps a CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
 
-:param: condition The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally. The closure also returns an optional error in case it wants to explicitly communicate why it failed. In case no error is returned, a default FetchError.ConditionNotSatisfied is used instead.
 :param: fetchClosure The fetch closure to decorate
+:param: condition The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally. The closure also returns an optional error in case it wants to explicitly communicate why it failed. In case no error is returned, a default FetchError.ConditionNotSatisfied is used instead.
 
 :returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
-public func conditioned<A, B>(condition: A -> (Bool, NSError?), fetchClosure: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
+public func conditioned<A, B>(fetchClosure: (key: A) -> CacheRequest<B>, condition: A -> (Bool, NSError?)) -> BasicCache<A, B> {
   return conditioned(wrapClosureIntoCacheLevel(fetchClosure), condition)
 }
 

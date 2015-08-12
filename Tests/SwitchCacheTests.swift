@@ -444,7 +444,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not dispatch the call to the first cache") {
-          expect(cacheA.numberOfTimesCalledClear).to(equal(1))
+          expect(cacheA.numberOfTimesCalledClear).to(equal(0))
         }
         
         it("should dispatch the call to the second cache") {
