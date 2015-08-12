@@ -21,6 +21,7 @@
   - [Pooling requests](#pooling-requests)
   - [Limiting concurrent requests](#limiting-concurrent-requests)
   - [Conditioning caches](#conditioning-caches)
+  - [Multiple cache lanes](#multiple-cache-lanes)
   - [Listening to memory warnings](#listening-to-memory-warnings)
   - [Creating custom levels](#creating-custom-levels)
   - [Composing with closures](#composing-with-closures)
@@ -47,6 +48,8 @@ With Carlos you can:
 - **automatically populate upper levels when one of the lower levels fetches a value** for a key, so the next time the first level will already have it cached
 - enable or disable specific levels of your composed cache depending on [boolean conditions](#conditioning-caches)
 - easily [**pool requests**](#pooling-requests) so that expensive levels don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
+- setup [multiple lanes](#multiple-cache-lanes) for complex scenarios where, depending on certain keys or conditions, different caches should be used
+- [Cap the number of concurrent requests](#limiting-concurrent-requests) a cache should handle
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
 
 ## Installation
@@ -293,6 +296,27 @@ let conditionedCache = { _ in
 
 At runtime, if the variable `appSettingIsEnabled` is `false`, the `get` request will skip the level (or fail if this was the only or last level in the cache). If `true`, the `get` request will be executed. 
 
+### Multiple cache lanes
+
+If you have a complex scenario where, depending on the key or some other external condition, either one or another cache should be used, then the `switchLevels` function could turn useful.
+
+Usage:
+
+```swift
+let lane1 = MemoryCacheLevel<NSURL, NSData>() // The two lanes have to be equivalent (same key type, same value type).
+let lane2 = CacheProvider.dataCache() // Keep in mind that you can always use key transformation or value transformations if two lanes don't match by default
+
+let switched = switchLevels(lane1, lane2) { key in
+  if key.scheme == "http" {
+  	return .CacheA
+  } else {
+   	return .CacheB // The example is just meant to show how to return different lanes
+  }
+}
+```
+
+Now depending on the scheme of the key URL, either the first lane or the second will be used.
+
 ### Listening to memory warnings
 
 If we store big objects in memory in our cache levels, we may want to be notified of memory warning events. This is where the `listenToMemoryWarnings` and `unsubscribeToMemoryWarnings` functions come handy:
@@ -406,7 +430,7 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are **550+ tests** for Carlos (see the folder `Sample/CarlosTests`), and overall the tests codebase is *almost double the size* of the production codebase.
+As of today, there are **600+ tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *almost double the size* of the production codebase.
 
 ## Future development
 
