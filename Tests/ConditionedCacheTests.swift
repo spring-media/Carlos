@@ -11,7 +11,7 @@ private struct ConditionedCacheSharedExamplesContext {
 
 class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
-    sharedExamples("a conditioned cache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a conditioned fetch closure") { (sharedExampleContext: SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var errorCode: Int!
@@ -113,6 +113,26 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
           }
         }
       }
+    }
+    
+    sharedExamples("a conditioned cache") { (sharedExampleContext: SharedExampleContext) in
+      var cache: BasicCache<String, Int>!
+      var internalCache: CacheLevelFake<String, Int>!
+      var errorCode: Int!
+      
+      beforeEach {
+        cache = sharedExampleContext()[ConditionedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
+        internalCache = sharedExampleContext()[ConditionedCacheSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
+        errorCode = sharedExampleContext()[ConditionedCacheSharedExamplesContext.ErrorCode] as? Int
+      }
+      
+      itBehavesLike("a conditioned fetch closure") {
+        [
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
+          ConditionedCacheSharedExamplesContext.ErrorCode: errorCode
+        ]
+      }
       
       context("when calling set") {
         let key = "test-key"
@@ -164,7 +184,7 @@ class ConditionedCacheTests: QuickSpec {
     var internalCache: CacheLevelFake<String, Int>!
     let errorCode = 101
     
-    describe("The conditioned function") {
+    describe("The conditioned function, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = conditioned(internalCache, { key in
@@ -181,7 +201,7 @@ class ConditionedCacheTests: QuickSpec {
       }
     }
     
-    describe("The conditioned cache operator") {
+    describe("The conditioned cache operator, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = { key in
@@ -190,6 +210,40 @@ class ConditionedCacheTests: QuickSpec {
       }
       
       itBehavesLike("a conditioned cache") {
+        [
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
+          ConditionedCacheSharedExamplesContext.ErrorCode: errorCode
+        ]
+      }
+    }
+    
+    describe("The conditioned function, applied to a fetch closure") {
+      beforeEach {
+        internalCache = CacheLevelFake<String, Int>()
+        cache = conditioned(internalCache.get, { key in
+          return (count(key) >= 5, NSError(domain: "Test", code: errorCode, userInfo: nil))
+        })
+      }
+      
+      itBehavesLike("a conditioned fetch closure") {
+        [
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
+          ConditionedCacheSharedExamplesContext.ErrorCode: errorCode
+        ]
+      }
+    }
+    
+    describe("The conditioned cache operator, applied to a fetch closure") {
+      beforeEach {
+        internalCache = CacheLevelFake<String, Int>()
+        cache = { key in
+          return (count(key) >= 5, NSError(domain: "Test", code: errorCode, userInfo: nil))
+          } <?> internalCache.get
+      }
+      
+      itBehavesLike("a conditioned fetch closure") {
         [
           ConditionedCacheSharedExamplesContext.CacheToTest: cache,
           ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
