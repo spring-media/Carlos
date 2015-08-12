@@ -15,7 +15,8 @@ struct Example {
 class ExamplesListViewController: UIViewController {
   private let sections = [
     ExamplesListSection(name: "Simple", samples: [
-      Example(name: "Simple cache", shortDescription: "memory-disk-network", segueIdentifier: "simpleCache"),
+      Example(name: "Image cache", shortDescription: "Out-of-the-box image cache", segueIdentifier: "imageCache"),
+      Example(name: "Data cache", shortDescription: "Out-of-the-box data cache", segueIdentifier: "dataCache"),
       Example(name: "Memory warnings", shortDescription: "Simple stack with memory warnings listeners", segueIdentifier: "memoryWarning")
     ]),
     ExamplesListSection(name: "Advanced", samples: [

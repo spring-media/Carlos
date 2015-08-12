@@ -15,13 +15,14 @@
 		520863741B64268000F740C7 /* ExamplesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636B1B64268000F740C7 /* ExamplesListViewController.swift */; };
 		520863751B64268000F740C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5208636C1B64268000F740C7 /* Images.xcassets */; };
 		520863761B64268000F740C7 /* MemoryWarningSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636D1B64268000F740C7 /* MemoryWarningSampleViewController.swift */; };
-		520863771B64268000F740C7 /* SimpleCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636E1B64268000F740C7 /* SimpleCacheSampleViewController.swift */; };
+		520863771B64268000F740C7 /* DataCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */; };
 		520863791B64268700F740C7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 520863781B64268700F740C7 /* Info.plist */; };
 		5208637E1B64268E00F740C7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208637A1B64268E00F740C7 /* LaunchScreen.xib */; };
 		5208637F1B64268E00F740C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5208637C1B64268E00F740C7 /* Main.storyboard */; };
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
 		520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */; };
 		520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */; };
+		522A4E6B1B7BDACB00646D52 /* ImageCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */; };
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
 		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
 		5243C4B31B77670F00737B3B /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4B21B77670F00737B3B /* StringConvertible.swift */; };
@@ -191,13 +192,14 @@
 		5208636B1B64268000F740C7 /* ExamplesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExamplesListViewController.swift; sourceTree = "<group>"; };
 		5208636C1B64268000F740C7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5208636D1B64268000F740C7 /* MemoryWarningSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryWarningSampleViewController.swift; sourceTree = "<group>"; };
-		5208636E1B64268000F740C7 /* SimpleCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleCacheSampleViewController.swift; sourceTree = "<group>"; };
+		5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863781B64268700F740C7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5208637B1B64268E00F740C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5208637D1B64268E00F740C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PooledCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CappedRequestCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayedNetworkFetcher.swift; sourceTree = "<group>"; };
+		522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheSampleViewController.swift; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		5243C4B21B77670F00737B3B /* StringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertible.swift; sourceTree = "<group>"; };
@@ -424,12 +426,13 @@
 				5208636B1B64268000F740C7 /* ExamplesListViewController.swift */,
 				5208636C1B64268000F740C7 /* Images.xcassets */,
 				5208636D1B64268000F740C7 /* MemoryWarningSampleViewController.swift */,
-				5208636E1B64268000F740C7 /* SimpleCacheSampleViewController.swift */,
+				5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */,
 				AD695CE21B46CD65004E998D /* Supporting Files */,
 				520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */,
 				520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */,
 				520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */,
 				528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */,
+				522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */,
 			);
 			path = Sample;
 			sourceTree = SOURCE_ROOT;
@@ -766,6 +769,7 @@
 				520863701B64268000F740C7 /* BaseCacheViewController.swift in Sources */,
 				520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */,
 				528FAD481B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift in Sources */,
+				522A4E6B1B7BDACB00646D52 /* ImageCacheSampleViewController.swift in Sources */,
 				5208636F1B64268000F740C7 /* AppDelegate.swift in Sources */,
 				520863721B64268000F740C7 /* ConditionedCacheSampleViewController.swift in Sources */,
 				520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */,
@@ -773,7 +777,7 @@
 				520863711B64268000F740C7 /* ComplexCacheSampleViewController.swift in Sources */,
 				520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */,
 				520863761B64268000F740C7 /* MemoryWarningSampleViewController.swift in Sources */,
-				520863771B64268000F740C7 /* SimpleCacheSampleViewController.swift in Sources */,
+				520863771B64268000F740C7 /* DataCacheSampleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

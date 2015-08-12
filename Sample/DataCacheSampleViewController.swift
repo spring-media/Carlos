@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import Carlos
 
-class SimpleCacheSampleViewController: BaseCacheViewController {
+class DataCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<NSURL, NSData>!
   
   override func fetchRequested() {
@@ -12,12 +12,12 @@ class SimpleCacheSampleViewController: BaseCacheViewController {
   }
   
   override func titleForScreen() -> String {
-    return "Simple cache"
+    return "Data cache"
   }
   
   override func setupCache() {
     super.setupCache()
     
-    cache = simpleCache()
+    cache = CacheProvider.dataCache()
   }
 }
