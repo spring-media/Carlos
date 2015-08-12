@@ -15,6 +15,12 @@ public enum FetchError: Int {
   
   /// Used when the key doesn't satisfy the cache condition
   case ConditionNotSatisfied = 8901
+  
+  /// Used when a key transformation failed and the cache level had to skip a get operation
+  case KeyTransformationFailed = 8902
+  
+  /// Used when a value transformation failed and the cache level had to skip a get operation
+  case ValueTransformationFailed = 8903
 }
 
 internal func errorWithCode(code: Int) -> NSError {

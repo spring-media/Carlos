@@ -25,3 +25,12 @@ extension NSString: StringConvertible {
     return self as String
   }
 }
+
+extension NSURL: StringConvertible {
+  /**
+  :returns: The absolute string or an empty string if the absolute string is nil
+  */
+  public func toString() -> String {
+    return absoluteString ?? ""
+  }
+}
