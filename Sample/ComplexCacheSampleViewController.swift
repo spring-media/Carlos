@@ -54,18 +54,18 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    let modelDomainToString: ModelDomain -> String = {
+    let modelDomainToString: ModelDomain -> String? = {
       $0.name
     }
     
-    let modelDomainToInt: ModelDomain -> Int = {
+    let modelDomainToInt: ModelDomain -> Int? = {
       $0.identifier
     }
     
     let stringToData = TwoWayTransformationBox<String, NSData>(transform: {
-      $0.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+      $0.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
     }, inverseTransform: {
-      NSString(data: $0, encoding: NSUTF8StringEncoding)! as String
+      NSString(data: $0, encoding: NSUTF8StringEncoding) as? String
     })
     
     cache = (modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> CustomCacheLevel() =>> stringToData) >>> { (key: ModelDomain) in
