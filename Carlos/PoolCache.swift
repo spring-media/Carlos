@@ -1,5 +1,7 @@
 import Foundation
 
+private let SerialPoolQueue = dispatch_queue_create("de.weltn24.carlos.poolQueue", DISPATCH_QUEUE_SERIAL)
+
 /**
 Wraps a CacheLevel with a requests pool
 
@@ -56,16 +58,25 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
       request = pooledRequest
     } else {
       request = internalCache.get(key)
-      requestsPool[key] = request
+      
+      dispatch_sync(SerialPoolQueue) {
+        self.requestsPool[key] = request
+      }
       
       Logger.log("Creating a new request \(request) for key \(key)")
       
+      let cleanRequestPool: () -> Void = {
+        dispatch_sync(SerialPoolQueue) {
+          self.requestsPool[key] = nil
+        }
+      }
+      
       request
-        .onSuccess({ result in
-          self.requestsPool[key] = nil
+        .onSuccess({ _ in
+          cleanRequestPool()
         })
-        .onFailure({ error in
-          self.requestsPool[key] = nil
+        .onFailure({ _ in
+          cleanRequestPool()
         })
     }
     
