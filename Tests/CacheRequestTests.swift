@@ -117,6 +117,97 @@ class CacheRequestTests: QuickSpec {
             }
           }
         }
+        
+        context("when calling onCompletion") {
+          beforeEach {
+            for idx in 0..<successSentinels.count {
+              request.onCompletion({ value, error in
+                failureSentinels[idx] = error
+                successSentinels[idx] = value
+              })
+            }
+          }
+          
+          it("should not immediately call the closures passing an error") {
+            expect(failureSentinels.filter({ $0 == nil }).count).to(equal(failureSentinels.count))
+          }
+          
+          it("should not immediately call the closures passing a value") {
+            expect(successSentinels.filter({ $0 == nil }).count).to(equal(successSentinels.count))
+          }
+          
+          context("when calling fail") {
+            let errorCode = -1100
+            
+            beforeEach {
+              request.fail(NSError(domain: "test", code: errorCode, userInfo: nil))
+            }
+            
+            it("should call the closures passing an error") {
+              expect(failureSentinels).to(allPass({ $0!?.code == errorCode }))
+            }
+            
+            it("should not call the closures passing a value") {
+              expect(successSentinels.filter({ $0 == nil }).count).to(equal(successSentinels.count))
+            }
+            
+            context("when calling onCompletion again") {
+              var subsequentFailureSentinel: NSError?
+              var subsequentSuccessSentinel: String?
+              
+              beforeEach {
+                request.onCompletion({ value, error in
+                  subsequentSuccessSentinel = value
+                  subsequentFailureSentinel = error
+                })
+              }
+              
+              it("should immediately call the closure passing an error") {
+                expect(subsequentFailureSentinel?.code).to(equal(errorCode))
+              }
+              
+              it("should not immediately call the closure passing a value") {
+                expect(subsequentSuccessSentinel).to(beNil())
+              }
+            }
+          }
+          
+          context("when calling succeed") {
+            let value = "success value"
+            
+            beforeEach {
+              request.succeed(value)
+            }
+            
+            it("should call the closures passing a value") {
+              expect(successSentinels).to(allPass({ $0! == value }))
+            }
+            
+            it("should not call the closures passing an error") {
+              expect(failureSentinels.filter({ $0 == nil }).count).to(equal(failureSentinels.count))
+            }
+            
+            context("when calling onCompletion again") {
+              var subsequentSuccessSentinel: String?
+              var subsequentFailureSentinel: NSError?
+              
+              beforeEach {
+                request.onCompletion({ result, error in
+                  subsequentSuccessSentinel = result
+                  subsequentFailureSentinel = error
+                })
+              }
+              
+              it("should immediately call the closure passing a value") {
+                expect(subsequentSuccessSentinel).to(equal(value))
+              }
+              
+              it("should not immediately call the closure passing an error") {
+                expect(subsequentFailureSentinel).to(beNil())
+              }
+            }
+          }
+        }
       }
       
       context("when initialized with a value") {
@@ -158,6 +249,25 @@ class CacheRequestTests: QuickSpec {
           
           it("should not call the closures") {
             expect(failureSentinels.filter({ $0 == nil }).count).to(equal(failureSentinels.count))
+          }
+        }
+        
+        context("when calling onCompletion") {
+          beforeEach {
+            for idx in 0..<successSentinels.count {
+              request.onCompletion({ value, error in
+                successSentinels[idx] = value
+                failureSentinels[idx] = error
+              })
+            }
+          }
+          
+          it("should not call the closures passing an error") {
+            expect(failureSentinels.filter({ $0 == nil }).count).to(equal(failureSentinels.count))
+          }
+          
+          it("should call the closures passing a value") {
+            expect(successSentinels).to(allPass({ $0! == value }))
           }
         }
       }
@@ -204,6 +314,29 @@ class CacheRequestTests: QuickSpec {
               expect(failureSentinels).to(allPass({ $0!!.code == error.code }))
             }
           }
+          
+          context("when calling onCompletion") {
+            beforeEach {
+              for idx in 0..<successSentinels.count {
+                request.onCompletion({ value, error in
+                  successSentinels[idx] = value
+                  failureSentinels[idx] = error
+                })
+              }
+            }
+            
+            it("should immediately call the closures") {
+              expect(failureSentinels.filter({ $0 != nil }).count).to(equal(failureSentinels.count))
+            }
+            
+            it("should pass the right error") {
+              expect(failureSentinels).to(allPass({ $0!!.code == error.code }))
+            }
+            
+            it("should not pass a value") {
+              expect(successSentinels.filter({ $0 == nil }).count).to(equal(successSentinels.count))
+            }
+          }
         }
         
         context("when the error is nil") {
@@ -241,6 +374,25 @@ class CacheRequestTests: QuickSpec {
             
             it("should immediately call the closures") {
               expect(failureSentinels.filter({ $0 != nil }).count).to(equal(failureSentinels.count))
+            }
+          }
+          
+          context("when calling onCompletion") {
+            beforeEach {
+              for idx in 0..<successSentinels.count {
+                request.onCompletion({ value, error in
+                  failureSentinels[idx] = true
+                  successSentinels[idx] = value
+                })
+              }
+            }
+            
+            it("should immediately call the closures") {
+              expect(failureSentinels.filter({ $0 != nil }).count).to(equal(failureSentinels.count))
+            }
+            
+            it("should not pass a value") {
+              expect(successSentinels.filter({ $0 == nil }).count).to(equal(successSentinels.count))
             }
           }
         }

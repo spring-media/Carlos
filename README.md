@@ -141,6 +141,20 @@ request.onSuccess({ value in
 
 **When the cache request succeeds, all its listeners are called**. And **even if you add a listener after the request already did its job, you will still get the callback**.
 
+If you are just interested in when the request completes, regardless of whether it succeeded or failed, you can use `onCompletion`:
+
+```swift
+request.onCompletion { (value, error) in
+   if let value = value {
+       println("Request succeeded with value \(value)")
+   } else if let error = error {
+       println("Request failed with code \(error.code)")
+   }
+   
+   println("Nevertheless the request completed")
+}
+```
+
 This cache is not very useful, though. It will never *actively* fetch values, just store them for later use. Let's try to make it more interesting:
 
 ```swift

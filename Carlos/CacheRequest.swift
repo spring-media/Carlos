@@ -95,4 +95,27 @@ public class CacheRequest<T> {
     
     return self
   }
+  
+  /**
+  Adds a listener for both success and failure events of this request
+  
+  :param: completion The closure that should be called when the request completes (succeeds or fails), taking both an optional value in case the request succeeded and an optional error in case the request failed as parameters
+  
+  :returns: The updated request
+  */
+  public func onCompletion(completion: (value: T?, error: NSError?) -> Void) -> CacheRequest<T> {
+    if didFail || didSucceed {
+      completion(value: value, error: error)
+    } else {
+      onSuccess { value in
+        completion(value: value, error: nil)
+      }
+      
+      onFailure { error in
+        completion(value: nil, error: error)
+      }
+    }
+    
+    return self
+  }
 }

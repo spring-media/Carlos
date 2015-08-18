@@ -44,9 +44,7 @@ public func transformKeys<A: CacheLevel, B: OneWayTransformer where A.KeyType ==
       if let transformedKey = transformer.transform(key) {
         return cache.get(transformedKey)
       } else {
-        let request = CacheRequest<A.OutputType>()
-        request.fail(errorWithCode(FetchError.KeyTransformationFailed.rawValue))
-        return request
+        return CacheRequest<A.OutputType>(error: errorWithCode(FetchError.KeyTransformationFailed.rawValue))
       }
     }, setClosure: { (key, value) in
       if let transformedKey = transformer.transform(key) {

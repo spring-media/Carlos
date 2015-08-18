@@ -65,19 +65,12 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
       
       Logger.log("Creating a new request \(request) for key \(key)")
       
-      let cleanRequestPool: () -> Void = {
-        dispatch_sync(SerialPoolQueue) {
-          self.requestsPool[key] = nil
-        }
-      }
-      
       request
-        .onSuccess({ _ in
-          cleanRequestPool()
-        })
-        .onFailure({ _ in
-          cleanRequestPool()
-        })
+        .onCompletion { _, _ in
+          dispatch_sync(SerialPoolQueue) {
+            self.requestsPool[key] = nil
+          }
+        }
     }
     
     return request
