@@ -24,7 +24,7 @@ class MemoryWarningSampleViewController: BaseCacheViewController {
   
   @IBAction func memoryWarningSwitchValueChanged(sender: UISwitch) {
     if sender.on && token == nil {
-      token = listenToMemoryWarnings(cache)
+      token = cache.listenToMemoryWarnings()
     } else if let token = token where !sender.on {
       unsubscribeToMemoryWarnings(token)
       self.token = nil

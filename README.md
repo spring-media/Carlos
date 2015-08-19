@@ -35,7 +35,7 @@
 
 ## What is Carlos?
 
-Carlos is a small set of classes, global functions (that will be replaced by protocol extensions with Swift 2.0) and convenience operators to **realize custom, flexible and powerful cache layers** in your application.
+Carlos is a small set of classes, functions and convenience operators to **realize custom, flexible and powerful cache layers** in your application.
 
 By default, **Carlos ships with an in-memory cache, a disk cache and a simple network fetcher** (disk cache and network fetcher are inspired by [HanekeSwift](https://github.com/Haneke/HanekeSwift)). 
 
@@ -43,12 +43,11 @@ With Carlos you can:
 
 - **create levels and fetchers** depending on your needs, either [through classes](#creating-custom-levels) or with [simple closures](#composing-with-closures)
 - [combine levels](#usage-examples)
-- sort the different levels depending on what makes most sense for you
 - [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on)
 - [react to memory pressure events](#listening-to-memory-warnings) in your app
 - **automatically populate upper levels when one of the lower levels fetches a value** for a key, so the next time the first level will already have it cached
 - enable or disable specific levels of your composed cache depending on [boolean conditions](#conditioning-caches)
-- easily [**pool requests**](#pooling-requests) so that expensive levels don't have to care whether 5 requests with the same keys come before even only 1 of them is done. Carlos can take care of that for you
+- easily [**pool requests**](#pooling-requests) so you don't have to care whether 5 requests with the same key have to be executed by an expensive cache level before even only 1 of them is done. Carlos can take care of that for you
 - setup [multiple lanes](#multiple-cache-lanes) for complex scenarios where, depending on certain keys or conditions, different caches should be used
 - [Cap the number of concurrent requests](#limiting-concurrent-requests) a cache should handle
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
@@ -69,7 +68,7 @@ If you don't use CocoaPods, you can still add Carlos as a submodule, drag and dr
 - Click the `+` button on the `Embedded binaries` section
 - Add `Carlos.framework`
 
-`Carthage` support is in the works.
+`Carthage` is also supported.
 
 ## Playground
 
@@ -86,7 +85,7 @@ To use our Playground, please follow these steps:
 ## Requirements
 
 - iOS 8.0+
-- Xcode 6.3+
+- Xcode 7+
 
 ## Usage
 
@@ -102,7 +101,7 @@ This line will generate a cache that takes `String` keys and returns `NSData` va
 Setting a value for a given key on this cache will set it for both the levels.
 Getting a value for a given key on this cache will first try getting it on the memory level, and if it cannot find one, will ask the disk level. In case both levels don't have a value, the request will fail.
 
-Carlos comes with a `CacheProvider` class so that standard caches are easily accessible. As of version `0.2.0`, `CacheProvider` has 2 static functions:
+Carlos comes with a `CacheProvider` class so that standard caches are easily accessible. Starting from version `0.2.0`, `CacheProvider` has 2 static functions:
 
 - `CacheProvider.dataCache()` to create a cache that takes `NSURL` keys and returns `NSData` values
 - `CacheProvider.imageCache()` to create a cache that takes `NSURL` keys and returns `UIImage` values
@@ -114,11 +113,13 @@ Carlos comes with a `CacheProvider` class so that standard caches are easily acc
 To fetch a value from a cache, use the `get` method.
 
 ```swift
-cache.get("key").onSuccess({ value in
-    println("I found \(value)!")
-}).onFailure({ error in
-    println("An error occurred :( \(error)")
-})
+cache.get("key")
+  .onSuccess { value in
+      println("I found \(value)!")
+  }
+  .onFailure { error in
+      println("An error occurred :( \(error)")
+  }
 ```
 
 You can also store the request somewhere and then attach multiple `onSuccess` or `onFailure` listeners to it:
@@ -126,20 +127,21 @@ You can also store the request somewhere and then attach multiple `onSuccess` or
 ```swift
 let request = cache.get("key")
 
-request.onSuccess({ value in
+request.onSuccess { value in
     println("I found \(value)!")
-})
+}
 
 [... somewhere else]
 
 
-request.onSuccess({ value in
-    println("I also can read \(value)!")
-})
+request.onSuccess { value in
+    println("I can read \(value), too!")
+}
 
 ```
 
 **When the cache request succeeds, all its listeners are called**. And **even if you add a listener after the request already did its job, you will still get the callback**.
+**A request cannot fail and succeed at the same time**, and **cannot fail or succeed more than once**.
 
 If you are just interested in when the request completes, regardless of whether it succeeded or failed, you can use `onCompletion`:
 
@@ -148,7 +150,7 @@ request.onCompletion { (value, error) in
    if let value = value {
        println("Request succeeded with value \(value)")
    } else if let error = error {
-       println("Request failed with code \(error.code)")
+       println("Request failed with code \(error)")
    }
    
    println("Nevertheless the request completed")
@@ -215,9 +217,9 @@ Now we can perform safe requests like this:
 ```swift
 let image = Image(identifier: "550e8400-e29b-41d4-a716-446655440000", URL: NSURL(string: "http://goo.gl/KcGz8T")!)
 
-cache.get(image).onSuccess({ value in
+cache.get(image).onSuccess { value in
   println("Found \(value)!")
-})
+}
 ```
 
 That's not all, though.
@@ -253,6 +255,12 @@ This functionality comes with Carlos.
 let cache = pooled(memoryLevel >>> diskLevel >>> networkLevel)
 ```
 
+or, using protocol extensions:
+
+```swift
+let cache = (memoryLevel >>> diskLevel >>> networkLevel).pooled()
+```
+
 Keep in mind that the key must conform to the `Hashable` protocol for the `pooled` function to work:
 
 
@@ -286,6 +294,12 @@ let myCache = MyFirstLevel() >>> MySecondLevel()
 let cappedCache = capRequests(myCache, 3)
 ```
 
+or, with protocol extensions:
+
+```swift
+let cappedCache = myCache.capRequests(3)
+```
+
 `cappedCache` will now only accept a maximum of `3` concurrent `get` operations. If a fourth request comes, it will be enqueued and executed only at a later point when one of the executing requests is done. This may be useful when a resource is only accessible by a limited number of consumers at the same time, and creating another connection to the resource could be expensive or decrease the performance of the already executing requests.
 
 
@@ -297,6 +311,14 @@ Sometimes we may have levels that should only be queried under some conditions. 
 let conditionedCache = conditioned(cache, { key in
   return (appSettingIsEnabled, nil)
 })
+```
+
+or, with protocol extensions:
+
+```swift
+let conditionedCache = cache.conditioned { key in
+  (appSettingIsEnabled, nil)
+}
 ```
 
 The closure gets the key the cache was asked to fetch and has to return a boolean value, indicating whether the request can proceed or should skip the level, and an optional `NSError` communicating the specific error to the caller.
@@ -337,7 +359,7 @@ Now depending on the scheme of the key URL, either the first lane or the second 
 If we store big objects in memory in our cache levels, we may want to be notified of memory warning events. This is where the `listenToMemoryWarnings` and `unsubscribeToMemoryWarnings` functions come handy:
 
 ```swift
-let token = listenToMemoryWarnings(cache)
+let token = cache.listenToMemoryWarnings()
 ```
 
 and later
@@ -366,6 +388,8 @@ class MyLevel: CacheLevel {
     let request = CacheRequest<OutputType>()
     
     // Perform the fetch and either succeed or fail
+    [...]
+    
     request.succeed(1.0)
     
     return request
@@ -445,7 +469,7 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are **600+ tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *almost double the size* of the production codebase.
+As of today, there are **800+ tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 
@@ -477,7 +501,7 @@ Carlos is available under the MIT license. See the LICENSE file for more info.
 
 Carlos internally uses:
 
-- **Crypto** (available on [Github](https://github.com/krzyzanowskim/CryptoSwift)), unmodified.
+- **Crypto** (available on [Github](https://github.com/krzyzanowskim/CryptoSwift)), slightly adapted to compile with Swift 2.0.
 - **ConcurrentOperation** (by [Caleb Davenport](https://github.com/calebd)), unmodified.
 
 The **NetworkFetcher** class and **DiskCacheLevel** class are inspired by [Haneke](https://github.com/Haneke/HanekeSwift). Their source code has been heavily modified, but adapting the original files has proven valuable for Carlos development.

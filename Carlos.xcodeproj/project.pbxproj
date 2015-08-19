@@ -16,7 +16,6 @@
 		520863751B64268000F740C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5208636C1B64268000F740C7 /* Images.xcassets */; };
 		520863761B64268000F740C7 /* MemoryWarningSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636D1B64268000F740C7 /* MemoryWarningSampleViewController.swift */; };
 		520863771B64268000F740C7 /* DataCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */; };
-		520863791B64268700F740C7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 520863781B64268700F740C7 /* Info.plist */; };
 		5208637E1B64268E00F740C7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208637A1B64268E00F740C7 /* LaunchScreen.xib */; };
 		5208637F1B64268E00F740C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5208637C1B64268E00F740C7 /* Main.storyboard */; };
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
@@ -553,7 +552,9 @@
 		AD695CD71B46CD65004E998D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = WeltN24;
 				TargetAttributes = {
 					52635A1C1B4F0F3D00F187EE = {
@@ -689,7 +690,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				520863791B64268700F740C7 /* Info.plist in Resources */,
 				5208637E1B64268E00F740C7 /* LaunchScreen.xib in Resources */,
 				520863751B64268000F740C7 /* Images.xcassets in Resources */,
 				5208637F1B64268E00F740C7 /* Main.storyboard in Resources */,
@@ -833,6 +833,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -852,6 +853,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -874,6 +876,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -890,6 +893,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -915,6 +919,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -987,6 +992,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1001,6 +1007,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

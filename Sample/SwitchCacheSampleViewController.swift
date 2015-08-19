@@ -24,7 +24,7 @@ class SwitchCacheSampleViewController: BaseCacheViewController {
     
     let lane2 = CacheProvider.dataCache()
     
-    cache = switchLevels(lane1, lane2, { key in
+    cache = switchLevels(lane1, cacheB: lane2, switchClosure: { key in
       if key.scheme == "http" {
         return .CacheB
       } else {

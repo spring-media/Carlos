@@ -11,9 +11,9 @@ public protocol OneWayTransformer {
   /**
   Apply the transformation from A to B
   
-  :param: val The value to transform
+  - parameter val: The value to transform
   
-  :returns: The transformed value, or .None if the transformation failed
+  - returns: The transformed value, or .None if the transformation failed
   */
   func transform(val: TypeIn) -> TypeOut?
 }
@@ -31,7 +31,7 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   /**
   Initializes a 1-way transformation box with the given closure
   
-  :param: transform The transformation closure to convert a value of type TypeIn into a value of type TypeOut
+  - parameter transform: The transformation closure to convert a value of type TypeIn into a value of type TypeOut
   */
   public init(transform: (I -> O?)) {
     self.transformClosure = transform
@@ -40,9 +40,9 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   /**
   Transforms a value of type TypeIn into a value of type TypeOut
   
-  :param: val The value to convert
+  - parameter val: The value to convert
   
-  :returns: The converted value
+  - returns: The converted value
   */
   public func transform(val: TypeIn) -> TypeOut? {
     return transformClosure(val)

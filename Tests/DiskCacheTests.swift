@@ -4,7 +4,13 @@ import Nimble
 import Carlos
 
 private func filesInDirectory(directory: String) -> [String] {
-  return (NSFileManager.defaultManager().contentsOfDirectoryAtPath(directory, error: nil) as? [String]) ?? []
+  var result: [String] = []
+  
+  do {
+    result = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(directory)
+  } catch _ {}
+  
+  return result
 }
 
 extension String {
@@ -29,12 +35,14 @@ class DiskCacheTests: QuickSpec {
   override func spec() {
     describe("DiskCacheLevel") {
       var cache: DiskCacheLevel<String, NSData>!
-      let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String).stringByAppendingPathComponent("com.carlos.default")
+      let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]).stringByAppendingPathComponent("com.carlos.default")
       var fileManager: NSFileManager!
       
       beforeEach {
         fileManager = NSFileManager.defaultManager()
-        fileManager.removeItemAtPath(path, error: nil)
+        do {
+          try fileManager.removeItemAtPath(path)
+        } catch _ {}
         
         cache = DiskCacheLevel(path: path, capacity: 400)
       }
@@ -174,7 +182,7 @@ class DiskCacheTests: QuickSpec {
           }
           
           it("should remove all the files on disk") {
-            expect({ filesInDirectory(path) }).toEventually(beEmpty())
+            expect(filesInDirectory(path)).toEventually(beEmpty())
           }
           
           context("when calling get") {

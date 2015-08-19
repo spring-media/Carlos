@@ -5,9 +5,9 @@ public protocol TwoWayTransformer: OneWayTransformer {
   /**
   Apply the inverse transformation from B to A
   
-  :param: val The value to inverse transform
+  - parameter val: The value to inverse transform
   
-  :returns: The original value, or .None if the transformation failed
+  - returns: The original value, or .None if the transformation failed
   */
   func inverseTransform(val: TypeOut) -> TypeIn?
 }
@@ -26,8 +26,8 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /**
   Initializes a new instance of a 2-way transformation box
   
-  :param: transform The transformation closure to convert a value of type TypeIn to a value of type TypeOut
-  :param: inverseTransform The transformation closure to convert a value of type TypeOut to a value of type TypeIn
+  - parameter transform: The transformation closure to convert a value of type TypeIn to a value of type TypeOut
+  - parameter inverseTransform: The transformation closure to convert a value of type TypeOut to a value of type TypeIn
   */
   public init(transform: (I -> O?), inverseTransform: (O -> I?)) {
     self.transformClosure = transform
@@ -37,9 +37,9 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /**
   Converts a value of type TypeIn to a value of type TypeOut
   
-  :param: val The value to convert
+  - parameter val: The value to convert
   
-  :returns: The converted value
+  - returns: The converted value
   */
   public func transform(val: I) -> O? {
     return transformClosure(val)
@@ -48,9 +48,9 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /**
   Converts a value of type TypeOut to a value of type TypeIn
   
-  :param: val The value to convert
+  - parameter val: The value to convert
   
-  :returns: The converted value
+  - returns: The converted value
   */
   public func inverseTransform(val: O) -> I? {
     return inverseTransformClosure(val)
@@ -60,9 +60,9 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
 /**
 Inverts a TwoWayTransformer
 
-:param: transformer The TwoWayTransformer you want to invert
+- parameter transformer: The TwoWayTransformer you want to invert
 
-:returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
+- returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
 */
 public func invert<A: TwoWayTransformer, B, C where A.TypeIn == B, A.TypeOut == C>(transformer: A) -> TwoWayTransformationBox<C, B> {
   return TwoWayTransformationBox<C, B>(transform: { input in

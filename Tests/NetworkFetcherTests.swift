@@ -28,7 +28,7 @@ class NetworkFetcherTests: QuickSpec {
           let url = NSURL(string:"http://www.google.com/images/logos/google_logo_41.png")!
           let lockQueue = dispatch_queue_create("com.carlos.test", nil)
 
-          for i in 0..<simultaneousRequests {
+          for _ in 0..<simultaneousRequests {
             sut.get(url).onSuccess({ data in
               dispatch_sync(lockQueue) {
                 finished++

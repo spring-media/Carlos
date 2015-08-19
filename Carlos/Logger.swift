@@ -17,14 +17,14 @@ public class Logger {
   */
   public static var output: (String, Level) -> Void = { (msg, level) in
     dispatch_async(queue) {
-      println("[Carlos][\(level.rawValue)]: \(msg)")
+      print("[Carlos][\(level.rawValue)]: \(msg)")
     }
   }
 
   /**
   Logs a message on the console
   
-  :param: message The message to log
+  - parameter message: The message to log
   
   :discussion: This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
   */

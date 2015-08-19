@@ -40,10 +40,11 @@ class BaseCacheViewController: UIViewController {
 
 extension BaseCacheViewController: UITextFieldDelegate {
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    let newText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-    
-    let textIsURL = NSURL(string: newText) != nil
-    fetchButton.enabled = textIsURL
+    if let text = textField.text {
+      let newText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+      let textIsURL = NSURL(string: newText) != nil
+      fetchButton.enabled = textIsURL
+    }
     
     return true
   }

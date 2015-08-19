@@ -8,7 +8,7 @@ class CacheRequestTests: QuickSpec {
     describe("CacheRequest") {
       var request: CacheRequest<String>!
       var successSentinels: [String?]!
-      var failureSentinels: [NSError?]!
+      var failureSentinels: [ErrorType?]!
       
       context("when initialized with the empty initializer") {
         beforeEach {
@@ -59,7 +59,7 @@ class CacheRequestTests: QuickSpec {
           
           context("when calling fail") {
             beforeEach {
-              request.fail(nil)
+              request.fail(TestError.SimpleError)
             }
             
             it("should not call any success closure") {
@@ -71,9 +71,9 @@ class CacheRequestTests: QuickSpec {
         context("when calling onFailure") {
           beforeEach {
             for idx in 0..<successSentinels.count {
-              request.onFailure({ error in
+              request.onFailure { error in
                 failureSentinels[idx] = error
-              })
+              }
             }
           }
           
@@ -82,27 +82,29 @@ class CacheRequestTests: QuickSpec {
           }
           
           context("when calling fail") {
-            let errorCode = -1100
+            let errorCode = TestError.AnotherError
             
             beforeEach {
-              request.fail(NSError(domain: "test", code: errorCode, userInfo: nil))
+              request.fail(errorCode)
             }
             
             it("should call the closures") {
-              expect(failureSentinels).to(allPass({ $0!?.code == errorCode }))
+              for fSentinel in failureSentinels {
+                expect(fSentinel as? TestError).to(equal(errorCode))
+              }
             }
             
             context("when calling onFailure again") {
-              var subsequentFailureSentinel: NSError?
+              var subsequentFailureSentinel: ErrorType?
               
               beforeEach {
-                request.onFailure({ error in
+                request.onFailure { error in
                   subsequentFailureSentinel = error
-                })
+                }
               }
               
               it("should immediately call the closures") {
-                expect(subsequentFailureSentinel?.code).to(equal(errorCode))
+                expect(subsequentFailureSentinel as? TestError).to(equal(errorCode))
               }
             }
           }
@@ -121,10 +123,12 @@ class CacheRequestTests: QuickSpec {
         context("when calling onCompletion") {
           beforeEach {
             for idx in 0..<successSentinels.count {
-              request.onCompletion({ value, error in
-                failureSentinels[idx] = error
+              request.onCompletion { value, error in
+                if let error = error {
+                  failureSentinels[idx] = error
+                }
                 successSentinels[idx] = value
-              })
+              }
             }
           }
           
@@ -144,7 +148,9 @@ class CacheRequestTests: QuickSpec {
             }
             
             it("should call the closures passing an error") {
-              expect(failureSentinels).to(allPass({ $0!?.code == errorCode }))
+              for fSentinel in failureSentinels {
+                expect((fSentinel as? NSError)?.code).to(equal(errorCode))
+              }
             }
             
             it("should not call the closures passing a value") {
@@ -152,18 +158,20 @@ class CacheRequestTests: QuickSpec {
             }
             
             context("when calling onCompletion again") {
-              var subsequentFailureSentinel: NSError?
+              var subsequentFailureSentinel: ErrorType?
               var subsequentSuccessSentinel: String?
               
               beforeEach {
-                request.onCompletion({ value, error in
+                request.onCompletion { value, error in
                   subsequentSuccessSentinel = value
-                  subsequentFailureSentinel = error
-                })
+                  if let error = error {
+                    subsequentFailureSentinel = error
+                  }
+                }
               }
               
               it("should immediately call the closure passing an error") {
-                expect(subsequentFailureSentinel?.code).to(equal(errorCode))
+                expect((subsequentFailureSentinel as? NSError)?.code).to(equal(errorCode))
               }
               
               it("should not immediately call the closure passing a value") {
@@ -189,13 +197,15 @@ class CacheRequestTests: QuickSpec {
             
             context("when calling onCompletion again") {
               var subsequentSuccessSentinel: String?
-              var subsequentFailureSentinel: NSError?
+              var subsequentFailureSentinel: ErrorType?
               
               beforeEach {
-                request.onCompletion({ result, error in
+                request.onCompletion { result, error in
                   subsequentSuccessSentinel = result
-                  subsequentFailureSentinel = error
-                })
+                  if let error = error {
+                    subsequentFailureSentinel = error
+                  }
+                }
               }
               
               it("should immediately call the closure passing a value") {
@@ -241,9 +251,9 @@ class CacheRequestTests: QuickSpec {
         context("when calling onFailure") {
           beforeEach {
             for idx in 0..<successSentinels.count {
-              request.onFailure({ error in
+              request.onFailure { error in
                 failureSentinels[idx] = error
-              })
+              }
             }
           }
           
@@ -255,10 +265,12 @@ class CacheRequestTests: QuickSpec {
         context("when calling onCompletion") {
           beforeEach {
             for idx in 0..<successSentinels.count {
-              request.onCompletion({ value, error in
+              request.onCompletion { value, error in
                 successSentinels[idx] = value
-                failureSentinels[idx] = error
-              })
+                if let error = error {
+                  failureSentinels[idx] = error
+                }
+              }
             }
           }
           
@@ -286,9 +298,9 @@ class CacheRequestTests: QuickSpec {
           context("when calling onSuccess") {
             beforeEach {
               for idx in 0..<successSentinels.count {
-                request.onSuccess({ result in
+                request.onSuccess { result in
                   successSentinels[idx] = result
-                })
+                }
               }
             }
             
@@ -300,9 +312,9 @@ class CacheRequestTests: QuickSpec {
           context("when calling onFailure") {
             beforeEach {
               for idx in 0..<successSentinels.count {
-                request.onFailure({ error in
+                request.onFailure { error in
                   failureSentinels[idx] = error
-                })
+                }
               }
             }
             
@@ -311,17 +323,21 @@ class CacheRequestTests: QuickSpec {
             }
             
             it("should pass the right error") {
-              expect(failureSentinels).to(allPass({ $0!!.code == error.code }))
+              for fSentinel in failureSentinels {
+                expect((fSentinel as? NSError)?.code).to(equal(error.code))
+              }
             }
           }
           
           context("when calling onCompletion") {
             beforeEach {
               for idx in 0..<successSentinels.count {
-                request.onCompletion({ value, error in
+                request.onCompletion { value, error in
                   successSentinels[idx] = value
-                  failureSentinels[idx] = error
-                })
+                  if let error = error {
+                    failureSentinels[idx] = error
+                  }
+                }
               }
             }
             
@@ -330,7 +346,9 @@ class CacheRequestTests: QuickSpec {
             }
             
             it("should pass the right error") {
-              expect(failureSentinels).to(allPass({ $0!!.code == error.code }))
+              for fSentinel in failureSentinels {
+                expect((fSentinel as? NSError)?.code).to(equal(error.code))
+              }
             }
             
             it("should not pass a value") {
@@ -343,7 +361,7 @@ class CacheRequestTests: QuickSpec {
           var failureSentinels: [Bool?]!
       
           beforeEach {
-            request = CacheRequest<String>(error: nil)
+            request = CacheRequest<String>(error: TestError.SimpleError)
             
             successSentinels = [nil, nil, nil]
             failureSentinels = [nil, nil, nil]

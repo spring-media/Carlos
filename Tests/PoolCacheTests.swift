@@ -145,7 +145,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the first request fails") {
             beforeEach {
-              fakeRequest.fail(nil)
+              fakeRequest.fail(TestError.SimpleError)
             }
             
             it("should call the closure on the first request") {
@@ -282,6 +282,20 @@ class PoolCacheTests: QuickSpec {
 //        ]
 //      }
 //    }
+    
+    describe("The pooled instance function, applied to a cache level") {
+      beforeEach {
+        internalCache = CacheLevelFake<String, Int>()
+        cache = internalCache.pooled()
+      }
+      
+      itBehavesLike("a pooled cache") {
+        [
+          PoolCacheSharedExamplesContext.CacheToTest: cache,
+          PoolCacheSharedExamplesContext.InternalCache: internalCache
+        ]
+      }
+    }
     
     describe("The pooled function, applied to a cache level") {
       beforeEach {

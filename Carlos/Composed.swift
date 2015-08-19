@@ -5,22 +5,47 @@ infix operator >>> { associativity left }
 /**
 Composes two cache closures
 
-:param: firstFetcher The first cache closure
-:param: secondFetcher The second cache closure
+- parameter firstFetcher: The first cache closure
+- parameter secondFetcher: The second cache closure
 
-:returns: A new cache level that is the result of the composition of the two cache closures
+- returns: A new cache level that is the result of the composition of the two cache closures
 */
 public func compose<A, B>(firstFetcher: (key: A) -> CacheRequest<B>, secondFetcher: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
   return wrapClosureIntoCacheLevel(firstFetcher) >>> wrapClosureIntoCacheLevel(secondFetcher)
 }
 
+extension CacheLevel {
+  
+  /**
+  Composes two cache levels
+  
+  - parameter cache: The second cache level
+  
+  - returns: A new cache level that is the result of the composition of the two cache levels
+  */
+  public func compose<A: CacheLevel where A.KeyType == KeyType, A.OutputType == OutputType>(cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+    return self >>> cache
+  }
+  
+  /**
+  Composes the cache level with a cache closure
+  
+  - parameter fetchClosure: The cache closure
+  
+  - returns: A new cache level that is the result of the composition of the cache level with the cache closure
+  */
+  public func compose(fetchClosure: (key: KeyType) -> CacheRequest<OutputType>) -> BasicCache<KeyType, OutputType> {
+    return self >>> wrapClosureIntoCacheLevel(fetchClosure)
+  }
+}
+
 /**
 Composes two cache levels
 
-:param: firstCache The first cache level
-:param: secondCache The second cache level
+- parameter firstCache: The first cache level
+- parameter secondCache: The second cache level
 
-:returns: A new cache level that is the result of the composition of the two cache levels
+- returns: A new cache level that is the result of the composition of the two cache levels
 */
 public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
   return BasicCache(
@@ -28,17 +53,19 @@ public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A
       let request = CacheRequest<A.OutputType>()
       
       firstCache.get(key)
-        .onSuccess({ result in
+        .onSuccess { result in
           request.succeed(result)
-        })
-        .onFailure({ error in
-          secondCache.get(key).onSuccess({ result in
-            request.succeed(result)
-            firstCache.set(result, forKey: key)
-          }).onFailure({ error in
-            request.fail(error)
-          })
-        })
+        }
+        .onFailure { error in
+          secondCache.get(key)
+            .onSuccess { result in
+              request.succeed(result)
+              firstCache.set(result, forKey: key)
+            }
+            .onFailure{ error in
+              request.fail(error)
+            }
+        }
       
       return request
     }, setClosure: { (key, value) in
@@ -57,10 +84,10 @@ public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A
 /**
 Composes a cache level with a cache closure
 
-:param: cache The cache level
-:param: fetchClosure The cache closure
+- parameter cache: The cache level
+- parameter fetchClosure: The cache closure
 
-:returns: A new cache level that is the result of the composition of the cache level with the cache closure
+- returns: A new cache level that is the result of the composition of the cache level with the cache closure
 */
 public func compose<A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType) -> CacheRequest<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache >>> wrapClosureIntoCacheLevel(fetchClosure)
@@ -69,10 +96,10 @@ public func compose<A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType) -> C
 /**
 Composes a cache closure with a cache level
 
-:param: fetchClosure The cache closure
-:param: cache The cache level
+- parameter fetchClosure: The cache closure
+- parameter cache: The cache level
 
-:returns: A new cache level that is the result of the composition of the cache closure with the cache level
+- returns: A new cache level that is the result of the composition of the cache closure with the cache level
 */
 public func compose<A: CacheLevel>(fetchClosure: (key: A.KeyType) -> CacheRequest<A.OutputType>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return wrapClosureIntoCacheLevel(fetchClosure) >>> cache
@@ -81,47 +108,47 @@ public func compose<A: CacheLevel>(fetchClosure: (key: A.KeyType) -> CacheReques
 /**
 Composes two cache closures
 
-:param: firstFetcher The first cache closure
-:param: secondFetcher The second cache closure
+- parameter firstFetcher: The first cache closure
+- parameter secondFetcher: The second cache closure
 
-:returns: A new cache level that is the result of the composition of the two cache closures
+- returns: A new cache level that is the result of the composition of the two cache closures
 */
 public func >>><A, B>(firstFetcher: (key: A) -> CacheRequest<B>, secondFetcher: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
-  return compose(firstFetcher, secondFetcher)
+  return compose(firstFetcher, secondFetcher: secondFetcher)
 }
 
 /**
 Composes two cache levels
 
-:param: firstCache The first cache level
-:param: secondCache The second cache level
+- parameter firstCache: The first cache level
+- parameter secondCache: The second cache level
 
-:returns: A new cache level that is the result of the composition of the two cache levels
+- returns: A new cache level that is the result of the composition of the two cache levels
 */
 public func >>><A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
-  return compose(firstCache, secondCache)
+  return compose(firstCache, secondCache: secondCache)
 }
 
 /**
 Composes a cache level with a cache closure
 
-:param: cache The cache level
-:param: fetchClosure The cache closure
+- parameter cache: The cache level
+- parameter fetchClosure: The cache closure
 
-:returns: A new cache level that is the result of the composition of the cache level with the cache closure
+- returns: A new cache level that is the result of the composition of the cache level with the cache closure
 */
 public func >>><A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType) -> CacheRequest<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
-  return compose(cache, wrapClosureIntoCacheLevel(fetchClosure))
+  return compose(cache, secondCache: wrapClosureIntoCacheLevel(fetchClosure))
 }
 
 /**
 Composes a cache closure with a cache level
 
-:param: fetchClosure The cache closure
-:param: cache The cache level
+- parameter fetchClosure: The cache closure
+- parameter cache: The cache level
 
-:returns: A new cache level that is the result of the composition of the cache closure with the cache level
+- returns: A new cache level that is the result of the composition of the cache closure with the cache level
 */
 public func >>><A: CacheLevel>(fetchClosure: (key: A.KeyType) -> CacheRequest<A.OutputType>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
-  return compose(wrapClosureIntoCacheLevel(fetchClosure), cache)
+  return compose(wrapClosureIntoCacheLevel(fetchClosure), secondCache: cache)
 }

@@ -4,7 +4,7 @@ import Nimble
 import Carlos
 
 let switchClosure: (String) -> CacheLevelSwitchResult = { str in
-  if count(str) > 5 {
+  if str.characters.count > 5 {
     return .CacheA
   } else {
     return .CacheB
@@ -34,7 +34,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         var fakeRequest: CacheRequest<Int>!
         var result: CacheRequest<Int>!
         var successValue: Int?
-        var errorValue: NSError?
+        var errorValue: ErrorType?
         
         beforeEach {
           fakeRequest = CacheRequest<Int>()
@@ -55,7 +55,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
               }
               .onFailure { error in
                 errorValue = error
-            }
+              }
           }
           
           it("should not dispatch the call to the second cache") {
@@ -87,14 +87,14 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when the request fails") {
-            let errorCode = 101
+            let errorCode = TestError.SimpleError
             
             beforeEach {
-              fakeRequest.fail(NSError(domain: "", code: errorCode, userInfo: nil))
+              fakeRequest.fail(errorCode)
             }
             
             it("should call the original failure closure") {
-              expect(errorValue?.code).to(equal(errorCode))
+              expect(errorValue as? TestError).to(equal(errorCode))
             }
             
             it("should not call the original success closure") {
@@ -145,14 +145,14 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when the request fails") {
-            let errorCode = 101
+            let errorCode = TestError.AnotherError
             
             beforeEach {
-              fakeRequest.fail(NSError(domain: "", code: errorCode, userInfo: nil))
+              fakeRequest.fail(errorCode)
             }
             
             it("should call the original failure closure") {
-              expect(errorValue?.code).to(equal(errorCode))
+              expect(errorValue as? TestError).to(equal(errorCode))
             }
             
             it("should not call the original success closure") {
@@ -479,7 +479,7 @@ class SwitchCacheTests: QuickSpec {
       beforeEach {
         cacheA = CacheLevelFake<String, Int>()
         cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA, cacheB, switchClosure)
+        finalCache = switchLevels(cacheA, cacheB: cacheB, switchClosure: switchClosure)
       }
       
       itBehavesLike("a switched cache with 2 cache levels") {
@@ -495,7 +495,7 @@ class SwitchCacheTests: QuickSpec {
       beforeEach {
         cacheA = CacheLevelFake<String, Int>()
         cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA.get, cacheB.get, switchClosure)
+        finalCache = switchLevels(cacheA.get, cacheB: cacheB.get, switchClosure: switchClosure)
       }
       
       itBehavesLike("a switched cache with 2 fetch closures") {
@@ -511,7 +511,7 @@ class SwitchCacheTests: QuickSpec {
       beforeEach {
         cacheA = CacheLevelFake<String, Int>()
         cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA, cacheB.get, switchClosure)
+        finalCache = switchLevels(cacheA, cacheB: cacheB.get, switchClosure: switchClosure)
       }
       
       itBehavesLike("a switched cache with a cache level and a fetch closure") {
@@ -527,7 +527,7 @@ class SwitchCacheTests: QuickSpec {
       beforeEach {
         cacheA = CacheLevelFake<String, Int>()
         cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA.get, cacheB, switchClosure)
+        finalCache = switchLevels(cacheA.get, cacheB: cacheB, switchClosure: switchClosure)
       }
       
       itBehavesLike("a switched cache with a fetch closure and a cache level") {

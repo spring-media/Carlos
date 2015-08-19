@@ -96,7 +96,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             successSentinel = nil
             failureSentinel = nil
             
-            cache1Request.fail(nil)
+            cache1Request.fail(TestError.SimpleError)
           }
           
           it("should not call the success closure") {
@@ -137,7 +137,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the second request fails") {
             beforeEach {
-              cache2Request.fail(nil)
+              cache2Request.fail(TestError.SimpleError)
             }
             
             it("should not call the success closure") {
@@ -213,7 +213,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             successSentinel = nil
             failureSentinel = nil
             
-            cache1Request.fail(nil)
+            cache1Request.fail(TestError.SimpleError)
           }
           
           context("when the second request succeeds") {
@@ -474,7 +474,24 @@ class CompositionTests: QuickSpec {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
         
-        composedCache = compose(cache1, cache2)
+        composedCache = compose(cache1, secondCache: cache2)
+      }
+      
+      itBehavesLike("a composed cache") {
+        [
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+        ]
+      }
+    }
+    
+    describe("Cache composition using two cache levels with the instance function") {
+      beforeEach {
+        cache1 = CacheLevelFake<String, Int>()
+        cache2 = CacheLevelFake<String, Int>()
+        
+        composedCache = cache1.compose(cache2)
       }
       
       itBehavesLike("a composed cache") {
@@ -508,7 +525,24 @@ class CompositionTests: QuickSpec {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
         
-        composedCache = compose(cache1, cache2.get)
+        composedCache = compose(cache1, fetchClosure: cache2.get)
+      }
+      
+      itBehavesLike("a composition of a cache and a fetch closure") {
+        [
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+        ]
+      }
+    }
+    
+    describe("Cache composition using a cache level and a fetch closure, with the instance function") {
+      beforeEach {
+        cache1 = CacheLevelFake<String, Int>()
+        cache2 = CacheLevelFake<String, Int>()
+        
+        composedCache = cache1.compose(cache2.get)
       }
       
       itBehavesLike("a composition of a cache and a fetch closure") {
@@ -542,7 +576,7 @@ class CompositionTests: QuickSpec {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
         
-        composedCache = compose(cache1.get, cache2)
+        composedCache = compose(cache1.get, cache: cache2)
       }
       
       itBehavesLike("a composition of a fetch closure and a cache") {
@@ -576,7 +610,7 @@ class CompositionTests: QuickSpec {
         cache1 = CacheLevelFake<String, Int>()
         cache2 = CacheLevelFake<String, Int>()
         
-        composedCache = compose(cache1.get, cache2.get)
+        composedCache = compose(cache1.get, secondFetcher: cache2.get)
       }
       
       itBehavesLike("a composition of two fetch closures") {
