@@ -37,7 +37,6 @@
 		526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339821B52866900074CB9 /* BasicCacheTests.swift */; };
 		526339851B52A82800074CB9 /* CompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339841B52A82800074CB9 /* CompositionTests.swift */; };
 		526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339881B52B51C00074CB9 /* DiskCacheTests.swift */; };
-		526339941B52BC6D00074CB9 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; };
 		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -74,6 +73,41 @@
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
+		AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
+		AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */; };
+		AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
+		AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
+		AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
+		AD64D94A1B8DE62400C783D3 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; };
+		AD64D94B1B8DE62400C783D3 /* DiskCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A421B4F0F6F00F187EE /* DiskCacheLevel.swift */; };
+		AD64D94C1B8DE62400C783D3 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A431B4F0F6F00F187EE /* Errors.swift */; };
+		AD64D94D1B8DE62400C783D3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A441B4F0F6F00F187EE /* Extensions.swift */; };
+		AD64D94E1B8DE62400C783D3 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A451B4F0F6F00F187EE /* Logger.swift */; };
+		AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A461B4F0F6F00F187EE /* MemoryCacheLevel.swift */; };
+		AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A481B4F0F6F00F187EE /* NetworkFetcher.swift */; };
+		AD64D9521B8DE62400C783D3 /* OneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */; };
+		AD64D9531B8DE62400C783D3 /* PoolCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4A1B4F0F6F00F187EE /* PoolCache.swift */; };
+		AD64D9541B8DE62400C783D3 /* ValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */; };
+		AD64D9551B8DE62400C783D3 /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
+		AD64D9561B8DE62400C783D3 /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
+		AD64D9571B8DE62400C783D3 /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339741B52435C00074CB9 /* KeyTransformation.swift */; };
+		AD64D9581B8DE62400C783D3 /* RequestCapperCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */; };
+		AD64D9591B8DE62400C783D3 /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */; };
+		AD64D95A1B8DE62400C783D3 /* DeferredCacheRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F62D1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift */; };
+		AD64D95B1B8DE62400C783D3 /* GenericOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */; };
+		AD64D95C1B8DE62400C783D3 /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
+		AD64D95D1B8DE62400C783D3 /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4B21B77670F00737B3B /* StringConvertible.swift */; };
+		AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
+		AD64D97E1B8DE69200C783D3 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD64D97C1B8DE69200C783D3 /* Interface.storyboard */; };
+		AD64D9801B8DE69200C783D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD64D97F1B8DE69200C783D3 /* Assets.xcassets */; };
+		AD64D9871B8DE69200C783D3 /* CarlosWatchSample Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AD64D98C1B8DE69200C783D3 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD64D98B1B8DE69200C783D3 /* InterfaceController.swift */; };
+		AD64D98E1B8DE69200C783D3 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */; };
+		AD64D9901B8DE69200C783D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD64D98F1B8DE69200C783D3 /* Assets.xcassets */; };
+		AD64D9941B8DE69200C783D3 /* CarlosWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */; };
+		AD64D99C1B8DE69D00C783D3 /* Carlos (Watch).framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */; };
+		AD64D99D1B8DE69D00C783D3 /* Carlos (Watch).framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 		C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
@@ -93,6 +127,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 52635A1C1B4F0F3D00F187EE;
 			remoteInfo = Carlos;
+		};
+		AD64D9881B8DE69200C783D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD64D9851B8DE69200C783D3;
+			remoteInfo = "CarlosWatchSample Extension";
+		};
+		AD64D9921B8DE69200C783D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD64D9791B8DE69200C783D3;
+			remoteInfo = CarlosWatchSample;
+		};
+		AD64D99E1B8DE69D00C783D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD64D93C1B8DE58300C783D3;
+			remoteInfo = CarlosWatch;
 		};
 		C7C5D94A1B55475B00CDB402 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -167,6 +222,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		AD64D9981B8DE69200C783D3 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AD64D9871B8DE69200C783D3 /* CarlosWatchSample Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9A01B8DE69E00C783D3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AD64D99D1B8DE69D00C783D3 /* Carlos (Watch).framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD695D251B46CD73004E998D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -176,6 +253,17 @@
 				52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADBC8F4C1B8DE4AB0080EF0A /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				AD64D9941B8DE69200C783D3 /* CarlosWatchSample.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -254,6 +342,18 @@
 		7125763FA112BF618F1B0F73 /* Pods-CarlosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarlosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CarlosTests/Pods-CarlosTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E75A8F39308A7998DCD90E0 /* Pods_CarlosSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheProvider.swift; sourceTree = "<group>"; };
+		AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Carlos (Watch).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosWatch.h; sourceTree = "<group>"; };
+		AD64D9411B8DE58300C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD64D97D1B8DE69200C783D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		AD64D97F1B8DE69200C783D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD64D9811B8DE69200C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CarlosWatchSample Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD64D98B1B8DE69200C783D3 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		AD64D98F1B8DE69200C783D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD64D9911B8DE69200C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcherTests.swift; sourceTree = "<group>"; };
 		C7C5D9431B55475B00CDB402 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Vendor/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
@@ -275,6 +375,21 @@
 				C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */,
 				C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */,
 				52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9391B8DE58300C783D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9831B8DE69200C783D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D99C1B8DE69D00C783D3 /* Carlos (Watch).framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +504,36 @@
 			path = Fakes;
 			sourceTree = "<group>";
 		};
+		AD64D93E1B8DE58300C783D3 /* CarlosWatch */ = {
+			isa = PBXGroup;
+			children = (
+				AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */,
+				AD64D9411B8DE58300C783D3 /* Info.plist */,
+			);
+			path = CarlosWatch;
+			sourceTree = "<group>";
+		};
+		AD64D97B1B8DE69200C783D3 /* CarlosWatchSample */ = {
+			isa = PBXGroup;
+			children = (
+				AD64D97C1B8DE69200C783D3 /* Interface.storyboard */,
+				AD64D97F1B8DE69200C783D3 /* Assets.xcassets */,
+				AD64D9811B8DE69200C783D3 /* Info.plist */,
+			);
+			path = CarlosWatchSample;
+			sourceTree = "<group>";
+		};
+		AD64D98A1B8DE69200C783D3 /* CarlosWatchSample Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AD64D98B1B8DE69200C783D3 /* InterfaceController.swift */,
+				AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */,
+				AD64D98F1B8DE69200C783D3 /* Assets.xcassets */,
+				AD64D9911B8DE69200C783D3 /* Info.plist */,
+			);
+			path = "CarlosWatchSample Extension";
+			sourceTree = "<group>";
+		};
 		AD695CD61B46CD65004E998D = {
 			isa = PBXGroup;
 			children = (
@@ -396,6 +541,9 @@
 				AD695CE11B46CD65004E998D /* Sample */,
 				52635A1E1B4F0F3D00F187EE /* Carlos */,
 				52635A671B4F110500F187EE /* CarlosTests */,
+				AD64D93E1B8DE58300C783D3 /* CarlosWatch */,
+				AD64D97B1B8DE69200C783D3 /* CarlosWatchSample */,
+				AD64D98A1B8DE69200C783D3 /* CarlosWatchSample Extension */,
 				AD695CE01B46CD65004E998D /* Products */,
 				D99806F8C133568B429FF0A9 /* Pods */,
 				2677A0397774353D4B14F63F /* Frameworks */,
@@ -408,6 +556,9 @@
 				AD695CDF1B46CD65004E998D /* CarlosSample.app */,
 				52635A1D1B4F0F3D00F187EE /* Carlos.framework */,
 				52635A661B4F110500F187EE /* CarlosTests.xctest */,
+				AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */,
+				AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */,
+				AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -488,6 +639,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD64D93A1B8DE58300C783D3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -527,6 +686,60 @@
 			productReference = 52635A661B4F110500F187EE /* CarlosTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AD64D93C1B8DE58300C783D3 /* Carlos (Watch) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "Carlos (Watch)" */;
+			buildPhases = (
+				AD64D9381B8DE58300C783D3 /* Sources */,
+				AD64D9391B8DE58300C783D3 /* Frameworks */,
+				AD64D93A1B8DE58300C783D3 /* Headers */,
+				AD64D93B1B8DE58300C783D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Carlos (Watch)";
+			productName = CarlosWatch;
+			productReference = AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AD64D9791B8DE69200C783D3 /* CarlosWatchSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD64D9991B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample" */;
+			buildPhases = (
+				AD64D9781B8DE69200C783D3 /* Resources */,
+				AD64D9981B8DE69200C783D3 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD64D9891B8DE69200C783D3 /* PBXTargetDependency */,
+			);
+			name = CarlosWatchSample;
+			productName = CarlosWatchSample;
+			productReference = AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD64D9951B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample Extension" */;
+			buildPhases = (
+				AD64D9821B8DE69200C783D3 /* Sources */,
+				AD64D9831B8DE69200C783D3 /* Frameworks */,
+				AD64D9841B8DE69200C783D3 /* Resources */,
+				AD64D9A01B8DE69E00C783D3 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD64D99F1B8DE69D00C783D3 /* PBXTargetDependency */,
+			);
+			name = "CarlosWatchSample Extension";
+			productName = "CarlosWatchSample Extension";
+			productReference = AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		AD695CDE1B46CD65004E998D /* CarlosSample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD695CFE1B46CD65004E998D /* Build configuration list for PBXNativeTarget "CarlosSample" */;
@@ -535,11 +748,13 @@
 				AD695CDC1B46CD65004E998D /* Frameworks */,
 				AD695CDD1B46CD65004E998D /* Resources */,
 				AD695D251B46CD73004E998D /* Embed Frameworks */,
+				ADBC8F4C1B8DE4AB0080EF0A /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				52635A331B4F0F3E00F187EE /* PBXTargetDependency */,
+				AD64D9931B8DE69200C783D3 /* PBXTargetDependency */,
 			);
 			name = CarlosSample;
 			productName = CarlosSample;
@@ -562,6 +777,15 @@
 					};
 					52635A651B4F110500F187EE = {
 						CreatedOnToolsVersion = 6.4;
+					};
+					AD64D93C1B8DE58300C783D3 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					AD64D9791B8DE69200C783D3 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					AD64D9851B8DE69200C783D3 = {
+						CreatedOnToolsVersion = 7.0;
 					};
 					AD695CDE1B46CD65004E998D = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -594,6 +818,9 @@
 				AD695CDE1B46CD65004E998D /* CarlosSample */,
 				52635A1C1B4F0F3D00F187EE /* Carlos */,
 				52635A651B4F110500F187EE /* CarlosTests */,
+				AD64D93C1B8DE58300C783D3 /* Carlos (Watch) */,
+				AD64D9791B8DE69200C783D3 /* CarlosWatchSample */,
+				AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -686,6 +913,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD64D93B1B8DE58300C783D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9781B8DE69200C783D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D9801B8DE69200C783D3 /* Assets.xcassets in Resources */,
+				AD64D97E1B8DE69200C783D3 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9841B8DE69200C783D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D9901B8DE69200C783D3 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD695CDD1B46CD65004E998D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -743,7 +994,6 @@
 				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
 				527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */,
-				526339941B52BC6D00074CB9 /* Crypto.swift in Sources */,
 				5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
@@ -758,6 +1008,47 @@
 				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
 				C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9381B8DE58300C783D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D94A1B8DE62400C783D3 /* Crypto.swift in Sources */,
+				AD64D94D1B8DE62400C783D3 /* Extensions.swift in Sources */,
+				AD64D9561B8DE62400C783D3 /* TwoWayTransformer.swift in Sources */,
+				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
+				AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */,
+				AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */,
+				AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */,
+				AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */,
+				AD64D9581B8DE62400C783D3 /* RequestCapperCache.swift in Sources */,
+				AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */,
+				AD64D94E1B8DE62400C783D3 /* Logger.swift in Sources */,
+				AD64D9591B8DE62400C783D3 /* ConcurrentOperation.swift in Sources */,
+				AD64D95B1B8DE62400C783D3 /* GenericOperation.swift in Sources */,
+				AD64D9541B8DE62400C783D3 /* ValueTransformation.swift in Sources */,
+				AD64D95C1B8DE62400C783D3 /* CacheProvider.swift in Sources */,
+				AD64D9531B8DE62400C783D3 /* PoolCache.swift in Sources */,
+				AD64D95A1B8DE62400C783D3 /* DeferredCacheRequestOperation.swift in Sources */,
+				AD64D9521B8DE62400C783D3 /* OneWayTransformer.swift in Sources */,
+				AD64D94C1B8DE62400C783D3 /* Errors.swift in Sources */,
+				AD64D94B1B8DE62400C783D3 /* DiskCacheLevel.swift in Sources */,
+				AD64D9551B8DE62400C783D3 /* Transformers.swift in Sources */,
+				AD64D9571B8DE62400C783D3 /* KeyTransformation.swift in Sources */,
+				AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */,
+				AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */,
+				AD64D95D1B8DE62400C783D3 /* StringConvertible.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9821B8DE69200C783D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D98E1B8DE69200C783D3 /* ExtensionDelegate.swift in Sources */,
+				AD64D98C1B8DE69200C783D3 /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +1085,21 @@
 			target = 52635A1C1B4F0F3D00F187EE /* Carlos */;
 			targetProxy = 52635A6D1B4F110500F187EE /* PBXContainerItemProxy */;
 		};
+		AD64D9891B8DE69200C783D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */;
+			targetProxy = AD64D9881B8DE69200C783D3 /* PBXContainerItemProxy */;
+		};
+		AD64D9931B8DE69200C783D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD64D9791B8DE69200C783D3 /* CarlosWatchSample */;
+			targetProxy = AD64D9921B8DE69200C783D3 /* PBXContainerItemProxy */;
+		};
+		AD64D99F1B8DE69D00C783D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD64D93C1B8DE58300C783D3 /* Carlos (Watch) */;
+			targetProxy = AD64D99E1B8DE69D00C783D3 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -813,6 +1119,14 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		AD64D97C1B8DE69200C783D3 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AD64D97D1B8DE69200C783D3 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -824,15 +1138,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = Carlos/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -895,6 +1206,115 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		AD64D9431B8DE58300C783D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CarlosWatch/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD64D9441B8DE58300C783D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CarlosWatch/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		AD64D9961B8DE69200C783D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD64D9971B8DE69200C783D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		AD64D99A1B8DE69200C783D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = CarlosWatchSample_Extension;
+				INFOPLIST_FILE = CarlosWatchSample/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD64D99B1B8DE69200C783D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = CarlosWatchSample_Extension;
+				INFOPLIST_FILE = CarlosWatchSample/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -1029,6 +1449,33 @@
 			buildConfigurations = (
 				52635A701B4F110500F187EE /* Debug */,
 				52635A711B4F110500F187EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "Carlos (Watch)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD64D9431B8DE58300C783D3 /* Debug */,
+				AD64D9441B8DE58300C783D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD64D9951B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD64D9961B8DE69200C783D3 /* Debug */,
+				AD64D9971B8DE69200C783D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD64D9991B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD64D99A1B8DE69200C783D3 /* Debug */,
+				AD64D99B1B8DE69200C783D3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
