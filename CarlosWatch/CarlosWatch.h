@@ -1,11 +1,3 @@
-//
-//  CarlosWatch.h
-//  CarlosWatch
-//
-//  Created by Monaco, Vittorio on 26/08/15.
-//  Copyright © 2015 WeltN24. All rights reserved.
-//
-
 #import <WatchKit/WatchKit.h>
 
 //! Project version number for CarlosWatch.

@@ -1,11 +1,3 @@
-//
-//  ExtensionDelegate.swift
-//  CarlosWatchSample Extension
-//
-//  Created by Monaco, Vittorio on 26/08/15.
-//  Copyright © 2015 WeltN24. All rights reserved.
-//
-
 import WatchKit
 import CarlosWatch
 
