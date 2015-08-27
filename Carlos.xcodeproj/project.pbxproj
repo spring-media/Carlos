@@ -106,8 +106,8 @@
 		AD64D98E1B8DE69200C783D3 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */; };
 		AD64D9901B8DE69200C783D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD64D98F1B8DE69200C783D3 /* Assets.xcassets */; };
 		AD64D9941B8DE69200C783D3 /* CarlosWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */; };
-		AD64D99C1B8DE69D00C783D3 /* Carlos (Watch).framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */; };
-		AD64D99D1B8DE69D00C783D3 /* Carlos (Watch).framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AD64D99C1B8DE69D00C783D3 /* CarlosWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */; };
+		AD64D99D1B8DE69D00C783D3 /* CarlosWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 		C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
@@ -239,7 +239,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AD64D99D1B8DE69D00C783D3 /* Carlos (Watch).framework in Embed Frameworks */,
+				AD64D99D1B8DE69D00C783D3 /* CarlosWatch.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,7 +342,7 @@
 		7125763FA112BF618F1B0F73 /* Pods-CarlosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarlosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CarlosTests/Pods-CarlosTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E75A8F39308A7998DCD90E0 /* Pods_CarlosSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheProvider.swift; sourceTree = "<group>"; };
-		AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Carlos (Watch).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosWatch.h; sourceTree = "<group>"; };
 		AD64D9411B8DE58300C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,7 +389,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD64D99C1B8DE69D00C783D3 /* Carlos (Watch).framework in Frameworks */,
+				AD64D99C1B8DE69D00C783D3 /* CarlosWatch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,7 +556,7 @@
 				AD695CDF1B46CD65004E998D /* CarlosSample.app */,
 				52635A1D1B4F0F3D00F187EE /* Carlos.framework */,
 				52635A661B4F110500F187EE /* CarlosTests.xctest */,
-				AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */,
+				AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */,
 				AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */,
 				AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */,
 			);
@@ -686,9 +686,9 @@
 			productReference = 52635A661B4F110500F187EE /* CarlosTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AD64D93C1B8DE58300C783D3 /* Carlos (Watch) */ = {
+		AD64D93C1B8DE58300C783D3 /* CarlosWatch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "Carlos (Watch)" */;
+			buildConfigurationList = AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatch" */;
 			buildPhases = (
 				AD64D9381B8DE58300C783D3 /* Sources */,
 				AD64D9391B8DE58300C783D3 /* Frameworks */,
@@ -699,9 +699,9 @@
 			);
 			dependencies = (
 			);
-			name = "Carlos (Watch)";
+			name = CarlosWatch;
 			productName = CarlosWatch;
-			productReference = AD64D93D1B8DE58300C783D3 /* Carlos (Watch).framework */;
+			productReference = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		AD64D9791B8DE69200C783D3 /* CarlosWatchSample */ = {
@@ -818,7 +818,7 @@
 				AD695CDE1B46CD65004E998D /* CarlosSample */,
 				52635A1C1B4F0F3D00F187EE /* Carlos */,
 				52635A651B4F110500F187EE /* CarlosTests */,
-				AD64D93C1B8DE58300C783D3 /* Carlos (Watch) */,
+				AD64D93C1B8DE58300C783D3 /* CarlosWatch */,
 				AD64D9791B8DE69200C783D3 /* CarlosWatchSample */,
 				AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */,
 			);
@@ -1097,7 +1097,7 @@
 		};
 		AD64D99F1B8DE69D00C783D3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AD64D93C1B8DE58300C783D3 /* Carlos (Watch) */;
+			target = AD64D93C1B8DE58300C783D3 /* CarlosWatch */;
 			targetProxy = AD64D99E1B8DE69D00C783D3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1453,7 +1453,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "Carlos (Watch)" */ = {
+		AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AD64D9431B8DE58300C783D3 /* Debug */,

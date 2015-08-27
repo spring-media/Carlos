@@ -20,7 +20,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   }
   
   private lazy var cacheQueue: dispatch_queue_t = {
-    return dispatch_queue_create("\(CarlosGlobals.QueueNamePrefix)\(self.path.lastPathComponent)", DISPATCH_QUEUE_SERIAL)
+    return dispatch_queue_create("\(CarlosGlobals.QueueNamePrefix)\((self.path as NSString).lastPathComponent)", DISPATCH_QUEUE_SERIAL)
   }()
   
   /**
@@ -35,7 +35,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   - parameter capacity: The total capacity in bytes for the disk cache. Defaults to 100 MB
   - parameter fileManager: The file manager to use. Defaults to the default NSFileManager. It's here mainly for dependency injection testing purposes.
   */
-  public init(path: String = CarlosGlobals.Caches.stringByAppendingPathComponent(CarlosGlobals.QueueNamePrefix + "default"), capacity: UInt64 = 100 * 1024 * 1024, fileManager: NSFileManager = NSFileManager.defaultManager()) {
+  public init(path: String = (CarlosGlobals.Caches as NSString).stringByAppendingPathComponent(CarlosGlobals.QueueNamePrefix + "default"), capacity: UInt64 = 100 * 1024 * 1024, fileManager: NSFileManager = NSFileManager.defaultManager()) {
     self.path = path
     self.fileManager = fileManager
     self.capacity = capacity
@@ -129,7 +129,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   }
   
   private func pathForKey(key: K) -> String {
-    return path.stringByAppendingPathComponent(key.toString().MD5String())
+    return (path as NSString).stringByAppendingPathComponent(key.toString().MD5String())
   }
   
   private func sizeForFileAtPath(filePath: String) -> UInt64 {
@@ -199,7 +199,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     
     do {
       items = try fileManager.contentsOfDirectoryAtPath(directory).map {
-        directory.stringByAppendingPathComponent($0)
+        (directory as NSString).stringByAppendingPathComponent($0)
       }
     } catch _ {}
     

@@ -22,7 +22,7 @@ class ImageCacheSampleViewController: BaseCacheViewController {
   }
   
   private func imageWithColor(color: UIColor, size: CGSize) -> UIImage {
-    let rect = CGRect(origin: CGPoint.zeroPoint, size: size)
+    let rect = CGRect(origin: CGPoint.zero, size: size)
     UIGraphicsBeginImageContextWithOptions(size, false, 0)
     color.setFill()
     UIRectFill(rect)
