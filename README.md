@@ -54,12 +54,16 @@ With Carlos you can:
 
 ## Installation
 
+### CocoaPods
+
 Carlos is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```
 pod "Carlos"
 ```
+
+### Submodule
 
 If you don't use CocoaPods, you can still add Carlos as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
 
@@ -68,7 +72,19 @@ If you don't use CocoaPods, you can still add Carlos as a submodule, drag and dr
 - Click the `+` button on the `Embedded binaries` section
 - Add `Carlos.framework`
 
+If you are writing a WatchOS 2 app, please use `CarlosWatch.framework` instead.
+
+### Carthage
+
 `Carthage` is also supported.
+
+### Manual
+
+You can directly drag and drop the needed files into your project, but keep in mind that this way you won't be able to automatically get all the latest Carlos features (e.g. new files including new operations).
+
+The files are contained in the `Carlos` folder.
+
+If you want to integrate Carlos in a WatchOS 2 app, please don't include the file `MemoryWarning.swift`.
 
 ## Playground
 
