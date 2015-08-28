@@ -40,9 +40,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     self.fileManager = fileManager
     self.capacity = capacity
     
-    do {
-      try fileManager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: [:])
-    } catch _ {}
+    _ = try? fileManager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: [:])
     
     dispatch_async(self.cacheQueue) {
       self.calculateSize()
@@ -101,9 +99,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   public func clear() {
     dispatch_async(cacheQueue) {
       for filePath in self.itemsInDirectory(self.path) {
-        do {
-          try self.fileManager.removeItemAtPath(filePath)
-        } catch _ {}
+        _ = try? self.fileManager.removeItemAtPath(filePath)
       }
       self.calculateSize()
     }
