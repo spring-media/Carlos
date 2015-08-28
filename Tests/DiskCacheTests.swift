@@ -4,11 +4,7 @@ import Nimble
 import Carlos
 
 private func filesInDirectory(directory: String) -> [String] {
-  var result: [String] = []
-  
-  do {
-    result = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(directory)
-  } catch _ {}
+  let result = (try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(directory)) ?? []
   
   return result
 }
@@ -35,14 +31,12 @@ class DiskCacheTests: QuickSpec {
   override func spec() {
     describe("DiskCacheLevel") {
       var cache: DiskCacheLevel<String, NSData>!
-      let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]).stringByAppendingPathComponent("com.carlos.default")
+      let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as NSString).stringByAppendingPathComponent("com.carlos.default")
       var fileManager: NSFileManager!
       
       beforeEach {
         fileManager = NSFileManager.defaultManager()
-        do {
-          try fileManager.removeItemAtPath(path)
-        } catch _ {}
+        _ = try? fileManager.removeItemAtPath(path)
         
         cache = DiskCacheLevel(path: path, capacity: 400)
       }
@@ -102,11 +96,11 @@ class DiskCacheTests: QuickSpec {
         }
         
         it("should save the key on disk") {
-          expect(fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
+          expect(fileManager.fileExistsAtPath((path as NSString).stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
         }
         
         it("should save the data on disk") {
-          expect(NSKeyedUnarchiver.unarchiveObjectWithFile(path.stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(value))
+          expect(NSKeyedUnarchiver.unarchiveObjectWithFile((path as NSString).stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(value))
         }
         
         context("when calling get") {
@@ -131,11 +125,11 @@ class DiskCacheTests: QuickSpec {
           }
           
           it("should keep the key on disk") {
-            expect(fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
+            expect(fileManager.fileExistsAtPath((path as NSString).stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
           }
           
           it("should overwrite the data on disk") {
-            expect(NSKeyedUnarchiver.unarchiveObjectWithFile(path.stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(newValue))
+            expect(NSKeyedUnarchiver.unarchiveObjectWithFile((path as NSString).stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(newValue))
           }
           
           context("when calling get") {
