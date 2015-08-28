@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Platform](https://img.shields.io/cocoapods/p/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 
-> A simple but flexible cache, written in Swift for iOS apps.
+> A simple but flexible cache, written in Swift for iOS and WatchOS 2 apps.
 
 # Contents of this Readme
 
@@ -51,6 +51,7 @@ With Carlos you can:
 - setup [multiple lanes](#multiple-cache-lanes) for complex scenarios where, depending on certain keys or conditions, different caches should be used
 - [Cap the number of concurrent requests](#limiting-concurrent-requests) a cache should handle
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
+
 
 ## Installation
 
@@ -101,6 +102,7 @@ To use our Playground, please follow these steps:
 ## Requirements
 
 - iOS 8.0+
+- WatchOS 2+
 - Xcode 7+
 
 ## Usage
@@ -121,7 +123,6 @@ Carlos comes with a `CacheProvider` class so that standard caches are easily acc
 
 - `CacheProvider.dataCache()` to create a cache that takes `NSURL` keys and returns `NSData` values
 - `CacheProvider.imageCache()` to create a cache that takes `NSURL` keys and returns `UIImage` values
-
 
 
 ### Creating requests
@@ -388,6 +389,7 @@ With the first call, the cache level and all its composing levels will get a cal
 
 With the second call, the behavior will stop.
 
+Keep in mind that this functionality is not supported by the WatchOS 2 framework `CarlosWatch.framework`.
 
 ### Creating custom levels
 
