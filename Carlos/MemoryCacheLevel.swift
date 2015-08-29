@@ -27,13 +27,6 @@ extension NSString: ExpensiveObject {
   }
 }
 
-extension UIImage: ExpensiveObject {
-  /// The size of the image in pixels (W x H)
-  public var cost: Int {
-    return Int(size.width * size.height)
-  }
-}
-
 extension NSURL: ExpensiveObject {
   /// The size of the URL 
   public var cost: Int {
