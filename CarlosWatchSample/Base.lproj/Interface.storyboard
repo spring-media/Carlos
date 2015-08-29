@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6221" systemVersion="13E28" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8187.4" systemVersion="14F27" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8092"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModuleProvider="target"/>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="CarlosWatchSample" customModuleProvider="target">
+                    <items>
+                        <table alignment="left" id="4vB-1a-vCi">
+                            <items>
+                                <tableRow identifier="CountryRow" selectable="NO" id="bP4-0c-GQ5" customClass="CountryRow" customModule="CarlosWatchSample_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="LFy-O2-6xt">
+                                        <items>
+                                            <imageView width="40" height="40" alignment="left" verticalAlignment="center" image="placeholder" contentMode="scaleAspectFit" id="NVm-KX-mV7"/>
+                                            <label alignment="right" verticalAlignment="center" text="Label" textAlignment="right" id="ctA-kb-6ko"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="countryName" destination="ctA-kb-6ko" id="CpW-S9-yCK"/>
+                                        <outlet property="flagImage" destination="NVm-KX-mV7" id="oHm-K2-5el"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="tableView" destination="4vB-1a-vCi" id="lfY-0Y-VFd"/>
+                    </connections>
+                </controller>
             </objects>
         </scene>
     </scenes>
