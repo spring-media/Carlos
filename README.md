@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Platform](https://img.shields.io/cocoapods/p/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 
-> A simple but flexible cache, written in Swift for iOS and WatchOS 2 apps.
+> A simple but flexible cache, written in Swift for iOS, WatchOS 2 and Mac OS X apps.
 
 # Contents of this Readme
 
@@ -74,6 +74,7 @@ If you don't use CocoaPods, you can still add Carlos as a submodule, drag and dr
 - Add `Carlos.framework`
 
 If you are writing a WatchOS 2 app, please use `CarlosWatch.framework` instead.
+If you are writing a Mac OS X app, please use `CarlosMac.framework` instead.
 
 ### Carthage
 
@@ -86,6 +87,8 @@ You can directly drag and drop the needed files into your project, but keep in m
 The files are contained in the `Carlos` folder.
 
 If you want to integrate Carlos in a WatchOS 2 app, please don't include the file `MemoryWarning.swift`.
+
+If you want to integrate Carlos in a Mac OS X app, please don't include the files `MemoryWarning.swift` and all the files with the `+iOS` suffix. Additionally, please include the files with the `+Mac` suffix.
 
 ## Playground
 
@@ -103,6 +106,7 @@ To use our Playground, please follow these steps:
 
 - iOS 8.0+
 - WatchOS 2+
+- Mac OS X 10.9+
 - Xcode 7+
 
 ## Usage
@@ -123,6 +127,8 @@ Carlos comes with a `CacheProvider` class so that standard caches are easily acc
 
 - `CacheProvider.dataCache()` to create a cache that takes `NSURL` keys and returns `NSData` values
 - `CacheProvider.imageCache()` to create a cache that takes `NSURL` keys and returns `UIImage` values
+
+The method `CacheProvider.imageCache()` is not available yet for the `CarlosMac.framework` framework.
 
 
 ### Creating requests
@@ -389,7 +395,7 @@ With the first call, the cache level and all its composing levels will get a cal
 
 With the second call, the behavior will stop.
 
-Keep in mind that this functionality is not supported by the WatchOS 2 framework `CarlosWatch.framework`.
+Keep in mind that this functionality is not yet supported by the WatchOS 2 framework `CarlosWatch.framework` and by the Mac OS X framework `CarlosMac.framework` framework neither.
 
 ### Creating custom levels
 

@@ -7,24 +7,29 @@
 
 Pod::Spec.new do |s|
   s.name             = "Carlos"
-  s.version          = "0.2"
+  s.version          = "0.3"
   s.summary          = "A simple but flexible cache."
   s.description      = <<-DESC
-			Carlos is a small set of classes, global functions (that will be replaced by protocol extensions with Swift 2.0) and convenience operators to realize custom, flexible and powerful cache layers in your application.
+			Carlos is a small set of classes, global functions and convenience operators to realize custom, flexible and powerful cache layers in your iOS, Watch OS 2 and Mac OS X applications.
                        DESC
   s.homepage         = "https://github.com/WeltN24/Carlos"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Vittorio Monaco" => "vittorio.monaco1@gmail.com" }
   s.source           = { :git => "https://github.com/WeltN24/Carlos.git", :tag => s.version.to_s }
 
-  s.platform     = :ios, '8.0'
+  s.ios.platform = :ios, "9.0"
+  s.osx.platform = :osx, "10.10"
+  s.watchos.platform = :watchos, "2.0"
+
+  s.ios.deployment_target = '8.0'
+  s.osx.deployment_target = '10.9'
+  s.watchos.deployment_target = '2.0' 
+  
   s.requires_arc = true
 
-  s.source_files = 'Carlos/**/*.swift'
-  # s.resource_bundles = {
-  #  'Carlos' => ['Pod/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.ios.source_files = 'Carlos/*.swift'
+  s.watchos.source_files = 'Carlos/*.swift'
+  s.watchos.exclude_files = 'Carlos/MemoryWarning.swift'
+  s.osx.source_files = 'Carlos/*.swift', 'CarlosMac/*.swift'
+  s.osx.exclude_files = 'Carlos/MemoryWarning.swift', 'Carlos/*+iOS.swift'
 end
