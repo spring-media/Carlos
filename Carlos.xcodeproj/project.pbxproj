@@ -100,6 +100,12 @@
 		52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC21B9204A90061022D /* ExpensiveObject+iOS.swift */; settings = {ASSET_TAGS = (); }; };
 		52CF0AC61B9204C20061022D /* CacheProvider+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC51B9204C20061022D /* CacheProvider+iOS.swift */; settings = {ASSET_TAGS = (); }; };
 		52CF0AC71B9204C20061022D /* CacheProvider+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC51B9204C20061022D /* CacheProvider+iOS.swift */; settings = {ASSET_TAGS = (); }; };
+		52CF0AD11B920DC20061022D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AD01B920DC20061022D /* AppDelegate.swift */; };
+		52CF0AD31B920DC20061022D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AD21B920DC20061022D /* ViewController.swift */; };
+		52CF0AD51B920DC20061022D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52CF0AD41B920DC20061022D /* Assets.xcassets */; };
+		52CF0AD81B920DC20061022D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52CF0AD61B920DC20061022D /* Main.storyboard */; };
+		52CF0ADD1B920DD60061022D /* CarlosMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52CF0A9E1B9203730061022D /* CarlosMac.framework */; };
+		52CF0ADE1B920DD60061022D /* CarlosMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52CF0A9E1B9203730061022D /* CarlosMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */; };
 		52E6E24C1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E24B1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift */; };
 		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
@@ -160,6 +166,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 52635A1C1B4F0F3D00F187EE;
 			remoteInfo = Carlos;
+		};
+		52CF0ADF1B920DD60061022D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52CF0A9D1B9203730061022D;
+			remoteInfo = CarlosMac;
 		};
 		AD64D9881B8DE69200C783D3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -255,6 +268,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		52CF0AE11B920DD60061022D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				52CF0ADE1B920DD60061022D /* CarlosMac.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD64D9981B8DE69200C783D3 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -374,6 +398,12 @@
 		52CF0AC01B9204730061022D /* ExpensiveObject+Mac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExpensiveObject+Mac.swift"; sourceTree = "<group>"; };
 		52CF0AC21B9204A90061022D /* ExpensiveObject+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExpensiveObject+iOS.swift"; sourceTree = "<group>"; };
 		52CF0AC51B9204C20061022D /* CacheProvider+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CacheProvider+iOS.swift"; sourceTree = "<group>"; };
+		52CF0ACE1B920DC20061022D /* CarlosMacSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosMacSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52CF0AD01B920DC20061022D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		52CF0AD21B920DC20061022D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		52CF0AD41B920DC20061022D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		52CF0AD71B920DC20061022D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		52CF0AD91B920DC20061022D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericOperation.swift; sourceTree = "<group>"; };
 		52E6E24B1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredCacheRequestOperationTests.swift; sourceTree = "<group>"; };
 		52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatterTransformerTests.swift; sourceTree = "<group>"; };
@@ -422,6 +452,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0ACB1B920DC20061022D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0ADD1B920DD60061022D /* CarlosMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +601,18 @@
 			path = CarlosMac;
 			sourceTree = "<group>";
 		};
+		52CF0ACF1B920DC20061022D /* CarlosMacSample */ = {
+			isa = PBXGroup;
+			children = (
+				52CF0AD01B920DC20061022D /* AppDelegate.swift */,
+				52CF0AD21B920DC20061022D /* ViewController.swift */,
+				52CF0AD41B920DC20061022D /* Assets.xcassets */,
+				52CF0AD61B920DC20061022D /* Main.storyboard */,
+				52CF0AD91B920DC20061022D /* Info.plist */,
+			);
+			path = CarlosMacSample;
+			sourceTree = "<group>";
+		};
 		AD64D93E1B8DE58300C783D3 /* CarlosWatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,6 +655,7 @@
 				AD64D97B1B8DE69200C783D3 /* CarlosWatchSample */,
 				AD64D98A1B8DE69200C783D3 /* CarlosWatchSample Extension */,
 				52CF0A9F1B9203730061022D /* CarlosMac */,
+				52CF0ACF1B920DC20061022D /* CarlosMacSample */,
 				AD695CE01B46CD65004E998D /* Products */,
 				D99806F8C133568B429FF0A9 /* Pods */,
 				2677A0397774353D4B14F63F /* Frameworks */,
@@ -621,6 +672,7 @@
 				AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */,
 				AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */,
 				52CF0A9E1B9203730061022D /* CarlosMac.framework */,
+				52CF0ACE1B920DC20061022D /* CarlosMacSample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -774,6 +826,25 @@
 			productReference = 52CF0A9E1B9203730061022D /* CarlosMac.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		52CF0ACD1B920DC20061022D /* CarlosMacSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52CF0ADA1B920DC20061022D /* Build configuration list for PBXNativeTarget "CarlosMacSample" */;
+			buildPhases = (
+				52CF0ACA1B920DC20061022D /* Sources */,
+				52CF0ACB1B920DC20061022D /* Frameworks */,
+				52CF0ACC1B920DC20061022D /* Resources */,
+				52CF0AE11B920DD60061022D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52CF0AE01B920DD60061022D /* PBXTargetDependency */,
+			);
+			name = CarlosMacSample;
+			productName = CarlosMacSample;
+			productReference = 52CF0ACE1B920DC20061022D /* CarlosMacSample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		AD64D93C1B8DE58300C783D3 /* CarlosWatch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatch" */;
@@ -869,6 +940,9 @@
 					52CF0A9D1B9203730061022D = {
 						CreatedOnToolsVersion = 7.0;
 					};
+					52CF0ACD1B920DC20061022D = {
+						CreatedOnToolsVersion = 7.0;
+					};
 					AD64D93C1B8DE58300C783D3 = {
 						CreatedOnToolsVersion = 7.0;
 					};
@@ -913,6 +987,7 @@
 				AD695CDE1B46CD65004E998D /* CarlosSample */,
 				AD64D9791B8DE69200C783D3 /* CarlosWatchSample */,
 				AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */,
+				52CF0ACD1B920DC20061022D /* CarlosMacSample */,
 			);
 		};
 /* End PBXProject section */
@@ -1009,6 +1084,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0ACC1B920DC20061022D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0AD51B920DC20061022D /* Assets.xcassets in Resources */,
+				52CF0AD81B920DC20061022D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1146,6 +1230,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		52CF0ACA1B920DC20061022D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0AD31B920DC20061022D /* ViewController.swift in Sources */,
+				52CF0AD11B920DC20061022D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD64D9381B8DE58300C783D3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1223,6 +1316,11 @@
 			target = 52635A1C1B4F0F3D00F187EE /* Carlos */;
 			targetProxy = 52635A6D1B4F110500F187EE /* PBXContainerItemProxy */;
 		};
+		52CF0AE01B920DD60061022D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52CF0A9D1B9203730061022D /* CarlosMac */;
+			targetProxy = 52CF0ADF1B920DD60061022D /* PBXContainerItemProxy */;
+		};
 		AD64D9891B8DE69200C783D3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */;
@@ -1253,6 +1351,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				5208637D1B64268E00F740C7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		52CF0AD61B920DC20061022D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52CF0AD71B920DC20061022D /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1350,6 +1456,7 @@
 		52CF0AA41B9203730061022D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1374,6 +1481,7 @@
 		52CF0AA51B9203730061022D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1391,6 +1499,39 @@
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		52CF0ADB1B920DC20061022D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CarlosMacSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMacSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		52CF0ADC1B920DC20061022D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CarlosMacSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMacSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1645,6 +1786,16 @@
 				52CF0AA51B9203730061022D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52CF0ADA1B920DC20061022D /* Build configuration list for PBXNativeTarget "CarlosMacSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52CF0ADB1B920DC20061022D /* Debug */,
+				52CF0ADC1B920DC20061022D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatch" */ = {
 			isa = XCConfigurationList;
