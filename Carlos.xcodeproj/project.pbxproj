@@ -75,6 +75,8 @@
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
+		ADDDDFF61B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = ADDDDFF41B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADDDDFF71B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDDDFF51B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m */; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 		C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
@@ -256,6 +258,8 @@
 		9E75A8F39308A7998DCD90E0 /* Pods_CarlosSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheProvider.swift; sourceTree = "<group>"; };
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADDDDFF41B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+SwiftUtilities.h"; sourceTree = "<group>"; };
+		ADDDDFF51B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+SwiftUtilities.m"; sourceTree = "<group>"; };
 		C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcherTests.swift; sourceTree = "<group>"; };
 		C7C5D9431B55475B00CDB402 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Vendor/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		C7C5D9521B55476300CDB402 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Vendor/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
@@ -330,6 +334,8 @@
 				AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */,
 				5243C4B21B77670F00737B3B /* StringConvertible.swift */,
 				527C65461B7A66D90005023B /* SwitchCache.swift */,
+				ADDDDFF41B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h */,
+				ADDDDFF51B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -485,6 +491,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADDDDFF61B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
 				52635A221B4F0F3D00F187EE /* Carlos.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -722,6 +729,7 @@
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
+				ADDDDFF71B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52635A561B4F0F6F00F187EE /* Errors.swift in Sources */,
 				52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */,
 				52635A551B4F0F6F00F187EE /* DiskCacheLevel.swift in Sources */,
@@ -819,6 +827,7 @@
 		52635A371B4F0F3E00F187EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -835,6 +844,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -843,6 +853,7 @@
 		52635A381B4F0F3E00F187EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
