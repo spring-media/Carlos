@@ -147,6 +147,12 @@
 		AD64D9941B8DE69200C783D3 /* CarlosWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */; };
 		AD64D99C1B8DE69D00C783D3 /* CarlosWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */; };
 		AD64D99D1B8DE69D00C783D3 /* CarlosWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AD8557F51BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; settings = {ASSET_TAGS = (); }; };
+		AD85580F1BA94FCA0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD8558101BA94FCB0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; settings = {ASSET_TAGS = (); }; };
+		AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; settings = {ASSET_TAGS = (); }; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 		C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
@@ -425,6 +431,8 @@
 		AD64D98F1B8DE69200C783D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD64D9911B8DE69200C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+SwiftUtilities.h"; sourceTree = "<group>"; };
+		AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+SwiftUtilities.m"; sourceTree = "<group>"; };
 		C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcherTests.swift; sourceTree = "<group>"; };
 		C7C5D9431B55475B00CDB402 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Vendor/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		C7C5D9521B55476300CDB402 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Vendor/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
@@ -501,6 +509,8 @@
 		52635A1E1B4F0F3D00F187EE /* Carlos */ = {
 			isa = PBXGroup;
 			children = (
+				AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */,
+				AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */,
 				52635A1F1B4F0F3D00F187EE /* Supporting Files */,
 				52635A3C1B4F0F6F00F187EE /* BasicCache.swift */,
 				52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */,
@@ -749,6 +759,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD8557F51BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
 				52635A221B4F0F3D00F187EE /* Carlos.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -757,6 +768,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD8558101BA94FCB0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
 				52CF0AA11B9203730061022D /* CarlosMac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,6 +777,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD85580F1BA94FCA0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
 				AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1156,6 +1169,7 @@
 				52C0F62E1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift in Sources */,
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
+				AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
 				52635A561B4F0F6F00F187EE /* Errors.swift in Sources */,
 				52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */,
@@ -1220,6 +1234,7 @@
 				52CF0AB71B9203B30061022D /* TwoWayTransformer.swift in Sources */,
 				52CF0AB81B9203B30061022D /* KeyTransformation.swift in Sources */,
 				52CF0AB91B9203B30061022D /* RequestCapperCache.swift in Sources */,
+				AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */,
 				52CF0ABA1B9203B30061022D /* ConcurrentOperation.swift in Sources */,
 				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
@@ -1246,6 +1261,7 @@
 				AD64D94A1B8DE62400C783D3 /* Crypto.swift in Sources */,
 				AD64D94D1B8DE62400C783D3 /* Extensions.swift in Sources */,
 				AD64D9561B8DE62400C783D3 /* TwoWayTransformer.swift in Sources */,
+				AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
 				52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
 				AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */,
@@ -1377,6 +1393,7 @@
 		52635A371B4F0F3E00F187EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1391,6 +1408,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1399,6 +1417,7 @@
 		52635A381B4F0F3E00F187EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1411,6 +1430,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1456,6 +1476,7 @@
 		52CF0AA41B9203730061022D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1473,6 +1494,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1481,6 +1503,7 @@
 		52CF0AA51B9203730061022D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1497,6 +1520,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1538,6 +1562,7 @@
 		AD64D9431B8DE58300C783D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -1551,6 +1576,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1561,6 +1587,7 @@
 		AD64D9441B8DE58300C783D3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1573,6 +1600,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1606,6 +1634,7 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};

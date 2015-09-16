@@ -16,4 +16,4 @@ FOUNDATION_EXPORT const unsigned char CarlosMacVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CarlosMac/PublicHeader.h>
 
-
+#import <CarlosMac/NSKeyedUnarchiver+SwiftUtilities.h>

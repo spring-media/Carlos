@@ -74,13 +74,16 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     dispatch_async(cacheQueue) {
       let path = self.pathForKey(key)
       
-      if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as? T {
+      if let obj = NSKeyedUnarchiver.su_unarchiveObjectWithFilePath(path) as? T {
         Logger.log("Fetched \(key.toString()) on disk level")
         dispatch_async(dispatch_get_main_queue()) {
           request.succeed(obj)
         }
         self.updateDiskAccessDateAtPath(path)
       } else {
+        // Remove the file (maybe corrupted)
+        _ = try? self.fileManager.removeItemAtPath(path)
+        
         Logger.log("Failed fetching \(key.toString()) on the disk cache")
         dispatch_async(dispatch_get_main_queue()) {
           request.fail(FetchError.ValueNotInCache)
