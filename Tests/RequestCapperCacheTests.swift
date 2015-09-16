@@ -74,7 +74,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the request fails") {
           beforeEach {
-            requestToReturn.fail(nil)
+            requestToReturn.fail(TestError.SimpleError)
           }
           
           it("should call the original failure closure") {
@@ -92,7 +92,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
           beforeEach {
             morePendingRequests = []
             
-            for (index, _) in enumerate(1..<requestCap) {
+            for _ in (1..<requestCap).enumerate() {
               let fakeRequest = CacheRequest<Int>()
               internalCache.cacheRequestToReturn = fakeRequest
               
@@ -149,7 +149,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               }
               
               it("should forward the pending call to the internal cache") {
-                expect({ internalCache.numberOfTimesCalledGet }).toEventually(equal(requestCap + 1), timeout: 3)
+                expect(internalCache.numberOfTimesCalledGet).toEventually(equal(requestCap + 1), timeout: 3)
               }
               
               context("when the pending call succeeds") {
@@ -174,7 +174,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               
               context("when the pending call fails") {
                 beforeEach {
-                  exceedingRequest.fail(nil)
+                  exceedingRequest.fail(TestError.AnotherError)
                 }
                 
                 it("should call the original failure closure") {
@@ -191,11 +191,11 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               let ongoingRequestIndex = 0
               
               beforeEach {
-                morePendingRequests[ongoingRequestIndex].fail(nil)
+                morePendingRequests[ongoingRequestIndex].fail(TestError.SimpleError)
               }
               
               it("should forward the pending call to the internal cache") {
-                expect({ internalCache.numberOfTimesCalledGet }).toEventually(equal(requestCap + 1), timeout: 3)
+                expect(internalCache.numberOfTimesCalledGet).toEventually(equal(requestCap + 1), timeout: 3)
               }
               
               context("when the pending call succeeds") {
@@ -220,7 +220,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               
               context("when the pending call fails") {
                 beforeEach {
-                  exceedingRequest.fail(nil)
+                  exceedingRequest.fail(TestError.AnotherError)
                 }
                 
                 it("should call the original failure closure") {
@@ -370,7 +370,22 @@ class RequestCapperCacheTests: QuickSpec {
     describe("The capRequests global function, when applied on a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = capRequests(internalCache, requestCap)
+        cache = capRequests(internalCache, requestsCap: requestCap)
+      }
+      
+      itBehavesLike("a request capped cache") {
+        [
+          RequestCapperCacheSharedExamplesContext.CacheToTest: cache,
+          RequestCapperCacheSharedExamplesContext.InternalCache: internalCache,
+          RequestCapperCacheSharedExamplesContext.RequestCap: requestCap
+        ]
+      }
+    }
+    
+    describe("The capRequests instance function, when applied on a cache level") {
+      beforeEach {
+        internalCache = CacheLevelFake<String, Int>()
+        cache = internalCache.capRequests(requestCap)
       }
       
       itBehavesLike("a request capped cache") {

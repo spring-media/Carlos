@@ -2,7 +2,7 @@ import Foundation
 
 internal struct CarlosGlobals {
   static let QueueNamePrefix = "com.carlos."
-  static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
+  static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] 
 }
 
 internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
@@ -28,17 +28,17 @@ public protocol CacheLevel {
   /**
   Tries to get a value from the cache level
   
-  :param: key The key of the value you would like to get
+  - parameter key: The key of the value you would like to get
   
-  :returns: a CacheRequest that you can attach success and failure closures to
+  - returns: a CacheRequest that you can attach success and failure closures to
   */
   func get(key: KeyType) -> CacheRequest<OutputType>
   
   /**
   Tries to set a value on the cache level
   
-  :param: value The bytes to set on the cache level
-  :param: key The key of the value you're trying to set
+  - parameter value: The bytes to set on the cache level
+  - parameter key: The key of the value you're trying to set
   */
   func set(value: OutputType, forKey key: KeyType)
   

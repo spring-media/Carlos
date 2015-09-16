@@ -25,14 +25,14 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get") {
         let key = "12"
         var successValue: String?
-        var failureValue: NSError?
+        var failureValue: ErrorType?
         var fakeRequest: CacheRequest<Int>!
         
         beforeEach {
           fakeRequest = CacheRequest<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           
-          cache.get(key).onSuccess({ successValue = $0 }).onFailure({ failureValue = $0 })
+          cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
         }
         
         it("should forward the call to the internal cache") {
@@ -77,16 +77,16 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should fail with the right code") {
-              expect(failureValue?.code).to(equal(FetchError.ValueTransformationFailed.rawValue))
+              expect(failureValue as? FetchError).to(equal(FetchError.ValueTransformationFailed))
             }
           }
         }
         
         context("when the request fails") {
-          let errorCode = -110
+          let errorCode = TestError.AnotherError
           
           beforeEach {
-            fakeRequest.fail(NSError(domain: "test", code: errorCode, userInfo: nil))
+            fakeRequest.fail(errorCode)
           }
           
           it("should call the original failure closure") {
@@ -94,7 +94,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should fail with the right code") {
-            expect(failureValue?.code).to(equal(errorCode))
+            expect(failureValue as? TestError).to(equal(errorCode))
           }
         }
       }
@@ -191,14 +191,30 @@ class ValueTransformationTests: QuickSpec {
       }
     }
     let inverseTransformationClosure: String -> Int? = {
-      return $0.toInt()
+      return Int($0)
     }
     
     describe("Value transformation using a transformer and a cache, with the global function") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         transformer = TwoWayTransformationBox(transform: forwardTransformationClosure, inverseTransform: inverseTransformationClosure)
-        cache = transformValues(internalCache, transformer)
+        cache = transformValues(internalCache, transformer: transformer)
+      }
+      
+      itBehavesLike("a cache with transformed values") {
+        [
+          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
+          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
+          ValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
+    describe("Value transformation using a transformer and a cache, with the instance function") {
+      beforeEach {
+        internalCache = CacheLevelFake<String, Int>()
+        transformer = TwoWayTransformationBox(transform: forwardTransformationClosure, inverseTransform: inverseTransformationClosure)
+        cache = internalCache.transformValues(transformer)
       }
       
       itBehavesLike("a cache with transformed values") {
@@ -231,7 +247,7 @@ class ValueTransformationTests: QuickSpec {
         internalCache = CacheLevelFake<String, Int>()
         transformer = TwoWayTransformationBox(transform: forwardTransformationClosure, inverseTransform: inverseTransformationClosure)
         let fetchClosure = internalCache.get
-        cache = transformValues(fetchClosure, transformer)
+        cache = transformValues(fetchClosure, transformer: transformer)
       }
       
       itBehavesLike("a fetch closure with transformed values") {

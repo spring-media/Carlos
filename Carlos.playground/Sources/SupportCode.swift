@@ -9,5 +9,5 @@ public func sharedSubfolder() -> String {
 }
 
 public func initializePlayground() {
-  XCPSetExecutionShouldContinueIndefinitely(continueIndefinitely: true)
+  XCPSetExecutionShouldContinueIndefinitely(true)
 }

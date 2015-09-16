@@ -16,7 +16,7 @@ extension NSData: ExpensiveObject {
 extension String: ExpensiveObject {
   /// The number of characters of the string
   public var cost: Int {
-    return count(self)
+    return self.characters.count
   }
 }
 
@@ -27,17 +27,10 @@ extension NSString: ExpensiveObject {
   }
 }
 
-extension UIImage: ExpensiveObject {
-  /// The size of the image in pixels (W x H)
-  public var cost: Int {
-    return Int(size.width * size.height)
-  }
-}
-
 extension NSURL: ExpensiveObject {
   /// The size of the URL 
   public var cost: Int {
-    return absoluteString?.cost ?? 0
+    return absoluteString.cost
   }
 }
 
@@ -52,7 +45,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: 
   /**
   Initializes a new memory cache level
 
-  :param: cost The total cost limit for the memory cache. Defaults to 50 MB
+  - parameter cost: The total cost limit for the memory cache. Defaults to 50 MB
   */
   public init(capacity: Int = 50 * 1024 * 1024) {
     internalCache = NSCache()
@@ -62,9 +55,9 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: 
   /**
   Synchronously gets a value for the given key
   
-  :param: key The key for the value
+  - parameter key: The key for the value
   
-  :returns: A CacheRequest where you can call onSuccess and onFailure to be notified of the result of the fetch
+  - returns: A CacheRequest where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request = CacheRequest<T>()
@@ -73,7 +66,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: 
       request.succeed(result)
     } else {
       Logger.log("Failed fetching \(key.toString()) on the memory cache")
-      request.fail(errorWithCode(FetchError.ValueNotInCache.rawValue))
+      request.fail(FetchError.ValueNotInCache)
     }
     
     return request
@@ -89,8 +82,8 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: 
   /**
   Sets a value for the given key
   
-  :param: value The value to set
-  :param: key The key for the value
+  - parameter value: The value to set
+  - parameter key: The key for the value
   */
   public func set(value: T, forKey key: K) {
     Logger.log("Setting a value for the key \(key.toString()) on the memory cache \(self)")

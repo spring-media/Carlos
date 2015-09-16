@@ -3,6 +3,11 @@ import Quick
 import Nimble
 import Carlos
 
+internal enum TestError: ErrorType {
+  case SimpleError
+  case AnotherError
+}
+
 class DeferredCacheRequestOperationTests: QuickSpec {
   override func spec() {
     describe("DeferredCacheRequestOperation") {
@@ -102,7 +107,7 @@ class DeferredCacheRequestOperationTests: QuickSpec {
         
         context("when the internal request fails") {
           beforeEach {
-            requestToReturn.fail(nil)
+            requestToReturn.fail(TestError.SimpleError)
           }
           
           it("should call the failure closure") {

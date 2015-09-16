@@ -22,6 +22,6 @@ class PooledCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    cache = pooled(delayedNetworkCache())
+    cache = delayedNetworkCache().pooled()
   }
 }

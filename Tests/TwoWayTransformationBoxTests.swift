@@ -21,7 +21,7 @@ class TwoWayTransformationBoxTests: QuickSpec {
         }
         
         it("should return the expected result") {
-          expect(resultString).to(equal(originURL.absoluteString!))
+          expect(resultString).to(equal(originURL.absoluteString))
         }
       }
       
@@ -67,7 +67,7 @@ class TwoWayTransformationBoxTests: QuickSpec {
           }
           
           it("should return the expected result") {
-            expect(resultString).to(equal(originURL.absoluteString!))
+            expect(resultString).to(equal(originURL.absoluteString))
           }
         }
       }

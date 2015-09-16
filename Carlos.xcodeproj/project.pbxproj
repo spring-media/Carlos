@@ -16,7 +16,6 @@
 		520863751B64268000F740C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5208636C1B64268000F740C7 /* Images.xcassets */; };
 		520863761B64268000F740C7 /* MemoryWarningSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636D1B64268000F740C7 /* MemoryWarningSampleViewController.swift */; };
 		520863771B64268000F740C7 /* DataCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */; };
-		520863791B64268700F740C7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 520863781B64268700F740C7 /* Info.plist */; };
 		5208637E1B64268E00F740C7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5208637A1B64268E00F740C7 /* LaunchScreen.xib */; };
 		5208637F1B64268E00F740C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5208637C1B64268E00F740C7 /* Main.storyboard */; };
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
@@ -38,7 +37,6 @@
 		526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339821B52866900074CB9 /* BasicCacheTests.swift */; };
 		526339851B52A82800074CB9 /* CompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339841B52A82800074CB9 /* CompositionTests.swift */; };
 		526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339881B52B51C00074CB9 /* DiskCacheTests.swift */; };
-		526339941B52BC6D00074CB9 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; };
 		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -64,19 +62,97 @@
 		527C65471B7A66D90005023B /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
 		527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65521B7A89440005023B /* SwitchCacheTests.swift */; };
 		528FAD481B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */; };
+		52A194A91B91026300EA61B3 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; settings = {ASSET_TAGS = (); }; };
 		52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */; };
 		52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD551B51BA140000084A /* CacheLevelFake.swift */; };
 		52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD571B51BAD20000084A /* PoolCacheTests.swift */; };
 		52C0F6261B58DCA1004AAB61 /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */; };
 		52C0F62E1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F62D1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift */; };
+		52CF0A8E1B91F5EE0061022D /* CountryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0A8D1B91F5EE0061022D /* CountryRow.swift */; settings = {ASSET_TAGS = (); }; };
+		52CF0AA11B9203730061022D /* CarlosMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 52CF0AA01B9203730061022D /* CarlosMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		52CF0AA61B9203B30061022D /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
+		52CF0AA71B9203B30061022D /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */; };
+		52CF0AA81B9203B30061022D /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
+		52CF0AA91B9203B30061022D /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
+		52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
+		52CF0AAB1B9203B30061022D /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; };
+		52CF0AAC1B9203B30061022D /* DiskCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A421B4F0F6F00F187EE /* DiskCacheLevel.swift */; };
+		52CF0AAD1B9203B30061022D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A431B4F0F6F00F187EE /* Errors.swift */; };
+		52CF0AAE1B9203B30061022D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A441B4F0F6F00F187EE /* Extensions.swift */; };
+		52CF0AAF1B9203B30061022D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A451B4F0F6F00F187EE /* Logger.swift */; };
+		52CF0AB01B9203B30061022D /* MemoryCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A461B4F0F6F00F187EE /* MemoryCacheLevel.swift */; };
+		52CF0AB21B9203B30061022D /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A481B4F0F6F00F187EE /* NetworkFetcher.swift */; };
+		52CF0AB31B9203B30061022D /* OneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */; };
+		52CF0AB41B9203B30061022D /* PoolCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4A1B4F0F6F00F187EE /* PoolCache.swift */; };
+		52CF0AB51B9203B30061022D /* ValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */; };
+		52CF0AB61B9203B30061022D /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
+		52CF0AB71B9203B30061022D /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
+		52CF0AB81B9203B30061022D /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339741B52435C00074CB9 /* KeyTransformation.swift */; };
+		52CF0AB91B9203B30061022D /* RequestCapperCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */; };
+		52CF0ABA1B9203B30061022D /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */; };
+		52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F62D1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift */; };
+		52CF0ABC1B9203B30061022D /* GenericOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */; };
+		52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
+		52CF0ABE1B9203B30061022D /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4B21B77670F00737B3B /* StringConvertible.swift */; };
+		52CF0ABF1B9203B30061022D /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
+		52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC01B9204730061022D /* ExpensiveObject+Mac.swift */; settings = {ASSET_TAGS = (); }; };
+		52CF0AC31B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC21B9204A90061022D /* ExpensiveObject+iOS.swift */; settings = {ASSET_TAGS = (); }; };
+		52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC21B9204A90061022D /* ExpensiveObject+iOS.swift */; settings = {ASSET_TAGS = (); }; };
+		52CF0AC61B9204C20061022D /* CacheProvider+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC51B9204C20061022D /* CacheProvider+iOS.swift */; settings = {ASSET_TAGS = (); }; };
+		52CF0AC71B9204C20061022D /* CacheProvider+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AC51B9204C20061022D /* CacheProvider+iOS.swift */; settings = {ASSET_TAGS = (); }; };
+		52CF0AD11B920DC20061022D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AD01B920DC20061022D /* AppDelegate.swift */; };
+		52CF0AD31B920DC20061022D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0AD21B920DC20061022D /* ViewController.swift */; };
+		52CF0AD51B920DC20061022D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52CF0AD41B920DC20061022D /* Assets.xcassets */; };
+		52CF0AD81B920DC20061022D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52CF0AD61B920DC20061022D /* Main.storyboard */; };
+		52CF0ADD1B920DD60061022D /* CarlosMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52CF0A9E1B9203730061022D /* CarlosMac.framework */; };
+		52CF0ADE1B920DD60061022D /* CarlosMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52CF0A9E1B9203730061022D /* CarlosMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */; };
 		52E6E24C1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E24B1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift */; };
 		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
-		ADDDDFF61B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = ADDDDFF41B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ADDDDFF71B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDDDFF51B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m */; };
+		AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
+		AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */; };
+		AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
+		AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
+		AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
+		AD64D94A1B8DE62400C783D3 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; };
+		AD64D94B1B8DE62400C783D3 /* DiskCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A421B4F0F6F00F187EE /* DiskCacheLevel.swift */; };
+		AD64D94C1B8DE62400C783D3 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A431B4F0F6F00F187EE /* Errors.swift */; };
+		AD64D94D1B8DE62400C783D3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A441B4F0F6F00F187EE /* Extensions.swift */; };
+		AD64D94E1B8DE62400C783D3 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A451B4F0F6F00F187EE /* Logger.swift */; };
+		AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A461B4F0F6F00F187EE /* MemoryCacheLevel.swift */; };
+		AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A481B4F0F6F00F187EE /* NetworkFetcher.swift */; };
+		AD64D9521B8DE62400C783D3 /* OneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */; };
+		AD64D9531B8DE62400C783D3 /* PoolCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4A1B4F0F6F00F187EE /* PoolCache.swift */; };
+		AD64D9541B8DE62400C783D3 /* ValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */; };
+		AD64D9551B8DE62400C783D3 /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
+		AD64D9561B8DE62400C783D3 /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
+		AD64D9571B8DE62400C783D3 /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339741B52435C00074CB9 /* KeyTransformation.swift */; };
+		AD64D9581B8DE62400C783D3 /* RequestCapperCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */; };
+		AD64D9591B8DE62400C783D3 /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */; };
+		AD64D95A1B8DE62400C783D3 /* DeferredCacheRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F62D1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift */; };
+		AD64D95B1B8DE62400C783D3 /* GenericOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */; };
+		AD64D95C1B8DE62400C783D3 /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
+		AD64D95D1B8DE62400C783D3 /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4B21B77670F00737B3B /* StringConvertible.swift */; };
+		AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
+		AD64D97E1B8DE69200C783D3 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD64D97C1B8DE69200C783D3 /* Interface.storyboard */; };
+		AD64D9801B8DE69200C783D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD64D97F1B8DE69200C783D3 /* Assets.xcassets */; };
+		AD64D9871B8DE69200C783D3 /* CarlosWatchSample Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AD64D98C1B8DE69200C783D3 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD64D98B1B8DE69200C783D3 /* InterfaceController.swift */; };
+		AD64D98E1B8DE69200C783D3 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */; };
+		AD64D9901B8DE69200C783D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD64D98F1B8DE69200C783D3 /* Assets.xcassets */; };
+		AD64D9941B8DE69200C783D3 /* CarlosWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */; };
+		AD64D99C1B8DE69D00C783D3 /* CarlosWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */; };
+		AD64D99D1B8DE69D00C783D3 /* CarlosWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AD8557F51BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; settings = {ASSET_TAGS = (); }; };
+		AD85580F1BA94FCA0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD8558101BA94FCB0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; settings = {ASSET_TAGS = (); }; };
+		AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; settings = {ASSET_TAGS = (); }; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 		C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
@@ -96,6 +172,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = 52635A1C1B4F0F3D00F187EE;
 			remoteInfo = Carlos;
+		};
+		52CF0ADF1B920DD60061022D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52CF0A9D1B9203730061022D;
+			remoteInfo = CarlosMac;
+		};
+		AD64D9881B8DE69200C783D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD64D9851B8DE69200C783D3;
+			remoteInfo = "CarlosWatchSample Extension";
+		};
+		AD64D9921B8DE69200C783D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD64D9791B8DE69200C783D3;
+			remoteInfo = CarlosWatchSample;
+		};
+		AD64D99E1B8DE69D00C783D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD64D93C1B8DE58300C783D3;
+			remoteInfo = CarlosWatch;
 		};
 		C7C5D94A1B55475B00CDB402 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -170,6 +274,39 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		52CF0AE11B920DD60061022D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				52CF0ADE1B920DD60061022D /* CarlosMac.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9981B8DE69200C783D3 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AD64D9871B8DE69200C783D3 /* CarlosWatchSample Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9A01B8DE69E00C783D3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AD64D99D1B8DE69D00C783D3 /* CarlosWatch.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD695D251B46CD73004E998D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -179,6 +316,17 @@
 				52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADBC8F4C1B8DE4AB0080EF0A /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				AD64D9941B8DE69200C783D3 /* CarlosWatchSample.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -249,6 +397,19 @@
 		52BBFD571B51BAD20000084A /* PoolCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCacheTests.swift; sourceTree = "<group>"; };
 		52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentOperation.swift; sourceTree = "<group>"; };
 		52C0F62D1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredCacheRequestOperation.swift; sourceTree = "<group>"; };
+		52CF0A8D1B91F5EE0061022D /* CountryRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryRow.swift; sourceTree = "<group>"; };
+		52CF0A9E1B9203730061022D /* CarlosMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52CF0AA01B9203730061022D /* CarlosMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosMac.h; sourceTree = "<group>"; };
+		52CF0AA21B9203730061022D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52CF0AC01B9204730061022D /* ExpensiveObject+Mac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExpensiveObject+Mac.swift"; sourceTree = "<group>"; };
+		52CF0AC21B9204A90061022D /* ExpensiveObject+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExpensiveObject+iOS.swift"; sourceTree = "<group>"; };
+		52CF0AC51B9204C20061022D /* CacheProvider+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CacheProvider+iOS.swift"; sourceTree = "<group>"; };
+		52CF0ACE1B920DC20061022D /* CarlosMacSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosMacSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52CF0AD01B920DC20061022D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		52CF0AD21B920DC20061022D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		52CF0AD41B920DC20061022D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		52CF0AD71B920DC20061022D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		52CF0AD91B920DC20061022D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericOperation.swift; sourceTree = "<group>"; };
 		52E6E24B1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredCacheRequestOperationTests.swift; sourceTree = "<group>"; };
 		52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatterTransformerTests.swift; sourceTree = "<group>"; };
@@ -257,9 +418,21 @@
 		7125763FA112BF618F1B0F73 /* Pods-CarlosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarlosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CarlosTests/Pods-CarlosTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E75A8F39308A7998DCD90E0 /* Pods_CarlosSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheProvider.swift; sourceTree = "<group>"; };
+		AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosWatch.h; sourceTree = "<group>"; };
+		AD64D9411B8DE58300C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD64D97D1B8DE69200C783D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		AD64D97F1B8DE69200C783D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD64D9811B8DE69200C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CarlosWatchSample Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD64D98B1B8DE69200C783D3 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		AD64D98F1B8DE69200C783D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD64D9911B8DE69200C783D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		ADDDDFF41B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+SwiftUtilities.h"; sourceTree = "<group>"; };
-		ADDDDFF51B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+SwiftUtilities.m"; sourceTree = "<group>"; };
+		AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+SwiftUtilities.h"; sourceTree = "<group>"; };
+		AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+SwiftUtilities.m"; sourceTree = "<group>"; };
 		C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcherTests.swift; sourceTree = "<group>"; };
 		C7C5D9431B55475B00CDB402 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Vendor/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		C7C5D9521B55476300CDB402 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Vendor/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
@@ -280,6 +453,36 @@
 				C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */,
 				C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */,
 				52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0A9A1B9203730061022D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0ACB1B920DC20061022D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0ADD1B920DD60061022D /* CarlosMac.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9391B8DE58300C783D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9831B8DE69200C783D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D99C1B8DE69D00C783D3 /* CarlosWatch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +509,8 @@
 		52635A1E1B4F0F3D00F187EE /* Carlos */ = {
 			isa = PBXGroup;
 			children = (
+				AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */,
+				AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */,
 				52635A1F1B4F0F3D00F187EE /* Supporting Files */,
 				52635A3C1B4F0F6F00F187EE /* BasicCache.swift */,
 				52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */,
@@ -334,8 +539,8 @@
 				AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */,
 				5243C4B21B77670F00737B3B /* StringConvertible.swift */,
 				527C65461B7A66D90005023B /* SwitchCache.swift */,
-				ADDDDFF41B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h */,
-				ADDDDFF51B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m */,
+				52CF0AC21B9204A90061022D /* ExpensiveObject+iOS.swift */,
+				52CF0AC51B9204C20061022D /* CacheProvider+iOS.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -396,6 +601,59 @@
 			path = Fakes;
 			sourceTree = "<group>";
 		};
+		52CF0A9F1B9203730061022D /* CarlosMac */ = {
+			isa = PBXGroup;
+			children = (
+				52CF0AA01B9203730061022D /* CarlosMac.h */,
+				52CF0AA21B9203730061022D /* Info.plist */,
+				52CF0AC01B9204730061022D /* ExpensiveObject+Mac.swift */,
+			);
+			path = CarlosMac;
+			sourceTree = "<group>";
+		};
+		52CF0ACF1B920DC20061022D /* CarlosMacSample */ = {
+			isa = PBXGroup;
+			children = (
+				52CF0AD01B920DC20061022D /* AppDelegate.swift */,
+				52CF0AD21B920DC20061022D /* ViewController.swift */,
+				52CF0AD41B920DC20061022D /* Assets.xcassets */,
+				52CF0AD61B920DC20061022D /* Main.storyboard */,
+				52CF0AD91B920DC20061022D /* Info.plist */,
+			);
+			path = CarlosMacSample;
+			sourceTree = "<group>";
+		};
+		AD64D93E1B8DE58300C783D3 /* CarlosWatch */ = {
+			isa = PBXGroup;
+			children = (
+				AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */,
+				AD64D9411B8DE58300C783D3 /* Info.plist */,
+			);
+			path = CarlosWatch;
+			sourceTree = "<group>";
+		};
+		AD64D97B1B8DE69200C783D3 /* CarlosWatchSample */ = {
+			isa = PBXGroup;
+			children = (
+				AD64D97C1B8DE69200C783D3 /* Interface.storyboard */,
+				AD64D97F1B8DE69200C783D3 /* Assets.xcassets */,
+				AD64D9811B8DE69200C783D3 /* Info.plist */,
+			);
+			path = CarlosWatchSample;
+			sourceTree = "<group>";
+		};
+		AD64D98A1B8DE69200C783D3 /* CarlosWatchSample Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AD64D98B1B8DE69200C783D3 /* InterfaceController.swift */,
+				AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */,
+				AD64D98F1B8DE69200C783D3 /* Assets.xcassets */,
+				AD64D9911B8DE69200C783D3 /* Info.plist */,
+				52CF0A8D1B91F5EE0061022D /* CountryRow.swift */,
+			);
+			path = "CarlosWatchSample Extension";
+			sourceTree = "<group>";
+		};
 		AD695CD61B46CD65004E998D = {
 			isa = PBXGroup;
 			children = (
@@ -403,6 +661,11 @@
 				AD695CE11B46CD65004E998D /* Sample */,
 				52635A1E1B4F0F3D00F187EE /* Carlos */,
 				52635A671B4F110500F187EE /* CarlosTests */,
+				AD64D93E1B8DE58300C783D3 /* CarlosWatch */,
+				AD64D97B1B8DE69200C783D3 /* CarlosWatchSample */,
+				AD64D98A1B8DE69200C783D3 /* CarlosWatchSample Extension */,
+				52CF0A9F1B9203730061022D /* CarlosMac */,
+				52CF0ACF1B920DC20061022D /* CarlosMacSample */,
 				AD695CE01B46CD65004E998D /* Products */,
 				D99806F8C133568B429FF0A9 /* Pods */,
 				2677A0397774353D4B14F63F /* Frameworks */,
@@ -415,6 +678,11 @@
 				AD695CDF1B46CD65004E998D /* CarlosSample.app */,
 				52635A1D1B4F0F3D00F187EE /* Carlos.framework */,
 				52635A661B4F110500F187EE /* CarlosTests.xctest */,
+				AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */,
+				AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */,
+				AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */,
+				52CF0A9E1B9203730061022D /* CarlosMac.framework */,
+				52CF0ACE1B920DC20061022D /* CarlosMacSample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -491,8 +759,26 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADDDDFF61B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
+				AD8557F51BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
 				52635A221B4F0F3D00F187EE /* Carlos.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0A9B1B9203730061022D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD8558101BA94FCB0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
+				52CF0AA11B9203730061022D /* CarlosMac.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D93A1B8DE58300C783D3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD85580F1BA94FCA0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
+				AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,6 +821,97 @@
 			productReference = 52635A661B4F110500F187EE /* CarlosTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		52CF0A9D1B9203730061022D /* CarlosMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52CF0AA31B9203730061022D /* Build configuration list for PBXNativeTarget "CarlosMac" */;
+			buildPhases = (
+				52CF0A991B9203730061022D /* Sources */,
+				52CF0A9A1B9203730061022D /* Frameworks */,
+				52CF0A9B1B9203730061022D /* Headers */,
+				52CF0A9C1B9203730061022D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CarlosMac;
+			productName = CarlosMac;
+			productReference = 52CF0A9E1B9203730061022D /* CarlosMac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		52CF0ACD1B920DC20061022D /* CarlosMacSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52CF0ADA1B920DC20061022D /* Build configuration list for PBXNativeTarget "CarlosMacSample" */;
+			buildPhases = (
+				52CF0ACA1B920DC20061022D /* Sources */,
+				52CF0ACB1B920DC20061022D /* Frameworks */,
+				52CF0ACC1B920DC20061022D /* Resources */,
+				52CF0AE11B920DD60061022D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52CF0AE01B920DD60061022D /* PBXTargetDependency */,
+			);
+			name = CarlosMacSample;
+			productName = CarlosMacSample;
+			productReference = 52CF0ACE1B920DC20061022D /* CarlosMacSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AD64D93C1B8DE58300C783D3 /* CarlosWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatch" */;
+			buildPhases = (
+				AD64D9381B8DE58300C783D3 /* Sources */,
+				AD64D9391B8DE58300C783D3 /* Frameworks */,
+				AD64D93A1B8DE58300C783D3 /* Headers */,
+				AD64D93B1B8DE58300C783D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CarlosWatch;
+			productName = CarlosWatch;
+			productReference = AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AD64D9791B8DE69200C783D3 /* CarlosWatchSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD64D9991B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample" */;
+			buildPhases = (
+				AD64D9781B8DE69200C783D3 /* Resources */,
+				AD64D9981B8DE69200C783D3 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD64D9891B8DE69200C783D3 /* PBXTargetDependency */,
+			);
+			name = CarlosWatchSample;
+			productName = CarlosWatchSample;
+			productReference = AD64D97A1B8DE69200C783D3 /* CarlosWatchSample.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD64D9951B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample Extension" */;
+			buildPhases = (
+				AD64D9821B8DE69200C783D3 /* Sources */,
+				AD64D9831B8DE69200C783D3 /* Frameworks */,
+				AD64D9841B8DE69200C783D3 /* Resources */,
+				AD64D9A01B8DE69E00C783D3 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD64D99F1B8DE69D00C783D3 /* PBXTargetDependency */,
+			);
+			name = "CarlosWatchSample Extension";
+			productName = "CarlosWatchSample Extension";
+			productReference = AD64D9861B8DE69200C783D3 /* CarlosWatchSample Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		AD695CDE1B46CD65004E998D /* CarlosSample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD695CFE1B46CD65004E998D /* Build configuration list for PBXNativeTarget "CarlosSample" */;
@@ -543,11 +920,13 @@
 				AD695CDC1B46CD65004E998D /* Frameworks */,
 				AD695CDD1B46CD65004E998D /* Resources */,
 				AD695D251B46CD73004E998D /* Embed Frameworks */,
+				ADBC8F4C1B8DE4AB0080EF0A /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				52635A331B4F0F3E00F187EE /* PBXTargetDependency */,
+				AD64D9931B8DE69200C783D3 /* PBXTargetDependency */,
 			);
 			name = CarlosSample;
 			productName = CarlosSample;
@@ -560,7 +939,9 @@
 		AD695CD71B46CD65004E998D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = WeltN24;
 				TargetAttributes = {
 					52635A1C1B4F0F3D00F187EE = {
@@ -568,6 +949,21 @@
 					};
 					52635A651B4F110500F187EE = {
 						CreatedOnToolsVersion = 6.4;
+					};
+					52CF0A9D1B9203730061022D = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					52CF0ACD1B920DC20061022D = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					AD64D93C1B8DE58300C783D3 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					AD64D9791B8DE69200C783D3 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					AD64D9851B8DE69200C783D3 = {
+						CreatedOnToolsVersion = 7.0;
 					};
 					AD695CDE1B46CD65004E998D = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -597,9 +993,14 @@
 			);
 			projectRoot = "";
 			targets = (
-				AD695CDE1B46CD65004E998D /* CarlosSample */,
 				52635A1C1B4F0F3D00F187EE /* Carlos */,
+				AD64D93C1B8DE58300C783D3 /* CarlosWatch */,
+				52CF0A9D1B9203730061022D /* CarlosMac */,
 				52635A651B4F110500F187EE /* CarlosTests */,
+				AD695CDE1B46CD65004E998D /* CarlosSample */,
+				AD64D9791B8DE69200C783D3 /* CarlosWatchSample */,
+				AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */,
+				52CF0ACD1B920DC20061022D /* CarlosMacSample */,
 			);
 		};
 /* End PBXProject section */
@@ -692,11 +1093,50 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		52CF0A9C1B9203730061022D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0ACC1B920DC20061022D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0AD51B920DC20061022D /* Assets.xcassets in Resources */,
+				52CF0AD81B920DC20061022D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D93B1B8DE58300C783D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9781B8DE69200C783D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D9801B8DE69200C783D3 /* Assets.xcassets in Resources */,
+				AD64D97E1B8DE69200C783D3 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9841B8DE69200C783D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D9901B8DE69200C783D3 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD695CDD1B46CD65004E998D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				520863791B64268700F740C7 /* Info.plist in Resources */,
 				5208637E1B64268E00F740C7 /* LaunchScreen.xib in Resources */,
 				520863751B64268000F740C7 /* Images.xcassets in Resources */,
 				5208637F1B64268E00F740C7 /* Main.storyboard in Resources */,
@@ -723,16 +1163,18 @@
 				52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */,
 				52635A5F1B4F0F6F00F187EE /* ValueTransformation.swift in Sources */,
 				52635A581B4F0F6F00F187EE /* Logger.swift in Sources */,
+				52CF0AC31B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
 				526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */,
 				AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */,
 				52C0F62E1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift in Sources */,
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
+				AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
-				ADDDDFF71B986C8B00856B6A /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52635A561B4F0F6F00F187EE /* Errors.swift in Sources */,
 				52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */,
 				52635A551B4F0F6F00F187EE /* DiskCacheLevel.swift in Sources */,
+				52CF0AC61B9204C20061022D /* CacheProvider+iOS.swift in Sources */,
 				52635A5A1B4F0F6F00F187EE /* MemoryWarning.swift in Sources */,
 				52635A521B4F0F6F00F187EE /* Composed.swift in Sources */,
 				52635A531B4F0F6F00F187EE /* Conditioned.swift in Sources */,
@@ -751,8 +1193,8 @@
 				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
 				527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */,
-				526339941B52BC6D00074CB9 /* Crypto.swift in Sources */,
 				5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */,
+				52A194A91B91026300EA61B3 /* Crypto.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
 				526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */,
@@ -766,6 +1208,94 @@
 				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
 				C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0A991B9203730061022D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0AA61B9203B30061022D /* BasicCache.swift in Sources */,
+				52CF0AA71B9203B30061022D /* CacheRequest.swift in Sources */,
+				52CF0AA81B9203B30061022D /* Carlos.swift in Sources */,
+				52CF0AA91B9203B30061022D /* Composed.swift in Sources */,
+				52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */,
+				52CF0AAB1B9203B30061022D /* Crypto.swift in Sources */,
+				52CF0AAC1B9203B30061022D /* DiskCacheLevel.swift in Sources */,
+				52CF0AAD1B9203B30061022D /* Errors.swift in Sources */,
+				52CF0AAE1B9203B30061022D /* Extensions.swift in Sources */,
+				52CF0AAF1B9203B30061022D /* Logger.swift in Sources */,
+				52CF0AB01B9203B30061022D /* MemoryCacheLevel.swift in Sources */,
+				52CF0AB21B9203B30061022D /* NetworkFetcher.swift in Sources */,
+				52CF0AB31B9203B30061022D /* OneWayTransformer.swift in Sources */,
+				52CF0AB41B9203B30061022D /* PoolCache.swift in Sources */,
+				52CF0AB51B9203B30061022D /* ValueTransformation.swift in Sources */,
+				52CF0AB61B9203B30061022D /* Transformers.swift in Sources */,
+				52CF0AB71B9203B30061022D /* TwoWayTransformer.swift in Sources */,
+				52CF0AB81B9203B30061022D /* KeyTransformation.swift in Sources */,
+				52CF0AB91B9203B30061022D /* RequestCapperCache.swift in Sources */,
+				AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
+				52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */,
+				52CF0ABA1B9203B30061022D /* ConcurrentOperation.swift in Sources */,
+				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
+				52CF0ABC1B9203B30061022D /* GenericOperation.swift in Sources */,
+				52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */,
+				52CF0ABE1B9203B30061022D /* StringConvertible.swift in Sources */,
+				52CF0ABF1B9203B30061022D /* SwitchCache.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52CF0ACA1B920DC20061022D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0AD31B920DC20061022D /* ViewController.swift in Sources */,
+				52CF0AD11B920DC20061022D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9381B8DE58300C783D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD64D94A1B8DE62400C783D3 /* Crypto.swift in Sources */,
+				AD64D94D1B8DE62400C783D3 /* Extensions.swift in Sources */,
+				AD64D9561B8DE62400C783D3 /* TwoWayTransformer.swift in Sources */,
+				AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
+				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
+				52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
+				AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */,
+				AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */,
+				AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */,
+				AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */,
+				AD64D9581B8DE62400C783D3 /* RequestCapperCache.swift in Sources */,
+				AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */,
+				AD64D94E1B8DE62400C783D3 /* Logger.swift in Sources */,
+				AD64D9591B8DE62400C783D3 /* ConcurrentOperation.swift in Sources */,
+				AD64D95B1B8DE62400C783D3 /* GenericOperation.swift in Sources */,
+				52CF0AC71B9204C20061022D /* CacheProvider+iOS.swift in Sources */,
+				AD64D9541B8DE62400C783D3 /* ValueTransformation.swift in Sources */,
+				AD64D95C1B8DE62400C783D3 /* CacheProvider.swift in Sources */,
+				AD64D9531B8DE62400C783D3 /* PoolCache.swift in Sources */,
+				AD64D95A1B8DE62400C783D3 /* DeferredCacheRequestOperation.swift in Sources */,
+				AD64D9521B8DE62400C783D3 /* OneWayTransformer.swift in Sources */,
+				AD64D94C1B8DE62400C783D3 /* Errors.swift in Sources */,
+				AD64D94B1B8DE62400C783D3 /* DiskCacheLevel.swift in Sources */,
+				AD64D9551B8DE62400C783D3 /* Transformers.swift in Sources */,
+				AD64D9571B8DE62400C783D3 /* KeyTransformation.swift in Sources */,
+				AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */,
+				AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */,
+				AD64D95D1B8DE62400C783D3 /* StringConvertible.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD64D9821B8DE69200C783D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52CF0A8E1B91F5EE0061022D /* CountryRow.swift in Sources */,
+				AD64D98E1B8DE69200C783D3 /* ExtensionDelegate.swift in Sources */,
+				AD64D98C1B8DE69200C783D3 /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -802,6 +1332,26 @@
 			target = 52635A1C1B4F0F3D00F187EE /* Carlos */;
 			targetProxy = 52635A6D1B4F110500F187EE /* PBXContainerItemProxy */;
 		};
+		52CF0AE01B920DD60061022D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52CF0A9D1B9203730061022D /* CarlosMac */;
+			targetProxy = 52CF0ADF1B920DD60061022D /* PBXContainerItemProxy */;
+		};
+		AD64D9891B8DE69200C783D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */;
+			targetProxy = AD64D9881B8DE69200C783D3 /* PBXContainerItemProxy */;
+		};
+		AD64D9931B8DE69200C783D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD64D9791B8DE69200C783D3 /* CarlosWatchSample */;
+			targetProxy = AD64D9921B8DE69200C783D3 /* PBXContainerItemProxy */;
+		};
+		AD64D99F1B8DE69D00C783D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD64D93C1B8DE58300C783D3 /* CarlosWatch */;
+			targetProxy = AD64D99E1B8DE69D00C783D3 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -821,6 +1371,22 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		52CF0AD61B920DC20061022D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52CF0AD71B920DC20061022D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AD64D97C1B8DE69200C783D3 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AD64D97D1B8DE69200C783D3 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -833,15 +1399,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = Carlos/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -863,8 +1427,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -885,6 +1451,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -901,7 +1468,208 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		52CF0AA41B9203730061022D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = CarlosMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		52CF0AA51B9203730061022D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = CarlosMac/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		52CF0ADB1B920DC20061022D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CarlosMacSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMacSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		52CF0ADC1B920DC20061022D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CarlosMacSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMacSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AD64D9431B8DE58300C783D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CarlosWatch/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD64D9441B8DE58300C783D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CarlosWatch/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		AD64D9961B8DE69200C783D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD64D9971B8DE69200C783D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		AD64D99A1B8DE69200C783D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = CarlosWatchSample_Extension;
+				INFOPLIST_FILE = CarlosWatchSample/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD64D99B1B8DE69200C783D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				IBSC_MODULE = CarlosWatchSample_Extension;
+				INFOPLIST_FILE = CarlosWatchSample/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -926,6 +1694,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -998,6 +1767,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1012,6 +1782,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1033,6 +1804,51 @@
 			buildConfigurations = (
 				52635A701B4F110500F187EE /* Debug */,
 				52635A711B4F110500F187EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52CF0AA31B9203730061022D /* Build configuration list for PBXNativeTarget "CarlosMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52CF0AA41B9203730061022D /* Debug */,
+				52CF0AA51B9203730061022D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52CF0ADA1B920DC20061022D /* Build configuration list for PBXNativeTarget "CarlosMacSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52CF0ADB1B920DC20061022D /* Debug */,
+				52CF0ADC1B920DC20061022D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD64D9421B8DE58300C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD64D9431B8DE58300C783D3 /* Debug */,
+				AD64D9441B8DE58300C783D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD64D9951B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD64D9961B8DE69200C783D3 /* Debug */,
+				AD64D9971B8DE69200C783D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD64D9991B8DE69200C783D3 /* Build configuration list for PBXNativeTarget "CarlosWatchSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD64D99A1B8DE69200C783D3 /* Debug */,
+				AD64D99B1B8DE69200C783D3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

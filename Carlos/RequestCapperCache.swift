@@ -1,27 +1,41 @@
 import Foundation
 
+extension CacheLevel {
+  
+  /**
+  Cap requests on the cache
+  
+  - parameter requestsCap: The number of maximum concurrent requests that should be passed to the cache
+  
+  - returns: An initialized RequestCapperCache (a CacheLevel itself)
+  */
+  public func capRequests(requestsCap: Int) -> RequestCapperCache<Self> {
+    return RequestCapperCache(internalCache: self, requestCap: requestsCap)
+  }
+}
+
 /**
 Cap requests on a given cache
 
-:param: cache The cache you want to apply the cap to
-:param: requestsCap The number of maximum concurrent requests that should be passed to the cache
+- parameter cache: The cache you want to apply the cap to
+- parameter requestsCap: The number of maximum concurrent requests that should be passed to the cache
 
-:returns: An initialized RequestCapperCache (a CacheLevel itself)
+- returns: An initialized RequestCapperCache (a CacheLevel itself)
 */
 public func capRequests<C: CacheLevel>(cache: C, requestsCap: Int) -> RequestCapperCache<C> {
-  return RequestCapperCache(internalCache: cache, requestCap: requestsCap)
+  return cache.capRequests(requestsCap)
 }
 
 /**
 Cap requests on a given fetcher closure
 
-:param: fetcherClosure The fetcher closure you want to apply the cap to
-:param: requestsCap The number of maximum concurrent requests that should be passed to the closure
+- parameter fetcherClosure: The fetcher closure you want to apply the cap to
+- parameter requestsCap: The number of maximum concurrent requests that should be passed to the closure
 
-:returns: An initialized RequestCapperCache (a CacheLevel itself)
+- returns: An initialized RequestCapperCache (a CacheLevel itself)
 */
 public func capRequests<A, B>(fetcherClosure: (key: A) -> CacheRequest<B>, requestsCap: Int) -> RequestCapperCache<BasicCache<A, B>> {
-  return capRequests(wrapClosureIntoCacheLevel(fetcherClosure), requestsCap)
+  return wrapClosureIntoCacheLevel(fetcherClosure).capRequests(requestsCap)
 }
 
 /** 
@@ -39,8 +53,8 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   /**
   Creates a new instance of this class
   
-  :param: internalCache The cache that this instance has to manage
-  :param: requestCap The maximum number of concurrent requests that the managed cache should get
+  - parameter internalCache: The cache that this instance has to manage
+  - parameter requestCap: The maximum number of concurrent requests that the managed cache should get
   */
   public init(internalCache: C, requestCap: Int) {
     self.internalCache = internalCache
@@ -56,9 +70,9 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   /**
   Tries to get a value for the given key from the managed cache
   
-  :param: key The key for the value
+  - parameter key: The key for the value
   
-  :returns: A CacheRequest that could either be immediately executed or deferred depending on how many requests are currently pending.
+  - returns: A CacheRequest that could either be immediately executed or deferred depending on how many requests are currently pending.
   */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request = CacheRequest<OutputType>()
@@ -76,7 +90,7 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   /**
   Sets a value for the given key on the managed cache
   
-  :param: key The key for the value
+  - parameter key: The key for the value
   
   :discussion: Calls to this method are not capped
   */

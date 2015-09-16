@@ -1,14 +1,14 @@
 import Foundation
 
-public enum NetworkFetcherError: Int {
+public enum NetworkFetcherError: ErrorType {
   /// Used when the status code of the network response is not included in the range 200..<300
-  case StatusCodeNotOk = 11100
+  case StatusCodeNotOk
   
   /// Used when the network response had an invalid size
-  case InvalidNetworkResponse = 11101
+  case InvalidNetworkResponse
   
   /// Used when the network request didn't manage to retrieve data
-  case NoDataRetrieved = 11102
+  case NoDataRetrieved
 }
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
@@ -24,7 +24,7 @@ public class NetworkFetcher: CacheLevel {
     private let URL : NSURL
     private var task : NSURLSessionDataTask? = nil
     
-    init(URL: NSURL, success succeed : (NSData,Request) -> (), failure fail : ((NSError?,Request) -> ())) {
+    init(URL: NSURL, success succeed : (NSData, Request) -> (), failure fail : ((ErrorType, Request) -> ())) {
       self.URL = URL
       self.task = NSURLSession.sharedSession().dataTaskWithURL(URL) {[weak self] (data, response, error) in
         if let strongSelf = self {
@@ -43,31 +43,31 @@ public class NetworkFetcher: CacheLevel {
       return responseIsValid
     }
     
-    private func dataReceived(data : NSData!, response : NSURLResponse!, error : NSError!, failure fail : ((NSError?,Request) -> Void), success succeed : (NSData,Request) -> Void) {
+    private func dataReceived(data : NSData!, response : NSURLResponse!, error : NSError!, failure fail : ((ErrorType, Request) -> Void), success succeed : (NSData,Request) -> Void) {
       if let error = error {
         if error.domain != NSURLErrorDomain || error.code != NSURLErrorCancelled {
           dispatch_async(dispatch_get_main_queue(), {
-            fail(error,self)
+            fail(error, self)
           })
         }
       } else if let httpResponse = response as? NSHTTPURLResponse {
-        if !contains(Request.ValidStatusCodes, httpResponse.statusCode) {
-          failWithCode(.StatusCodeNotOk, failure: fail)
+        if !Request.ValidStatusCodes.contains(httpResponse.statusCode) {
+          dispatch_async(dispatch_get_main_queue()) {
+            fail(NetworkFetcherError.StatusCodeNotOk, self)
+          }
         } else if !validate(httpResponse, withData: data) {
-          failWithCode(.InvalidNetworkResponse, failure: fail)
+          dispatch_async(dispatch_get_main_queue()) {
+            fail(NetworkFetcherError.InvalidNetworkResponse, self)
+          }
         } else if let data = data {
           dispatch_async(dispatch_get_main_queue()) {
             succeed(data,self)
           }
         } else {
-          failWithCode(.NoDataRetrieved, failure: fail)
+          dispatch_async(dispatch_get_main_queue()) {
+            fail(NetworkFetcherError.NoDataRetrieved, self)
+          }
         }
-      }
-    }
-    
-    private func failWithCode(code: NetworkFetcherError, failure fail : ((NSError?,Request) -> ())) {
-      dispatch_async(dispatch_get_main_queue()) {
-        fail(errorWithCode(code.rawValue),self)
       }
     }
   }
@@ -86,7 +86,7 @@ public class NetworkFetcher: CacheLevel {
 
   private func removePendingRequests(request: Request) {
     dispatch_async(lockQueue) {
-      if let idx = filter(enumerate(self.pendingRequests), { $1 === request }).first?.index {
+      if let idx = self.pendingRequests.enumerate().filter({ $1 === request }).first?.index {
         self.pendingRequests.removeAtIndex(idx)
       }
     }
@@ -100,9 +100,9 @@ public class NetworkFetcher: CacheLevel {
   /**
   Asks the cache to get a value for the given key
   
-  :param: key The key for the value. It represents the URL to fetch the value
+  - parameter key: The key for the value. It represents the URL to fetch the value
   
-  :returns: A CacheRequest that you can use to get the asynchronous results of the network fetch
+  - returns: A CacheRequest that you can use to get the asynchronous results of the network fetch
   */
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let result = CacheRequest<OutputType>()

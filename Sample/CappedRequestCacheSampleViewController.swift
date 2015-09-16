@@ -24,6 +24,6 @@ class CappedRequestCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    cache = capRequests(delayedNetworkCache(), CappedRequestCacheSampleViewController.RequestsCap)
+    cache = delayedNetworkCache().capRequests(CappedRequestCacheSampleViewController.RequestsCap)
   }
 }

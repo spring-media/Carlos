@@ -8,6 +8,10 @@ struct ModelDomain {
   let URL: NSURL
 }
 
+enum IgnoreError: ErrorType {
+  case Ignore
+}
+
 class CustomCacheLevel: CacheLevel {
   typealias KeyType = Int
   typealias OutputType = String
@@ -20,7 +24,7 @@ class CustomCacheLevel: CacheLevel {
       request.succeed("\(key)")
     } else {
       Logger.log("Failed fetching \(key) on the custom cache", .Info)
-      request.fail(nil)
+      request.fail(IgnoreError.Ignore)
     }
     
     return request
@@ -82,7 +86,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
   override func fetchRequested() {
     super.fetchRequested()
     
-    let key = ModelDomain(name: nameField.text, identifier: identifierField.text.toInt() ?? 0, URL: NSURL(string: urlField.text)!)
+    let key = ModelDomain(name: nameField.text ?? "", identifier: Int(identifierField.text ?? "") ?? 0, URL: NSURL(string: urlField.text ?? "")!)
     
     cache.get(key)
     

@@ -10,16 +10,19 @@ class ImageCacheSampleViewController: BaseCacheViewController {
     super.fetchRequested()
     
     cache.get(NSURL(string: urlKeyField?.text ?? "")!)
-      .onSuccess { image in
-        self.imageView?.image = image
-      }
-      .onFailure { _ in
-        self.imageView?.image = self.imageWithColor(.darkGrayColor(), size: self.imageView?.frame.size ?? CGSize.zeroSize)
+      .onCompletion { (image, error) in
+        if let imageView = self.imageView {
+          if let image = image {
+            imageView.image = image
+          } else if let _ = error {
+            imageView.image = self.imageWithColor(.darkGrayColor(), size: imageView.frame.size)
+          }
+        }
       }
   }
   
   private func imageWithColor(color: UIColor, size: CGSize) -> UIImage {
-    let rect = CGRect(origin: CGPoint.zeroPoint, size: size)
+    let rect = CGRect(origin: CGPoint.zero, size: size)
     UIGraphicsBeginImageContextWithOptions(size, false, 0)
     color.setFill()
     UIRectFill(rect)

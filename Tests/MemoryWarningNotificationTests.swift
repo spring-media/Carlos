@@ -15,7 +15,7 @@ class MemoryWarningNotificationTests: QuickSpec {
       
       context("when listening to memory warnings") {
         beforeEach {
-          token = listenToMemoryWarnings(cache)
+          token = cache.listenToMemoryWarnings()
         }
         
         context("when posting memory warnings") {
