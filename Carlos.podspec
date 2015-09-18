@@ -27,9 +27,9 @@ Pod::Spec.new do |s|
   
   s.requires_arc = true
 
-  s.ios.source_files = 'Carlos/*.swift'
-  s.watchos.source_files = 'Carlos/*.swift'
+  s.ios.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
+  s.watchos.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
   s.watchos.exclude_files = 'Carlos/MemoryWarning.swift'
-  s.osx.source_files = 'Carlos/*.swift', 'CarlosMac/*.swift'
+  s.osx.source_files = 'Carlos/*.swift', 'CarlosMac/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
   s.osx.exclude_files = 'Carlos/MemoryWarning.swift', 'Carlos/*+iOS.swift'
 end
