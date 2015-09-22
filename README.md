@@ -24,6 +24,7 @@
   - [Conditioning caches](#conditioning-caches)
   - [Multiple cache lanes](#multiple-cache-lanes)
   - [Listening to memory warnings](#listening-to-memory-warnings)
+  - [Normalizing cache levels](#normalization)
   - [Creating custom levels](#creating-custom-levels)
   - [Composing with closures](#composing-with-closures)
   - [Built-in levels](#built-in-levels)
@@ -397,6 +398,30 @@ With the second call, the behavior will stop.
 
 Keep in mind that this functionality is not yet supported by the WatchOS 2 framework `CarlosWatch.framework` and by the Mac OS X framework `CarlosMac.framework` framework neither.
 
+### Normalization
+
+In case you need to store the result of multiple `Carlos` composition calls in a property, it may be troublesome to set the type of the property to `BasicCache` as some calls return different types (e.g. `PoolCache`, `RequestCapperCache`). In this case, you can `normalize` the cache level before assigning it to the property and it will be converted to a `BasicCache` value.
+
+```swift
+import Carlos
+
+class CacheManager {
+  let cache: BasicCache<NSURL, NSData>
+  
+  init(injectedCache: BasicCache<NSURL, NSData>) {
+	self.cache = injectedCache
+  }
+}
+
+[...]
+
+let manager = CacheManager(injectedCache: CacheProvider.dataCache().pooled().capRequests(3)) // This won't compile
+
+let manager = CacheManager(injectedCache: CacheProvider.dataCache().pooled().capRequests(3).normalize()) // This will
+```
+
+As a tip, always use `normalize` if you need to assign the result of multiple composition calls to a property. The call is a no-op if the value is already a `BasicCache`, so there will be no performance loss in that case.
+
 ### Creating custom levels
 
 Creating custom levels is easy and encouraged (there are multiple cache libraries already available if you only need memory, disk and network functionality).
@@ -493,7 +518,7 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are **800+ tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are **850+ tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 
