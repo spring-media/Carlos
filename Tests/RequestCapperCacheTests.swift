@@ -148,7 +148,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
                 morePendingRequests[ongoingRequestIndex].succeed(pendingSuccess)
               }
               
-              it("should forward the pending call to the internal cache") {
+              xit("should forward the pending call to the internal cache") {
                 expect(internalCache.numberOfTimesCalledGet).toEventually(equal(requestCap + 1), timeout: 3)
               }
               
@@ -194,7 +194,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
                 morePendingRequests[ongoingRequestIndex].fail(TestError.SimpleError)
               }
               
-              it("should forward the pending call to the internal cache") {
+              xit("should forward the pending call to the internal cache") {
                 expect(internalCache.numberOfTimesCalledGet).toEventually(equal(requestCap + 1), timeout: 3)
               }
               
