@@ -31,7 +31,7 @@ class BasicCacheTests: QuickSpec {
             
             return fakeRequest
           },
-          setClosure: { (key, value) in
+          setClosure: { (value, key) in
             didSetKey = key
             didSetValue = value
             numberOfTimesCalledSet++

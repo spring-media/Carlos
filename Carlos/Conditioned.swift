@@ -27,11 +27,9 @@ extension CacheLevel {
         
         return request
       },
-      setClosure: { (key, value) in
-        self.set(value, forKey: key)
-      },
-      clearClosure: { self.clear() },
-      memoryClosure: { self.onMemoryWarning() }
+      setClosure: self.set,
+      clearClosure: self.clear,
+      memoryClosure: self.onMemoryWarning
     )
   }
 }
