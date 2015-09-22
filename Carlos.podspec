@@ -19,17 +19,17 @@ Pod::Spec.new do |s|
 
   s.ios.platform = :ios, "9.0"
   s.osx.platform = :osx, "10.10"
-  s.watchos.platform = :watchos, "2.0"
+#  s.watchos.platform = :watchos, "2.0"
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
-  s.watchos.deployment_target = '2.0' 
+#  s.watchos.deployment_target = '2.0' 
   
   s.requires_arc = true
 
   s.ios.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
-  s.watchos.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
-  s.watchos.exclude_files = 'Carlos/MemoryWarning.swift'
+#  s.watchos.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
+#  s.watchos.exclude_files = 'Carlos/MemoryWarning.swift'
   s.osx.source_files = 'Carlos/*.swift', 'CarlosMac/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
   s.osx.exclude_files = 'Carlos/MemoryWarning.swift', 'Carlos/*+iOS.swift'
 end
