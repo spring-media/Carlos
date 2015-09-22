@@ -26,6 +26,7 @@
   - [Listening to memory warnings](#listening-to-memory-warnings)
   - [Normalizing cache levels](#normalization)
   - [Creating custom levels](#creating-custom-levels)
+  - [Creating custom fetchers](#creating-custom-fetchers)
   - [Composing with closures](#composing-with-closures)
   - [Built-in levels](#built-in-levels)
 - [Tests](#tests)
@@ -426,7 +427,7 @@ As a tip, always use `normalize` if you need to assign the result of multiple co
 
 ### Creating custom levels
 
-Creating custom levels is easy and encouraged (there are multiple cache libraries already available if you only need memory, disk and network functionality).
+Creating custom levels is easy and encouraged (after all, there are multiple cache libraries already available if you only need memory, disk and network functionalities!).
 
 Let's see how to do it:
 
@@ -460,7 +461,7 @@ class MyLevel: CacheLevel {
 }
 ```
 
-The above class conforms to the `CacheLevel` protocol (needed by all the global functions and operators). 
+The above class conforms to the `CacheLevel` protocol (used by all the functions and operators). 
 
 First thing we need is to declare what key types we accept and what output types we return. In this example case, we have `Int` keys and `Float` output values.
 
@@ -475,6 +476,18 @@ The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarn
 `onMemoryWarning` notifies a memory pressure event in case the `listenToMemoryWarning` method was called before.
 
 This sample cache can now be pipelined to a list of other caches, transforming its keys or values if needed as we saw in the earlier paragraphs.
+
+### Creating custom fetchers
+
+With `Carlos 0.4`, the `Fetcher` protocol was introduced to make it easier for users of the library to create custom fetchers that can be used as read-only levels in the cache. An example of a "`Fetcher` in disguise" that has always been included in `Carlos` is `NetworkFetcher`: you can only use it to read from the network, not to write (`set`, `clear` and `onMemoryWarning` were **no-ops**).
+
+This is how easy it is now to implement your custom fetcher:
+
+```swift
+class CustomFetcher: Fetcher {  typealias KeyType = String  typealias OutputType = String    func get(key: KeyType) -> CacheRequest<OutputType> {    return CacheRequest(value: "Found an hardcoded value :)")  }}
+```
+
+You still need to declare what `KeyType` and `OutputType` your `CacheLevel` deals with, of course, but then you're only required to implement `get`. Less boilerplate for you!
 
 ### Composing with closures
 

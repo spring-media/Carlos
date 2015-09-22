@@ -12,7 +12,7 @@ public enum NetworkFetcherError: ErrorType {
 }
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
-public class NetworkFetcher: CacheLevel {
+public class NetworkFetcher: Fetcher {
   /// The network cache accepts only NSURL keys
   public typealias KeyType = NSURL
   
@@ -119,19 +119,4 @@ public class NetworkFetcher: CacheLevel {
     self.addPendingRequest(request)
     return result
   }
-  
-  /**
-  This call is a no-op
-  */
-  public func set(value: NSData, forKey key: NSURL) {}
-  
-  /**
-  This call is a no-op
-  */
-  public func onMemoryWarning() {}
-  
-  /**
-  This call is a no-op
-  */
-  public func clear() {}
 }
