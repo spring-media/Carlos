@@ -1,6 +1,6 @@
 # Carlos
 
-[![CI Status](http://img.shields.io/travis/Vittorio Monaco/Carlos.svg?style=flat)](https://travis-ci.org/Vittorio Monaco/Carlos)
+[![CI Status](http://img.shields.io/travis/WeltN24/Carlos.svg?style=flat)](https://travis-ci.org/WeltN24/Carlos)
 [![Version](https://img.shields.io/cocoapods/v/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
