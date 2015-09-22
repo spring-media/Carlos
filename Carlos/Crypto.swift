@@ -190,8 +190,8 @@ class MD5 : HashBase {
       hh[3] = hh[3] &+ D
     }
     
-    var buf: NSMutableData = NSMutableData()
-    hh.map({ (item) -> () in
+    let buf: NSMutableData = NSMutableData()
+    _ = hh.map({ (item) -> () in
       var i:UInt32 = item.littleEndian
       buf.appendBytes(&i, length: sizeofValue(i))
     })
