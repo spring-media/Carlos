@@ -137,7 +137,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     do {
       let attributes: NSDictionary = try fileManager.attributesOfItemAtPath(filePath)
       size = attributes.fileSize()
-    } catch _ {}
+    } catch {}
     
     return size
   }

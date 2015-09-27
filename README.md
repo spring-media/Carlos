@@ -134,6 +134,9 @@ Carlos comes with a `CacheProvider` class so that standard caches are easily acc
 
 The method `CacheProvider.imageCache()` is not available yet for the `CarlosMac.framework` framework.
 
+Starting from version `0.4.0`, `CacheProvider` also offers the new functions:
+
+- `CacheProvider.JSONCache()` to create a cache that takes `NSURL` keys and returns `AnyObject` values (that should be then safely casted to arrays or dictionaries depending on your application)
 
 ### Creating requests
 
@@ -271,6 +274,11 @@ let memoryLevel = imageToString =>> MemoryCacheLevel<String, UIImage>() =>> data
 This memory level can now replace the one we had before, with the difference that it will internally store `UIImage` values!
 
 Keep in mind that, as with key transformations, if your transformation closure fails (either the forward transformation or the inverse transformation), the cache level will be skipped, as if the fetch would fail. Same considerations apply for `set` calls.
+
+Carlos comes with some value transformers out of the box, for example:
+
+- `JSONTransformer` to serialize `NSData` instances into JSON
+- Extensions for some Cocoa classes (`NSDateFormatter`, `NSNumberFormatter`, `MKDistanceFormatter`) so that you can use customized instances depending on your needs
 
 ### Pooling requests
 
@@ -533,7 +541,7 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are **850+ tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are around **900 tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 
