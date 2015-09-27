@@ -9,6 +9,7 @@ public class ImageTransformer: TwoWayTransformer {
   public typealias TypeIn = NSData
   public typealias TypeOut = UIImage
   
+  /// Initializes a new instance of ImageTransformer
   public init() {}
   
   /**

@@ -279,6 +279,7 @@ Carlos comes with some value transformers out of the box, for example:
 
 - `JSONTransformer` to serialize `NSData` instances into JSON
 - `ImageTransformer` to serialize `NSData` instances into `UIImage` values (not available on the Mac OS X framework)
+- `StringTransformer` to serialize `NSData` instances into `String` values with a given encoding
 - Extensions for some Cocoa classes (`NSDateFormatter`, `NSNumberFormatter`, `MKDistanceFormatter`) so that you can use customized instances depending on your needs
 
 ### Pooling requests

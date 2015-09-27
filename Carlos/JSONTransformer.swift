@@ -7,6 +7,7 @@ public class JSONTransformer: TwoWayTransformer {
   public typealias TypeIn = NSData
   public typealias TypeOut = AnyObject
   
+  /// Initializes a new instance of JSONTransformer
   public init() {}
   
   /**
@@ -23,7 +24,7 @@ public class JSONTransformer: TwoWayTransformer {
   /**
   Deserializes a JSON object into an NSData instance
   
-  - parameter val: The JSON object you want to serialize
+  - parameter val: The JSON object you want to deserialize
   
   - returns: An Optional<NSData> value, with the deserialized JSON if the input was valid, .None otherwise
   */

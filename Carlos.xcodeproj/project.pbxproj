@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5205729B1BB8716E0098DD09 /* StringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205729A1BB8716E0098DD09 /* StringTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		5205729C1BB8716E0098DD09 /* StringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205729A1BB8716E0098DD09 /* StringTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		5205729D1BB8716E0098DD09 /* StringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205729A1BB8716E0098DD09 /* StringTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		520572A91BB8752B0098DD09 /* StringTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520572A81BB8752B0098DD09 /* StringTransformerTests.swift */; settings = {ASSET_TAGS = (); }; };
 		5208636F1B64268000F740C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863661B64268000F740C7 /* AppDelegate.swift */; };
 		520863701B64268000F740C7 /* BaseCacheViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863671B64268000F740C7 /* BaseCacheViewController.swift */; };
 		520863711B64268000F740C7 /* ComplexCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863681B64268000F740C7 /* ComplexCacheSampleViewController.swift */; };
@@ -346,6 +350,8 @@
 /* Begin PBXFileReference section */
 		314F0E527706B004EF89FCB0 /* Pods-CarlosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarlosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CarlosTests/Pods-CarlosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		486EDE2D4AE6D589F5337C19 /* Pods_CarlosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5205729A1BB8716E0098DD09 /* StringTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformer.swift; sourceTree = "<group>"; };
+		520572A81BB8752B0098DD09 /* StringTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformerTests.swift; sourceTree = "<group>"; };
 		520863661B64268000F740C7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		520863671B64268000F740C7 /* BaseCacheViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCacheViewController.swift; sourceTree = "<group>"; };
 		520863681B64268000F740C7 /* ComplexCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplexCacheSampleViewController.swift; sourceTree = "<group>"; };
@@ -563,6 +569,7 @@
 				5250E37F1BB1345700EB7388 /* Normalize.swift */,
 				52B7620E1BB84EFF0087CD91 /* ImageTransformer+iOS.swift */,
 				52B7621B1BB84F160087CD91 /* JSONTransformer.swift */,
+				5205729A1BB8716E0098DD09 /* StringTransformer.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -602,6 +609,7 @@
 				5250E3831BB137BF00EB7388 /* NormalizationTests.swift */,
 				5291C8521BB7FAA800C4E15E /* JSONTransformerTests.swift */,
 				526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */,
+				520572A81BB8752B0098DD09 /* StringTransformerTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -1196,6 +1204,7 @@
 				AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */,
 				52C0F62E1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift in Sources */,
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
+				5205729B1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
 				AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
@@ -1222,6 +1231,7 @@
 				5243C4BF1B77686300737B3B /* StringConvertibleTests.swift in Sources */,
 				526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */,
 				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
+				520572A91BB8752B0098DD09 /* StringTransformerTests.swift in Sources */,
 				5291C8531BB7FAA800C4E15E /* JSONTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
 				527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */,
@@ -1252,6 +1262,7 @@
 				52B7621E1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
 				52CF0AA71B9203B30061022D /* CacheRequest.swift in Sources */,
 				52CF0AA81B9203B30061022D /* Carlos.swift in Sources */,
+				5205729D1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				52CF0AA91B9203B30061022D /* Composed.swift in Sources */,
 				52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */,
 				52CF0AAB1B9203B30061022D /* Crypto.swift in Sources */,
@@ -1321,6 +1332,7 @@
 				AD64D9551B8DE62400C783D3 /* Transformers.swift in Sources */,
 				AD64D9571B8DE62400C783D3 /* KeyTransformation.swift in Sources */,
 				52B7621D1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
+				5205729C1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */,
 				AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */,
 				AD64D95D1B8DE62400C783D3 /* StringConvertible.swift in Sources */,
