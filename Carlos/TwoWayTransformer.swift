@@ -12,6 +12,22 @@ public protocol TwoWayTransformer: OneWayTransformer {
   func inverseTransform(val: TypeOut) -> TypeIn?
 }
 
+extension TwoWayTransformer {
+  
+  /**
+  Inverts a TwoWayTransformer
+  
+  - returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
+  */
+  public func invert() -> TwoWayTransformationBox<TypeOut, TypeIn> {
+    return TwoWayTransformationBox(transform: { input in
+      self.inverseTransform(input)
+    }, inverseTransform: { output in
+      self.transform(output)
+    })
+  }
+}
+
 /// Simple implementation of the TwoWayTransformer protocol
 public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The input type of the transformation box
@@ -65,9 +81,5 @@ Inverts a TwoWayTransformer
 - returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
 */
 public func invert<A: TwoWayTransformer, B, C where A.TypeIn == B, A.TypeOut == C>(transformer: A) -> TwoWayTransformationBox<C, B> {
-  return TwoWayTransformationBox<C, B>(transform: { input in
-    transformer.inverseTransform(input)
-  }, inverseTransform: { output in
-    transformer.transform(output)
-  })
+  return transformer.invert()
 }
