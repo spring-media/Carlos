@@ -494,7 +494,14 @@ With `Carlos 0.4`, the `Fetcher` protocol was introduced to make it easier for u
 This is how easy it is now to implement your custom fetcher:
 
 ```swift
-class CustomFetcher: Fetcher {  typealias KeyType = String  typealias OutputType = String    func get(key: KeyType) -> CacheRequest<OutputType> {    return CacheRequest(value: "Found an hardcoded value :)")  }}
+class CustomFetcher: Fetcher {
+  typealias KeyType = String
+  typealias OutputType = String
+  
+  func get(key: KeyType) -> CacheRequest<OutputType> {
+    return CacheRequest(value: "Found an hardcoded value :)")
+  }
+}
 ```
 
 You still need to declare what `KeyType` and `OutputType` your `CacheLevel` deals with, of course, but then you're only required to implement `get`. Less boilerplate for you!
@@ -563,7 +570,7 @@ Carlos was made in-house by WeltN24
 
 ### Contributors:
 
-Vittorio Monaco, vittorio.monaco@weltn24.de, @vittoriom on Github, @Vittorio_Monaco on Twitter
+Vittorio Monaco, [vittorio.monaco@weltn24.de](mailto:vittorio.monaco@weltn24.de), [@vittoriom](https://github.com/vittoriom) on Github, [@Vittorio_Monaco](https://twitter.com/Vittorio_Monaco) on Twitter
 
 Esad Hajdarevic, @esad
 
