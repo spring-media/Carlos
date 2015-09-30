@@ -68,13 +68,16 @@ public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A
         }
       
       return request
-    }, setClosure: { (value, key) in
+    },
+    setClosure: { (value, key) in
       firstCache.set(value, forKey: key)
       secondCache.set(value, forKey: key)
-    }, clearClosure: {
+    },
+    clearClosure: {
       firstCache.clear()
       secondCache.clear()
-    }, memoryClosure: {
+    },
+    memoryClosure: {
       firstCache.onMemoryWarning()
       secondCache.onMemoryWarning()
     }

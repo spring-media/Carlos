@@ -85,15 +85,14 @@ public func transformValues<A: CacheLevel, B: TwoWayTransformer where A.OutputTy
   return BasicCache(
     getClosure: { key in
       return cache.get(key).mutate(transformer)
-    }, setClosure: { (value, key) in
+    },
+    setClosure: { (value, key) in
       if let transformedValue = transformer.inverseTransform(value) {
         cache.set(transformedValue, forKey: key)
       }
-    }, clearClosure: {
-      cache.clear()
-    }, memoryClosure: {
-      cache.onMemoryWarning()
-    }
+    },
+    clearClosure: cache.clear,
+    memoryClosure: cache.onMemoryWarning
   )
 }
 
