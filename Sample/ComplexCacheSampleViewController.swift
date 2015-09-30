@@ -67,8 +67,9 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     }
     
     let stringToData = StringTransformer().invert()
+    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { $0.uppercaseString })
     
-    cache = (modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> CustomCacheLevel() =>> stringToData) >>> { (key: ModelDomain) in
+    cache = (modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> { (key: ModelDomain) in
       let request = CacheRequest<NSData>()
       
       Logger.log("Fetched \(key.name) on the fetcher closure", .Info)
