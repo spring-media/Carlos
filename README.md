@@ -20,6 +20,7 @@
   - [Key transformations](#key-transformations)
   - [Value transformations](#value-transformations)
   - [Output post-processing](#post-processing-output)
+  - [Composing transformers](#composing-transformers)
   - [Pooling requests](#pooling-requests)
   - [Limiting concurrent requests](#limiting-concurrent-requests)
   - [Conditioning caches](#conditioning-caches)
@@ -288,7 +289,7 @@ Carlos comes with some value transformers out of the box, for example:
 
 In some cases your cache level could return the right value, but in a sub-optimal format. For example, you would like to sanitize the output you're getting from the Cache as a whole, independently of the exact layer that returned it.
 
-For these cases, the `postProcess` function could come helpful.
+For these cases, the `postProcess` function introduced with `Carlos 0.4` could come helpful.
 The function is available as a protocol extension of the `CacheLevel` protocol, as a global function and as an operator in the form of `~>>`.
 
 The `postProcess` function takes a `CacheLevel` (or a fetch closure) and a `OneWayTransformer` (or a transformation closure) with `TypeIn == TypeOut` as parameters and outputs a decorated `BasicCache` with the post-processing step embedded in.
@@ -316,6 +317,22 @@ transformedCache.get("key").onSuccess { value in
   let x = value
 }
 ```
+
+### Composing transformers
+
+As of `Carlos 0.4`, it's possible to compose multiple `OneWayTransformer` objects. 
+This way, one can really create many transformer modules and build a small library and then combine them as more convenient depending on the application.
+
+You can compose the transformers in the same way you do with normal `CacheLevel`s: with the `compose` function, with the `compose` protocol extension or with the `>>>` operator:
+
+```swift
+let firstTransformer = ImageTransformer() // NSData -> UIImage
+let secondTransformer = ImageTransformer().invert() // Trivial UIImage -> NSData
+
+let identityTransformer = firstTransformer >>> secondTransformer
+```
+
+Many transformer modules will be provided by default with `Carlos`.
 
 ### Pooling requests
 
