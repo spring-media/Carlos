@@ -19,6 +19,7 @@
   - [Creating requests](#creating-requests)
   - [Key transformations](#key-transformations)
   - [Value transformations](#value-transformations)
+  - [Output post-processing](#post-processing-output)
   - [Pooling requests](#pooling-requests)
   - [Limiting concurrent requests](#limiting-concurrent-requests)
   - [Conditioning caches](#conditioning-caches)
@@ -45,7 +46,8 @@ With Carlos you can:
 
 - **create levels and fetchers** depending on your needs, either [through classes](#creating-custom-levels) or with [simple closures](#composing-with-closures)
 - [combine levels](#usage-examples)
-- [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on)
+- [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on). Some common value transformers are already provided with Carlos
+- Apply [post-processing steps](#post-processing-output) to a cache level, for example sanitizing the output or resizing images
 - [react to memory pressure events](#listening-to-memory-warnings) in your app
 - **automatically populate upper levels when one of the lower levels fetches a value** for a key, so the next time the first level will already have it cached
 - enable or disable specific levels of your composed cache depending on [boolean conditions](#conditioning-caches)
@@ -281,6 +283,39 @@ Carlos comes with some value transformers out of the box, for example:
 - `ImageTransformer` to serialize `NSData` instances into `UIImage` values (not available on the Mac OS X framework)
 - `StringTransformer` to serialize `NSData` instances into `String` values with a given encoding
 - Extensions for some Cocoa classes (`NSDateFormatter`, `NSNumberFormatter`, `MKDistanceFormatter`) so that you can use customized instances depending on your needs
+
+### Post-processing output
+
+In some cases your cache level could return the right value, but in a sub-optimal format. For example, you would like to sanitize the output you're getting from the Cache as a whole, independently of the exact layer that returned it.
+
+For these cases, the `postProcess` function could come helpful.
+The function is available as a protocol extension of the `CacheLevel` protocol, as a global function and as an operator in the form of `~>>`.
+
+The `postProcess` function takes a `CacheLevel` (or a fetch closure) and a `OneWayTransformer` (or a transformation closure) with `TypeIn == TypeOut` as parameters and outputs a decorated `BasicCache` with the post-processing step embedded in.
+
+```swift
+// Let's create a simple "to uppercase" transformer
+let transformer = OneWayTransformationBox<NSString, NSString>(transform: { $0.uppercaseString }) 
+
+// Our memory cache
+let memoryCache = MemoryCacheLevel<String, NSString>()
+
+// Our decorated cache
+let transformedCache = memoryCache.postProcess(transformer)
+
+// Lowercase value set on the memory layer
+memoryCache.set("test String", forKey: "key")
+
+// We get the lowercase value from the undecorated memory layer 
+memoryCache.get("key").onSuccess { value in
+  let x = value
+}
+
+// We get the uppercase value from the decorated cache, though
+transformedCache.get("key").onSuccess { value in
+  let x = value
+}
+```
 
 ### Pooling requests
 
@@ -550,7 +585,7 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **900 tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are around **1000 tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 
