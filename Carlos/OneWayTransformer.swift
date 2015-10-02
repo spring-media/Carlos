@@ -18,7 +18,7 @@ public protocol OneWayTransformer {
   func transform(val: TypeIn) -> TypeOut?
 }
 
-/// Simple implementation of the TwoWayTransformer protocol
+/// Simple implementation of the OneWayTransformer protocol
 public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   /// The input type of the transformation box
   public typealias TypeIn = I

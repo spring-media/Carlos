@@ -37,6 +37,10 @@
 		5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253F3D81B57D7DD0035B1FB /* RequestCapperCacheTests.swift */; };
 		526005AF1BB84AB200D96242 /* ImageTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */; settings = {ASSET_TAGS = (); }; };
 		526005BB1BB84BBC00D96242 /* swift-og.png in Resources */ = {isa = PBXBuildFile; fileRef = 526005BA1BB84BBC00D96242 /* swift-og.png */; settings = {ASSET_TAGS = (); }; };
+		52615CD41BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		52615CD51BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		52615CD61BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		52615CE21BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */; settings = {ASSET_TAGS = (); }; };
 		526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339741B52435C00074CB9 /* KeyTransformation.swift */; };
 		526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339761B52450C00074CB9 /* ConditionedCacheTests.swift */; };
 		526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339781B524B3400074CB9 /* CacheRequestTests.swift */; };
@@ -381,6 +385,8 @@
 		5253F3D81B57D7DD0035B1FB /* RequestCapperCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCapperCacheTests.swift; sourceTree = "<group>"; };
 		526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTransformerTests.swift; sourceTree = "<group>"; };
 		526005BA1BB84BBC00D96242 /* swift-og.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swift-og.png"; sourceTree = "<group>"; };
+		52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposedOneWayTransformer.swift; sourceTree = "<group>"; };
+		52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformerCompositionTests.swift; sourceTree = "<group>"; };
 		526339741B52435C00074CB9 /* KeyTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformation.swift; sourceTree = "<group>"; };
 		526339761B52450C00074CB9 /* ConditionedCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedCacheTests.swift; sourceTree = "<group>"; };
 		526339781B524B3400074CB9 /* CacheRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRequestTests.swift; sourceTree = "<group>"; };
@@ -577,6 +583,7 @@
 				52B7621B1BB84F160087CD91 /* JSONTransformer.swift */,
 				5205729A1BB8716E0098DD09 /* StringTransformer.swift */,
 				52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */,
+				52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -618,6 +625,7 @@
 				526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */,
 				520572A81BB8752B0098DD09 /* StringTransformerTests.swift */,
 				52E197011BBC6B27004BF6C5 /* PostProcessTests.swift */,
+				52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -1212,6 +1220,7 @@
 				AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */,
 				52C0F62E1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift in Sources */,
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
+				52615CD41BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
 				5205729B1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
 				52E0CBF91BBC4E1800F20C22 /* PostProcess.swift in Sources */,
@@ -1241,6 +1250,7 @@
 				526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */,
 				52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */,
 				520572A91BB8752B0098DD09 /* StringTransformerTests.swift in Sources */,
+				52615CE21BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift in Sources */,
 				5291C8531BB7FAA800C4E15E /* JSONTransformerTests.swift in Sources */,
 				523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */,
 				527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */,
@@ -1294,6 +1304,7 @@
 				AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */,
 				52CF0ABA1B9203B30061022D /* ConcurrentOperation.swift in Sources */,
+				52615CD61BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
 				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
 				52CF0ABC1B9203B30061022D /* GenericOperation.swift in Sources */,
 				52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */,
@@ -1347,6 +1358,7 @@
 				5205729C1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */,
 				AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */,
+				52615CD51BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
 				AD64D95D1B8DE62400C783D3 /* StringConvertible.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

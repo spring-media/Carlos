@@ -463,7 +463,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
   }
 }
 
-class CompositionTests: QuickSpec {
+class CacheLevelCompositionTests: QuickSpec {
   override func spec() {
     var cache1: CacheLevelFake<String, Int>!
     var cache2: CacheLevelFake<String, Int>!
