@@ -77,6 +77,9 @@
 		52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
 		52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
 		52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
+		526EA0DA1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */; settings = {ASSET_TAGS = (); }; };
+		526EA0DB1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */; settings = {ASSET_TAGS = (); }; };
+		526EA0DC1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */; settings = {ASSET_TAGS = (); }; };
 		527C65471B7A66D90005023B /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
 		527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65521B7A89440005023B /* SwitchCacheTests.swift */; };
 		528FAD481B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */; };
@@ -426,6 +429,7 @@
 		52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformer.swift; sourceTree = "<group>"; };
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionComposition.swift; sourceTree = "<group>"; };
 		527C65461B7A66D90005023B /* SwitchCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCache.swift; sourceTree = "<group>"; };
 		527C65521B7A89440005023B /* SwitchCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheTests.swift; sourceTree = "<group>"; };
 		528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheSampleViewController.swift; sourceTree = "<group>"; };
@@ -591,6 +595,7 @@
 				52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */,
 				52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */,
 				5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */,
+				526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -1240,6 +1245,7 @@
 				52635A551B4F0F6F00F187EE /* DiskCacheLevel.swift in Sources */,
 				52CF0AC61B9204C20061022D /* CacheProvider+iOS.swift in Sources */,
 				52635A5A1B4F0F6F00F187EE /* MemoryWarning.swift in Sources */,
+				526EA0DA1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */,
 				52635A521B4F0F6F00F187EE /* Composed.swift in Sources */,
 				52635A531B4F0F6F00F187EE /* Conditioned.swift in Sources */,
 				52B7621C1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
@@ -1302,6 +1308,7 @@
 				52CF0AAF1B9203B30061022D /* Logger.swift in Sources */,
 				52CF0AB01B9203B30061022D /* MemoryCacheLevel.swift in Sources */,
 				5250E3821BB1345700EB7388 /* Normalize.swift in Sources */,
+				526EA0DC1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */,
 				52E0CBFB1BBC4E1800F20C22 /* PostProcess.swift in Sources */,
 				52CF0AB21B9203B30061022D /* NetworkFetcher.swift in Sources */,
 				52CF0AB31B9203B30061022D /* OneWayTransformer.swift in Sources */,
@@ -1359,6 +1366,7 @@
 				52E0CBFA1BBC4E1800F20C22 /* PostProcess.swift in Sources */,
 				AD64D9541B8DE62400C783D3 /* ValueTransformation.swift in Sources */,
 				AD64D95C1B8DE62400C783D3 /* CacheProvider.swift in Sources */,
+				526EA0DB1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */,
 				AD64D9531B8DE62400C783D3 /* PoolCache.swift in Sources */,
 				AD64D95A1B8DE62400C783D3 /* DeferredCacheRequestOperation.swift in Sources */,
 				AD64D9521B8DE62400C783D3 /* OneWayTransformer.swift in Sources */,

@@ -9,19 +9,10 @@ extension TwoWayTransformer {
   - returns: A new TwoWayTransformer that is the result of the composition of the two TwoWayTransformers
   */
   public func compose<A: TwoWayTransformer where A.TypeIn == TypeOut>(transformer: A) -> TwoWayTransformationBox<TypeIn, A.TypeOut> {
-    return TwoWayTransformationBox(transform: { input in
-      if let selfTransformation = self.transform(input) {
-        return transformer.transform(selfTransformation)
-      } else {
-        return nil
-      }
-    }, inverseTransform: { input in
-      if let firstInverse = transformer.inverseTransform(input) {
-        return self.inverseTransform(firstInverse)
-      } else {
-        return nil
-      }
-    })
+    return TwoWayTransformationBox(
+      transform: self.transform >>> transformer.transform,
+      inverseTransform: transformer.inverseTransform >>> self.inverseTransform
+    )
   }
 }
 

@@ -20,11 +20,10 @@ extension TwoWayTransformer {
   - returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
   */
   public func invert() -> TwoWayTransformationBox<TypeOut, TypeIn> {
-    return TwoWayTransformationBox(transform: { input in
-      self.inverseTransform(input)
-    }, inverseTransform: { output in
-      self.transform(output)
-    })
+    return TwoWayTransformationBox(
+      transform: self.inverseTransform,
+      inverseTransform: self.transform
+    )
   }
 }
 

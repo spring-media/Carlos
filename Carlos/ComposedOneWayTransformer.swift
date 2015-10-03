@@ -9,13 +9,7 @@ extension OneWayTransformer {
   - returns: A new OneWayTransformer that is the result of the composition of the two OneWayTransformers
   */
   public func compose<A: OneWayTransformer where A.TypeIn == TypeOut>(transformer: A) -> OneWayTransformationBox<TypeIn, A.TypeOut> {
-    return OneWayTransformationBox(transform: { input in
-      if let selfTransformation = self.transform(input) {
-        return transformer.transform(selfTransformation)
-      } else {
-        return nil
-      }
-    })
+    return OneWayTransformationBox(transform: self.transform >>> transformer.transform)
   }
   
   /**
