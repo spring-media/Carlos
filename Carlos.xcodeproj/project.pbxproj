@@ -25,6 +25,12 @@
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
 		520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */; };
 		520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */; };
+		5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD0E1BC04B43005B729F /* AppDelegate.swift */; };
+		5216CD111BC04B43005B729F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD101BC04B43005B729F /* ViewController.swift */; };
+		5216CD141BC04B43005B729F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216CD121BC04B43005B729F /* Main.storyboard */; };
+		5216CD161BC04B43005B729F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5216CD151BC04B43005B729F /* Assets.xcassets */; };
+		5216CD251BC04BD9005B729F /* CarlosTv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D805AA1BC03995000F0733 /* CarlosTv.framework */; };
+		5216CD261BC04BD9005B729F /* CarlosTv.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52D805AA1BC03995000F0733 /* CarlosTv.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		522A4E6B1B7BDACB00646D52 /* ImageCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */; };
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
 		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
@@ -228,6 +234,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5216CD271BC04BD9005B729F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52D805A91BC03995000F0733;
+			remoteInfo = CarlosTv;
+		};
 		52635A321B4F0F3E00F187EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
@@ -343,6 +356,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5216CD291BC04BD9005B729F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5216CD261BC04BD9005B729F /* CarlosTv.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52CF0AE11B920DD60061022D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -420,6 +444,12 @@
 		520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PooledCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CappedRequestCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayedNetworkFetcher.swift; sourceTree = "<group>"; };
+		5216CD0C1BC04B43005B729F /* CarlosTvSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosTvSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5216CD0E1BC04B43005B729F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5216CD101BC04B43005B729F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5216CD131BC04B43005B729F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5216CD151BC04B43005B729F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5216CD171BC04B43005B729F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheSampleViewController.swift; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
@@ -527,6 +557,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5216CD091BC04B43005B729F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5216CD251BC04BD9005B729F /* CarlosTv.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52635A191B4F0F3D00F187EE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -599,6 +637,18 @@
 				486EDE2D4AE6D589F5337C19 /* Pods_CarlosTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5216CD0D1BC04B43005B729F /* CarlosTvSample */ = {
+			isa = PBXGroup;
+			children = (
+				5216CD0E1BC04B43005B729F /* AppDelegate.swift */,
+				5216CD101BC04B43005B729F /* ViewController.swift */,
+				5216CD121BC04B43005B729F /* Main.storyboard */,
+				5216CD151BC04B43005B729F /* Assets.xcassets */,
+				5216CD171BC04B43005B729F /* Info.plist */,
+			);
+			path = CarlosTvSample;
 			sourceTree = "<group>";
 		};
 		52635A1E1B4F0F3D00F187EE /* Carlos */ = {
@@ -787,6 +837,7 @@
 				52CF0A9F1B9203730061022D /* CarlosMac */,
 				52CF0ACF1B920DC20061022D /* CarlosMacSample */,
 				52D805AB1BC03995000F0733 /* CarlosTv */,
+				5216CD0D1BC04B43005B729F /* CarlosTvSample */,
 				AD695CE01B46CD65004E998D /* Products */,
 				D99806F8C133568B429FF0A9 /* Pods */,
 				2677A0397774353D4B14F63F /* Frameworks */,
@@ -805,6 +856,7 @@
 				52CF0A9E1B9203730061022D /* CarlosMac.framework */,
 				52CF0ACE1B920DC20061022D /* CarlosMacSample.app */,
 				52D805AA1BC03995000F0733 /* CarlosTv.framework */,
+				5216CD0C1BC04B43005B729F /* CarlosTvSample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -916,6 +968,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		5216CD0B1BC04B43005B729F /* CarlosTvSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5216CD241BC04B43005B729F /* Build configuration list for PBXNativeTarget "CarlosTvSample" */;
+			buildPhases = (
+				5216CD081BC04B43005B729F /* Sources */,
+				5216CD091BC04B43005B729F /* Frameworks */,
+				5216CD0A1BC04B43005B729F /* Resources */,
+				5216CD291BC04BD9005B729F /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5216CD281BC04BD9005B729F /* PBXTargetDependency */,
+			);
+			name = CarlosTvSample;
+			productName = CarlosTvSample;
+			productReference = 5216CD0C1BC04B43005B729F /* CarlosTvSample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		52635A1C1B4F0F3D00F187EE /* Carlos */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52635A361B4F0F3E00F187EE /* Build configuration list for PBXNativeTarget "Carlos" */;
@@ -1093,6 +1164,9 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = WeltN24;
 				TargetAttributes = {
+					5216CD0B1BC04B43005B729F = {
+						CreatedOnToolsVersion = 7.1;
+					};
 					52635A1C1B4F0F3D00F187EE = {
 						CreatedOnToolsVersion = 6.4;
 					};
@@ -1154,6 +1228,7 @@
 				AD64D9791B8DE69200C783D3 /* CarlosWatchSample */,
 				AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */,
 				52CF0ACD1B920DC20061022D /* CarlosMacSample */,
+				5216CD0B1BC04B43005B729F /* CarlosTvSample */,
 			);
 		};
 /* End PBXProject section */
@@ -1232,6 +1307,15 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5216CD0A1BC04B43005B729F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5216CD161BC04B43005B729F /* Assets.xcassets in Resources */,
+				5216CD141BC04B43005B729F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52635A1B1B4F0F3D00F187EE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1307,6 +1391,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5216CD081BC04B43005B729F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5216CD111BC04B43005B729F /* ViewController.swift in Sources */,
+				5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52635A181B4F0F3D00F187EE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1556,6 +1649,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5216CD281BC04BD9005B729F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52D805A91BC03995000F0733 /* CarlosTv */;
+			targetProxy = 5216CD271BC04BD9005B729F /* PBXContainerItemProxy */;
+		};
 		52635A331B4F0F3E00F187EE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 52635A1C1B4F0F3D00F187EE /* Carlos */;
@@ -1605,6 +1703,14 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		5216CD121BC04B43005B729F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5216CD131BC04B43005B729F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		52CF0AD61B920DC20061022D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1624,6 +1730,39 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5216CD181BC04B43005B729F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CarlosTvSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = it.vittoriomonaco.CarlosTvSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		5216CD191BC04B43005B729F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CarlosTvSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = it.vittoriomonaco.CarlosTvSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
 		52635A371B4F0F3E00F187EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2085,6 +2224,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5216CD241BC04B43005B729F /* Build configuration list for PBXNativeTarget "CarlosTvSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5216CD181BC04B43005B729F /* Debug */,
+				5216CD191BC04B43005B729F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		52635A361B4F0F3E00F187EE /* Build configuration list for PBXNativeTarget "Carlos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
