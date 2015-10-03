@@ -321,7 +321,7 @@ transformedCache.get("key").onSuccess { value in
 ### Composing transformers
 
 As of `Carlos 0.4`, it's possible to compose multiple `OneWayTransformer` objects. 
-This way, one can really create many transformer modules and build a small library and then combine them as more convenient depending on the application.
+This way, one can create several transformer modules to build a small library and then combine them as more convenient depending on the application.
 
 You can compose the transformers in the same way you do with normal `CacheLevel`s: with the `compose` function, with the `compose` protocol extension or with the `>>>` operator:
 
@@ -331,6 +331,8 @@ let secondTransformer = ImageTransformer().invert() // Trivial UIImage -> NSData
 
 let identityTransformer = firstTransformer >>> secondTransformer
 ```
+
+The same approach can be applied to `TwoWayTransformer` objects (that by the way are already `OneWayTransformer` as well).
 
 Many transformer modules will be provided by default with `Carlos`.
 
@@ -602,7 +604,7 @@ Carlos is thouroughly tested so that the features it's designed to provide are s
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **1000 tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are more than **1000 tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 

@@ -9,7 +9,7 @@ private struct ComposedOneWayTransformerSharedExamplesContext {
 
 class OneWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
-    sharedExamples("a composed transformer") {
+    sharedExamples("a composed one-way transformer") {
       (sharedExampleContext: SharedExampleContext) in
       var composedTransformer: OneWayTransformationBox<String, Int>!
       
@@ -25,14 +25,28 @@ class OneWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
             result = composedTransformer.transform("13.2")
           }
           
+          it("should not return nil") {
+            expect(result).notTo(beNil())
+          }
+          
           it("should return the expected result") {
             expect(result).to(equal(13))
           }
         }
         
-        context("if the transformation fails in one of the 2 transformers") {
+        context("if the transformation fails in the first transformer") {
           beforeEach {
             result = composedTransformer.transform("13hallo")
+          }
+          
+          it("should return nil") {
+            expect(result).to(beNil())
+          }
+        }
+        
+        context("if the transformation fails in the second transformer") {
+          beforeEach {
+            result = composedTransformer.transform("-13")
           }
           
           it("should return nil") {
@@ -52,7 +66,13 @@ class OneWayTransformerCompositionTests: QuickSpec {
     
     beforeEach {
       transformer1 = OneWayTransformationBox(transform: { Float($0) })
-      transformer2 = OneWayTransformationBox(transform: { Int($0) })
+      transformer2 = OneWayTransformationBox(transform: {
+        if $0 < 0 {
+          return nil
+        } else {
+          return Int($0)
+        }
+      })
     }
     
     describe("Transformer composition using two transformers with the global function") {
@@ -60,7 +80,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = compose(transformer1, secondTransformer: transformer2)
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -72,7 +92,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = transformer1.compose(transformer2)
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -84,7 +104,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = transformer1 >>> transformer2
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -96,7 +116,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = compose(transformer1, transformerClosure: transformer2.transform)
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -108,7 +128,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = transformer1.compose(transformer2.transform)
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -120,7 +140,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = transformer1 >>> transformer2.transform
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -132,7 +152,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = compose(transformer1.transform, transformer: transformer2)
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -144,7 +164,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = transformer1.transform >>> transformer2
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -156,7 +176,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = compose(transformer1.transform, secondTransformerClosure: transformer2.transform)
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]
@@ -168,7 +188,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
         composedTransformer = transformer1.transform >>> transformer2.transform
       }
       
-      itBehavesLike("a composed transformer") {
+      itBehavesLike("a composed one-way transformer") {
         [
           ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
         ]

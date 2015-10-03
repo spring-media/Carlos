@@ -35,6 +35,10 @@
 		5250E3821BB1345700EB7388 /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; settings = {ASSET_TAGS = (); }; };
 		5250E3841BB137BF00EB7388 /* NormalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E3831BB137BF00EB7388 /* NormalizationTests.swift */; settings = {ASSET_TAGS = (); }; };
 		5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253F3D81B57D7DD0035B1FB /* RequestCapperCacheTests.swift */; };
+		5257BBB41BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		5257BBB51BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		5257BBB61BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */; settings = {ASSET_TAGS = (); }; };
+		5257BBC21BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257BBC11BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift */; settings = {ASSET_TAGS = (); }; };
 		526005AF1BB84AB200D96242 /* ImageTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */; settings = {ASSET_TAGS = (); }; };
 		526005BB1BB84BBC00D96242 /* swift-og.png in Resources */ = {isa = PBXBuildFile; fileRef = 526005BA1BB84BBC00D96242 /* swift-og.png */; settings = {ASSET_TAGS = (); }; };
 		52615CD41BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */; settings = {ASSET_TAGS = (); }; };
@@ -383,6 +387,8 @@
 		5250E37F1BB1345700EB7388 /* Normalize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Normalize.swift; sourceTree = "<group>"; };
 		5250E3831BB137BF00EB7388 /* NormalizationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalizationTests.swift; sourceTree = "<group>"; };
 		5253F3D81B57D7DD0035B1FB /* RequestCapperCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCapperCacheTests.swift; sourceTree = "<group>"; };
+		5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposedTwoWayTransformer.swift; sourceTree = "<group>"; };
+		5257BBC11BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformerCompositionTests.swift; sourceTree = "<group>"; };
 		526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTransformerTests.swift; sourceTree = "<group>"; };
 		526005BA1BB84BBC00D96242 /* swift-og.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swift-og.png"; sourceTree = "<group>"; };
 		52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposedOneWayTransformer.swift; sourceTree = "<group>"; };
@@ -584,6 +590,7 @@
 				5205729A1BB8716E0098DD09 /* StringTransformer.swift */,
 				52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */,
 				52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */,
+				5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -626,6 +633,7 @@
 				520572A81BB8752B0098DD09 /* StringTransformerTests.swift */,
 				52E197011BBC6B27004BF6C5 /* PostProcessTests.swift */,
 				52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */,
+				5257BBC11BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -1215,6 +1223,7 @@
 				52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */,
 				52635A5F1B4F0F6F00F187EE /* ValueTransformation.swift in Sources */,
 				52635A581B4F0F6F00F187EE /* Logger.swift in Sources */,
+				5257BBB41BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 				52CF0AC31B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
 				526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */,
 				AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */,
@@ -1260,6 +1269,7 @@
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
 				526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */,
 				5263397F1B52760F00074CB9 /* ValueTransformationTests.swift in Sources */,
+				5257BBC21BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift in Sources */,
 				5263397D1B525D1600074CB9 /* MemoryCacheLevelTests.swift in Sources */,
 				5263397B1B52536700074CB9 /* KeyTransformationTests.swift in Sources */,
 				526339851B52A82800074CB9 /* CompositionTests.swift in Sources */,
@@ -1310,6 +1320,7 @@
 				52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */,
 				52CF0ABE1B9203B30061022D /* StringConvertible.swift in Sources */,
 				52CF0ABF1B9203B30061022D /* SwitchCache.swift in Sources */,
+				5257BBB61BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1335,6 +1346,7 @@
 				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
 				52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
 				AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */,
+				5257BBB51BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 				AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */,
 				AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */,
 				AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */,
