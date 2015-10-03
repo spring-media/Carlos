@@ -13,12 +13,12 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
   override class func configure(configuration: Configuration) {
     sharedExamples("a fetch closure with transformed values") { (sharedExampleContext: SharedExampleContext) in
       var fetcher: BasicFetcher<String, String>!
-      var internalFetcher: CacheLevelFake<String, Int>!
+      var internalFetcher: FetcherFake<String, Int>!
       var transformer: OneWayTransformationBox<Int, String>!
       
       beforeEach {
         fetcher = sharedExampleContext()[FetcherValueTransformationsSharedExamplesContext.FetcherToTest] as? BasicFetcher<String, String>
-        internalFetcher = sharedExampleContext()[FetcherValueTransformationsSharedExamplesContext.InternalFetcher] as? CacheLevelFake<String, Int>
+        internalFetcher = sharedExampleContext()[FetcherValueTransformationsSharedExamplesContext.InternalFetcher] as? FetcherFake<String, Int>
         transformer = sharedExampleContext()[FetcherValueTransformationsSharedExamplesContext.Transformer] as? OneWayTransformationBox<Int, String>
       }
       
@@ -105,7 +105,7 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
 class FetcherValueTransformationTests: QuickSpec {
   override func spec() {
     var fetcher: BasicFetcher<String, String>!
-    var internalFetcher: CacheLevelFake<String, Int>!
+    var internalFetcher: FetcherFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
     let forwardTransformationClosure: Int -> String? = {
       if $0 > 0 {
@@ -115,9 +115,105 @@ class FetcherValueTransformationTests: QuickSpec {
       }
     }
     
+    describe("Value transformation using a transformer and a fetcher, with the global function") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        fetcher = transformValues(internalFetcher, transformer: transformer)
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
+    describe("Value transformation using a transformer and a fetcher, with the instance function") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        fetcher = internalFetcher.transformValues(transformer)
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
+    describe("Value transformation using a transformer and a fetcher, with the operator") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        fetcher = internalFetcher =>> transformer
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
+    describe("Value transformation using a transformer closure and a fetcher, with the global function") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        fetcher = transformValues(internalFetcher, transformerClosure: forwardTransformationClosure)
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
+    describe("Value transformation using a transformer closure and a fetcher, with the instance function") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        fetcher = internalFetcher.transformValues(forwardTransformationClosure)
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
+    describe("Value transformation using a transformer closure and a fetcher, with the operator") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        fetcher = internalFetcher =>> forwardTransformationClosure
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
     describe("Value transformation using a transformer and a fetch closure, with the global function") {
       beforeEach {
-        internalFetcher = CacheLevelFake<String, Int>()
+        internalFetcher = FetcherFake<String, Int>()
         transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
         let fetchClosure = internalFetcher.get
         fetcher = transformValues(fetchClosure, transformer: transformer)
@@ -132,9 +228,43 @@ class FetcherValueTransformationTests: QuickSpec {
       }
     }
     
+    describe("Value transformation using a transformer closure and a fetch closure, with the global function") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        let fetchClosure = internalFetcher.get
+        fetcher = transformValues(fetchClosure, transformerClosure: forwardTransformationClosure)
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
+    describe("Value transformation using a transformer closure and a fetch closure, with the operator") {
+      beforeEach {
+        internalFetcher = FetcherFake<String, Int>()
+        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
+        let fetchClosure = internalFetcher.get
+        fetcher = fetchClosure =>> forwardTransformationClosure
+      }
+      
+      itBehavesLike("a fetch closure with transformed values") {
+        [
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+        ]
+      }
+    }
+    
     describe("Value transformation using a transformer and a fetch closure, with the operator") {
       beforeEach {
-        internalFetcher = CacheLevelFake<String, Int>()
+        internalFetcher = FetcherFake<String, Int>()
         transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
         let fetchClosure = internalFetcher.get
         fetcher = fetchClosure =>> transformer

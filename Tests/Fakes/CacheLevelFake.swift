@@ -38,3 +38,21 @@ class CacheLevelFake<A, B>: CacheLevel {
     numberOfTimesCalledOnMemoryWarning++
   }
 }
+
+class FetcherFake<A, B>: Fetcher {
+  typealias KeyType = A
+  typealias OutputType = B
+  
+  init() {}
+  
+  var numberOfTimesCalledGet = 0
+  var didGetKey: KeyType?
+  var cacheRequestToReturn: CacheRequest<OutputType>?
+  func get(key: KeyType) -> CacheRequest<OutputType> {
+    numberOfTimesCalledGet++
+    
+    didGetKey = key
+    
+    return cacheRequestToReturn ?? CacheRequest<OutputType>()
+  }
+}
