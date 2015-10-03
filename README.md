@@ -69,8 +69,6 @@ it, simply add the following line to your Podfile:
 pod "Carlos"
 ```
 
-**Until [this](https://github.com/CocoaPods/CocoaPods/pull/4130) CocoaPods PR is merged, the Carlos `podspec` won't contain `watchOS 2` metadata.**
-
 ### Submodule
 
 If you don't use CocoaPods, you can still add Carlos as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
