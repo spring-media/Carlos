@@ -34,6 +34,7 @@
 		522A4E6B1B7BDACB00646D52 /* ImageCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */; };
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
 		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
+		523BBF891BC07C410040DA1B /* JSONCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523BBF881BC07C410040DA1B /* JSONCacheSampleViewController.swift */; };
 		5243C4B31B77670F00737B3B /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4B21B77670F00737B3B /* StringConvertible.swift */; };
 		5243C4BF1B77686300737B3B /* StringConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4BE1B77686300737B3B /* StringConvertibleTests.swift */; };
 		5250E3801BB1345700EB7388 /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
@@ -463,6 +464,7 @@
 		522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheSampleViewController.swift; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
+		523BBF881BC07C410040DA1B /* JSONCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCacheSampleViewController.swift; sourceTree = "<group>"; };
 		5243C4B21B77670F00737B3B /* StringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertible.swift; sourceTree = "<group>"; };
 		5243C4BE1B77686300737B3B /* StringConvertibleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertibleTests.swift; sourceTree = "<group>"; };
 		5250E37F1BB1345700EB7388 /* Normalize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Normalize.swift; sourceTree = "<group>"; };
@@ -899,6 +901,7 @@
 				520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */,
 				528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */,
 				522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */,
+				523BBF881BC07C410040DA1B /* JSONCacheSampleViewController.swift */,
 			);
 			path = Sample;
 			sourceTree = SOURCE_ROOT;
@@ -1671,6 +1674,7 @@
 				520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */,
 				520863761B64268000F740C7 /* MemoryWarningSampleViewController.swift in Sources */,
 				520863771B64268000F740C7 /* DataCacheSampleViewController.swift in Sources */,
+				523BBF891BC07C410040DA1B /* JSONCacheSampleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

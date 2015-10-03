@@ -17,6 +17,7 @@ class ExamplesListViewController: UIViewController {
     ExamplesListSection(name: "Simple", samples: [
       Example(name: "Image cache", shortDescription: "Out-of-the-box image cache", segueIdentifier: "imageCache"),
       Example(name: "Data cache", shortDescription: "Out-of-the-box data cache", segueIdentifier: "dataCache"),
+      Example(name: "JSON cache", shortDescription: "Out-of-the-box JSON cache", segueIdentifier: "jsonCache"),
       Example(name: "Memory warnings", shortDescription: "Simple stack with memory warnings listeners", segueIdentifier: "memoryWarning")
     ]),
     ExamplesListSection(name: "Advanced", samples: [
