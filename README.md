@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Platform](https://img.shields.io/cocoapods/p/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 
-> A simple but flexible cache, written in Swift for iOS, WatchOS 2 and Mac OS X apps.
+> A simple but flexible cache, written in Swift for `iOS 8+`, `WatchOS 2`, `tvOS` and `Mac OS X` apps.
 
 # Contents of this Readme
 
@@ -69,8 +69,6 @@ it, simply add the following line to your Podfile:
 pod "Carlos"
 ```
 
-**Until [this](https://github.com/CocoaPods/CocoaPods/pull/4130) CocoaPods PR is merged, the Carlos `podspec` won't contain `watchOS 2` metadata.**
-
 ### Submodule
 
 If you don't use CocoaPods, you can still add Carlos as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
@@ -78,10 +76,7 @@ If you don't use CocoaPods, you can still add Carlos as a submodule, drag and dr
 - Drag `Carlos.xcodeproj` to your project
 - Select your app target
 - Click the `+` button on the `Embedded binaries` section
-- Add `Carlos.framework`
-
-If you are writing a WatchOS 2 app, please use `CarlosWatch.framework` instead.
-If you are writing a Mac OS X app, please use `CarlosMac.framework` instead.
+- Add `Carlos.framework` (for `WatchOS 2` apps, use `CarlosWatch.framework`; for `Mac OS X` apps, use `CarlosMac.framework`; for `tvOS` apps, use `CarlosTv.framework`)
 
 ### Carthage
 
@@ -91,7 +86,7 @@ If you are writing a Mac OS X app, please use `CarlosMac.framework` instead.
 
 You can directly drag and drop the needed files into your project, but keep in mind that this way you won't be able to automatically get all the latest Carlos features (e.g. new files including new operations).
 
-The files are contained in the `Carlos` folder.
+The files are contained in the `Carlos` folder and work for both the `iOS` and `tvOS` frameworks.
 
 If you want to integrate Carlos in a WatchOS 2 app, please don't include the file `MemoryWarning.swift`.
 
@@ -104,7 +99,7 @@ We ship a small Xcode Playground with the project, so you can quickly see how Ca
 To use our Playground, please follow these steps:
 
 - Open the Xcode project `Carlos.xcodeproj`
-- Select the `Carlos` framework target, and a **64-bit platform** (e.g. iPhone 6)
+- Select the `Carlos` framework target, and a **64-bit platform** (e.g. `iPhone 6`)
 - Build the target with `⌘+B`
 - Click the Playground file `Carlos.playground`
 - Write your code
@@ -115,6 +110,7 @@ To use our Playground, please follow these steps:
 - WatchOS 2+
 - Mac OS X 10.9+
 - Xcode 7+
+- tvOS 9+ (until `Xcode 7.1` is public, you'll need the Beta to build `tvOS` apps)
 
 ## Usage
 
@@ -137,7 +133,7 @@ Carlos comes with a `CacheProvider` class so that standard caches are easily acc
 
 The method `CacheProvider.imageCache()` is not available yet for the `CarlosMac.framework` framework.
 
-Starting from version `0.4.0`, `CacheProvider` also offers the new functions:
+Starting from version `0.4.0`, `CacheProvider` also offers the new function:
 
 - `CacheProvider.JSONCache()` to create a cache that takes `NSURL` keys and returns `AnyObject` values (that should be then safely casted to arrays or dictionaries depending on your application)
 
@@ -639,4 +635,4 @@ Carlos internally uses:
 - **Crypto** (available on [Github](https://github.com/krzyzanowskim/CryptoSwift)), slightly adapted to compile with Swift 2.0.
 - **ConcurrentOperation** (by [Caleb Davenport](https://github.com/calebd)), unmodified.
 
-The **NetworkFetcher** class and **DiskCacheLevel** class are inspired by [Haneke](https://github.com/Haneke/HanekeSwift). Their source code has been heavily modified, but adapting the original files has proven valuable for Carlos development.
+The **NetworkFetcher** class and **DiskCacheLevel** class are inspired by [Haneke](https://github.com/Haneke/HanekeSwift). Their source code has been heavily modified, but adapting the original files has proven valuable for `Carlos` development.
