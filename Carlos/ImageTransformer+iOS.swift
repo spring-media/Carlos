@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 /**
 This class takes care of transforming NSData instances into UIImage objects.
