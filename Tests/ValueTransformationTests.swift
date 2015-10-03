@@ -11,7 +11,7 @@ private struct ValueTransformationsSharedExamplesContext {
 
 class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
-    sharedExamples("a fetch closure with transformed values") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a cache with transformed values") { (sharedExampleContext: SharedExampleContext) in
       var cache: BasicCache<String, String>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: TwoWayTransformationBox<Int, String>!
@@ -97,26 +97,6 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
             expect(failureValue as? TestError).to(equal(errorCode))
           }
         }
-      }
-    }
-    
-    sharedExamples("a cache with transformed values") { (sharedExampleContext: SharedExampleContext) in
-      var cache: BasicCache<String, String>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: TwoWayTransformationBox<Int, String>!
-      
-      beforeEach {
-        cache = sharedExampleContext()[ValueTransformationsSharedExamplesContext.CacheToTest] as? BasicCache<String, String>
-        internalCache = sharedExampleContext()[ValueTransformationsSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
-        transformer = sharedExampleContext()[ValueTransformationsSharedExamplesContext.Transformer] as? TwoWayTransformationBox<Int, String>
-      }
-      
-      itBehavesLike("a fetch closure with transformed values") {
-        [
-          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
-          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
-          ValueTransformationsSharedExamplesContext.Transformer: transformer
-        ]
       }
       
       context("when calling set") {
@@ -234,40 +214,6 @@ class ValueTransformationTests: QuickSpec {
       }
       
       itBehavesLike("a cache with transformed values") {
-        [
-          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
-          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
-          ValueTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Value transformation using a transformer and a fetch closure, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = TwoWayTransformationBox(transform: forwardTransformationClosure, inverseTransform: inverseTransformationClosure)
-        let fetchClosure = internalCache.get
-        cache = transformValues(fetchClosure, transformer: transformer)
-      }
-      
-      itBehavesLike("a fetch closure with transformed values") {
-        [
-          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
-          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
-          ValueTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Value transformation using a transformer and a fetch closure, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = TwoWayTransformationBox(transform: forwardTransformationClosure, inverseTransform: inverseTransformationClosure)
-        let fetchClosure = internalCache.get
-        cache = fetchClosure =>> transformer
-      }
-      
-      itBehavesLike("a fetch closure with transformed values") {
         [
           ValueTransformationsSharedExamplesContext.CacheToTest: cache,
           ValueTransformationsSharedExamplesContext.InternalCache: internalCache,

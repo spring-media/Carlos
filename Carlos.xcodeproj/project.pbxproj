@@ -94,6 +94,8 @@
 		5274A9A11BC0613C006962E8 /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
 		5274A9A21BC0613C006962E8 /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
 		5274A9A31BC0613C006962E8 /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
+		5274A9CD1BC06976006962E8 /* BasicFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A9CC1BC06976006962E8 /* BasicFetcherTests.swift */; };
+		5274A9D91BC069E7006962E8 /* FetcherValueTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A9D81BC069E7006962E8 /* FetcherValueTransformationTests.swift */; };
 		527C65471B7A66D90005023B /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
 		527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65521B7A89440005023B /* SwitchCacheTests.swift */; };
 		528FAD481B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */; };
@@ -508,6 +510,8 @@
 		526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionComposition.swift; sourceTree = "<group>"; };
 		5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetcherValueTransformation.swift; sourceTree = "<group>"; };
 		5274A99F1BC0613C006962E8 /* BasicFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicFetcher.swift; sourceTree = "<group>"; };
+		5274A9CC1BC06976006962E8 /* BasicFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicFetcherTests.swift; sourceTree = "<group>"; };
+		5274A9D81BC069E7006962E8 /* FetcherValueTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetcherValueTransformationTests.swift; sourceTree = "<group>"; };
 		527C65461B7A66D90005023B /* SwitchCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCache.swift; sourceTree = "<group>"; };
 		527C65521B7A89440005023B /* SwitchCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheTests.swift; sourceTree = "<group>"; };
 		528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheSampleViewController.swift; sourceTree = "<group>"; };
@@ -749,6 +753,8 @@
 				52E197011BBC6B27004BF6C5 /* PostProcessTests.swift */,
 				52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */,
 				5257BBC11BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift */,
+				5274A9CC1BC06976006962E8 /* BasicFetcherTests.swift */,
+				5274A9D81BC069E7006962E8 /* FetcherValueTransformationTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -1477,6 +1483,7 @@
 				52A194A91B91026300EA61B3 /* Crypto.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
+				5274A9D91BC069E7006962E8 /* FetcherValueTransformationTests.swift in Sources */,
 				526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */,
 				5263397F1B52760F00074CB9 /* ValueTransformationTests.swift in Sources */,
 				5257BBC21BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift in Sources */,
@@ -1488,6 +1495,7 @@
 				526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */,
 				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
 				C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */,
+				5274A9CD1BC06976006962E8 /* BasicFetcherTests.swift in Sources */,
 				52E197021BBC6B27004BF6C5 /* PostProcessTests.swift in Sources */,
 				5250E3841BB137BF00EB7388 /* NormalizationTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
