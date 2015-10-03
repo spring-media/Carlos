@@ -6,9 +6,16 @@ internal struct CarlosGlobals {
 }
 
 internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
-  return BasicCache(getClosure: { key in
-    return closure(key: key)
-  }, setClosure: { (_, _) in }, clearClosure: { }, memoryClosure: { })
+  return BasicCache(
+    getClosure: closure,
+    setClosure: { (_, _) in },
+    clearClosure: { },
+    memoryClosure: { }
+  )
+}
+
+internal func wrapClosureIntoFetcher<A, B>(closure: (key: A) -> CacheRequest<B>) -> BasicFetcher<A, B> {
+  return BasicFetcher(getClosure: closure)
 }
 
 internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> B?) -> OneWayTransformationBox<A, B> {

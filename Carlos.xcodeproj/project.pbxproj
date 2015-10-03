@@ -86,6 +86,14 @@
 		526EA0DA1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */; };
 		526EA0DB1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */; };
 		526EA0DC1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */; };
+		5274A99B1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */; };
+		5274A99C1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */; };
+		5274A99D1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */; };
+		5274A99E1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */; };
+		5274A9A01BC0613C006962E8 /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
+		5274A9A11BC0613C006962E8 /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
+		5274A9A21BC0613C006962E8 /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
+		5274A9A31BC0613C006962E8 /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
 		527C65471B7A66D90005023B /* SwitchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65461B7A66D90005023B /* SwitchCache.swift */; };
 		527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65521B7A89440005023B /* SwitchCacheTests.swift */; };
 		528FAD481B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */; };
@@ -498,6 +506,8 @@
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionComposition.swift; sourceTree = "<group>"; };
+		5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetcherValueTransformation.swift; sourceTree = "<group>"; };
+		5274A99F1BC0613C006962E8 /* BasicFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicFetcher.swift; sourceTree = "<group>"; };
 		527C65461B7A66D90005023B /* SwitchCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCache.swift; sourceTree = "<group>"; };
 		527C65521B7A89440005023B /* SwitchCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheTests.swift; sourceTree = "<group>"; };
 		528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheSampleViewController.swift; sourceTree = "<group>"; };
@@ -673,6 +683,7 @@
 				52635A491B4F0F6F00F187EE /* OneWayTransformer.swift */,
 				52635A4A1B4F0F6F00F187EE /* PoolCache.swift */,
 				52635A4C1B4F0F6F00F187EE /* ValueTransformation.swift */,
+				5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */,
 				52635A4D1B4F0F6F00F187EE /* Transformers.swift */,
 				52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */,
 				526339741B52435C00074CB9 /* KeyTransformation.swift */,
@@ -694,6 +705,7 @@
 				52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */,
 				5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */,
 				526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */,
+				5274A99F1BC0613C006962E8 /* BasicFetcher.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -1426,6 +1438,7 @@
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
 				52615CD41BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
 				5205729B1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
+				5274A99B1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
 				52E0CBF91BBC4E1800F20C22 /* PostProcess.swift in Sources */,
 				AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
@@ -1440,6 +1453,7 @@
 				52635A531B4F0F6F00F187EE /* Conditioned.swift in Sources */,
 				52B7621C1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
 				5243C4B31B77670F00737B3B /* StringConvertible.swift in Sources */,
+				5274A9A01BC0613C006962E8 /* BasicFetcher.swift in Sources */,
 				5250E3801BB1345700EB7388 /* Normalize.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1512,9 +1526,11 @@
 				52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */,
 				52CF0ABA1B9203B30061022D /* ConcurrentOperation.swift in Sources */,
 				52615CD61BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
+				5274A9A21BC0613C006962E8 /* BasicFetcher.swift in Sources */,
 				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
 				52CF0ABC1B9203B30061022D /* GenericOperation.swift in Sources */,
 				52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */,
+				5274A99D1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */,
 				52CF0ABE1B9203B30061022D /* StringConvertible.swift in Sources */,
 				52CF0ABF1B9203B30061022D /* SwitchCache.swift in Sources */,
 				5257BBB61BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
@@ -1534,6 +1550,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5274A9A31BC0613C006962E8 /* BasicFetcher.swift in Sources */,
 				52C319991BC0459F00893D19 /* StringConvertible.swift in Sources */,
 				52C319951BC0459F00893D19 /* ConcurrentOperation.swift in Sources */,
 				52C319851BC0459F00893D19 /* Conditioned.swift in Sources */,
@@ -1550,6 +1567,7 @@
 				52C319A31BC0459F00893D19 /* ComposedTwoWayTransformer.swift in Sources */,
 				52C319891BC0459F00893D19 /* Extensions.swift in Sources */,
 				52C3199A1BC0459F00893D19 /* SwitchCache.swift in Sources */,
+				5274A99E1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */,
 				52C319931BC0459F00893D19 /* KeyTransformation.swift in Sources */,
 				52C3198F1BC0459F00893D19 /* PoolCache.swift in Sources */,
 				52C319861BC0459F00893D19 /* Crypto.swift in Sources */,
@@ -1577,6 +1595,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5274A9A11BC0613C006962E8 /* BasicFetcher.swift in Sources */,
 				AD64D94A1B8DE62400C783D3 /* Crypto.swift in Sources */,
 				52B762101BB84EFF0087CD91 /* ImageTransformer+iOS.swift in Sources */,
 				AD64D94D1B8DE62400C783D3 /* Extensions.swift in Sources */,
@@ -1593,6 +1612,7 @@
 				AD64D9581B8DE62400C783D3 /* RequestCapperCache.swift in Sources */,
 				AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */,
 				AD64D94E1B8DE62400C783D3 /* Logger.swift in Sources */,
+				5274A99C1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */,
 				AD64D9591B8DE62400C783D3 /* ConcurrentOperation.swift in Sources */,
 				AD64D95B1B8DE62400C783D3 /* GenericOperation.swift in Sources */,
 				52CF0AC71B9204C20061022D /* CacheProvider+iOS.swift in Sources */,
@@ -2231,6 +2251,7 @@
 				5216CD191BC04B43005B729F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		52635A361B4F0F3E00F187EE /* Build configuration list for PBXNativeTarget "Carlos" */ = {
 			isa = XCConfigurationList;

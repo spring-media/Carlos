@@ -19,7 +19,7 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
 */
 public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: A, cacheB: (key: B) -> CacheRequest<C>, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
-  return switchLevels(cacheA, cacheB: wrapClosureIntoCacheLevel(cacheB), switchClosure: switchClosure)
+  return switchLevels(cacheA, cacheB: wrapClosureIntoFetcher(cacheB), switchClosure: switchClosure)
 }
 
 /**
@@ -33,7 +33,7 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
 */
 public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: (key: B) -> CacheRequest<C>, cacheB: A, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
-  return switchLevels(wrapClosureIntoCacheLevel(cacheA), cacheB: cacheB, switchClosure: switchClosure)
+  return switchLevels(wrapClosureIntoFetcher(cacheA), cacheB: cacheB, switchClosure: switchClosure)
 }
 
 /**
@@ -47,7 +47,7 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
 */
 public func switchLevels<A, B>(cacheA: (key: A) -> CacheRequest<B>, cacheB: (key: A) -> CacheRequest<B>, switchClosure: (key: A) -> CacheLevelSwitchResult) -> BasicCache<A, B> {
-  return switchLevels(wrapClosureIntoCacheLevel(cacheA), cacheB: wrapClosureIntoCacheLevel(cacheB), switchClosure: switchClosure)
+  return switchLevels(wrapClosureIntoFetcher(cacheA), cacheB: wrapClosureIntoFetcher(cacheB), switchClosure: switchClosure)
 }
 
 /**

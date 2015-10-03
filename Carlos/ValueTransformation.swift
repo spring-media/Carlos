@@ -68,7 +68,7 @@ Use this transformation when you store a value type but want to mount the cache 
 - returns: A new cache level result of the transformation of the original cache level
 */
 public func transformValues<A, B: TwoWayTransformer>(fetchClosure: (key: A) -> CacheRequest<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
-  return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer: transformer)
+  return transformValues(wrapClosureIntoFetcher(fetchClosure), transformer: transformer)
 }
 
 /**
@@ -107,7 +107,7 @@ Use this transformation when you store a value type but want to mount the cache 
 - returns: A new cache level result of the transformation of the original cache level
 */
 public func =>><A, B: TwoWayTransformer>(fetchClosure: (key: A) -> CacheRequest<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
-  return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer: transformer)
+  return transformValues(wrapClosureIntoFetcher(fetchClosure), transformer: transformer)
 }
 
 /**
