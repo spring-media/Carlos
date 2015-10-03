@@ -1,23 +1,56 @@
 # Changelog
 
+## 0.4
+
+**Major changes**
+- Adds a `Fetcher` protocol that you can use to create your custom fetchers.
+- Adds the possibility to transform values coming out of `Fetcher` instances through `OneWayTransformer` objects without forcing them to be `TwoWayTransformer` as in the case of transforming values of `CacheLevel` instances 
+- Adds a `JSONCache` function to `CacheProvider`
+- Adds output processers to process/sanitize values coming out of `CacheLevel`s (see `postProcess`) 
+- Adds a way to compose multiple `OneWayTransformer`s through functions, operators and protocol extensions
+- Adds a way to compose multiple `TwoWayTransformer`s through functions, operators and protocol extensions
+- Adds a `normalize` function and protocol extension transforming `CacheLevel` instances into `BasicCache` ones to make it easier to store instance properties
+- Adds a `JSONTransformer` class conforming to `TwoWayTransformer`
+- Adds a `ImageTransformer` class for the iOS and WatchOS 2 frameworks conforming to `TwoWayTransformer`
+- Adds a `StringTransformer` class conforming to `TwoWayTransformer`
+
+**Minor improvements**
+- `invert` is now available as a protocol extension to the `TwoWayTransformer` protocol
+
+**WatchOS 2**
+- Adds `WatchOS 2` support through `CocoaPods`
+
+**tvOS**
+- Adds framework support for `tvOS`
+
 ## 0.3
 
-- Added support for `WatchOS 2`
-- Added basic support for `Mac OS X 10.9+`
-- Migrated the codebase to `Swift 2.0`
-- Added `onCompletion` to `CacheRequest`
-- Uses `ErrorType` instead of `NSError` in `CacheRequest`
+**Major changes**
+- Codebase converted to `Swift 2.0`
+- Adds `WatchOS 2` support
+- Adds `Mac OS X 10.9+` support
 
+**API-Breaking changes**
+- `CacheRequest.onFailure` now passes an `ErrorType` instead of an `NSError`
+
+**Minor improvements**
+- Adds an `onCompletion` method to the `CacheRequest` class, that will be called in both success and failure cases
 
 ## 0.2
 
-- Added support for conditioning fetch closures (#49)
-- Added a way to switch 2 caches with a given condition (#47)
-- Transformers can return optional values, so the transformations are inherently safer (#45)
-- Added a `CacheProvider` class with `dataCache()` and `imageCache()` methods to initialize most common caches (#44)
-- Fixed a bug where simultaneuos requests for the same URL won't work on the `NetworkFetcher` level (#43)
-- Made `MemoryCacheLevel` and `DiskCacheLevel` more generic by using a protocol for the keys (#38)
-- Included a Playground into the project (#33)
+**Major changes**
+- Includes a `CacheProvider` class to create commonly used caches
+- Includes a Playground to quickly test Carlos and custom cache architectures
+- includes a new `switchLevels` function to have multiple cache lanes
+
+**Minor improvements**
+- Improves `DiskCacheLevel` and `MemoryCacheLevel` by having protocol-based keys
+- Defines safer Transformers (either `OneWayTransformer` or `TwoWayTransformer`) that return Optionals. If a conversion fails, set operations silently fail and get operations fail with a meaningful error.
+- Extends the `conditioned` function and the `<?>` operator to support fetch closures
+- Improves the code documentation
+
+**Bugfixes**
+- Fixes an issue where the `NetworkFetcher` would not correctly handle multiple get requests for the same URL
 
 ## 0.1
 
