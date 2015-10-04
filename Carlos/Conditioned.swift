@@ -57,7 +57,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
 public func <?><A, B>(condition: A -> (Bool, ErrorType?), fetchClosure: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
-  return wrapClosureIntoCacheLevel(fetchClosure).conditioned(condition)
+  return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 
 /**
@@ -69,7 +69,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
 public func conditioned<A, B>(fetchClosure: (key: A) -> CacheRequest<B>, condition: A -> (Bool, ErrorType?)) -> BasicCache<A, B> {
-  return wrapClosureIntoCacheLevel(fetchClosure).conditioned(condition)
+  return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 
 /**

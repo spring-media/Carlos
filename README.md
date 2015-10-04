@@ -39,20 +39,20 @@
 
 ## What is Carlos?
 
-Carlos is a small set of classes, functions and convenience operators to **realize custom, flexible and powerful cache layers** in your application.
+`Carlos` is a small set of classes, functions and convenience operators to **realize custom, flexible and powerful cache layers** in your application.
 
-By default, **Carlos ships with an in-memory cache, a disk cache and a simple network fetcher** (disk cache and network fetcher are inspired by [HanekeSwift](https://github.com/Haneke/HanekeSwift)). 
+By default, **`Carlos` ships with an in-memory cache, a disk cache and a simple network fetcher** (disk cache and network fetcher are inspired by [HanekeSwift](https://github.com/Haneke/HanekeSwift)). 
 
-With Carlos you can:
+With `Carlos` you can:
 
 - **create levels and fetchers** depending on your needs, either [through classes](#creating-custom-levels) or with [simple closures](#composing-with-closures)
 - [combine levels](#usage-examples)
-- [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on). Some common value transformers are already provided with Carlos
+- [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on). Some common value transformers are already provided with `Carlos`
 - Apply [post-processing steps](#post-processing-output) to a cache level, for example sanitizing the output or resizing images
 - [react to memory pressure events](#listening-to-memory-warnings) in your app
 - **automatically populate upper levels when one of the lower levels fetches a value** for a key, so the next time the first level will already have it cached
 - enable or disable specific levels of your composed cache depending on [boolean conditions](#conditioning-caches)
-- easily [**pool requests**](#pooling-requests) so you don't have to care whether 5 requests with the same key have to be executed by an expensive cache level before even only 1 of them is done. Carlos can take care of that for you
+- easily [**pool requests**](#pooling-requests) so you don't have to care whether 5 requests with the same key have to be executed by an expensive cache level before even only 1 of them is done. `Carlos` can take care of that for you
 - setup [multiple lanes](#multiple-cache-lanes) for complex scenarios where, depending on certain keys or conditions, different caches should be used
 - [Cap the number of concurrent requests](#limiting-concurrent-requests) a cache should handle
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
@@ -62,7 +62,7 @@ With Carlos you can:
 
 ### CocoaPods
 
-Carlos is available through [CocoaPods](http://cocoapods.org). To install
+`Carlos` is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```
@@ -71,7 +71,7 @@ pod "Carlos"
 
 ### Submodule
 
-If you don't use CocoaPods, you can still add Carlos as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
+If you don't use CocoaPods, you can still add `Carlos` as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
 
 - Drag `Carlos.xcodeproj` to your project
 - Select your app target
@@ -84,17 +84,17 @@ If you don't use CocoaPods, you can still add Carlos as a submodule, drag and dr
 
 ### Manual
 
-You can directly drag and drop the needed files into your project, but keep in mind that this way you won't be able to automatically get all the latest Carlos features (e.g. new files including new operations).
+You can directly drag and drop the needed files into your project, but keep in mind that this way you won't be able to automatically get all the latest `Carlos` features (e.g. new files including new operations).
 
 The files are contained in the `Carlos` folder and work for both the `iOS` and `tvOS` frameworks.
 
-If you want to integrate Carlos in a WatchOS 2 app, please don't include the file `MemoryWarning.swift`.
+If you want to integrate `Carlos` in a WatchOS 2 app, please don't include the file `MemoryWarning.swift`.
 
-If you want to integrate Carlos in a Mac OS X app, please don't include the files `MemoryWarning.swift` and all the files with the `+iOS` suffix. Additionally, please include the files with the `+Mac` suffix.
+If you want to integrate `Carlos` in a Mac OS X app, please don't include the files `MemoryWarning.swift` and all the files with the `+iOS` suffix. Additionally, please include the files with the `+Mac` suffix.
 
 ## Playground
 
-We ship a small Xcode Playground with the project, so you can quickly see how Carlos works and experiment with your custom layers, layers combinations and different configurations for requests pooling, capping, etc.
+We ship a small Xcode Playground with the project, so you can quickly see how `Carlos` works and experiment with your custom layers, layers combinations and different configurations for requests pooling, capping, etc.
 
 To use our Playground, please follow these steps:
 
@@ -126,7 +126,7 @@ This line will generate a cache that takes `String` keys and returns `NSData` va
 Setting a value for a given key on this cache will set it for both the levels.
 Getting a value for a given key on this cache will first try getting it on the memory level, and if it cannot find one, will ask the disk level. In case both levels don't have a value, the request will fail.
 
-Carlos comes with a `CacheProvider` class so that standard caches are easily accessible. Starting from version `0.2.0`, `CacheProvider` has 2 static functions:
+`Carlos` comes with a `CacheProvider` class so that standard caches are easily accessible. Starting from version `0.2.0`, `CacheProvider` has 2 static functions:
 
 - `CacheProvider.dataCache()` to create a cache that takes `NSURL` keys and returns `NSData` values
 - `CacheProvider.imageCache()` to create a cache that takes `NSURL` keys and returns `UIImage` values
@@ -274,12 +274,15 @@ This memory level can now replace the one we had before, with the difference tha
 
 Keep in mind that, as with key transformations, if your transformation closure fails (either the forward transformation or the inverse transformation), the cache level will be skipped, as if the fetch would fail. Same considerations apply for `set` calls.
 
-Carlos comes with some value transformers out of the box, for example:
+`Carlos` comes with some value transformers out of the box, for example:
 
 - `JSONTransformer` to serialize `NSData` instances into JSON
 - `ImageTransformer` to serialize `NSData` instances into `UIImage` values (not available on the Mac OS X framework)
 - `StringTransformer` to serialize `NSData` instances into `String` values with a given encoding
-- Extensions for some Cocoa classes (`NSDateFormatter`, `NSNumberFormatter`, `MKDistanceFormatter`) so that you can use customized instances depending on your needs
+- Extensions for some Cocoa classes (`NSDateFormatter`, `NSNumberFormatter`, `MKDistanceFormatter`) so that you can use customized instances depending on your needs (these are not available for the `tvOS` version of `Carlos`)
+
+As of `Carlos 0.4`, it's possible to transform values coming out of `Fetcher` instances with just a `OneWayTransformer` (as opposed to the required `TwoWayTransformer` for normal `CacheLevel` instancess. This is because the `Fetcher` protocol doesn't require `set`).
+This means you can easily chain `Fetcher` (closures as well) that get a JSON from the internet and transform their output to a model object (for example a `struct`) into a complex cache pipeline without having to create a dummy inverse transformation just to satisfy the requirements of the `TwoWayTransformer` protocol.
 
 ### Post-processing output
 
@@ -336,7 +339,7 @@ Many transformer modules will be provided by default with `Carlos`.
 
 When you have a working cache, but some of your levels are expensive (say a Network fetcher or a database fetcher), **you may want to pool requests in a way that multiple requests for the same key, coming together before one of them completes, are grouped so that when one completes all of the other complete as well without having to actually perform the expensive operation multiple times**.
 
-This functionality comes with Carlos.
+This functionality comes with `Carlos`.
 
 ```swift
 let cache = pooled(memoryLevel >>> diskLevel >>> networkLevel)
@@ -579,7 +582,7 @@ let cache = pooled(memoryLevel >>> diskLevel >>> fetcherLevel)
 
 ### Built-in levels
 
-Carlos comes with 3 cache levels out of the box:
+`Carlos` comes with 3 cache levels out of the box:
 
 - MemoryCacheLevel
 - DiskCacheLevel
@@ -596,15 +599,15 @@ It accepts `NSURL` keys and returns `NSData` values.
 
 ## Tests
 
-Carlos is thouroughly tested so that the features it's designed to provide are safe for refactoring and as much as possible bug-free. 
+`Carlos` is thouroughly tested so that the features it's designed to provide are safe for refactoring and as much as possible bug-free. 
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are more than **1000 tests** for Carlos (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are more than **1000 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 
-Carlos is under development and [here](https://github.com/WeltN24/Carlos/issues) you can see all the open issues. They are assigned to milestones so that you can have an idea of when a given feature will be shipped.
+`Carlos` is under development and [here](https://github.com/WeltN24/Carlos/issues) you can see all the open issues. They are assigned to milestones so that you can have an idea of when a given feature will be shipped.
 
 If you want to contribute to this repo, please:
 
@@ -616,7 +619,7 @@ If you want to contribute to this repo, please:
 
 ## Authors
 
-Carlos was made in-house by WeltN24
+`Carlos` was made in-house by WeltN24
 
 ### Contributors:
 
@@ -626,11 +629,11 @@ Esad Hajdarevic, @esad
 
 ## License
 
-Carlos is available under the MIT license. See the LICENSE file for more info.
+`Carlos` is available under the MIT license. See the LICENSE file for more info.
 
 ## Acknowledgements
 
-Carlos internally uses:
+`Carlos` internally uses:
 
 - **Crypto** (available on [Github](https://github.com/krzyzanowskim/CryptoSwift)), slightly adapted to compile with Swift 2.0.
 - **ConcurrentOperation** (by [Caleb Davenport](https://github.com/calebd)), unmodified.

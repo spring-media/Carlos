@@ -58,20 +58,6 @@ extension CacheLevel {
 }
 
 /**
-Applies a transformation to a cache closure
-The transformation works by changing the type of the value the cache returns when succeeding
-Use this transformation when you store a value type but want to mount the cache in a pipeline that works with other value types
-
-- parameter fetchClosure: The cache closure you want to transform
-- parameter transformer: The transformation you want to apply
-
-- returns: A new cache level result of the transformation of the original cache level
-*/
-public func transformValues<A, B: TwoWayTransformer>(fetchClosure: (key: A) -> CacheRequest<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
-  return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer: transformer)
-}
-
-/**
 Applies a transformation to a cache level
 The transformation works by changing the type of the value the cache returns when succeeding
 Use this transformation when you store a value type but want to mount the cache in a pipeline that works with other value types
@@ -94,20 +80,6 @@ public func transformValues<A: CacheLevel, B: TwoWayTransformer where A.OutputTy
     clearClosure: cache.clear,
     memoryClosure: cache.onMemoryWarning
   )
-}
-
-/**
-Applies a transformation to a cache closure
-The transformation works by changing the type of the value the cache returns when succeeding
-Use this transformation when you store a value type but want to mount the cache in a pipeline that works with other value types
-
-- parameter fetchClosure: The cache closure you want to transform
-- parameter transformer: The transformation you want to apply
-
-- returns: A new cache level result of the transformation of the original cache level
-*/
-public func =>><A, B: TwoWayTransformer>(fetchClosure: (key: A) -> CacheRequest<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
-  return transformValues(wrapClosureIntoCacheLevel(fetchClosure), transformer: transformer)
 }
 
 /**

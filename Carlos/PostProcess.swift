@@ -49,7 +49,7 @@ As usual, if the transformation fails, the get request will also fail
 - returns: A CacheLevel that incorporates the post-processing step
 */
 public func postProcess<A, B: OneWayTransformer where B.TypeIn == B.TypeOut>(fetchClosure: (key: A) -> CacheRequest<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
-  return wrapClosureIntoCacheLevel(fetchClosure).postProcess(transformer)
+  return wrapClosureIntoFetcher(fetchClosure).postProcess(transformer)
 }
 
 /**
@@ -63,7 +63,7 @@ As usual, if the transformation fails, the get request will also fail
 - returns: A CacheLevel that incorporates the post-processing step
 */
 public func postProcess<A, B>(fetchClosure: (key: A) -> CacheRequest<B>, transformerClosure: B -> B?) -> BasicCache<A, B> {
-  return wrapClosureIntoCacheLevel(fetchClosure).postProcess(wrapClosureIntoOneWayTransformer(transformerClosure))
+  return wrapClosureIntoFetcher(fetchClosure).postProcess(wrapClosureIntoOneWayTransformer(transformerClosure))
 }
 
 /**
