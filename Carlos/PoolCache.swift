@@ -1,7 +1,5 @@
 import Foundation
 
-private let SerialPoolQueue = dispatch_queue_create("de.weltn24.carlos.poolQueue", DISPATCH_QUEUE_SERIAL)
-
 extension CacheLevel where KeyType: Hashable {
   
   /**
@@ -44,6 +42,7 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   public typealias OutputType = C.OutputType
   
   private let internalCache: C
+  private let lock: ReadWriteLock = PThreadReadWriteLock()
   private var requestsPool: [C.KeyType: CacheRequest<C.OutputType>] = [:]
   
   /**
@@ -65,13 +64,13 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   public func get(key: KeyType) -> CacheRequest<OutputType> {
     let request: CacheRequest<OutputType>
     
-    if let pooledRequest = requestsPool[key] {
+    if let pooledRequest = lock.withReadLock ({ self.requestsPool[key] }) {
       Logger.log("Using pooled request \(pooledRequest) for key \(key)")
       request = pooledRequest
     } else {
       request = internalCache.get(key)
       
-      dispatch_sync(SerialPoolQueue) {
+      lock.withWriteLock {
         self.requestsPool[key] = request
       }
       
@@ -79,7 +78,7 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
       
       request
         .onCompletion { _, _ in
-          dispatch_sync(SerialPoolQueue) {
+          self.lock.withWriteLock {
             self.requestsPool[key] = nil
           }
         }

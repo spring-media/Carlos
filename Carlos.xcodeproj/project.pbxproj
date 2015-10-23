@@ -194,6 +194,10 @@
 		52E197021BBC6B27004BF6C5 /* PostProcessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E197011BBC6B27004BF6C5 /* PostProcessTests.swift */; };
 		52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */; };
 		52E6E24C1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E6E24B1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift */; };
+		52EC5F241BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */; };
+		52EC5F251BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */; };
+		52EC5F261BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */; };
+		52EC5F271BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */; };
 		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
@@ -546,6 +550,7 @@
 		52E197011BBC6B27004BF6C5 /* PostProcessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProcessTests.swift; sourceTree = "<group>"; };
 		52E6E2451B5BFB5E00C3DF6C /* GenericOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericOperation.swift; sourceTree = "<group>"; };
 		52E6E24B1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredCacheRequestOperationTests.swift; sourceTree = "<group>"; };
+		52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
 		52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKDistanceFormatterTransformerTests.swift; sourceTree = "<group>"; };
@@ -712,6 +717,7 @@
 				5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */,
 				526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */,
 				5274A99F1BC0613C006962E8 /* BasicFetcher.swift */,
+				52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -1439,6 +1445,7 @@
 				52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */,
 				52635A5F1B4F0F6F00F187EE /* ValueTransformation.swift in Sources */,
 				52635A581B4F0F6F00F187EE /* Logger.swift in Sources */,
+				52EC5F241BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */,
 				5257BBB41BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 				52CF0AC31B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
 				526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */,
@@ -1541,6 +1548,7 @@
 				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
 				52CF0ABC1B9203B30061022D /* GenericOperation.swift in Sources */,
 				52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */,
+				52EC5F261BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */,
 				5274A99D1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */,
 				52CF0ABE1B9203B30061022D /* StringConvertible.swift in Sources */,
 				52CF0ABF1B9203B30061022D /* SwitchCache.swift in Sources */,
@@ -1591,6 +1599,7 @@
 				52C319921BC0459F00893D19 /* TwoWayTransformer.swift in Sources */,
 				52C319881BC0459F00893D19 /* Errors.swift in Sources */,
 				52C3198E1BC0459F00893D19 /* OneWayTransformer.swift in Sources */,
+				52EC5F271BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */,
 				52C3198B1BC0459F00893D19 /* MemoryCacheLevel.swift in Sources */,
 				52C319831BC0459F00893D19 /* Carlos.swift in Sources */,
 				52C319A41BC0459F00893D19 /* FunctionComposition.swift in Sources */,
@@ -1636,6 +1645,7 @@
 				AD64D9521B8DE62400C783D3 /* OneWayTransformer.swift in Sources */,
 				AD64D94C1B8DE62400C783D3 /* Errors.swift in Sources */,
 				AD64D94B1B8DE62400C783D3 /* DiskCacheLevel.swift in Sources */,
+				52EC5F251BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */,
 				AD64D9551B8DE62400C783D3 /* Transformers.swift in Sources */,
 				AD64D9571B8DE62400C783D3 /* KeyTransformation.swift in Sources */,
 				52B7621D1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
