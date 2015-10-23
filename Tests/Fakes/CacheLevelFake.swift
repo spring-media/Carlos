@@ -9,13 +9,13 @@ class CacheLevelFake<A, B>: CacheLevel {
   
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
-  var cacheRequestToReturn: CacheRequest<OutputType>?
-  func get(key: KeyType) -> CacheRequest<OutputType> {
+  var cacheRequestToReturn: Result<OutputType>?
+  func get(key: KeyType) -> Result<OutputType> {
     numberOfTimesCalledGet++
     
     didGetKey = key
     
-    return cacheRequestToReturn ?? CacheRequest<OutputType>()
+    return cacheRequestToReturn ?? Result<OutputType>()
   }
   
   var numberOfTimesCalledSet = 0
@@ -47,12 +47,12 @@ class FetcherFake<A, B>: Fetcher {
   
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
-  var cacheRequestToReturn: CacheRequest<OutputType>?
-  func get(key: KeyType) -> CacheRequest<OutputType> {
+  var cacheRequestToReturn: Result<OutputType>?
+  func get(key: KeyType) -> Result<OutputType> {
     numberOfTimesCalledGet++
     
     didGetKey = key
     
-    return cacheRequestToReturn ?? CacheRequest<OutputType>()
+    return cacheRequestToReturn ?? Result<OutputType>()
   }
 }

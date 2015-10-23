@@ -7,23 +7,30 @@ class StringTransformerTests: QuickSpec {
   override func spec() {
     describe("String transformer") {
       var transformer: StringTransformer!
+      var error: ErrorType!
       
       beforeEach {
         transformer = StringTransformer(encoding: NSUTF8StringEncoding)
       }
       
       context("when transforming NSData to String") {
-        var result: String?
+        var result: String!
         
         context("when the NSData is a valid string") {
           let stringSample = "this is a sample string"
           
           beforeEach {
-            result = transformer.transform(stringSample.dataUsingEncoding(NSUTF8StringEncoding)!)
+            transformer.transform(stringSample.dataUsingEncoding(NSUTF8StringEncoding)!)
+              .onSuccess({ result = $0 })
+              .onFailure({ error = $0 })
           }
           
           it("should not return nil") {
             expect(result).notTo(beNil())
+          }
+          
+          it("should not call the failure closure") {
+            expect(error).to(beNil())
           }
           
           it("should return the expected String") {
@@ -37,10 +44,12 @@ class StringTransformerTests: QuickSpec {
         let expectedString = "this is the expected string value"
         
         beforeEach {
-          result = transformer.inverseTransform(expectedString)
+          transformer.inverseTransform(expectedString)
+            .onSuccess({ result = $0 })
+            .onFailure({ error = $0 })
         }
         
-        it("should not return nil") {
+        it("should call the success closure") {
           expect(result).notTo(beNil())
         }
         

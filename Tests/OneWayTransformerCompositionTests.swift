@@ -18,11 +18,15 @@ class OneWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
       }
       
       context("when transforming a value") {
-        var result: Int?
+        var result: Int!
+        
+        beforeEach {
+          result = nil
+        }
         
         context("if the transformation is possible") {
           beforeEach {
-            result = composedTransformer.transform("13.2")
+            composedTransformer.transform("13.2").onSuccess { result = $0 }
           }
           
           it("should not return nil") {
@@ -36,7 +40,7 @@ class OneWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
         
         context("if the transformation fails in the first transformer") {
           beforeEach {
-            result = composedTransformer.transform("13hallo")
+            composedTransformer.transform("13hallo").onSuccess { result = $0 }
           }
           
           it("should return nil") {
@@ -46,7 +50,7 @@ class OneWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
         
         context("if the transformation fails in the second transformer") {
           beforeEach {
-            result = composedTransformer.transform("-13")
+            composedTransformer.transform("-13").onSuccess { result = $0 }
           }
           
           it("should return nil") {
@@ -65,13 +69,17 @@ class OneWayTransformerCompositionTests: QuickSpec {
     var composedTransformer: OneWayTransformationBox<String, Int>!
     
     beforeEach {
-      transformer1 = OneWayTransformationBox(transform: { Float($0) })
+      transformer1 = OneWayTransformationBox(transform: { Result(value: Float($0), error: TestError.SimpleError) })
       transformer2 = OneWayTransformationBox(transform: {
+        let result = Result<Int>()
+        
         if $0 < 0 {
-          return nil
+          result.fail(TestError.SimpleError)
         } else {
-          return Int($0)
+          result.succeed(Int($0))
         }
+        
+        return result
       })
     }
     

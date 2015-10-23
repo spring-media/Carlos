@@ -4,6 +4,11 @@ import Foundation
 This class takes care of transforming NSData instances into String values.
 */
 public class StringTransformer: TwoWayTransformer {
+  public enum Error: ErrorType {
+    case InvalidData
+    case DataConversionToStringFailed
+  }
+  
   public typealias TypeIn = NSData
   public typealias TypeOut = String
   
@@ -25,8 +30,8 @@ public class StringTransformer: TwoWayTransformer {
   
   - returns: The serialized String with the given encoding if the input is valid, .None otherwise
   */
-  public func transform(val: TypeIn) -> TypeOut? {
-    return NSString(data: val, encoding: encoding) as? String
+  public func transform(val: TypeIn) -> Result<TypeOut> {
+    return Result(value: NSString(data: val, encoding: encoding) as? String, error: Error.InvalidData)
   }
   
   /**
@@ -36,7 +41,7 @@ public class StringTransformer: TwoWayTransformer {
   
   - returns: An NSData instance containing the bytes representation of the given string, .None if the deserialization failed
   */
-  public func inverseTransform(val: TypeOut) -> TypeIn? {
-    return val.dataUsingEncoding(encoding, allowLossyConversion: false)
+  public func inverseTransform(val: TypeOut) -> Result<TypeIn> {
+    return Result(value: val.dataUsingEncoding(encoding, allowLossyConversion: false), error: Error.DataConversionToStringFailed)
   }
 }

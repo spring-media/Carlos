@@ -16,57 +16,125 @@ class NSNumberFormatterTransformerTests: QuickSpec {
       }
       
       context("when used as a transformer") {
+        var error: ErrorType!
+        
         context("when transforming") {
+          var result: String!
+          
+          beforeEach {
+            result = nil
+          }
+          
           context("when the number contains a valid number of fraction digits") {
             let originNumber = 10.1203
-            var resultString: String!
             
             beforeEach {
-              resultString = formatter.transform(originNumber)
+              formatter.transform(originNumber)
+                .onSuccess({ result = $0 })
+                .onFailure({ error = $0 })
+            }
+            
+            it("should call the success closure") {
+              expect(result).notTo(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(error).to(beNil())
             }
             
             it("should return the expected string") {
-              expect(resultString).to(equal("10.1203"))
+              expect(result).to(equal("10.1203"))
             }
           }
           
           context("when the number contains less fractions digits") {
             let originNumber = 10.12
-            var resultString: String!
             
             beforeEach {
-              resultString = formatter.transform(originNumber)
+              formatter.transform(originNumber)
+                .onSuccess({ result = $0 })
+                .onFailure({ error = $0 })
+            }
+            
+            it("should call the success closure") {
+              expect(result).notTo(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(error).to(beNil())
             }
             
             it("should return the expected string") {
-              expect(resultString).to(equal("10.120"))
+              expect(result).to(equal("10.120"))
             }
           }
           
           context("when the number contains more fraction digits") {
             let originNumber = 10.120312
-            var resultString: String!
             
             beforeEach {
-              resultString = formatter.transform(originNumber)
+              formatter.transform(originNumber)
+                .onSuccess({ result = $0 })
+                .onFailure({ error = $0 })
+            }
+                
+            it("should call the success closure") {
+              expect(result).notTo(beNil())
+            }
+                
+            it("should not call the failure closure") {
+              expect(error).to(beNil())
             }
             
             it("should return the expected string") {
-              expect(resultString).to(equal("10.12031"))
+              expect(result).to(equal("10.12031"))
             }
           }
         }
         
         context("when inverse transforming") {
-          let originString = "10.1203"
-          var resultNumber: NSNumber!
-          
+          var result: NSNumber!
+              
           beforeEach {
-            resultNumber = formatter.inverseTransform(originString)
+            result = nil
           }
           
-          it("should return the expected number") {
-            expect("\(resultNumber)").to(equal(originString))
+          context("when the string is valid") {
+            let originString = "10.1203"
+            
+            beforeEach {
+              formatter.inverseTransform(originString)
+                .onSuccess({ result = $0 })
+                .onFailure({ error = $0 })
+            }
+            
+            it("should call the success closure") {
+              expect(result).notTo(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(error).to(beNil())
+            }
+            
+            it("should return the expected number") {
+              expect("\(result)").to(equal(originString))
+            }
+          }
+          
+          context("when the string is invalid") {
+            beforeEach {
+              formatter.inverseTransform("not a number!")
+              .onSuccess({ result = $0 })
+              .onFailure({ error = $0 })
+            }
+                
+            it("should not call the success closure") {
+              expect(result).to(beNil())
+            }
+            
+            it("should call the error closure") {
+              expect(error).notTo(beNil())
+            }
           }
         }
       }

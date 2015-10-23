@@ -102,10 +102,10 @@ public class NetworkFetcher: Fetcher {
   
   - parameter key: The key for the value. It represents the URL to fetch the value
   
-  - returns: A CacheRequest that you can use to get the asynchronous results of the network fetch
+  - returns: A Result that you can use to get the asynchronous results of the network fetch
   */
-  public func get(key: KeyType) -> CacheRequest<OutputType> {
-    let result = CacheRequest<OutputType>()
+  public func get(key: KeyType) -> Result<OutputType> {
+    let result = Result<OutputType>()
     
     let request = Request(URL: key, success: { data,request in
       Logger.log("Fetched \(key) from the network fetcher")

@@ -26,10 +26,10 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
         let key = "12"
         var successValue: String?
         var failureValue: ErrorType?
-        var fakeRequest: CacheRequest<Int>!
+        var fakeRequest: Result<Int>!
         
         beforeEach {
-          fakeRequest = CacheRequest<Int>()
+          fakeRequest = Result<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           
           cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -56,7 +56,9 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should transform the value") {
-              expect(successValue).to(equal(transformer.transform(value)))
+              var expected: String!
+              transformer.transform(value).onSuccess { expected = $0 }
+              expect(successValue).to(equal(expected))
             }
           }
           
@@ -77,7 +79,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should fail with the right code") {
-              expect(failureValue as? FetchError).to(equal(FetchError.ValueTransformationFailed))
+              expect(failureValue as? TestError).to(equal(TestError.AnotherError))
             }
           }
         }
@@ -117,7 +119,9 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should transform the value first") {
-            expect(internalCache.didSetValue).to(equal(transformer.inverseTransform(value)))
+            var expected: Int!
+            transformer.inverseTransform(value).onSuccess { expected = $0 }
+            expect(internalCache.didSetValue).to(equal(expected))
           }
         }
         
@@ -163,15 +167,17 @@ class ValueTransformationTests: QuickSpec {
     var cache: BasicCache<String, String>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: TwoWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: Int -> String? = {
+    let forwardTransformationClosure: Int -> Result<String> = {
+      let result = Result<String>()
       if $0 > 0 {
-        return "\($0 + 1)"
+        result.succeed("\($0 + 1)")
       } else {
-        return nil
+        result.fail(TestError.AnotherError)
       }
+      return result
     }
-    let inverseTransformationClosure: String -> Int? = {
-      return Int($0)
+    let inverseTransformationClosure: String -> Result<Int> = {
+      return Result(value: Int($0), error: TestError.AnotherError)
     }
     
     describe("Value transformation using a transformer and a cache, with the global function") {

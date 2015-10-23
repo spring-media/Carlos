@@ -16,13 +16,13 @@ extension CacheLevel {
   public func conditioned(condition: (KeyType) -> (Bool, ErrorType?)) -> BasicCache<KeyType, OutputType> {
     return BasicCache(
       getClosure: { (key) in
-        let request: CacheRequest<OutputType>
+        let request: Result<OutputType>
         
         let (passesCondition, error) = condition(key)
         if passesCondition {
           request = self.get(key)
         } else {
-          request = CacheRequest(error: error ?? FetchError.ConditionNotSatisfied)
+          request = Result(error: error ?? FetchError.ConditionNotSatisfied)
         }
         
         return request
@@ -56,7 +56,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
-public func <?><A, B>(condition: A -> (Bool, ErrorType?), fetchClosure: (key: A) -> CacheRequest<B>) -> BasicCache<A, B> {
+public func <?><A, B>(condition: A -> (Bool, ErrorType?), fetchClosure: (key: A) -> Result<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 
@@ -68,7 +68,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
-public func conditioned<A, B>(fetchClosure: (key: A) -> CacheRequest<B>, condition: A -> (Bool, ErrorType?)) -> BasicCache<A, B> {
+public func conditioned<A, B>(fetchClosure: (key: A) -> Result<B>, condition: A -> (Bool, ErrorType?)) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 

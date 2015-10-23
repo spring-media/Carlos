@@ -26,10 +26,10 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
         let key = "12"
         var successValue: Int?
         var failureValue: ErrorType?
-        var fakeRequest: CacheRequest<Int>!
+        var fakeRequest: Result<Int>!
         
         beforeEach {
-          fakeRequest = CacheRequest<Int>()
+          fakeRequest = Result<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           successValue = nil
           failureValue = nil
@@ -54,7 +54,9 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should call the transformer with the success value") {
-              expect(successValue).to(equal(transformer.transform(value)))
+              var expected: Int!
+              transformer.transform(value).onSuccess { expected = $0 }
+              expect(successValue).to(equal(expected))
             }
           }
           
@@ -74,7 +76,7 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should pass the right error code") {
-              expect(failureValue as? FetchError).to(equal(FetchError.ValueTransformationFailed))
+              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
             }
           }
         }
@@ -161,12 +163,14 @@ class PostProcessTests: QuickSpec {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, Int>!
-    let transformationClosure: Int -> Int? = {
+    let transformationClosure: Int -> Result<Int> = {
+      let result = Result<Int>()
       if $0 > 0 {
-        return $0 + 1
+        result.succeed($0 + 1)
       } else {
-        return nil
+        result.fail(TestError.SimpleError)
       }
+      return result
     }
     
     describe("Post processing using a transformer and a cache, with the global function") {

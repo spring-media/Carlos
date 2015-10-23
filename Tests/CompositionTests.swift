@@ -24,18 +24,18 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let key = "test key"
-        var cache1Request: CacheRequest<Int>!
-        var cache2Request: CacheRequest<Int>!
+        var cache1Request: Result<Int>!
+        var cache2Request: Result<Int>!
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
-        var resultRequest: CacheRequest<Int>!
+        var resultRequest: Result<Int>!
         
         beforeEach {
-          cache1Request = CacheRequest<Int>()
+          cache1Request = Result<Int>()
           cache1.cacheRequestToReturn = cache1Request
           
-          cache2Request = CacheRequest<Int>()
+          cache2Request = Result<Int>()
           cache2.cacheRequestToReturn = cache2Request
           
           for cache in [cache1, cache2] {
@@ -173,18 +173,18 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let key = "test key"
-        var cache1Request: CacheRequest<Int>!
-        var cache2Request: CacheRequest<Int>!
+        var cache1Request: Result<Int>!
+        var cache2Request: Result<Int>!
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
-        var resultRequest: CacheRequest<Int>!
+        var resultRequest: Result<Int>!
         
         beforeEach {
-          cache1Request = CacheRequest<Int>()
+          cache1Request = Result<Int>()
           cache1.cacheRequestToReturn = cache1Request
           
-          cache2Request = CacheRequest<Int>()
+          cache2Request = Result<Int>()
           cache2.cacheRequestToReturn = cache2Request
           
           for cache in [cache1, cache2] {

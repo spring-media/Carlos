@@ -20,9 +20,13 @@ class TwoWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
       context("when transforming a value") {
         var result: Int?
         
+        beforeEach {
+          result = nil
+        }
+        
         context("if the transformation is possible") {
           beforeEach {
-            result = composedTransformer.transform("12.15")
+            composedTransformer.transform("12.15").onSuccess { result = $0 }
           }
           
           it("should not return nil") {
@@ -36,7 +40,7 @@ class TwoWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
         
         context("if the transformation fails in the first transformer") {
           beforeEach {
-            result = composedTransformer.transform("hallo world")
+            composedTransformer.transform("hallo world").onSuccess { result = $0 }
           }
           
           it("should return nil") {
@@ -46,7 +50,7 @@ class TwoWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
         
         context("if the transformation fails in the second transformer") {
           beforeEach {
-            result = composedTransformer.transform("-13.2")
+            composedTransformer.transform("-13.2").onSuccess { result = $0 }
           }
           
           it("should return nil") {
@@ -58,9 +62,13 @@ class TwoWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
       context("when doing the inverse transform") {
         var result: String?
         
+        beforeEach {
+          result = nil
+        }
+        
         context("when the transformation is possible") {
           beforeEach {
-            result = composedTransformer.inverseTransform(31)
+            composedTransformer.inverseTransform(31).onSuccess { result = $0 }
           }
           
           it("should not return nil") {
@@ -74,7 +82,7 @@ class TwoWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
         
         context("if the transformation fails in the first transformer") {
           beforeEach {
-            result = composedTransformer.inverseTransform(-4)
+            composedTransformer.inverseTransform(-4).onSuccess { result = $0 }
           }
           
           it("should return nil") {
@@ -84,7 +92,7 @@ class TwoWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguratio
         
         context("if the transformation fails in the second transformer") {
           beforeEach {
-            result = composedTransformer.inverseTransform(105)
+            composedTransformer.inverseTransform(105).onSuccess { result = $0 }
           }
           
           it("should return nil") {
@@ -104,26 +112,32 @@ class TwoWayTransformerCompositionTests: QuickSpec {
     
     beforeEach {
       transformer1 = TwoWayTransformationBox(transform: {
-        Float($0)
+        Result(value: Float($0), error: TestError.SimpleError)
       }, inverseTransform: {
+        let result = Result<String>()
         if $0 > 100 {
-          return nil
+          result.fail(TestError.SimpleError)
         } else {
-          return "\($0)"
+          result.succeed("\($0)")
         }
+        return result
       })
       transformer2 = TwoWayTransformationBox(transform: {
+        let result = Result<Int>()
         if $0 < 0 {
-          return nil
+          result.fail(TestError.SimpleError)
         } else {
-          return Int($0)
+          result.mimic(Result(value: Int($0), error: TestError.SimpleError))
         }
+        return result
       }, inverseTransform: {
+        let result = Result<Float>()
         if $0 < 0 {
-          return nil
+          result.fail(TestError.SimpleError)
         } else {
-          return Float($0)
+          result.mimic(Result(value: Float($0), error: TestError.SimpleError))
         }
+        return result
       })
     }
     

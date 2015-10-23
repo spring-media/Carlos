@@ -16,8 +16,8 @@ class CustomCacheLevel: CacheLevel {
   typealias KeyType = Int
   typealias OutputType = String
   
-  func get(key: KeyType) -> CacheRequest<OutputType> {
-    let request = CacheRequest<OutputType>()
+  func get(key: KeyType) -> Result<OutputType> {
+    let request = Result<OutputType>()
     
     if key > 0 {
       Logger.log("Fetched \(key) on the custom cache", .Info)
@@ -58,19 +58,19 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    let modelDomainToString: ModelDomain -> String? = {
-      $0.name
+    let modelDomainToString: ModelDomain -> Result<String> = {
+      Result(value: $0.name)
     }
     
-    let modelDomainToInt: ModelDomain -> Int? = {
-      $0.identifier
+    let modelDomainToInt: ModelDomain -> Result<Int> = {
+      Result(value: $0.identifier)
     }
     
     let stringToData = StringTransformer().invert()
-    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { $0.uppercaseString })
+    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Result(value: $0.uppercaseString) })
     
     cache = (modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> { (key: ModelDomain) in
-      let request = CacheRequest<NSData>()
+      let request = Result<NSData>()
       
       Logger.log("Fetched \(key.name) on the fetcher closure", .Info)
       

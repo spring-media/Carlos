@@ -16,21 +16,25 @@ extension BitcoinResult: ExpensiveObject {
 }
 
 class ViewController: UIViewController {
+  enum Error: ErrorType {
+    case InvalidJSON
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     let JSONFetcher: BasicFetcher<NSURL, AnyObject> = NetworkFetcher() =>> JSONTransformer()
-    let cache = JSONFetcher =>> { (JSONResult: AnyObject) -> BitcoinResult? in
-      let result: BitcoinResult?
+    let cache = JSONFetcher =>> { (JSONResult: AnyObject) -> Result<BitcoinResult> in
+      let result = Result<BitcoinResult>()
       
       if let JSON = JSONResult as? [String: AnyObject],
         let BTCDict = JSON["BTC"] as? [String: AnyObject],
         let USDStringValue = BTCDict["USD"] as? String,
         let USDFloatValue = Float(USDStringValue)
       {
-        result = BitcoinResult(USDValue: USDFloatValue)
+        result.succeed(BitcoinResult(USDValue: USDFloatValue))
       } else {
-        result = nil
+        result.fail(Error.InvalidJSON)
       }
       
       return result

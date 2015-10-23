@@ -20,7 +20,7 @@ class MKDistanceFormatterTransformerTests: QuickSpec {
           var resultString: String!
           
           beforeEach {
-            resultString = formatter.transform(originDistance)
+            formatter.transform(originDistance).onSuccess { resultString = $0 }
           }
           
           it("should return the expected string") {
@@ -33,7 +33,7 @@ class MKDistanceFormatterTransformerTests: QuickSpec {
           var resultDistance: CLLocationDistance!
           
           beforeEach {
-            resultDistance = formatter.inverseTransform(originString)
+            formatter.inverseTransform(originString).onSuccess { resultDistance = $0 }
           }
           
           it("should return the expected number") {

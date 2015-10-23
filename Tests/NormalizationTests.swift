@@ -39,11 +39,11 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let key = "key to test"
-        var request: CacheRequest<Int>!
-        var expectedRequest: CacheRequest<Int>!
+        var request: Result<Int>!
+        var expectedRequest: Result<Int>!
         
         beforeEach {
-          expectedRequest = CacheRequest<Int>()
+          expectedRequest = Result<Int>()
           originalCache.cacheRequestToReturn = expectedRequest
           request = cacheToTest.get(key)
         }
@@ -114,7 +114,7 @@ class NormalizationTests: QuickSpec {
         var originalCache: BasicCache<String, Int>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ $0 })
+          originalCache = CacheLevelFake().transformKeys({ Result(value: $0) })
           cacheToTest = normalize(originalCache)
         }
         
@@ -148,7 +148,7 @@ class NormalizationTests: QuickSpec {
         var originalCache: BasicCache<String, Int>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ $0 })
+          originalCache = CacheLevelFake().transformKeys({ Result(value: $0) })
           cacheToTest = originalCache.normalize()
         }
         

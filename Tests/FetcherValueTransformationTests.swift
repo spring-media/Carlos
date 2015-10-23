@@ -26,10 +26,10 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
         let key = "12"
         var successValue: String?
         var failureValue: ErrorType?
-        var fakeRequest: CacheRequest<Int>!
+        var fakeRequest: Result<Int>!
         
         beforeEach {
-          fakeRequest = CacheRequest<Int>()
+          fakeRequest = Result<Int>()
           internalFetcher.cacheRequestToReturn = fakeRequest
           
           fetcher.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -56,7 +56,9 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
             }
             
             it("should transform the value") {
-              expect(successValue).to(equal(transformer.transform(value)))
+              var expected: String!
+              transformer.transform(value).onSuccess { expected = $0 }
+              expect(successValue).to(equal(expected))
             }
           }
           
@@ -77,7 +79,7 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
             }
             
             it("should fail with the right code") {
-              expect(failureValue as? FetchError).to(equal(FetchError.ValueTransformationFailed))
+              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
             }
           }
         }
@@ -107,12 +109,14 @@ class FetcherValueTransformationTests: QuickSpec {
     var fetcher: BasicFetcher<String, String>!
     var internalFetcher: FetcherFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: Int -> String? = {
+    let forwardTransformationClosure: Int -> Result<String> = {
+      let result = Result<String>()
       if $0 > 0 {
-        return "\($0 + 1)"
+        result.succeed("\($0 + 1)")
       } else {
-        return nil
+        result.fail(TestError.SimpleError)
       }
+      return result
     }
     
     describe("Value transformation using a transformer and a fetcher, with the global function") {

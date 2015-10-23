@@ -111,7 +111,7 @@ To use our Playground, please follow these steps:
 - WatchOS 2+
 - Mac OS X 10.9+
 - Xcode 7+
-- tvOS 9+ (until `Xcode 7.1` is public, you'll need the Beta to build `tvOS` apps)
+- tvOS 9+
 
 ## Usage
 
@@ -202,7 +202,12 @@ Key transformations are meant to make it possible to plug cache levels in whatev
 Let's see how they work:
 
 ```swift    
-let transformedCache = { NSURL(string: $0) } =>> NetworkFetcher()
+// Define your custom ErrorType values
+enum URLTransformationError: ErrorType {
+    case InvalidURLString
+}
+
+let transformedCache = { Result(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString) } =>> NetworkFetcher()
 ``` 
 
 With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into a previously defined cache level that takes `String` keys:
@@ -214,7 +219,7 @@ let cache = MemoryCacheLevel<String, NSData>() >>> transformedCache
 or 
 
 ```swift
-let cache = MemoryCacheLevel<String, NSData>() >>> ({ NSURL(string: $0) } =>> NetworkFetcher())
+let cache = MemoryCacheLevel<String, NSData>() >>> ({ Result(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString) } =>> NetworkFetcher())
 ```
 
 If this doesn't look very safe (one could always pass string garbage as a key and it won't magically translate to a `NSURL`, thus causing the `NetworkFetcher` to silently fail), we can still use a domain specific structure as a key, assuming it contains both `String` and `NSURL` values:
@@ -225,12 +230,12 @@ struct Image {
   let URL: NSURL
 }
 
-let imageToString = OneWayTransformationBox(transform: { (image: Image) -> String in
-    image.identifier
+let imageToString = OneWayTransformationBox(transform: { (image: Image) -> Result<String> in
+    Result(value: image.identifier)
 })
     
-let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> NSURL in
-    image.URL
+let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> Result<NSURL> in
+    Result(value: image.URL)
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, NSData>()
@@ -261,10 +266,10 @@ What if our disk cache only stores `NSData`, but we want our memory cache to con
 Value transformers let you have a cache that (let's say) stores `NSData` and mutate it to a cache that stores `UIImage` values. Let's see how:
 
 ```swift
-let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> NSData in
-    UIImagePNGRepresentation(image)
-}, inverseTransform: { (data: NSData) -> UIImage in
-    UIImage(data: data)
+let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> Result<NSData> in
+    Result(value: UIImagePNGRepresentation(image))
+}, inverseTransform: { (data: NSData) -> Result<UIImage> in
+    Result(value: UIImage(data: data)!)
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, UIImage>() =>> dataTransformer
@@ -285,6 +290,8 @@ Keep in mind that, as with key transformations, if your transformation closure f
 As of `Carlos 0.4`, it's possible to transform values coming out of `Fetcher` instances with just a `OneWayTransformer` (as opposed to the required `TwoWayTransformer` for normal `CacheLevel` instancess. This is because the `Fetcher` protocol doesn't require `set`).
 This means you can easily chain `Fetcher` (closures as well) that get a JSON from the internet and transform their output to a model object (for example a `struct`) into a complex cache pipeline without having to create a dummy inverse transformation just to satisfy the requirements of the `TwoWayTransformer` protocol.
 
+As of `Carlos 0.5`, all transformers natively support asynchronous computation, so you can have expensive transformations in your custom transformers without blocking other operations. In fact, the `ImageTransformer` that comes out of the box processes image transformations on a background queue.
+
 ### Post-processing output
 
 In some cases your cache level could return the right value, but in a sub-optimal format. For example, you would like to sanitize the output you're getting from the Cache as a whole, independently of the exact layer that returned it.
@@ -296,7 +303,7 @@ The `postProcess` function takes a `CacheLevel` (or a fetch closure) and a `OneW
 
 ```swift
 // Let's create a simple "to uppercase" transformer
-let transformer = OneWayTransformationBox<NSString, NSString>(transform: { $0.uppercaseString }) 
+let transformer = OneWayTransformationBox<NSString, NSString>(transform: { Result(value: $0.uppercaseString) }) 
 
 // Our memory cache
 let memoryCache = MemoryCacheLevel<String, NSString>()
@@ -500,8 +507,8 @@ class MyLevel: CacheLevel {
   typealias KeyType = Int
   typealias OutputType = Float
   
-  func get(key: KeyType) -> CacheRequest<OutputType> {
-    let request = CacheRequest<OutputType>()
+  func get(key: KeyType) -> Result<OutputType> {
+    let request = Result<OutputType>()
     
     // Perform the fetch and either succeed or fail
     [...]
@@ -531,7 +538,7 @@ First thing we need is to declare what key types we accept and what output types
 
 The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarning`.
 
-`get` has to return a `CacheRequest`, we can create one in the beginning of the method body and return it. Then we inform the listeners by calling `succeed` or `fail` on it depending on the outcome of the fetch. These calls can (and most of the times will) be asynchronous.
+`get` has to return a `Result`, we can create one in the beginning of the method body and return it. Then we inform the listeners by calling `succeed` or `fail` on it depending on the outcome of the fetch. These calls can (and most of the times will) be asynchronous.
 
 `set` has to store the given value for the given key.
 
@@ -540,6 +547,34 @@ The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarn
 `onMemoryWarning` notifies a memory pressure event in case the `listenToMemoryWarning` method was called before.
 
 This sample cache can now be pipelined to a list of other caches, transforming its keys or values if needed as we saw in the earlier paragraphs.
+
+You can create a `Result` in several ways:
+- as shown in the snippet above, that is by instantiating one and calling `succeed` or `fail` depending on the result of the operation;
+- by directly returning the result of the initialization, passing either a value, an error, or both (if the value is optional):
+
+```swift
+//#1
+let result: Result<String>()
+
+[...]
+
+result.succeed("success")
+
+// or
+
+result.fail(Error.InvalidData)
+```
+
+```swift
+//#2
+return Result<String>(value: "success")
+
+//#3
+return Result<String>(error: Error.InvalidData)
+
+//#4
+return Result<String>(value: optionalString, error: Error.InvalidData)
+```
 
 ### Creating custom fetchers
 
@@ -552,8 +587,8 @@ class CustomFetcher: Fetcher {
   typealias KeyType = String
   typealias OutputType = String
   
-  func get(key: KeyType) -> CacheRequest<OutputType> {
-    return CacheRequest(value: "Found an hardcoded value :)")
+  func get(key: KeyType) -> Result<OutputType> {
+    return Result(value: "Found an hardcoded value :)")
   }
 }
 ```
@@ -565,8 +600,8 @@ You still need to declare what `KeyType` and `OutputType` your `CacheLevel` deal
 Sometimes we could have simple fetchers that don't need `set`, `clear` and `onMemoryWarning` implementations because they don't store anything. In this case we can pipeline fetch closures instead of full-blown caches.
 
 ```swift
-let fetcherLevel = { (image: Image) -> CacheRequest<NSData> in
-    let request = CacheRequest<NSData>()
+let fetcherLevel = { (image: Image) -> Result<NSData> in
+    let request = Result<NSData>()
       
     request.succeed(NSData(contentsOfURL: image.URL)!)
       
@@ -604,7 +639,7 @@ It accepts `NSURL` keys and returns `NSData` values.
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are more than **1000 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are more than **1200 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 

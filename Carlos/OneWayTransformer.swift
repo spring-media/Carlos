@@ -13,9 +13,9 @@ public protocol OneWayTransformer {
   
   - parameter val: The value to transform
   
-  - returns: The transformed value, or .None if the transformation failed
+  - returns: A Result that will contain the transformed value, or fail if the transformation failed
   */
-  func transform(val: TypeIn) -> TypeOut?
+  func transform(val: TypeIn) -> Result<TypeOut>
 }
 
 /// Simple implementation of the OneWayTransformer protocol
@@ -26,14 +26,14 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  private let transformClosure: I -> O?
+  private let transformClosure: I -> Result<O>
   
   /**
   Initializes a 1-way transformation box with the given closure
   
   - parameter transform: The transformation closure to convert a value of type TypeIn into a value of type TypeOut
   */
-  public init(transform: (I -> O?)) {
+  public init(transform: (I -> Result<O>)) {
     self.transformClosure = transform
   }
   
@@ -42,9 +42,9 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   
   - parameter val: The value to convert
   
-  - returns: The converted value
+  - returns: A Result that will contain the converted value or fail if the transformation fails
   */
-  public func transform(val: TypeIn) -> TypeOut? {
+  public func transform(val: TypeIn) -> Result<TypeOut> {
     return transformClosure(val)
   }
 }

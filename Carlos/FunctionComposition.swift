@@ -21,16 +21,16 @@ internal func >>> <A, B, C>(f: A -> B?, g: B -> C?) -> A -> C? {
 
 // Expose later when transformers will to be async and caches will be chainable in a similar way
 /**
-Composes two async (CacheRequest) closures
+Composes two async (Result) closures
 
-- parameter f: A closure taking an A parameter and returning a CacheRequest<B> (basically a future for a B return type)
-- parameter g: A closure taking a B parameter and returning a CacheRequest<C> (basically a future for a C return type)
+- parameter f: A closure taking an A parameter and returning a Result<B> (basically a future for a B return type)
+- parameter g: A closure taking a B parameter and returning a Result<C> (basically a future for a C return type)
 
-- returns: A closure taking an A parameter and returning a CacheRequest<C> (basically a future for a C return type) obtained by combining f and g in a way similar to g(f(x)) (if the closures were sync)
+- returns: A closure taking an A parameter and returning a Result<C> (basically a future for a C return type) obtained by combining f and g in a way similar to g(f(x)) (if the closures were sync)
 */
-internal func >>> <A, B, C>(f: A -> CacheRequest<B>, g: B -> CacheRequest<C>) -> A -> CacheRequest<C> {
+internal func >>> <A, B, C>(f: A -> Result<B>, g: B -> Result<C>) -> A -> Result<C> {
   return { param in
-    let resultingRequest = CacheRequest<C>()
+    let resultingRequest = Result<C>()
     
     f(param)
       .onSuccess { result in

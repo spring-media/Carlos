@@ -34,7 +34,7 @@ Cap requests on a given fetcher closure
 
 - returns: An initialized RequestCapperCache (a CacheLevel itself)
 */
-public func capRequests<A, B>(fetcherClosure: (key: A) -> CacheRequest<B>, requestsCap: Int) -> RequestCapperCache<BasicCache<A, B>> {
+public func capRequests<A, B>(fetcherClosure: (key: A) -> Result<B>, requestsCap: Int) -> RequestCapperCache<BasicCache<A, B>> {
   return wrapClosureIntoCacheLevel(fetcherClosure).capRequests(requestsCap)
 }
 
@@ -72,11 +72,11 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   
   - parameter key: The key for the value
   
-  - returns: A CacheRequest that could either be immediately executed or deferred depending on how many requests are currently pending.
+  - returns: A Result that could either be immediately executed or deferred depending on how many requests are currently pending.
   */
-  public func get(key: KeyType) -> CacheRequest<OutputType> {
-    let request = CacheRequest<OutputType>()
-    let deferredRequestOperation = DeferredCacheRequestOperation(decoyRequest: request, key: key, cache: internalCache)
+  public func get(key: KeyType) -> Result<OutputType> {
+    let request = Result<OutputType>()
+    let deferredRequestOperation = DeferredResultOperation(decoyRequest: request, key: key, cache: internalCache)
     
     if requestsQueue.operationCount >= requestsQueue.maxConcurrentOperationCount {
       Logger.log("Reached request cap, enqueueing request", .Info)

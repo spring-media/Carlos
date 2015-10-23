@@ -27,10 +27,10 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           let key = 12
           var successValue: Int?
           var failureValue: ErrorType?
-          var fakeRequest: CacheRequest<Int>!
+          var fakeRequest: Result<Int>!
           
           beforeEach {
-            fakeRequest = CacheRequest<Int>()
+            fakeRequest = Result<Int>()
             internalCache.cacheRequestToReturn = fakeRequest
             
             cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -41,7 +41,9 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should transform the key first") {
-            expect(internalCache.didGetKey).to(equal(transformer.transform(key)))
+            var expected: String!
+            transformer.transform(key).onSuccess { expected = $0 }
+            expect(internalCache.didGetKey).to(equal(expected))
           }
           
           context("when the request succeeds") {
@@ -73,10 +75,10 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           let key = -12
           var successValue: Int?
           var failureValue: ErrorType?
-          var fakeRequest: CacheRequest<Int>!
+          var fakeRequest: Result<Int>!
           
           beforeEach {
-            fakeRequest = CacheRequest<Int>()
+            fakeRequest = Result<Int>()
             internalCache.cacheRequestToReturn = fakeRequest
             
             cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -95,7 +97,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should pass the right error code") {
-            expect(failureValue as? FetchError).to(equal(FetchError.KeyTransformationFailed))
+            expect(failureValue as? TestError).to(equal(TestError.SimpleError))
           }
         }
       }
@@ -134,7 +136,9 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should transform the key first") {
-            expect(internalCache.didSetKey).to(equal(transformer.transform(key)))
+            var expected: String!
+            transformer.transform(key).onSuccess { expected = $0 }
+            expect(internalCache.didSetKey).to(equal(expected))
           }
           
           it("should pass the right value") {
@@ -184,12 +188,14 @@ class KeyTransformationTests: QuickSpec {
     var cache: BasicCache<Int, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let transformationClosure: Int -> String? = {
+    let transformationClosure: Int -> Result<String> = {
+      let result = Result<String>()
       if $0 > 0 {
-        return "\($0 + 1)"
+        result.succeed("\($0 + 1)")
       } else {
-        return nil
+        result.fail(TestError.SimpleError)
       }
+      return result
     }
     
     describe("Key transformation using a transformer and a cache, with the global function") {

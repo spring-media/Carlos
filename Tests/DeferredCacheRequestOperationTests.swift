@@ -8,11 +8,11 @@ internal enum TestError: ErrorType {
   case AnotherError
 }
 
-class DeferredCacheRequestOperationTests: QuickSpec {
+class DeferredResultOperationTests: QuickSpec {
   override func spec() {
-    describe("DeferredCacheRequestOperation") {
-      var operation: DeferredCacheRequestOperation<CacheLevelFake<Int, String>>!
-      var decoy: CacheRequest<String>!
+    describe("DeferredResultOperation") {
+      var operation: DeferredResultOperation<CacheLevelFake<Int, String>>!
+      var decoy: Result<String>!
       var key: Int!
       var internalCache: CacheLevelFake<Int, String>!
       var successSentinel: Bool?
@@ -23,7 +23,7 @@ class DeferredCacheRequestOperationTests: QuickSpec {
         successSentinel = nil
         failureSentinel = nil
         
-        decoy = CacheRequest<String>()
+        decoy = Result<String>()
         
         decoy.onSuccess({ value in
           successSentinel = true
@@ -35,7 +35,7 @@ class DeferredCacheRequestOperationTests: QuickSpec {
         key = 10
         internalCache = CacheLevelFake<Int, String>()
         
-        operation = DeferredCacheRequestOperation(decoyRequest: decoy, key: key, cache: internalCache)
+        operation = DeferredResultOperation(decoyRequest: decoy, key: key, cache: internalCache)
       }
       
       it("should be ready") {
@@ -58,10 +58,10 @@ class DeferredCacheRequestOperationTests: QuickSpec {
       
       context("when the operation is added to a queue") {
         var queue: NSOperationQueue!
-        var requestToReturn: CacheRequest<String>!
+        var requestToReturn: Result<String>!
         
         beforeEach {
-          requestToReturn = CacheRequest<String>()
+          requestToReturn = Result<String>()
           internalCache.cacheRequestToReturn = requestToReturn
           
           queue = NSOperationQueue()

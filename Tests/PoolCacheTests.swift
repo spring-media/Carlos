@@ -20,14 +20,14 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
       }
       
       context("when calling get") {
-        var fakeRequest: CacheRequest<Int>!
+        var fakeRequest: Result<Int>!
         let key = "key_test"
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
         
         beforeEach {
-          fakeRequest = CacheRequest<Int>()
+          fakeRequest = Result<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           
           cache.get(key).onSuccess({ value in
@@ -47,11 +47,11 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         context("as long as the request doesn't succeed or fail, when other requests with different keys are made") {
-          var fakeRequest2: CacheRequest<Int>!
+          var fakeRequest2: Result<Int>!
           let otherKey = "key_test_2"
           
           beforeEach {
-            fakeRequest2 = CacheRequest<Int>()
+            fakeRequest2 = Result<Int>()
             internalCache.cacheRequestToReturn = fakeRequest2
             
             cache.get(otherKey)

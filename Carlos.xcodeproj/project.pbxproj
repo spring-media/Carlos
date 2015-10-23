@@ -54,7 +54,7 @@
 		52615CE21BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */; };
 		526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339741B52435C00074CB9 /* KeyTransformation.swift */; };
 		526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339761B52450C00074CB9 /* ConditionedCacheTests.swift */; };
-		526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339781B524B3400074CB9 /* CacheRequestTests.swift */; };
+		526339791B524B3400074CB9 /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339781B524B3400074CB9 /* ResultTests.swift */; };
 		5263397B1B52536700074CB9 /* KeyTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397A1B52536700074CB9 /* KeyTransformationTests.swift */; };
 		5263397D1B525D1600074CB9 /* MemoryCacheLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */; };
 		5263397F1B52760F00074CB9 /* ValueTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */; };
@@ -66,7 +66,7 @@
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52635A4F1B4F0F6F00F187EE /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		52635A501B4F0F6F00F187EE /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */; };
+		52635A501B4F0F6F00F187EE /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
 		52635A511B4F0F6F00F187EE /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		52635A521B4F0F6F00F187EE /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		52635A531B4F0F6F00F187EE /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -115,7 +115,7 @@
 		52C3197F1BC0459F00893D19 /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52C319801BC0459F00893D19 /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; };
 		52C319811BC0459F00893D19 /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		52C319821BC0459F00893D19 /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */; };
+		52C319821BC0459F00893D19 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
 		52C319831BC0459F00893D19 /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		52C319841BC0459F00893D19 /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		52C319851BC0459F00893D19 /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -152,7 +152,7 @@
 		52CF0A8E1B91F5EE0061022D /* CountryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0A8D1B91F5EE0061022D /* CountryRow.swift */; };
 		52CF0AA11B9203730061022D /* CarlosMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 52CF0AA01B9203730061022D /* CarlosMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52CF0AA61B9203B30061022D /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		52CF0AA71B9203B30061022D /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */; };
+		52CF0AA71B9203B30061022D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
 		52CF0AA81B9203B30061022D /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		52CF0AA91B9203B30061022D /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -204,7 +204,7 @@
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
 		AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */; };
+		AD64D9461B8DE62400C783D3 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
 		AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -482,7 +482,7 @@
 		52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformerCompositionTests.swift; sourceTree = "<group>"; };
 		526339741B52435C00074CB9 /* KeyTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformation.swift; sourceTree = "<group>"; };
 		526339761B52450C00074CB9 /* ConditionedCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedCacheTests.swift; sourceTree = "<group>"; };
-		526339781B524B3400074CB9 /* CacheRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRequestTests.swift; sourceTree = "<group>"; };
+		526339781B524B3400074CB9 /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		5263397A1B52536700074CB9 /* KeyTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformationTests.swift; sourceTree = "<group>"; };
 		5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryCacheLevelTests.swift; sourceTree = "<group>"; };
 		5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformationTests.swift; sourceTree = "<group>"; };
@@ -494,7 +494,7 @@
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
 		52635A3C1B4F0F6F00F187EE /* BasicCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCache.swift; sourceTree = "<group>"; };
-		52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRequest.swift; sourceTree = "<group>"; };
+		52635A3D1B4F0F6F00F187EE /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		52635A3E1B4F0F6F00F187EE /* Carlos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Carlos.swift; sourceTree = "<group>"; };
 		52635A3F1B4F0F6F00F187EE /* Composed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Composed.swift; sourceTree = "<group>"; };
 		52635A401B4F0F6F00F187EE /* Conditioned.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conditioned.swift; sourceTree = "<group>"; };
@@ -679,7 +679,7 @@
 				AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */,
 				52635A1F1B4F0F3D00F187EE /* Supporting Files */,
 				52635A3C1B4F0F6F00F187EE /* BasicCache.swift */,
-				52635A3D1B4F0F6F00F187EE /* CacheRequest.swift */,
+				52635A3D1B4F0F6F00F187EE /* Result.swift */,
 				52635A3E1B4F0F6F00F187EE /* Carlos.swift */,
 				52635A3F1B4F0F6F00F187EE /* Composed.swift */,
 				52635A401B4F0F6F00F187EE /* Conditioned.swift */,
@@ -742,7 +742,7 @@
 				C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */,
 				52BBFD571B51BAD20000084A /* PoolCacheTests.swift */,
 				526339761B52450C00074CB9 /* ConditionedCacheTests.swift */,
-				526339781B524B3400074CB9 /* CacheRequestTests.swift */,
+				526339781B524B3400074CB9 /* ResultTests.swift */,
 				5263397A1B52536700074CB9 /* KeyTransformationTests.swift */,
 				5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */,
 				5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */,
@@ -1436,7 +1436,7 @@
 				52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */,
 				52635A571B4F0F6F00F187EE /* Extensions.swift in Sources */,
 				52635A5B1B4F0F6F00F187EE /* NetworkFetcher.swift in Sources */,
-				52635A501B4F0F6F00F187EE /* CacheRequest.swift in Sources */,
+				52635A501B4F0F6F00F187EE /* Result.swift in Sources */,
 				527C65471B7A66D90005023B /* SwitchCache.swift in Sources */,
 				52B7620F1BB84EFF0087CD91 /* ImageTransformer+iOS.swift in Sources */,
 				52635A591B4F0F6F00F187EE /* MemoryCacheLevel.swift in Sources */,
@@ -1501,7 +1501,7 @@
 				5263397B1B52536700074CB9 /* KeyTransformationTests.swift in Sources */,
 				526339851B52A82800074CB9 /* CompositionTests.swift in Sources */,
 				52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */,
-				526339791B524B3400074CB9 /* CacheRequestTests.swift in Sources */,
+				526339791B524B3400074CB9 /* ResultTests.swift in Sources */,
 				526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */,
 				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
 				C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */,
@@ -1518,7 +1518,7 @@
 			files = (
 				52CF0AA61B9203B30061022D /* BasicCache.swift in Sources */,
 				52B7621E1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
-				52CF0AA71B9203B30061022D /* CacheRequest.swift in Sources */,
+				52CF0AA71B9203B30061022D /* Result.swift in Sources */,
 				52CF0AA81B9203B30061022D /* Carlos.swift in Sources */,
 				5205729D1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				52CF0AA91B9203B30061022D /* Composed.swift in Sources */,
@@ -1582,7 +1582,7 @@
 				52C319801BC0459F00893D19 /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52C319811BC0459F00893D19 /* BasicCache.swift in Sources */,
 				52C319941BC0459F00893D19 /* RequestCapperCache.swift in Sources */,
-				52C319821BC0459F00893D19 /* CacheRequest.swift in Sources */,
+				52C319821BC0459F00893D19 /* Result.swift in Sources */,
 				52C319A31BC0459F00893D19 /* ComposedTwoWayTransformer.swift in Sources */,
 				52C319891BC0459F00893D19 /* Extensions.swift in Sources */,
 				52C3199A1BC0459F00893D19 /* SwitchCache.swift in Sources */,
@@ -1624,7 +1624,7 @@
 				AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
 				52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
-				AD64D9461B8DE62400C783D3 /* CacheRequest.swift in Sources */,
+				AD64D9461B8DE62400C783D3 /* Result.swift in Sources */,
 				5257BBB51BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 				AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */,
 				AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */,

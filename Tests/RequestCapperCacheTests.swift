@@ -25,17 +25,17 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get") {
         let key = "test-key"
         let value = 10211
-        var pendingRequest: CacheRequest<Int>!
+        var pendingRequest: Result<Int>!
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
-        var requestToReturn: CacheRequest<Int>!
+        var requestToReturn: Result<Int>!
         
         beforeEach {
           successSentinel = nil
           failureSentinel = nil
           
-          requestToReturn = CacheRequest<Int>()
+          requestToReturn = Result<Int>()
           internalCache.cacheRequestToReturn = requestToReturn
           
           pendingRequest = cache.get(key).onSuccess({ value in
@@ -87,13 +87,13 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
         }
         
         context("when more requests are made that don't exceed the cap") {
-          var morePendingRequests: [CacheRequest<Int>] = []
+          var morePendingRequests: [Result<Int>] = []
           
           beforeEach {
             morePendingRequests = []
             
             for _ in (1..<requestCap).enumerate() {
-              let fakeRequest = CacheRequest<Int>()
+              let fakeRequest = Result<Int>()
               internalCache.cacheRequestToReturn = fakeRequest
               
               cache.get(key)
@@ -110,14 +110,14 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
             var exceedingRequestSuccess: Bool?
             var exceedingRequestFailure: Bool?
             var exceedingRequestValue: Int?
-            var exceedingRequest: CacheRequest<Int>!
+            var exceedingRequest: Result<Int>!
             
             beforeEach {
               exceedingRequestSuccess = nil
               exceedingRequestFailure = nil
               exceedingRequestValue = nil
               
-              exceedingRequest = CacheRequest<Int>()
+              exceedingRequest = Result<Int>()
               internalCache.cacheRequestToReturn = exceedingRequest
               
               cache.get(key).onSuccess({ value in

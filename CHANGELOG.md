@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5
+
+**Major changes**
+- **API Breaking**: `CacheRequest` is now renamed to `Result`
+- **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now async, i.e. they return a `Result<T>` instead of a `T` directly
+
+**Minor improvements**
+- `Result` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
+- `Result` now has a `mimic` function that takes another `Result<T>` and succeeds or fails when the given `Result` does so
+- `ImageTransformer` now applies its tranformations on a background queue
+- `JSONTransformer` now passes the right error when the transformations fail 
+
+
 ## 0.4
 
 **Major changes**

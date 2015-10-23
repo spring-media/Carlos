@@ -1,17 +1,17 @@
 import Foundation
 
 /// This class wraps a cache request future, where you can attach failure and success callbacks.
-public class CacheRequest<T> {
+public class Result<T> {
   private var failureListeners: [(ErrorType) -> Void] = []
   private var successListeners: [(T) -> Void] = []
   private var error: ErrorType?
   private var value: T?
   
-  /// Creates a new CacheRequest
+  /// Creates a new Result
   public init() {}
   
   /**
-  Initializes a new CacheRequest and makes it immediately succeed with the given value
+  Initializes a new Result and makes it immediately succeed with the given value
   
   - parameter value: The success value of the request
   */
@@ -20,12 +20,41 @@ public class CacheRequest<T> {
   }
   
   /**
-  Initializes a new CacheRequest and makes it immediately fail with the given error
+  Initializes a new Result and makes it immediately succeed or fail depending on the value
+   
+  - parameter value: The success value of the request, if not .None
+  - parameter error: The error of the request, if value is .None
+  */
+  public init(value: T?, error: ErrorType) {
+    if let value = value {
+      succeed(value)
+    } else {
+      fail(error)
+    }
+  }
+  
+  /**
+  Initializes a new Result and makes it immediately fail with the given error
   
   - parameter error: The error of the request
   */
   public init(error: ErrorType) {
     fail(error)
+  }
+  
+  /**
+  Mimics the given Result, so that it fails or succeeds when the stamps does so (in addition to its pre-existing behavior)
+   
+  - parameter stamp: The Result to mimic
+   
+  - returns: The Result itself
+  */
+  public func mimic(stamp: Result<T>) -> Result<T> {
+    stamp
+      .onSuccess(self.succeed)
+      .onFailure(self.fail)
+    
+    return self
   }
   
   /**
@@ -71,7 +100,7 @@ public class CacheRequest<T> {
   
   - returns: The updated request
   */
-  public func onSuccess(success: (T) -> Void) -> CacheRequest<T> {
+  public func onSuccess(success: (T) -> Void) -> Result<T> {
     if let value = value {
       success(value)
     } else {
@@ -88,7 +117,7 @@ public class CacheRequest<T> {
   
   - returns: The updated request
   */
-  public func onFailure(failure: (ErrorType) -> Void) -> CacheRequest<T> {
+  public func onFailure(failure: (ErrorType) -> Void) -> Result<T> {
     if let error = error {
       failure(error)
     } else {
@@ -105,7 +134,7 @@ public class CacheRequest<T> {
   
   - returns: The updated request
   */
-  public func onCompletion(completion: (value: T?, error: (ErrorType)?) -> Void) -> CacheRequest<T> {
+  public func onCompletion(completion: (value: T?, error: (ErrorType)?) -> Void) -> Result<T> {
     if let error = error {
       completion(value: nil, error: error)
     } else if let value = value {

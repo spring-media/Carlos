@@ -1,42 +1,36 @@
 import Foundation
 
-extension CacheRequest {
+extension Result {
   
   /**
-  Mutates a CacheRequest from a type A to a type B through a OneWayTransformer
+  Mutates a Result from a type A to a type B through a OneWayTransformer
 
-  - parameter origin: The original CacheRequest
+  - parameter origin: The original Result
   - parameter transformer: The OneWayTransformer from A to B
 
-  - returns: A new CacheRequest<B>
+  - returns: A new Result<B>
   */
-  internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> CacheRequest<A.TypeOut> {
-    let mutatedRequest = CacheRequest<A.TypeOut>()
+  internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> Result<A.TypeOut> {
+    let mutatedRequest = Result<A.TypeOut>()
     
     self
-      .onFailure({
-        mutatedRequest.fail($0)
-      })
-      .onSuccess({
-        if let transformedValue = transformer.transform($0) {
-          mutatedRequest.succeed(transformedValue)
-        } else {
-          mutatedRequest.fail(FetchError.ValueTransformationFailed)
-        }
-      })
+      .onFailure(mutatedRequest.fail)
+      .onSuccess { result in
+        mutatedRequest.mimic(transformer.transform(result))
+      }
     
     return mutatedRequest
   }
 
   /**
-  Mutates a CacheRequest from a type A to a type B through a OneWayTransformer
+  Mutates a Result from a type A to a type B through a OneWayTransformer
 
-  - parameter origin: The original CacheRequest
+  - parameter origin: The original Result
   - parameter transformerClosure: The transformation closure from A to B
 
-  - returns: A new CacheRequest<B>
+  - returns: A new Result<B>
   */
-  internal func mutate<A>(transformerClosure: T -> A?) -> CacheRequest<A> {
+  internal func mutate<A>(transformerClosure: T -> Result<A>) -> Result<A> {
     return self.mutate(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }
@@ -73,9 +67,10 @@ public func transformValues<A: CacheLevel, B: TwoWayTransformer where A.OutputTy
       return cache.get(key).mutate(transformer)
     },
     setClosure: { (value, key) in
-      if let transformedValue = transformer.inverseTransform(value) {
-        cache.set(transformedValue, forKey: key)
-      }
+      transformer.inverseTransform(value)
+        .onSuccess { transformedValue in
+          cache.set(transformedValue, forKey: key)
+        }
     },
     clearClosure: cache.clear,
     memoryClosure: cache.onMemoryWarning

@@ -19,7 +19,7 @@ extension OneWayTransformer {
   
   - returns: A new OneWayTransformer that is the result of the composition of the transformer with the transformation closure
   */
-  public func compose<A>(transformerClosure: TypeOut -> A?) -> OneWayTransformationBox<TypeIn, A> {
+  public func compose<A>(transformerClosure: TypeOut -> Result<A>) -> OneWayTransformationBox<TypeIn, A> {
     return self.compose(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }
@@ -44,7 +44,7 @@ Composes a OneWayTransformer with a transformation closure
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformer with the transformation closure
 */
-public func compose<A: OneWayTransformer, B>(transformer: A, transformerClosure: A.TypeOut -> B?) -> OneWayTransformationBox<A.TypeIn, B> {
+public func compose<A: OneWayTransformer, B>(transformer: A, transformerClosure: A.TypeOut -> Result<B>) -> OneWayTransformationBox<A.TypeIn, B> {
   return transformer.compose(transformerClosure)
 }
 
@@ -56,7 +56,7 @@ Composes two transformation closures
 
 - returns: A new OneWayTransformer that is the result of the composition of the two transformation closures
 */
-public func compose<A, B, C>(firstTransformerClosure: A -> B?, secondTransformerClosure: B -> C?) -> OneWayTransformationBox<A, C> {
+public func compose<A, B, C>(firstTransformerClosure: A -> Result<B>, secondTransformerClosure: B -> Result<C>) -> OneWayTransformationBox<A, C> {
   return wrapClosureIntoOneWayTransformer(firstTransformerClosure).compose(secondTransformerClosure)
 }
 
@@ -68,7 +68,7 @@ Composes a transformation closure with a OneWayTransformer
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformation closure with the transformer
 */
-public func compose<A: OneWayTransformer, B>(transformerClosure: B -> A.TypeIn?, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
+public func compose<A: OneWayTransformer, B>(transformerClosure: B -> Result<A.TypeIn>, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
   return wrapClosureIntoOneWayTransformer(transformerClosure).compose(transformer)
 }
 
@@ -92,7 +92,7 @@ Composes a OneWayTransformer with a transformation closure
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformer with the transformation closure
 */
-public func >>><A: OneWayTransformer, B>(transformer: A, transformerClosure: A.TypeOut -> B?) -> OneWayTransformationBox<A.TypeIn, B> {
+public func >>><A: OneWayTransformer, B>(transformer: A, transformerClosure: A.TypeOut -> Result<B>) -> OneWayTransformationBox<A.TypeIn, B> {
   return transformer.compose(transformerClosure)
 }
 
@@ -104,7 +104,7 @@ Composes two transformation closures
 
 - returns: A new OneWayTransformer that is the result of the composition of the two transformation closures
 */
-public func >>><A, B, C>(firstTransformerClosure: A -> B?, secondTransformerClosure: B -> C?) -> OneWayTransformationBox<A, C> {
+public func >>><A, B, C>(firstTransformerClosure: A -> Result<B>, secondTransformerClosure: B -> Result<C>) -> OneWayTransformationBox<A, C> {
   return wrapClosureIntoOneWayTransformer(firstTransformerClosure).compose(secondTransformerClosure)
 }
 
@@ -116,6 +116,6 @@ Composes a transformation closure with a OneWayTransformer
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformation closure with the transformer
 */
-public func >>><A: OneWayTransformer, B>(transformerClosure: B -> A.TypeIn?, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
+public func >>><A: OneWayTransformer, B>(transformerClosure: B -> Result<A.TypeIn>, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
   return wrapClosureIntoOneWayTransformer(transformerClosure).compose(transformer)
 }

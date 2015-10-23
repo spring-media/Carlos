@@ -21,14 +21,14 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let value = 221
-        var fakeRequest: CacheRequest<Int>!
+        var fakeRequest: Result<Int>!
         var successSentinel: Bool?
         var successValue: Int?
         var failureSentinel: Bool?
         var failureValue: ErrorType?
         
         beforeEach {
-          fakeRequest = CacheRequest<Int>()
+          fakeRequest = Result<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
         }
         
