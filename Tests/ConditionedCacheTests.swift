@@ -186,7 +186,11 @@ class ConditionedCacheTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = internalCache.conditioned { key in
-          return (key.characters.count >= 5, ConditionError.MyError)
+          if key.characters.count >= 5 {
+            return Result(value: true)
+          } else {
+            return Result(error: ConditionError.MyError)
+          }
         }
       }
       
@@ -202,7 +206,11 @@ class ConditionedCacheTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = conditioned(internalCache, condition: { key in
-          return (key.characters.count >= 5, ConditionError.MyError)
+          if key.characters.count >= 5 {
+            return Result(value: true)
+          } else {
+            return Result(error: ConditionError.MyError)
+          }
         })
       }
       
@@ -218,8 +226,12 @@ class ConditionedCacheTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = { key in
-          return (key.characters.count >= 5, ConditionError.MyError)
-          } <?> internalCache
+          if key.characters.count >= 5 {
+            return Result(value: true)
+          } else {
+            return Result(error: ConditionError.MyError)
+          }
+        } <?> internalCache
       }
       
       itBehavesLike("a conditioned cache") {
@@ -234,7 +246,11 @@ class ConditionedCacheTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = conditioned(internalCache.get, condition: { key in
-          return (key.characters.count >= 5, ConditionError.MyError)
+          if key.characters.count >= 5 {
+            return Result(value: true)
+          } else {
+            return Result(error: ConditionError.MyError)
+          }
         })
       }
       
@@ -250,8 +266,12 @@ class ConditionedCacheTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = { key in
-          return (key.characters.count >= 5, ConditionError.MyError)
-          } <?> internalCache.get
+          if key.characters.count >= 5 {
+            return Result(value: true)
+          } else {
+            return Result(error: ConditionError.MyError)
+          }
+        } <?> internalCache.get
       }
       
       itBehavesLike("a conditioned fetch closure") {

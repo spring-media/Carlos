@@ -40,14 +40,18 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    cache = { (key) -> (Bool, ErrorType?) in
+    cache = { key -> Result<Bool> in
+      let result = Result<Bool>()
+      
       if self.globalKillSwitch {
-        return (false, ConditionError.GlobalKillSwitch)
+        result.fail(ConditionError.GlobalKillSwitch)
       } else if key.scheme != "http" {
-        return (false, ConditionError.URLScheme)
+        result.fail(ConditionError.URLScheme)
       } else {
-        return (true, nil)
+        result.succeed(true)
       }
+      
+      return result
     } <?> simpleCache()
   }
 }

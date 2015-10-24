@@ -4,7 +4,8 @@
 
 **Major changes**
 - **API Breaking**: `CacheRequest` is now renamed to `Result`
-- **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now async, i.e. they return a `Result<T>` instead of a `T` directly
+- **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now asynchronous, i.e. they return a `Result<T>` instead of a `T` directly
+- **API Breaking**: all the `conditioned` variants now take an asynchronous condition closure, i.e. the closure has to return a `Result<Bool>` instead of a `(Bool, ErrorType)` tuple
 
 **Minor improvements**
 - `Result` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value

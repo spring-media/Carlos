@@ -406,26 +406,26 @@ let cappedCache = myCache.capRequests(3)
 Sometimes we may have levels that should only be queried under some conditions. Let's say we have a `DatabaseLevel` that should only be triggered when users enable a given setting in the app that actually starts storing data in the database. We may want to avoid accessing the database if the setting is disabled in the first place.
 
 ```swift
-let conditionedCache = conditioned(cache, { key in
-  return (appSettingIsEnabled, nil)
-})
+let conditionedCache = conditioned(cache) { key in
+  Result(value: appSettingIsEnabled)
+}
 ```
 
 or, with protocol extensions:
 
 ```swift
 let conditionedCache = cache.conditioned { key in
-  (appSettingIsEnabled, nil)
+  Result(value: appSettingIsEnabled)
 }
 ```
 
-The closure gets the key the cache was asked to fetch and has to return a boolean value, indicating whether the request can proceed or should skip the level, and an optional `NSError` communicating the specific error to the caller.
+The closure gets the key the cache was asked to fetch and has to return a `Result<Bool>` object indicating whether the request can proceed or should skip the level, with the possibility to fail with a specific `ErrorType` to communicate the error to the caller.
 
 The same effect can be obtained through the `<?>` operator:
 
 ```swift
 let conditionedCache = { _ in
-  return (appSettingIsEnabled, nil)
+  Result(value: appSettingIsEnabled)
 } <?> cache
 ```
 

@@ -7,23 +7,28 @@ extension CacheLevel {
   /**
   Wraps the CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
   
-  - parameter condition: The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally. The closure also returns an optional error in case it wants to explicitly communicate why it failed. In case no error is returned, a default FetchError.ConditionNotSatisfied is used instead.
+  - parameter condition: The condition closure that takes a key and returns true if the key can be fetched, or false if the request should fail unconditionally. The closure can also pass a specific error in case it wants to explicitly communicate why it failed. The condition can be asynchronous and has to return a Result<Bool>
   
   - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
   
   :discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
   */
-  public func conditioned(condition: (KeyType) -> (Bool, ErrorType?)) -> BasicCache<KeyType, OutputType> {
+  public func conditioned(condition: (KeyType) -> Result<Bool>) -> BasicCache<KeyType, OutputType> {
     return BasicCache(
-      getClosure: { (key) in
-        let request: Result<OutputType>
+      getClosure: { key in
+        let request = Result<OutputType>()
         
-        let (passesCondition, error) = condition(key)
-        if passesCondition {
-          request = self.get(key)
-        } else {
-          request = Result(error: error ?? FetchError.ConditionNotSatisfied)
-        }
+        condition(key)
+          .onSuccess { passesCondition in
+            if passesCondition {
+              request.mimic(self.get(key))
+            } else {
+              request.fail(FetchError.ConditionNotSatisfied)
+            }
+          }
+          .onFailure {
+            request.fail($0)
+          }
         
         return request
       },
@@ -37,26 +42,26 @@ extension CacheLevel {
 /**
 Wraps a CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
 
-- parameter condition: The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally. The closure also returns an optional error in case it wants to explicitly communicate why it failed. In case no error is returned, a default FetchError.ConditionNotSatisfied is used instead.
+- parameter condition: The condition closure that takes a key and returns true if the key can be fetched, or false if the request should fail unconditionally. The closure can also pass a specific error in case it wants to explicitly communicate why it failed. The condition can be asynchronous and has to return a Result<Bool>
 - parameter cache: The cache level you want to decorate
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 
 :discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
-public func <?><A: CacheLevel>(condition: (A.KeyType) -> (Bool, ErrorType?), cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+public func <?><A: CacheLevel>(condition: (A.KeyType) -> Result<Bool>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.conditioned(condition)
 }
 
 /**
 Wraps a CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
 
-- parameter condition: The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally. The closure also returns an optional error in case it wants to explicitly communicate why it failed. In case no error is returned, a default FetchError.ConditionNotSatisfied is used instead.
+- parameter condition: The condition closure that takes a key and returns true if the key can be fetched, or false if the request should fail unconditionally. The closure can also pass a specific error in case it wants to explicitly communicate why it failed. The condition can be asynchronous and has to return a Result<Bool>
 - parameter fetchClosure: The fetch closure to decorate
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
-public func <?><A, B>(condition: A -> (Bool, ErrorType?), fetchClosure: (key: A) -> Result<B>) -> BasicCache<A, B> {
+public func <?><A, B>(condition: A -> Result<Bool>, fetchClosure: (key: A) -> Result<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 
@@ -64,11 +69,11 @@ public func <?><A, B>(condition: A -> (Bool, ErrorType?), fetchClosure: (key: A)
 Wraps a CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
 
 - parameter fetchClosure: The fetch closure to decorate
-- parameter condition: The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally. The closure also returns an optional error in case it wants to explicitly communicate why it failed. In case no error is returned, a default FetchError.ConditionNotSatisfied is used instead.
+- parameter condition: The condition closure that takes a key and returns true if the key can be fetched, or false if the request should fail unconditionally. The closure can also pass a specific error in case it wants to explicitly communicate why it failed. The condition can be asynchronous and has to return a Result<Bool>
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
-public func conditioned<A, B>(fetchClosure: (key: A) -> Result<B>, condition: A -> (Bool, ErrorType?)) -> BasicCache<A, B> {
+public func conditioned<A, B>(fetchClosure: (key: A) -> Result<B>, condition: A -> Result<Bool>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 
@@ -76,12 +81,12 @@ public func conditioned<A, B>(fetchClosure: (key: A) -> Result<B>, condition: A 
 Wraps a CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
 
 - parameter cache: The cache level you want to decorate
-- parameter condition: The condition closure that takes a key and returns true whether the key could be fetched, or false whether the get should fail unconditionally. The closure also returns an optional error in case it wants to explicitly communicate why it failed. In case no error is returned, a default FetchError.ConditionNotSatisfied is used instead.
+- parameter condition: The condition closure that takes a key and returns true if the key can be fetched, or false if the request should fail unconditionally. The closure can also pass a specific error in case it wants to explicitly communicate why it failed. The condition can be asynchronous and has to return a Result<Bool>
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 
 :discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
-public func conditioned<A: CacheLevel>(cache: A, condition: (A.KeyType) -> (Bool, ErrorType?)) -> BasicCache<A.KeyType, A.OutputType> {
+public func conditioned<A: CacheLevel>(cache: A, condition: (A.KeyType) -> Result<Bool>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.conditioned(condition)
 }
