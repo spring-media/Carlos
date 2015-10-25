@@ -689,4 +689,4 @@ Esad Hajdarevic, @esad
 - **ConcurrentOperation** (by [Caleb Davenport](https://github.com/calebd)), unmodified.
 - Some parts of `ReadWriteLock.swift` (in particular the pthread-based read-write lock) belonging to **Deferred** (available on [Github](https://github.com/bignerdranch/Deferred))
 
-The **NetworkFetcher** class and **DiskCacheLevel** class are inspired by [Haneke](https://github.com/Haneke/HanekeSwift). Their source code has been heavily modified, but adapting the original files has proven valuable for `Carlos` development.
+The **DiskCacheLevel** class is inspired by [Haneke](https://github.com/Haneke/HanekeSwift). The source code has been heavily modified, but adapting the original file has proven valuable for `Carlos` development.

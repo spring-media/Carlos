@@ -6,13 +6,15 @@
 - **API Breaking**: `CacheRequest` is now renamed to `Result`
 - **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now asynchronous, i.e. they return a `Result<T>` instead of a `T` directly
 - **API Breaking**: all the `conditioned` variants now take an asynchronous condition closure, i.e. the closure has to return a `Result<Bool>` instead of a `(Bool, ErrorType)` tuple
-- `Result` can now be canceled. Pass an optional `cancelClosure` when initializing your `Result`, and call `cancel()` to cancel it. Be notified of a canceled operation with the `onCancel` function. An operation can only be canceled once, and can only be *executing*, *canceled*, *failed* or *succeeded* at any given time.
+- `Result` can now be canceled. Call `cancel()` to cancel a `Result`. Be notified of a canceled operation with the `onCancel` function. Use `onCancel` to setup the cancel behavior of your custom operation. Remember that an operation can only be canceled once, and can only be *executing*, *canceled*, *failed* or *succeeded* at any given time.
 
 **Minor improvements**
 - `Result` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
 - `Result` now has a `mimic` function that takes another `Result<T>` and succeeds or fails when the given `Result` does so
 - `ImageTransformer` now applies its tranformations on a background queue
 - `JSONTransformer` now passes the right error when the transformations fail 
+- `CacheProvider.dataCache` now pools requests on the network **and** disk levels, so pooled requests don't result in multiple `set` calls on the disk level
+- It's now possible to `cancel` operations coming from a `NetworkFetcher`
 
 
 ## 0.4

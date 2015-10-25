@@ -427,14 +427,9 @@ class ResultTests: QuickSpec {
       }
       
       context("when initialized with the designated initializer") {
-        var canceled: Bool!
-          
         beforeEach {
-          request = Result<String>(cancelClosure: {
-            canceled = true
-          })
-        
-          canceled = false
+          request = Result<String>()
+          
           resetSentinels()
         
           for idx in 0..<sentinelsCount {
@@ -803,10 +798,6 @@ class ResultTests: QuickSpec {
             request.cancel()
           }
             
-          it("should call the request cancel closure") {
-            expect(canceled).to(beTrue())
-          }
-            
           it("should call the cancel closures") {
             for cSentinel in cancelSentinels {
               expect(cSentinel).to(beTrue())
@@ -927,10 +918,6 @@ class ResultTests: QuickSpec {
               resetSentinels()
               
               request.cancel()
-            }
-                  
-            it("should not call the cancel closure") {
-              expect(canceled).to(beFalse())
             }
             
             it("should not call any success closure") {

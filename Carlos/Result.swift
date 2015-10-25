@@ -2,7 +2,6 @@ import Foundation
 
 /// This class wraps a cache request future, where you can attach failure and success callbacks.
 public class Result<T> {
-  private let cancelClosure: (Void -> Void)?
   private var failureListeners: [(ErrorType) -> Void] = []
   private var successListeners: [(T) -> Void] = []
   private var cancelListeners: [Void -> Void] = []
@@ -12,11 +11,8 @@ public class Result<T> {
   
   /**
   Creates a new Result
-   
-  - parameter cancelClosure: The closure to execute when the request is canceled. By default is nil
   */
-  public init(cancelClosure: (Void -> Void)? = nil) {
-    self.cancelClosure = cancelClosure
+  public init() {
   }
   
   /**
@@ -26,6 +22,7 @@ public class Result<T> {
   */
   public convenience init(value: T) {
     self.init()
+    
     succeed(value)
   }
   
@@ -122,7 +119,6 @@ public class Result<T> {
     guard self.canceled == false else { return }
     
     canceled = true
-    cancelClosure?()
     
     for listener in cancelListeners {
       listener()
