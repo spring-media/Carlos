@@ -92,7 +92,7 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   
   - parameter key: The key for the value
   
-  :discussion: Calls to this method are not capped
+  Calls to this method are not capped
   */
   public func set(value: OutputType, forKey key: KeyType) {
     internalCache.set(value, forKey: key)

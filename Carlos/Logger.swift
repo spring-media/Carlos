@@ -26,7 +26,7 @@ public class Logger {
   
   - parameter message: The message to log
   
-  :discussion: This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
+  This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
   */
   public static func log(message: String, _ level: Level = Level.Debug) {
     dispatch_async(dispatch_get_main_queue()) {

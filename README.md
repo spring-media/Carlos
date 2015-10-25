@@ -145,10 +145,10 @@ To fetch a value from a cache, use the `get` method.
 ```swift
 cache.get("key")
   .onSuccess { value in
-      println("I found \(value)!")
+      print("I found \(value)!")
   }
   .onFailure { error in
-      println("An error occurred :( \(error)")
+      print("An error occurred :( \(error)")
   }
 ```
 
@@ -158,32 +158,45 @@ You can also store the request somewhere and then attach multiple `onSuccess` or
 let request = cache.get("key")
 
 request.onSuccess { value in
-    println("I found \(value)!")
+    print("I found \(value)!")
 }
 
 [... somewhere else]
 
 
 request.onSuccess { value in
-    println("I can read \(value), too!")
+    print("I can read \(value), too!")
 }
 
 ```
 
-**When the cache request succeeds, all its listeners are called**. And **even if you add a listener after the request already did its job, you will still get the callback**.
-**A request cannot fail and succeed at the same time**, and **cannot fail or succeed more than once**.
+A request can also be canceled with the `cancel()` method, and you can be notified of this event by calling `onCancel` on a given request:
 
-If you are just interested in when the request completes, regardless of whether it succeeded or failed, you can use `onCompletion`:
+```swift
+let request = cache.get(key).onCancel {
+	print(""Looks like somebody canceled this request!")
+}
+
+[... somewhere else]
+request.cancel()
+```
+
+**When the cache request succeeds, all its listeners are called**. And **even if you add a listener after the request already did its job, you will still get the callback**.
+**A request is in only one state between *executing*, *succeeded*, *failed* or *canceled* at any given time**, and **cannot fail, succeed or be canceled more than once**.
+
+If you are just interested in when the request completes, regardless of whether it succeeded, failed or was canceled, you can use `onCompletion`:
 
 ```swift
 request.onCompletion { (value, error) in
    if let value = value {
-       println("Request succeeded with value \(value)")
+       print("Request succeeded with value \(value)")
    } else if let error = error {
-       println("Request failed with code \(error)")
+       print("Request failed with code \(error)")
+   } else {
+   	   print("This request has been canceled")
    }
    
-   println("Nevertheless the request completed")
+   print("Nevertheless the request completed")
 }
 ```
 
@@ -253,7 +266,7 @@ Now we can perform safe requests like this:
 let image = Image(identifier: "550e8400-e29b-41d4-a716-446655440000", URL: NSURL(string: "http://goo.gl/KcGz8T")!)
 
 cache.get(image).onSuccess { value in
-  println("Found \(value)!")
+  print("Found \(value)!")
 }
 ```
 
@@ -639,7 +652,7 @@ It accepts `NSURL` keys and returns `NSData` values.
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are more than **1200 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are more than **1300 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 

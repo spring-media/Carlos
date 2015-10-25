@@ -42,7 +42,7 @@ public final class BasicCache<A, B>: CacheLevel {
   - parameter value: The value to set on the cache
   - parameter key: The key to use for the given value
   
-  :discussion: This call executes the setClosure specified when initializing the instance
+  This call executes the setClosure specified when initializing the instance
   */
   public func set(value: B, forKey key: A) {
     setClosure(value: value, key: key)
@@ -51,7 +51,7 @@ public final class BasicCache<A, B>: CacheLevel {
   /**
   Asks the cache to clear its contents
   
-  :discussion: This call executes the clearClosure specified when initializing the instance
+  This call executes the clearClosure specified when initializing the instance
   */
   public func clear() {
     clearClosure()
@@ -60,7 +60,7 @@ public final class BasicCache<A, B>: CacheLevel {
   /**
   Tells the cache that a memory warning event was received
   
-  :discussion: This call executes the memoryClosure specified when initializing the instance
+  This call executes the memoryClosure specified when initializing the instance
   */
   public func onMemoryWarning() {
     memoryClosure()

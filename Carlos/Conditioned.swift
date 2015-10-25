@@ -11,7 +11,7 @@ extension CacheLevel {
   
   - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
   
-  :discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
+  The condition doesn't apply to the set, clear, onMemoryWarning calls
   */
   public func conditioned(condition: (KeyType) -> Result<Bool>) -> BasicCache<KeyType, OutputType> {
     return BasicCache(
@@ -47,7 +47,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 
-:discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
+The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
 public func <?><A: CacheLevel>(condition: (A.KeyType) -> Result<Bool>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.conditioned(condition)
@@ -85,7 +85,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 
-:discussion: The condition doesn't apply to the set, clear, onMemoryWarning calls
+The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
 public func conditioned<A: CacheLevel>(cache: A, condition: (A.KeyType) -> Result<Bool>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.conditioned(condition)

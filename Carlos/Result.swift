@@ -2,20 +2,30 @@ import Foundation
 
 /// This class wraps a cache request future, where you can attach failure and success callbacks.
 public class Result<T> {
+  private let cancelClosure: (Void -> Void)?
   private var failureListeners: [(ErrorType) -> Void] = []
   private var successListeners: [(T) -> Void] = []
+  private var cancelListeners: [Void -> Void] = []
   private var error: ErrorType?
   private var value: T?
+  private var canceled = false
   
-  /// Creates a new Result
-  public init() {}
+  /**
+  Creates a new Result
+   
+  - parameter cancelClosure: The closure to execute when the request is canceled. By default is nil
+  */
+  public init(cancelClosure: (Void -> Void)? = nil) {
+    self.cancelClosure = cancelClosure
+  }
   
   /**
   Initializes a new Result and makes it immediately succeed with the given value
   
   - parameter value: The success value of the request
   */
-  public init(value: T) {
+  public convenience init(value: T) {
+    self.init()
     succeed(value)
   }
   
@@ -25,7 +35,9 @@ public class Result<T> {
   - parameter value: The success value of the request, if not .None
   - parameter error: The error of the request, if value is .None
   */
-  public init(value: T?, error: ErrorType) {
+  public convenience init(value: T?, error: ErrorType) {
+    self.init()
+    
     if let value = value {
       succeed(value)
     } else {
@@ -38,12 +50,15 @@ public class Result<T> {
   
   - parameter error: The error of the request
   */
-  public init(error: ErrorType) {
+  public convenience init(error: ErrorType) {
+    self.init()
+    
     fail(error)
   }
   
   /**
   Mimics the given Result, so that it fails or succeeds when the stamps does so (in addition to its pre-existing behavior)
+  Moreover, if the mimiced request is canceled, the request will also cancel itself
    
   - parameter stamp: The Result to mimic
    
@@ -53,6 +68,7 @@ public class Result<T> {
     stamp
       .onSuccess(self.succeed)
       .onFailure(self.fail)
+      .onCancel(self.cancel)
     
     return self
   }
@@ -62,11 +78,12 @@ public class Result<T> {
   
   - parameter value: The value found for the request
   
-  :discussion: Calling this method makes all the listeners get the onSuccess callback
+  Calling this method makes all the listeners get the onSuccess callback
   */
   public func succeed(value: T) {
     guard self.error == nil else { return }
     guard self.value == nil else { return }
+    guard self.canceled == false else { return }
     
     self.value = value
     
@@ -80,11 +97,12 @@ public class Result<T> {
   
   - parameter error: The optional error that caused the request to fail
   
-  :discussion: Calling this method makes all the listeners get the onFailure callback
+  Calling this method makes all the listeners get the onFailure callback
   */
   public func fail(error: ErrorType) {
     guard self.error == nil else { return }
     guard self.value == nil else { return }
+    guard self.canceled == false else { return }
     
     self.error = error
     
@@ -94,17 +112,52 @@ public class Result<T> {
   }
   
   /**
+  Cancels the request
+  
+  Calling this method makes all the listeners get the onCancel callback (but not the onFailure callback)
+  */
+  public func cancel() {
+    guard self.error == nil else { return }
+    guard self.value == nil else { return }
+    guard self.canceled == false else { return }
+    
+    canceled = true
+    cancelClosure?()
+    
+    for listener in cancelListeners {
+      listener()
+    }
+  }
+  
+  /**
+  Adds a listener for the cancel event of this request
+   
+  - parameter cancel: The closure that should be called when the request is canceled
+   
+  - returns: The updated request
+  */
+  public func onCancel(callback: Void -> Void) -> Result<T> {
+    if canceled {
+      callback()
+    } else {
+      cancelListeners.append(callback)
+    }
+    
+    return self
+  }
+  
+  /**
   Adds a listener for the success event of this request
   
   - parameter success: The closure that should be called when the request succeeds, taking the value as a parameter
   
   - returns: The updated request
   */
-  public func onSuccess(success: (T) -> Void) -> Result<T> {
+  public func onSuccess(callback: (T) -> Void) -> Result<T> {
     if let value = value {
-      success(value)
+      callback(value)
     } else {
-      successListeners.append(success)
+      successListeners.append(callback)
     }
     
     return self
@@ -117,11 +170,11 @@ public class Result<T> {
   
   - returns: The updated request
   */
-  public func onFailure(failure: (ErrorType) -> Void) -> Result<T> {
+  public func onFailure(callback: (ErrorType) -> Void) -> Result<T> {
     if let error = error {
-      failure(error)
+      callback(error)
     } else {
-      failureListeners.append(failure)
+      failureListeners.append(callback)
     }
     
     return self
@@ -130,23 +183,21 @@ public class Result<T> {
   /**
   Adds a listener for both success and failure events of this request
   
-  - parameter completion: The closure that should be called when the request completes (succeeds or fails), taking both an optional value in case the request succeeded and an optional error in case the request failed as parameters
+  - parameter completion: The closure that should be called when the request completes (succeeds or fails), taking both an optional value in case the request succeeded and an optional error in case the request failed as parameters. If the request is canceled, both values will be nil
   
   - returns: The updated request
   */
-  public func onCompletion(completion: (value: T?, error: (ErrorType)?) -> Void) -> Result<T> {
+  public func onCompletion(completion: (value: T?, error: ErrorType?) -> Void) -> Result<T> {
     if let error = error {
       completion(value: nil, error: error)
     } else if let value = value {
       completion(value: value, error: nil)
+    } else if canceled {
+      completion(value: nil, error: nil)
     } else {
-      onSuccess { value in
-        completion(value: value, error: nil)
-      }
-      
-      onFailure { error in
-        completion(value: nil, error: error)
-      }
+      onSuccess { completion(value: $0, error: nil) }
+      onFailure { completion(value: nil, error: $0) }
+      onCancel { completion(value: nil, error: nil) }
     }
     
     return self
