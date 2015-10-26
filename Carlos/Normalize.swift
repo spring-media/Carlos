@@ -30,6 +30,7 @@ Use this function when you want to have a value of type BasicCache (e.g. to stor
 
 - returns: The same CacheLevel normalized to appear as a BasicCache.
 */
+@available(*, deprecated=0.5)
 public func normalize<C: CacheLevel>(cache: C) -> BasicCache<C.KeyType, C.OutputType> {
   return cache.normalize()
 }

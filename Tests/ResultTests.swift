@@ -914,7 +914,6 @@ class ResultTests: QuickSpec {
             
           context("when calling cancel again") {
             beforeEach {
-              canceled = false
               resetSentinels()
               
               request.cancel()

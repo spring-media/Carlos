@@ -47,7 +47,19 @@ extension CacheLevel {
   - returns: A new cache result of the transformation of the original cache
   */
   public func transformValues<A: TwoWayTransformer where OutputType == A.TypeIn>(transformer: A) -> BasicCache<KeyType, A.TypeOut> {
-    return self =>> transformer
+    return BasicCache(
+      getClosure: { key in
+        return self.get(key).mutate(transformer)
+      },
+      setClosure: { (value, key) in
+        transformer.inverseTransform(value)
+          .onSuccess { transformedValue in
+            self.set(transformedValue, forKey: key)
+        }
+      },
+      clearClosure: self.clear,
+      memoryClosure: self.onMemoryWarning
+    )
   }
 }
 
@@ -61,20 +73,9 @@ Use this transformation when you store a value type but want to mount the cache 
 
 - returns: A new cache result of the transformation of the original cache
 */
+@available(*, deprecated=0.5)
 public func transformValues<A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> {
-  return BasicCache(
-    getClosure: { key in
-      return cache.get(key).mutate(transformer)
-    },
-    setClosure: { (value, key) in
-      transformer.inverseTransform(value)
-        .onSuccess { transformedValue in
-          cache.set(transformedValue, forKey: key)
-        }
-    },
-    clearClosure: cache.clear,
-    memoryClosure: cache.onMemoryWarning
-  )
+  return cache.transformValues(transformer)
 }
 
 /**
@@ -88,5 +89,5 @@ Use this transformation when you store a value type but want to mount the cache 
 - returns: A new cache result of the transformation of the original cache
 */
 public func =>><A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> {
-  return transformValues(cache, transformer: transformer)
+  return cache.transformValues(transformer)
 }

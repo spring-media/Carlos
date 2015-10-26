@@ -19,6 +19,7 @@ Wraps a CacheLevel with a requests pool
 
 - returns: A PoolCache that will pool requests coming to the decorated cache. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
 */
+@available(*, deprecated=0.5)
 public func pooled<A: CacheLevel where A.KeyType: Hashable>(cache: A) -> PoolCache<A> {
   return cache.pooled()
 }
@@ -30,6 +31,7 @@ Wraps a fetcher closure with a requests pool
 
 - returns: A PoolCache that will pool requests coming to the closure. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
 */
+@available(*, deprecated=0.5)
 public func pooled<A, B>(fetcherClosure: (key: A) -> Result<B>) -> PoolCache<BasicCache<A, B>> {
   return wrapClosureIntoCacheLevel(fetcherClosure).pooled()
 }

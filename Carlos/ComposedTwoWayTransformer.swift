@@ -24,6 +24,7 @@ Composes two TwoWayTransformers
 
 - returns: A new TwoWayTransformer that is the result of the composition of the two TwoWayTransformers
 */
+@available(*, deprecated=0.5)
 public func compose<A: TwoWayTransformer, B: TwoWayTransformer where B.TypeIn == A.TypeOut>(firstTransformer: A, secondTransformer: B) -> TwoWayTransformationBox<A.TypeIn, B.TypeOut> {
   return firstTransformer.compose(secondTransformer)
 }

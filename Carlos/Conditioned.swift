@@ -73,6 +73,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
+@available(*, deprecated=0.5)
 public func conditioned<A, B>(fetchClosure: (key: A) -> Result<B>, condition: A -> Result<Bool>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
@@ -87,6 +88,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
+@available(*, deprecated=0.5)
 public func conditioned<A: CacheLevel>(cache: A, condition: (A.KeyType) -> Result<Bool>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.conditioned(condition)
 }

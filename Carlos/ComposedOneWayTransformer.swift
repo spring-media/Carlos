@@ -32,6 +32,7 @@ Composes two OneWayTransformers
 
 - returns: A new OneWayTransformer that is the result of the composition of the two OneWayTransformers
 */
+@available(*, deprecated=0.5)
 public func compose<A: OneWayTransformer, B: OneWayTransformer where B.TypeIn == A.TypeOut>(firstTransformer: A, secondTransformer: B) -> OneWayTransformationBox<A.TypeIn, B.TypeOut> {
   return firstTransformer.compose(secondTransformer)
 }
@@ -44,6 +45,7 @@ Composes a OneWayTransformer with a transformation closure
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformer with the transformation closure
 */
+@available(*, deprecated=0.5)
 public func compose<A: OneWayTransformer, B>(transformer: A, transformerClosure: A.TypeOut -> Result<B>) -> OneWayTransformationBox<A.TypeIn, B> {
   return transformer.compose(transformerClosure)
 }
@@ -56,6 +58,7 @@ Composes two transformation closures
 
 - returns: A new OneWayTransformer that is the result of the composition of the two transformation closures
 */
+@available(*, deprecated=0.5)
 public func compose<A, B, C>(firstTransformerClosure: A -> Result<B>, secondTransformerClosure: B -> Result<C>) -> OneWayTransformationBox<A, C> {
   return wrapClosureIntoOneWayTransformer(firstTransformerClosure).compose(secondTransformerClosure)
 }
@@ -68,6 +71,7 @@ Composes a transformation closure with a OneWayTransformer
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformation closure with the transformer
 */
+@available(*, deprecated=0.5)
 public func compose<A: OneWayTransformer, B>(transformerClosure: B -> Result<A.TypeIn>, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
   return wrapClosureIntoOneWayTransformer(transformerClosure).compose(transformer)
 }
