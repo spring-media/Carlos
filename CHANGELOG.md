@@ -7,6 +7,7 @@
 - **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now asynchronous, i.e. they return a `Result<T>` instead of a `T` directly
 - **API Breaking**: all the `conditioned` variants now take an asynchronous condition closure, i.e. the closure has to return a `Result<Bool>` instead of a `(Bool, ErrorType)` tuple
 - `Result` can now be canceled. Call `cancel()` to cancel a `Result`. Be notified of a canceled operation with the `onCancel` function. Use `onCancel` to setup the cancel behavior of your custom operation. Remember that an operation can only be canceled once, and can only be *executing*, *canceled*, *failed* or *succeeded* at any given time.
+- All the global functions are now **deprecated**. They will be removed from the public API with the release of `Carlos 1.0`
 
 **Minor improvements**
 - `Result` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
