@@ -187,6 +187,10 @@
 		52CF0AD81B920DC20061022D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52CF0AD61B920DC20061022D /* Main.storyboard */; };
 		52CF0ADD1B920DD60061022D /* CarlosMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52CF0A9E1B9203730061022D /* CarlosMac.framework */; };
 		52CF0ADE1B920DD60061022D /* CarlosMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52CF0A9E1B9203730061022D /* CarlosMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52CFD5561BE009A600468730 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CFD5551BE009A600468730 /* GCD.swift */; };
+		52CFD5571BE009A600468730 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CFD5551BE009A600468730 /* GCD.swift */; };
+		52CFD5581BE009A600468730 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CFD5551BE009A600468730 /* GCD.swift */; };
+		52CFD5591BE009A600468730 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CFD5551BE009A600468730 /* GCD.swift */; };
 		52D805AD1BC03995000F0733 /* CarlosTv.h in Headers */ = {isa = PBXBuildFile; fileRef = 52D805AC1BC03995000F0733 /* CarlosTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52E0CBF91BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
 		52E0CBFA1BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
@@ -543,6 +547,7 @@
 		52CF0AD41B920DC20061022D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52CF0AD71B920DC20061022D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52CF0AD91B920DC20061022D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52CFD5551BE009A600468730 /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
 		52D805AA1BC03995000F0733 /* CarlosTv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosTv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D805AC1BC03995000F0733 /* CarlosTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosTv.h; sourceTree = "<group>"; };
 		52D805AE1BC03995000F0733 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -718,6 +723,7 @@
 				526EA0D91BC02D02005D8FF4 /* FunctionComposition.swift */,
 				5274A99F1BC0613C006962E8 /* BasicFetcher.swift */,
 				52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */,
+				52CFD5551BE009A600468730 /* GCD.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -1457,6 +1463,7 @@
 				5274A99B1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */,
 				52635A5D1B4F0F6F00F187EE /* PoolCache.swift in Sources */,
 				52E0CBF91BBC4E1800F20C22 /* PostProcess.swift in Sources */,
+				52CFD5561BE009A600468730 /* GCD.swift in Sources */,
 				AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
 				52635A561B4F0F6F00F187EE /* Errors.swift in Sources */,
@@ -1520,6 +1527,7 @@
 				52B7621E1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
 				52CF0AA71B9203B30061022D /* Result.swift in Sources */,
 				52CF0AA81B9203B30061022D /* Carlos.swift in Sources */,
+				52CFD5581BE009A600468730 /* GCD.swift in Sources */,
 				5205729D1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				52CF0AA91B9203B30061022D /* Composed.swift in Sources */,
 				52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */,
@@ -1579,6 +1587,7 @@
 				52C3199E1BC0459F00893D19 /* ImageTransformer+iOS.swift in Sources */,
 				52C319901BC0459F00893D19 /* ValueTransformation.swift in Sources */,
 				52C319841BC0459F00893D19 /* Composed.swift in Sources */,
+				52CFD5591BE009A600468730 /* GCD.swift in Sources */,
 				52C319801BC0459F00893D19 /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52C319811BC0459F00893D19 /* BasicCache.swift in Sources */,
 				52C319941BC0459F00893D19 /* RequestCapperCache.swift in Sources */,
@@ -1625,6 +1634,7 @@
 				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
 				52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
 				AD64D9461B8DE62400C783D3 /* Result.swift in Sources */,
+				52CFD5571BE009A600468730 /* GCD.swift in Sources */,
 				5257BBB51BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 				AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */,
 				AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */,

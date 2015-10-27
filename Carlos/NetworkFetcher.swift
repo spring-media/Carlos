@@ -39,25 +39,25 @@ public class NetworkFetcher: Fetcher {
       
       if let error = error {
         if error.domain != NSURLErrorDomain || error.code != NSURLErrorCancelled {
-          dispatch_async(dispatch_get_main_queue()) {
+          GCD.main <~ {
             result.fail(error)
           }
         }
       } else if let httpResponse = response as? NSHTTPURLResponse {
         if !NetworkFetcher.ValidStatusCodes.contains(httpResponse.statusCode) {
-          dispatch_async(dispatch_get_main_queue()) {
+          GCD.main <~ {
             result.fail(NetworkFetcherError.StatusCodeNotOk)
           }
         } else if let data = data where !strongSelf.validate(httpResponse, withData: data) {
-          dispatch_async(dispatch_get_main_queue()) {
+          GCD.main <~ {
             result.fail(NetworkFetcherError.InvalidNetworkResponse)
           }
         } else if let data = data {
-          dispatch_async(dispatch_get_main_queue()) {
+          GCD.main <~ {
             result.succeed(data)
           }
         } else {
-          dispatch_async(dispatch_get_main_queue()) {
+          GCD.main <~ {
             result.fail(NetworkFetcherError.NoDataRetrieved)
           }
         }

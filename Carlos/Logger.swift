@@ -10,13 +10,13 @@ public class Logger {
     case Error = "Error"
   }
 
-  private static let queue = dispatch_queue_create(CarlosGlobals.QueueNamePrefix + "logger", DISPATCH_QUEUE_SERIAL)
+  private static let queue = GCD.serial(CarlosGlobals.QueueNamePrefix + "logger")
 
   /**
   Called to output the log message. Override for custom logging.
   */
   public static var output: (String, Level) -> Void = { (msg, level) in
-    dispatch_async(queue) {
+    queue <~ {
       print("[Carlos][\(level.rawValue)]: \(msg)")
     }
   }
@@ -29,7 +29,7 @@ public class Logger {
   This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
   */
   public static func log(message: String, _ level: Level = Level.Debug) {
-    dispatch_async(dispatch_get_main_queue()) {
+    GCD.main <~ {
       self.output(message, level)
     }
   }
