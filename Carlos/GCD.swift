@@ -10,8 +10,8 @@ internal struct GCD: GCDQueue {
    
   - returns: The result of the execution of the closure
   */
-  static func main(closure: (Void -> Void)) {
-    mainQueue.async(closure)
+  static func main<T>(closure: (Void -> T)) -> AsyncDispatch<T> {
+    return mainQueue.async(closure)
   }
   
   /**
@@ -21,8 +21,8 @@ internal struct GCD: GCDQueue {
    
   - returns: The result of the execution of the closure
   */
-  static func background(closure: (Void -> Void)) {
-    backgroundQueue.async(closure)
+  static func background<T>(closure: (Void -> T)) -> AsyncDispatch<T> {
+    return backgroundQueue.async(closure)
   }
   
   private static let mainQueue = GCD(queue: dispatch_get_main_queue())
@@ -42,14 +42,55 @@ internal struct GCD: GCDQueue {
   let queue: dispatch_queue_t
 }
 
+/// An async dispatch operation
+internal class AsyncDispatch<T> {
+  /// The inner async operation
+  var operation: Result<T>
+  
+  init(operation: Result<T>) {
+    self.operation = operation
+  }
+  
+  private func dispatchClosureAsync<O>(closure: T -> O, queue: GCDQueue) -> AsyncDispatch<O> {
+    let innerResult = Result<O>()
+    let result = AsyncDispatch<O>(operation: innerResult)
+    
+    operation.onSuccess { value in
+      queue.async {
+        innerResult.succeed(closure(value))
+      }
+    }
+    
+    return result
+  }
+  
+  /**
+  Chains a closure taking a T input and returning an O output on the main queue 
+  
+  - parameter closure: The closure you want to dispatch on the main queue
+   
+  - returns: An AsyncDispatch object. You can keep chaining async calls on this object
+  */
+  func main<O>(closure: T -> O) -> AsyncDispatch<O> {
+    return dispatchClosureAsync(closure, queue: GCD.mainQueue)
+  }
+  
+  /**
+  Chains a closure taking a T input and returning an O output on a background queue
+   
+  - parameter closure: The closure you want to dispatch on the background queue
+   
+  - returns: An AsyncDispatch object. You can keep chaining async calls on this object
+  */
+  func background<O>(closure: T -> O) -> AsyncDispatch<O> {
+    return dispatchClosureAsync(closure, queue: GCD.backgroundQueue)
+  }
+}
+
 /// Abstracts a GCD queue
 internal protocol GCDQueue {
   /// The underlying dispatch_queue_t
   var queue: dispatch_queue_t { get }
-}
-
-internal enum GCDError: ErrorType {
-  case AsyncReturnedNil
 }
 
 extension GCDQueue {
@@ -58,8 +99,17 @@ extension GCDQueue {
   Dispatches a given closure on the queue asynchronously
    
   - parameter closure: The closure you want to dispatch on the queue
+   
+  - returns: An AsyncDispatch object. You can keep chaining async calls on this object
   */
-  internal func async(closure: Void -> Void) {
-    dispatch_async(queue, closure)
+  internal func async<T>(closure: Void -> T) -> AsyncDispatch<T> {
+    let innerResult = Result<T>()
+    let result = AsyncDispatch<T>(operation: innerResult)
+    
+    dispatch_async(queue) {
+      innerResult.succeed(closure())
+    }
+    
+    return result
   }
 }

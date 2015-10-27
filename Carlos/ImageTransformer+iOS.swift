@@ -29,14 +29,12 @@ public class ImageTransformer: TwoWayTransformer {
     let result = Result<TypeOut>()
     
     GCD.background {
-      if let image = UIImage(data: val) {
-        GCD.main {
-          result.succeed(image)
-        }
+      UIImage(data: val)
+    }.main { image in
+      if let image = image {
+        result.succeed(image)
       } else {
-        GCD.main {
-          result.fail(Error.InvalidData)
-        }
+        result.fail(Error.InvalidData)
       }
     }
     
@@ -51,18 +49,16 @@ public class ImageTransformer: TwoWayTransformer {
   - returns: An NSData instance obtained with UIImagePNGRepresentation if the input was valid, .None otherwise
   */
   public func inverseTransform(val: TypeOut) -> Result<TypeIn> {
-    /* This is a waste of bytes, we should probably use a lower-level framework */
     let result = Result<TypeIn>()
     
     GCD.background {
-      if let image = UIImagePNGRepresentation(val) {
-        GCD.main {
-          result.succeed(image)
-        }
+      /* This is a waste of bytes, we should probably use a lower-level framework */
+      UIImagePNGRepresentation(val)
+    }.main { data in
+      if let data = data {
+        result.succeed(data)
       } else {
-        GCD.main {
-          result.fail(Error.CannotConvertImage)
-        }
+        result.fail(Error.CannotConvertImage)
       }
     }
     
