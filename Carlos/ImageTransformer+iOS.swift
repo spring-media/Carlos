@@ -28,13 +28,13 @@ public class ImageTransformer: TwoWayTransformer {
   public func transform(val: TypeIn) -> Result<TypeOut> {
     let result = Result<TypeOut>()
     
-    GCD.background <~ {
+    GCD.background {
       if let image = UIImage(data: val) {
-        GCD.main <~ {
+        GCD.main {
           result.succeed(image)
         }
       } else {
-        GCD.main <~ {
+        GCD.main {
           result.fail(Error.InvalidData)
         }
       }
@@ -54,13 +54,13 @@ public class ImageTransformer: TwoWayTransformer {
     /* This is a waste of bytes, we should probably use a lower-level framework */
     let result = Result<TypeIn>()
     
-    GCD.background <~ {
+    GCD.background {
       if let image = UIImagePNGRepresentation(val) {
-        GCD.main <~ {
+        GCD.main {
           result.succeed(image)
         }
       } else {
-        GCD.main <~ {
+        GCD.main {
           result.fail(Error.CannotConvertImage)
         }
       }

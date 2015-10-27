@@ -13,13 +13,13 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   /// The capacity of the cache
   public var capacity: UInt64 = 0 {
     didSet {
-      self.cacheQueue <~ {
+      self.cacheQueue.async {
         self.controlCapacity()
       }
     }
   }
   
-  private lazy var cacheQueue: dispatch_queue_t = {
+  private lazy var cacheQueue: GCDQueue = {
     return GCD.serial("\(CarlosGlobals.QueueNamePrefix)\((self.path as NSString).lastPathComponent)")
   }()
   
@@ -42,7 +42,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     
     _ = try? fileManager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: [:])
     
-    cacheQueue <~ {
+    cacheQueue.async { Void -> Void in
       self.calculateSize()
       self.controlCapacity()
     }
@@ -55,7 +55,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   - parameter key: The key for the value
   */
   public func set(value: T, forKey key: K) {
-    cacheQueue <~ {
+    cacheQueue.async { Void -> Void in
       Logger.log("Setting a value for the key \(key.toString()) on the disk cache \(self)")
       self.setDataSync(value, key: key)
     }
@@ -71,12 +71,12 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   public func get(key: KeyType) -> Result<OutputType> {
     let request = Result<OutputType>()
     
-    cacheQueue <~ {
+    cacheQueue.async { Void -> Void in
       let path = self.pathForKey(key)
       
       if let obj = NSKeyedUnarchiver.su_unarchiveObjectWithFilePath(path) as? T {
         Logger.log("Fetched \(key.toString()) on disk level")
-        GCD.main <~ {
+        GCD.main {
           request.succeed(obj)
         }
         self.updateDiskAccessDateAtPath(path)
@@ -85,7 +85,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
         _ = try? self.fileManager.removeItemAtPath(path)
         
         Logger.log("Failed fetching \(key.toString()) on the disk cache")
-        GCD.main <~ {
+        GCD.main {
           request.fail(FetchError.ValueNotInCache)
         }
       }
@@ -100,7 +100,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   All the cached files will be removed from the disk storage
   */
   public func clear() {
-    cacheQueue <~ {
+    cacheQueue.async { Void -> Void in
       for filePath in self.itemsInDirectory(self.path) {
         _ = try? self.fileManager.removeItemAtPath(filePath)
       }
@@ -111,13 +111,13 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   // MARK: Private
   
   private func removeData(key: K) {
-    cacheQueue <~ {
+    cacheQueue.async {
       self.removeFileAtPath(self.pathForKey(key))
     }
   }
   
   private func updateAccessDate(@autoclosure(escaping) getData: () -> T?, key: K) {
-    cacheQueue <~ {
+    cacheQueue.async { Void -> Void in
       let path = self.pathForKey(key)
       if !self.updateDiskAccessDateAtPath(path) && !self.fileManager.fileExistsAtPath(path) {
         if let data = getData() {

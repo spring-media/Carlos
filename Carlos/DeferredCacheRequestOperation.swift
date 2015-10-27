@@ -33,13 +33,13 @@ public class DeferredResultOperation<C: CacheLevel>: GenericOperation {
     
     cache.get(key)
       .onSuccess({ result in
-        GCD.main <~ {
+        GCD.main {
           self.decoy.succeed(result)
         }
         self.state = .Finished
       })
       .onFailure({ error in
-        GCD.main <~ {
+        GCD.main {
           self.decoy.fail(error)
         }
         self.state = .Finished
