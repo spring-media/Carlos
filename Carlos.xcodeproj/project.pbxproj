@@ -15,6 +15,10 @@
 		5207E69A1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */; };
 		5207E69B1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */; };
 		5207E69C1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */; };
+		5207E6AD1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6AC1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift */; };
+		5207E6AE1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6AC1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift */; };
+		5207E6AF1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6AC1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift */; };
+		5207E6B01BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6AC1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift */; };
 		5208636F1B64268000F740C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863661B64268000F740C7 /* AppDelegate.swift */; };
 		520863701B64268000F740C7 /* BaseCacheViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863671B64268000F740C7 /* BaseCacheViewController.swift */; };
 		520863711B64268000F740C7 /* ComplexCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863681B64268000F740C7 /* ComplexCacheSampleViewController.swift */; };
@@ -38,6 +42,8 @@
 		522A4E6B1B7BDACB00646D52 /* ImageCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */; };
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
 		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
+		5235BAD51BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BAD41BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift */; };
+		5235BAD71BE175BE0049CFA6 /* NSUserDefaultsCacheLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BAD61BE175BE0049CFA6 /* NSUserDefaultsCacheLevelTests.swift */; };
 		523BBF891BC07C410040DA1B /* JSONCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523BBF881BC07C410040DA1B /* JSONCacheSampleViewController.swift */; };
 		5243C4B31B77670F00737B3B /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4B21B77670F00737B3B /* StringConvertible.swift */; };
 		5243C4BF1B77686300737B3B /* StringConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4BE1B77686300737B3B /* StringConvertibleTests.swift */; };
@@ -453,6 +459,7 @@
 		5205729A1BB8716E0098DD09 /* StringTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformer.swift; sourceTree = "<group>"; };
 		520572A81BB8752B0098DD09 /* StringTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformerTests.swift; sourceTree = "<group>"; };
 		5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpensiveObject.swift; sourceTree = "<group>"; };
+		5207E6AC1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsCacheLevel.swift; sourceTree = "<group>"; };
 		520863661B64268000F740C7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		520863671B64268000F740C7 /* BaseCacheViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCacheViewController.swift; sourceTree = "<group>"; };
 		520863681B64268000F740C7 /* ComplexCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplexCacheSampleViewController.swift; sourceTree = "<group>"; };
@@ -477,6 +484,8 @@
 		522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheSampleViewController.swift; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
+		5235BAD41BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsCacheSampleViewController.swift; sourceTree = "<group>"; };
+		5235BAD61BE175BE0049CFA6 /* NSUserDefaultsCacheLevelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaultsCacheLevelTests.swift; sourceTree = "<group>"; };
 		523BBF881BC07C410040DA1B /* JSONCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCacheSampleViewController.swift; sourceTree = "<group>"; };
 		5243C4B21B77670F00737B3B /* StringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertible.swift; sourceTree = "<group>"; };
 		5243C4BE1B77686300737B3B /* StringConvertibleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertibleTests.swift; sourceTree = "<group>"; };
@@ -730,6 +739,7 @@
 				52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */,
 				52CFD5551BE009A600468730 /* GCD.swift */,
 				5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */,
+				5207E6AC1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -775,6 +785,7 @@
 				5257BBC11BBFC7A800787819 /* TwoWayTransformerCompositionTests.swift */,
 				5274A9CC1BC06976006962E8 /* BasicFetcherTests.swift */,
 				5274A9D81BC069E7006962E8 /* FetcherValueTransformationTests.swift */,
+				5235BAD61BE175BE0049CFA6 /* NSUserDefaultsCacheLevelTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -902,6 +913,8 @@
 		AD695CE11B46CD65004E998D /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				AD695CE21B46CD65004E998D /* Supporting Files */,
+				5208636C1B64268000F740C7 /* Images.xcassets */,
 				5208637A1B64268E00F740C7 /* LaunchScreen.xib */,
 				5208637C1B64268E00F740C7 /* Main.storyboard */,
 				520863661B64268000F740C7 /* AppDelegate.swift */,
@@ -910,16 +923,15 @@
 				520863691B64268000F740C7 /* ConditionedCacheSampleViewController.swift */,
 				5208636A1B64268000F740C7 /* ExampleCell.swift */,
 				5208636B1B64268000F740C7 /* ExamplesListViewController.swift */,
-				5208636C1B64268000F740C7 /* Images.xcassets */,
 				5208636D1B64268000F740C7 /* MemoryWarningSampleViewController.swift */,
 				5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */,
-				AD695CE21B46CD65004E998D /* Supporting Files */,
 				520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */,
 				520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */,
 				520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */,
 				528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */,
 				522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */,
 				523BBF881BC07C410040DA1B /* JSONCacheSampleViewController.swift */,
+				5235BAD41BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift */,
 			);
 			path = Sample;
 			sourceTree = SOURCE_ROOT;
@@ -1462,6 +1474,7 @@
 				52CF0AC31B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
 				526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */,
 				AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */,
+				5207E6AD1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */,
 				52C0F62E1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift in Sources */,
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
 				52615CD41BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
@@ -1521,6 +1534,7 @@
 				C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */,
 				5274A9CD1BC06976006962E8 /* BasicFetcherTests.swift in Sources */,
 				52E197021BBC6B27004BF6C5 /* PostProcessTests.swift in Sources */,
+				5235BAD71BE175BE0049CFA6 /* NSUserDefaultsCacheLevelTests.swift in Sources */,
 				5250E3841BB137BF00EB7388 /* NormalizationTests.swift in Sources */,
 				523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */,
 			);
@@ -1559,6 +1573,7 @@
 				52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */,
 				52CF0ABA1B9203B30061022D /* ConcurrentOperation.swift in Sources */,
 				52615CD61BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
+				5207E6AF1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */,
 				5274A9A21BC0613C006962E8 /* BasicFetcher.swift in Sources */,
 				5207E69B1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */,
 				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
@@ -1598,6 +1613,7 @@
 				52CFD5591BE009A600468730 /* GCD.swift in Sources */,
 				52C319801BC0459F00893D19 /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52C319811BC0459F00893D19 /* BasicCache.swift in Sources */,
+				5207E6B01BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */,
 				52C319941BC0459F00893D19 /* RequestCapperCache.swift in Sources */,
 				52C319821BC0459F00893D19 /* Result.swift in Sources */,
 				52C319A31BC0459F00893D19 /* ComposedTwoWayTransformer.swift in Sources */,
@@ -1646,6 +1662,7 @@
 				52CFD5571BE009A600468730 /* GCD.swift in Sources */,
 				5257BBB51BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 				AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */,
+				5207E6AE1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */,
 				AD64D95E1B8DE62400C783D3 /* SwitchCache.swift in Sources */,
 				AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */,
 				AD64D9581B8DE62400C783D3 /* RequestCapperCache.swift in Sources */,
@@ -1692,6 +1709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				520863731B64268000F740C7 /* ExampleCell.swift in Sources */,
+				5235BAD51BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift in Sources */,
 				520863701B64268000F740C7 /* BaseCacheViewController.swift in Sources */,
 				520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */,
 				528FAD481B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift in Sources */,

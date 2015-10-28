@@ -2,8 +2,10 @@ import Foundation
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
 public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
-  /// At the moment the disk cache level only accepts String keys
+  /// At the moment the disk cache level only accepts keys that can be converted to string values
   public typealias KeyType = K
+  
+  /// The output type of the cache, should conform to NSCoding
   public typealias OutputType = T
   
   private let path: String
@@ -86,7 +88,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
         
         Logger.log("Failed fetching \(key.toString()) on the disk cache")
         GCD.main {
-          request.fail(FetchError.ValueNotInCache)
+          request.fail(FetchError.InvalidCachedData)
         }
       }
     }

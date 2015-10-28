@@ -42,7 +42,7 @@
 
 `Carlos` is a small set of classes, functions and convenience operators to **realize custom, flexible and powerful cache layers** in your application.
 
-By default, **`Carlos` ships with an in-memory cache, a disk cache and a simple network fetcher** (disk cache and network fetcher are inspired by [HanekeSwift](https://github.com/Haneke/HanekeSwift)). 
+By default, **`Carlos` ships with an in-memory cache, a disk cache, a simple network fetcher and a `NSUserDefaults` cache** (the disk cache is inspired by [HanekeSwift](https://github.com/Haneke/HanekeSwift)). 
 
 With `Carlos` you can:
 
@@ -125,7 +125,9 @@ let cache = MemoryCacheLevel<String, NSData>() >>> DiskCacheLevel()
 
 This line will generate a cache that takes `String` keys and returns `NSData` values.
 Setting a value for a given key on this cache will set it for both the levels.
-Getting a value for a given key on this cache will first try getting it on the memory level, and if it cannot find one, will ask the disk level. In case both levels don't have a value, the request will fail.
+Getting a value for a given key on this cache will first try getting it on the memory level, and if it cannot find one, will ask the disk level. 
+In case both levels don't have a value, the request will fail.
+In case the disk level can fetch a value, this will also be set on the memory level so that the next fetch will be faster.
 
 `Carlos` comes with a `CacheProvider` class so that standard caches are easily accessible. Starting from version `0.2.0`, `CacheProvider` has 2 static functions:
 
@@ -633,18 +635,27 @@ let cache = pooled(memoryLevel >>> diskLevel >>> fetcherLevel)
 
 `Carlos` comes with 3 cache levels out of the box:
 
-- MemoryCacheLevel
-- DiskCacheLevel
-- NetworkFetcher
+- `MemoryCacheLevel`
+- `DiskCacheLevel`
+- `NetworkFetcher`
+- Since the `0.5` release, a `NSUserDefaultsCacheLevel`
 
 **MemoryCacheLevel** is a volatile cache that internally stores its values in an `NSCache` instance. The capacity can be specified through the initializer, and it supports clearing under memory pressure (if the level is [subscribed to memory warning notifications](#listening-to-memory-warnings)). 
-It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `ExpensiveObject` protocol. `NSData`, `String`, `NSString` `UIImage`, `NSURL` already conform to the latter protocol out of the box, while `String`, `NSString` and `NSURL` conform to the `StringConvertible` protocol.
+It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `ExpensiveObject` protocol. `NSData`, `String`, `NSString` `UIImage`, `NSURL` already conform to the latter protocol out of the box, while `String`, `NSString` and `NSURL` conform to the `StringConvertible` protocol. 
+This cache level is thread-safe.
 
 **DiskCacheLevel** is a persistent cache that asynchronously stores its values on disk. The capacity can be specified through the initializer, so that the disk size will never get too big.
 It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `NSCoding` protocol.
+This cache level is thread-safe.
 
 **NetworkFetcher** is a cache level that asynchronously fetches values over the network. 
 It accepts `NSURL` keys and returns `NSData` values.
+This cache level is thread-safe.
+
+**NSUserDefaultsCacheLevel** is a persistent cache that stores its values on a `NSUserDefaults` persistent domain with a specific name.
+It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `NSCoding` protocol.
+It has an internal soft cache used to avoid hitting the persistent storage too often, and can be cleared without affecting other values saved on the `standardUserDefaults` or on other persistent domains.
+This cache level is thread-safe.
 
 ## Tests
 

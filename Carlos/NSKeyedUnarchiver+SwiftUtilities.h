@@ -19,4 +19,13 @@
  */
 + (id) su_unarchiveObjectWithFilePath:(NSString *)filePath;
 
+/**
+ Safely unarchives an object from an NSData instance through NSKeyedUnarchiver
+ 
+ :param: data The data containing the object to unarchive
+ 
+ :returns: The unarchived object if the unarchive operation was successful, or nil if the unarchiver threw an exception
+ */
++ (id) su_unarchiveObjectWithData:(NSData *)data;
+
 @end

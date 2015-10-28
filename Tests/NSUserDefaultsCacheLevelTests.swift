@@ -3,13 +3,22 @@ import Quick
 import Nimble
 import Carlos
 
-class MemoryCacheLevelTests: QuickSpec {
+class NSUserDefaultsCacheLevelTests: QuickSpec {
   override func spec() {
-    describe("Memory cache level") {
-      var cache: MemoryCacheLevel<String, NSString>!
+    describe("User defaults cache level") {
+      var cache: NSUserDefaultsCacheLevel<String, NSString>!
+      var secondCache: NSUserDefaultsCacheLevel<String, NSString>!
+      var standardCache: NSUserDefaults!
       
       beforeEach {
-        cache = MemoryCacheLevel(capacity: 100)
+        standardCache = NSUserDefaults.standardUserDefaults()
+        cache = NSUserDefaultsCacheLevel(name: "tests")
+        secondCache = NSUserDefaultsCacheLevel(name: "fallback")
+      }
+      
+      afterSuite {
+        cache.clear()
+        secondCache.clear()
       }
       
       context("when calling get") {
@@ -64,6 +73,8 @@ class MemoryCacheLevelTests: QuickSpec {
         
         beforeEach {
           cache.set(value, forKey: key)
+          secondCache.set(value, forKey: key)
+          standardCache.setObject(value, forKey: key)
         }
         
         context("when calling get") {
@@ -102,33 +113,9 @@ class MemoryCacheLevelTests: QuickSpec {
           }
         }
         
-        context("when setting more than its capacity") {
-          let otherKeys = ["key1", "key2", "key3"]
-          let otherValues = [
-            "long string value",
-            "even longer string value but should still fit the cache",
-            "longest string value that should fill the cache capacity and force it to evict some values"
-          ]
-          
-          beforeEach {
-            for (key, value) in zip(otherKeys, otherValues) {
-              cache.set(value, forKey: key)
-            }
-          }
-          
-          it("should evict at least one value") {
-            var evictedAtLeastOne = false
-            
-            for key in otherKeys {
-              cache.get(key).onFailure({ _ in evictedAtLeastOne = true })
-            }
-            
-            expect(evictedAtLeastOne).to(beTrue())
-          }
-        }
-        
         context("when calling clear") {
           beforeEach {
+            failureSentinel = nil
             result = nil
             
             cache.clear()
@@ -147,6 +134,38 @@ class MemoryCacheLevelTests: QuickSpec {
               expect(result).to(beNil())
             }
           }
+          
+          context("when calling get on the other cache") {
+            beforeEach {
+              secondCache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+            }
+            
+            it("should not fail") {
+              expect(failureSentinel).to(beNil())
+            }
+            
+            it("should succeed") {
+              expect(result).notTo(beNil())
+            }
+            
+            it("should return the right value") {
+              expect(result).to(equal(value))
+            }
+          }
+          
+          context("when calling get on the standard user defaults") {
+            beforeEach {
+              result = standardCache.objectForKey(key) as? String
+            }
+            
+            it("should succeed") {
+              expect(result).notTo(beNil())
+            }
+            
+            it("should return the right value") {
+              expect(result).to(equal(value))
+            }
+          }
         }
         
         context("when calling onMemoryWarning") {
@@ -162,13 +181,49 @@ class MemoryCacheLevelTests: QuickSpec {
                 cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
               }
               
-              it("should fail") {
-                expect(failureSentinel).to(beTrue())
+              it("should not fail") {
+                expect(failureSentinel).to(beNil())
               }
               
-              it("should not succeed") {
-                expect(result).to(beNil())
+              it("should succeed") {
+                expect(result).notTo(beNil())
               }
+              
+              it("should return the right value") {
+                expect(result).to(equal(value))
+              }
+            }
+          }
+          
+          context("when calling get on the other cache") {
+            beforeEach {
+              secondCache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+            }
+            
+            it("should not fail") {
+              expect(failureSentinel).to(beNil())
+            }
+            
+            it("should succeed") {
+              expect(result).notTo(beNil())
+            }
+            
+            it("should return the right value") {
+              expect(result).to(equal(value))
+            }
+          }
+          
+          context("when calling get on the standard user defaults") {
+            beforeEach {
+              result = standardCache.objectForKey(key) as? String
+            }
+            
+            it("should succeed") {
+              expect(result).notTo(beNil())
+            }
+            
+            it("should return the right value") {
+              expect(result).to(equal(value))
             }
           }
         }
