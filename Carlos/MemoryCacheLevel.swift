@@ -1,39 +1,5 @@
 import Foundation
 
-/// Abstracts objects that have a cost (useful for the MemoryCacheLevel)
-public protocol ExpensiveObject {
-  /// The cost of the object
-  var cost: Int { get }
-}
-
-extension NSData: ExpensiveObject {
-  /// The number of bytes of the data block
-  public var cost: Int {
-    return self.length
-  }
-}
-
-extension String: ExpensiveObject {
-  /// The number of characters of the string
-  public var cost: Int {
-    return self.characters.count
-  }
-}
-
-extension NSString: ExpensiveObject {
-  /// The number of characters of the NSString
-  public var cost: Int {
-    return self.length
-  }
-}
-
-extension NSURL: ExpensiveObject {
-  /// The size of the URL 
-  public var cost: Int {
-    return absoluteString.cost
-  }
-}
-
 /// This class is a memory cache level. It internally uses NSCache, and has a configurable total cost limit that defaults to 50 MB.
 public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: ExpensiveObject>: CacheLevel {
   /// At the moment the memory cache level only accepts String keys

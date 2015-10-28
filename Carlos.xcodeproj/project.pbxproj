@@ -11,6 +11,10 @@
 		5205729C1BB8716E0098DD09 /* StringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205729A1BB8716E0098DD09 /* StringTransformer.swift */; };
 		5205729D1BB8716E0098DD09 /* StringTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205729A1BB8716E0098DD09 /* StringTransformer.swift */; };
 		520572A91BB8752B0098DD09 /* StringTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520572A81BB8752B0098DD09 /* StringTransformerTests.swift */; };
+		5207E6991BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */; };
+		5207E69A1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */; };
+		5207E69B1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */; };
+		5207E69C1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */; };
 		5208636F1B64268000F740C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863661B64268000F740C7 /* AppDelegate.swift */; };
 		520863701B64268000F740C7 /* BaseCacheViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863671B64268000F740C7 /* BaseCacheViewController.swift */; };
 		520863711B64268000F740C7 /* ComplexCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863681B64268000F740C7 /* ComplexCacheSampleViewController.swift */; };
@@ -448,6 +452,7 @@
 		486EDE2D4AE6D589F5337C19 /* Pods_CarlosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5205729A1BB8716E0098DD09 /* StringTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformer.swift; sourceTree = "<group>"; };
 		520572A81BB8752B0098DD09 /* StringTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformerTests.swift; sourceTree = "<group>"; };
+		5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpensiveObject.swift; sourceTree = "<group>"; };
 		520863661B64268000F740C7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		520863671B64268000F740C7 /* BaseCacheViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCacheViewController.swift; sourceTree = "<group>"; };
 		520863681B64268000F740C7 /* ComplexCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplexCacheSampleViewController.swift; sourceTree = "<group>"; };
@@ -724,6 +729,7 @@
 				5274A99F1BC0613C006962E8 /* BasicFetcher.swift */,
 				52EC5F231BDA9F4C00097AC0 /* ReadWriteLock.swift */,
 				52CFD5551BE009A600468730 /* GCD.swift */,
+				5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -1467,6 +1473,7 @@
 				AD8557F81BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52635A5C1B4F0F6F00F187EE /* OneWayTransformer.swift in Sources */,
 				52635A561B4F0F6F00F187EE /* Errors.swift in Sources */,
+				5207E6991BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */,
 				52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */,
 				52635A551B4F0F6F00F187EE /* DiskCacheLevel.swift in Sources */,
 				52CF0AC61B9204C20061022D /* CacheProvider+iOS.swift in Sources */,
@@ -1553,6 +1560,7 @@
 				52CF0ABA1B9203B30061022D /* ConcurrentOperation.swift in Sources */,
 				52615CD61BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
 				5274A9A21BC0613C006962E8 /* BasicFetcher.swift in Sources */,
+				5207E69B1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */,
 				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
 				52CF0ABC1B9203B30061022D /* GenericOperation.swift in Sources */,
 				52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */,
@@ -1611,6 +1619,7 @@
 				52EC5F271BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */,
 				52C3198B1BC0459F00893D19 /* MemoryCacheLevel.swift in Sources */,
 				52C319831BC0459F00893D19 /* Carlos.swift in Sources */,
+				5207E69C1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */,
 				52C319A41BC0459F00893D19 /* FunctionComposition.swift in Sources */,
 				52C319981BC0459F00893D19 /* CacheProvider.swift in Sources */,
 				52C319961BC0459F00893D19 /* DeferredCacheRequestOperation.swift in Sources */,
@@ -1658,6 +1667,7 @@
 				52EC5F251BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */,
 				AD64D9551B8DE62400C783D3 /* Transformers.swift in Sources */,
 				AD64D9571B8DE62400C783D3 /* KeyTransformation.swift in Sources */,
+				5207E69A1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */,
 				52B7621D1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
 				5205729C1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
 				AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */,
