@@ -16,6 +16,7 @@
 - `JSONTransformer` now passes the right error when the transformations fail 
 - `CacheProvider.dataCache` now pools requests on the network **and** disk levels, so pooled requests don't result in multiple `set` calls on the disk level
 - It's now possible to `cancel` operations coming from a `NetworkFetcher`
+- `Int`, `Float`, `Double` and `Character` conform to `ExpensiveObject` now with a unit (`1`) cost
 
 
 ## 0.4
