@@ -24,8 +24,26 @@ internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> Re
 
 infix operator =>> { associativity left }
 
+/// An abstraction for an object that can perform an operation asynchronously
+public protocol AsyncComputation {
+  /// The input type of the computation
+  typealias Input
+  
+  /// The output type of the computation
+  typealias Output
+  
+  /**
+  Performs the asynchronous computation
+  
+  - parameter input: The input for the computation
+   
+  - returns: A Result that will contain the result of the computation or an error
+  */
+  func perform(input: Input) -> Result<Output>
+}
+
 /// An abstraction for a generic cache level
-public protocol CacheLevel {
+public protocol CacheLevel: AsyncComputation {
   /// A typealias for the key the cache level accepts
   typealias KeyType
   
@@ -58,6 +76,26 @@ public protocol CacheLevel {
   Notifies the cache level that a memory warning was thrown, and asks it to do its best to clean some memory
   */
   func onMemoryWarning()
+}
+
+// Cache levels are AsyncComputation by default!
+extension CacheLevel {
+  /// The input type of the asynchronous computation for a CacheLevel is the key type
+  public typealias Input = KeyType
+  
+  /// The output type of the asynchronous computation for a CacheLevel is the output type
+  public typealias Output = OutputType
+
+  /**
+  Performs a get request
+  
+  - parameter input: The key for the get request
+   
+  - returns: an object containing the result of the get request
+  */
+  public func perform(input: KeyType) -> Result<OutputType> {
+    return get(input)
+  }
 }
 
 /// An abstraction for a generic cache level that can only fetch values but not store them

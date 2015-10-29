@@ -88,7 +88,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
         
         Logger.log("Failed fetching \(key.toString()) on the disk cache")
         GCD.main {
-          request.fail(FetchError.InvalidCachedData)
+          request.fail(FetchError.ValueNotInCache)
         }
       }
     }

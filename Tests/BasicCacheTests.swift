@@ -45,6 +45,27 @@ class BasicCacheTests: QuickSpec {
         )
       }
       
+      context("when calling perform") {
+        let key = "key to test"
+        var request: Result<Int>!
+        
+        beforeEach {
+          request = cache.perform(key)
+        }
+        
+        it("should call the closure") {
+          expect(numberOfTimesCalledGet).to(equal(1))
+        }
+        
+        it("should pass the right key") {
+          expect(didGetKey).to(equal(key))
+        }
+        
+        it("should not modify the request") {
+          expect(request).to(beIdenticalTo(fakeRequest))
+        }
+      }
+      
       context("when calling get") {
         let key = "key to test"
         var request: Result<Int>!

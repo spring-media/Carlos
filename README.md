@@ -274,6 +274,18 @@ cache.get(image).onSuccess { value in
 }
 ```
 
+Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for key transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Result<Bool>`, having the chance to return a specific error for the failure of the transformation.
+
+```swift
+let transformer = OneWayTransformationBox<String, NSURL>(transform: { key in
+  Result(value: NSURL(string: key), error: MyError.StringIsNotURL)
+}).conditioned { key in
+  Result(value: key.rangeOfString("http") != nil)
+}
+
+let cache = transformer =>> CacheProvider.imageCache()
+```
+
 That's not all, though.
 
 What if our disk cache only stores `NSData`, but we want our memory cache to conveniently store `UIImage` instances instead? 
@@ -309,6 +321,18 @@ This means you can easily chain `Fetcher` (closures as well) that get a JSON fro
 
 As of `Carlos 0.5`, all transformers natively support asynchronous computation, so you can have expensive transformations in your custom transformers without blocking other operations. In fact, the `ImageTransformer` that comes out of the box processes image transformations on a background queue.
 
+As of `Carlos 0.5` you can also apply conditions to `TwoWayTransformers` used for value transformations. Just call the `conditioned` function on the transformer and pass your conditions (one for the forward transformation, one for the inverse transformation). The conditions can also be asynchronous and have to return a `Result<Bool>`, having the chance to return a specific error for the failure of the transformation.
+
+```swift
+let transformer = JSONTransformer().conditioned({ input in
+  Result(value: myCondition)
+}, inverseCondition: { input in
+  Result(value: myCondition)
+})
+
+let cache = CacheProvider.dataCache() =>> transformer
+```
+
 ### Post-processing output
 
 In some cases your cache level could return the right value, but in a sub-optimal format. For example, you would like to sanitize the output you're getting from the Cache as a whole, independently of the exact layer that returned it.
@@ -340,6 +364,18 @@ memoryCache.get("key").onSuccess { value in
 transformedCache.get("key").onSuccess { value in
   let x = value
 }
+```
+
+Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for post processing transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Result<Bool>`, having the chance to return a specific error for the failure of the transformation. Keep in mind that the condition will actually take the output of the cache as the input, not the key used to fetch this value! 
+
+```swift
+let processer = OneWayTransformationBox<NSData, NSData>(transform: { value in
+  Result(value: NSString(data: value, encoding: NSUTF8StringEncoding)?.uppercaseString.dataUsingEncoding(NSUTF8StringEncoding), error: MyError.DataCannotBeDecoded)
+}).conditioned { value in
+  Result(value: value.length < 1000)
+}
+
+let cache = CacheProvider.dataCache() ~>> processer
 ```
 
 ### Composing transformers
@@ -681,7 +717,7 @@ This cache level is thread-safe.
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are more than **1300 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are more than **1400 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 
