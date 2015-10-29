@@ -25,6 +25,7 @@
   - [Pooling requests](#pooling-requests)
   - [Limiting concurrent requests](#limiting-concurrent-requests)
   - [Conditioning caches](#conditioning-caches)
+  - [Dispatching with GCD](#dispatching-caches)
   - [Multiple cache lanes](#multiple-cache-lanes)
   - [Listening to memory warnings](#listening-to-memory-warnings)
   - [Normalizing cache levels](#normalization)
@@ -56,6 +57,7 @@ With `Carlos` you can:
 - easily [**pool requests**](#pooling-requests) so you don't have to care whether 5 requests with the same key have to be executed by an expensive cache level before even only 1 of them is done. `Carlos` can take care of that for you
 - setup [multiple lanes](#multiple-cache-lanes) for complex scenarios where, depending on certain keys or conditions, different caches should be used
 - [Cap the number of concurrent requests](#limiting-concurrent-requests) a cache should handle
+- [Dispatch](#dispatching-caches) all the operations of your cache on a specific GCD queue
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements 
 
 
@@ -445,6 +447,22 @@ let conditionedCache = { _ in
 ```
 
 At runtime, if the variable `appSettingIsEnabled` is `false`, the `get` request will skip the level (or fail if this was the only or last level in the cache). If `true`, the `get` request will be executed. 
+
+### Dispatching caches
+
+Since the `Carlos 0.5` release it's possible to dispatch all the operations of a given `CacheLevel` or fetch closure on a specific GCD queue through the `~>>` operator or the `dispatch` protocol extension.
+
+```swift
+let queue = dispatch_queue_create("com.vendor.customQueue", DISPATCH_QUEUE_CONCURRENT)
+
+let cache = CacheProvider.imageCache().dispatch(queue)
+
+[or]
+
+let cache = CacheProvider.imageCache() ~>> queue
+```
+
+The resulting `CacheLevel` will dispatch `get`, `set`, `onMemoryWarning` and `clear` operations on the specified queue.
 
 ### Multiple cache lanes
 

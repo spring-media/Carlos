@@ -12,7 +12,7 @@ enum IgnoreError: ErrorType {
   case Ignore
 }
 
-class CustomCacheLevel: CacheLevel {
+class CustomCacheLevel: Fetcher {
   typealias KeyType = Int
   typealias OutputType = String
   
@@ -28,18 +28,6 @@ class CustomCacheLevel: CacheLevel {
     }
     
     return request
-  }
-  
-  func set(value: OutputType, forKey key: KeyType) {
-    //Fake cache
-  }
-  
-  func clear() {
-    //Fake cache
-  }
-  
-  func onMemoryWarning() {
-    //Fake cache
   }
 }
 
@@ -69,7 +57,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     let stringToData = StringTransformer().invert()
     let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Result(value: $0.uppercaseString) })
     
-    cache = (modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> { (key: ModelDomain) in
+    cache = ((modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> { (key: ModelDomain) in
       let request = Result<NSData>()
       
       Logger.log("Fetched \(key.name) on the fetcher closure", .Info)
@@ -77,7 +65,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
       request.succeed("Last level was hit!".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
       
       return request
-    }
+    }).dispatch(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
   }
   
   override func fetchRequested() {

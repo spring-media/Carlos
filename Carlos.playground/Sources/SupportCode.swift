@@ -5,9 +5,9 @@
 import XCPlayground
 
 public func sharedSubfolder() -> String {
-  return "\(XCPSharedDataDirectoryPath)/com.carlos.cache"
+  return "\(XCPlaygroundSharedDataDirectoryURL)/com.carlos.cache"
 }
 
 public func initializePlayground() {
-  XCPSetExecutionShouldContinueIndefinitely(true)
+  XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
 }

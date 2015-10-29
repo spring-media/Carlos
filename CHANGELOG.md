@@ -13,6 +13,7 @@
 - `Result` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
 - `Result` now has a `mimic` function that takes another `Result<T>` and succeeds or fails when the given `Result` does so
 - A new `NSUserDefaultsCacheLevel` is now included in `Carlos`. You can use this `CacheLevel` to persist values on `NSUserDefaults`, and you can even use multiple instances of this level to persist sandboxed sets of values
+- It's now possible to dispatch a `CacheLevel` or a fetch closure on a given GCD queue. Use the `dispatch` protocol extension or the `~>>` operator and pass the  specific `dispatch_queue_t`. Global functions are not provided since we're moving towards a global-functions-free API for `Carlos 1.0`
 - `ImageTransformer` now applies its tranformations on a background queue
 - `JSONTransformer` now passes the right error when the transformations fail 
 - `CacheProvider.dataCache` now pools requests on the network **and** disk levels, so pooled requests don't result in multiple `set` calls on the disk level

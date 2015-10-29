@@ -41,7 +41,7 @@ extension CacheLevel {
               }
               .onFailure{ error in
                 request.fail(error)
-            }
+              }
         }
         
         return request

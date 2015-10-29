@@ -7,6 +7,8 @@ class CacheLevelFake<A, B>: CacheLevel {
   
   init() {}
   
+  var queueUsedForTheLastCall: UnsafeMutablePointer<Void>!
+  
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
   var cacheRequestToReturn: Result<OutputType>?
@@ -14,6 +16,8 @@ class CacheLevelFake<A, B>: CacheLevel {
     numberOfTimesCalledGet++
     
     didGetKey = key
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
     
     return cacheRequestToReturn ?? Result<OutputType>()
   }
@@ -26,22 +30,30 @@ class CacheLevelFake<A, B>: CacheLevel {
     
     didSetKey = key
     didSetValue = value
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
   }
   
   var numberOfTimesCalledClear = 0
   func clear() {
     numberOfTimesCalledClear++
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
   }
   
   var numberOfTimesCalledOnMemoryWarning = 0
   func onMemoryWarning() {
     numberOfTimesCalledOnMemoryWarning++
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
   }
 }
 
 class FetcherFake<A, B>: Fetcher {
   typealias KeyType = A
   typealias OutputType = B
+  
+  var queueUsedForTheLastCall: UnsafeMutablePointer<Void>!
   
   init() {}
   
@@ -52,6 +64,8 @@ class FetcherFake<A, B>: Fetcher {
     numberOfTimesCalledGet++
     
     didGetKey = key
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
     
     return cacheRequestToReturn ?? Result<OutputType>()
   }

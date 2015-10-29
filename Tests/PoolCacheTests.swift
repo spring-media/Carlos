@@ -27,6 +27,10 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         var successValue: Int?
         
         beforeEach {
+          successSentinel = nil
+          failureSentinel = nil
+          successValue = nil
+          
           fakeRequest = Result<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           
