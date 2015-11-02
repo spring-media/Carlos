@@ -31,13 +31,13 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       }
       
       context("when calling get") {
-        var fakeRequest: Result<Int>!
-        var result: Result<Int>!
+        var fakeRequest: Promise<Int>!
+        var result: Promise<Int>!
         var successValue: Int?
         var errorValue: ErrorType?
         
         beforeEach {
-          fakeRequest = Result<Int>()
+          fakeRequest = Promise<Int>()
           cacheA.cacheRequestToReturn = fakeRequest
           cacheB.cacheRequestToReturn = fakeRequest
           

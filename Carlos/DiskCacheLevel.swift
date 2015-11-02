@@ -68,10 +68,10 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   
   - parameter key: The key for the value
   
-  - returns: A Result where you can call onSuccess and onFailure to be notified of the result of the fetch
+  - returns: A Promise where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
-  public func get(key: KeyType) -> Result<OutputType> {
-    let request = Result<OutputType>()
+  public func get(key: KeyType) -> Promise<OutputType> {
+    let request = Promise<OutputType>()
     
     cacheQueue.async { Void -> Void in
       let path = self.pathForKey(key)

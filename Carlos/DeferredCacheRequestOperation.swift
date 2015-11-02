@@ -11,16 +11,16 @@ A subclass of NSOperation that wraps a cache request and executes it at a later 
 public class DeferredResultOperation<C: CacheLevel>: GenericOperation {
   private let key: C.KeyType
   private let cache: C
-  private let decoy: Result<C.OutputType>
+  private let decoy: Promise<C.OutputType>
   
   /**
   Initializes a new instance of DeferredResultOperation
   
-  - parameter decoyRequest: The Result you want to notify when the deferred request will actually succeed or fail
+  - parameter decoyRequest: The Promise you want to notify when the deferred request will actually succeed or fail
   - parameter key: The key to use when calling the deferred get
   - parameter cache: The cache to call get on to
   */
-  public init(decoyRequest: Result<C.OutputType>, key: C.KeyType, cache: C) {
+  public init(decoyRequest: Promise<C.OutputType>, key: C.KeyType, cache: C) {
     self.decoy = decoyRequest
     self.key = key
     self.cache = cache

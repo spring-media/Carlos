@@ -29,7 +29,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
       }
       
       context("when calling get") {
-        var fakeRequest: Result<Int>!
+        var fakeRequest: Promise<Int>!
         let key = "key_test"
         var successSentinel: Bool?
         var failureSentinel: Bool?
@@ -40,7 +40,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
           failureSentinel = nil
           successValue = nil
           
-          fakeRequest = Result<Int>()
+          fakeRequest = Promise<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           
           cache.get(key).onSuccess({ value in

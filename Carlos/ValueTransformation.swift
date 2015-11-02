@@ -1,17 +1,17 @@
 import Foundation
 
-extension Result {
+extension Promise {
   
   /**
-  Mutates a Result from a type A to a type B through a OneWayTransformer
+  Mutates a Promise from a type A to a type B through a OneWayTransformer
 
-  - parameter origin: The original Result
+  - parameter origin: The original Promise
   - parameter transformer: The OneWayTransformer from A to B
 
-  - returns: A new Result<B>
+  - returns: A new Promise<B>
   */
-  internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> Result<A.TypeOut> {
-    let mutatedRequest = Result<A.TypeOut>()
+  internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> Promise<A.TypeOut> {
+    let mutatedRequest = Promise<A.TypeOut>()
     
     self
       .onFailure(mutatedRequest.fail)
@@ -23,14 +23,14 @@ extension Result {
   }
 
   /**
-  Mutates a Result from a type A to a type B through a OneWayTransformer
+  Mutates a Promise from a type A to a type B through a OneWayTransformer
 
-  - parameter origin: The original Result
+  - parameter origin: The original Promise
   - parameter transformerClosure: The transformation closure from A to B
 
-  - returns: A new Result<B>
+  - returns: A new Promise<B>
   */
-  internal func mutate<A>(transformerClosure: T -> Result<A>) -> Result<A> {
+  internal func mutate<A>(transformerClosure: T -> Promise<A>) -> Promise<A> {
     return self.mutate(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }

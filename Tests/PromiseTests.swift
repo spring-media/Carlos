@@ -11,13 +11,13 @@ private struct ResultSharedExamplesContext {
 class ResultSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
     sharedExamples("failure case") { (sharedExampleContext: SharedExampleContext) in
-      var request: Result<String>!
+      var request: Promise<String>!
       var successSentinels: [String?]!
       var failureSentinels: [ErrorType?]!
       var cancelSentinels: [Bool?]!
       
       beforeEach {
-        request = sharedExampleContext()[ResultSharedExamplesContext.Result] as? Result<String>
+        request = sharedExampleContext()[ResultSharedExamplesContext.Result] as? Promise<String>
         
         cancelSentinels = [nil, nil, nil]
         successSentinels = [nil, nil, nil]
@@ -101,14 +101,14 @@ class ResultSharedExamplesConfiguration: QuickConfiguration {
     }
     
     sharedExamples("success case") { (sharedExampleContext: SharedExampleContext) in
-      var request: Result<String>!
+      var request: Promise<String>!
       var value: String!
       var successSentinels: [String?]!
       var failureSentinels: [ErrorType?]!
       var cancelSentinels: [Bool?]!
       
       beforeEach {
-        request = sharedExampleContext()[ResultSharedExamplesContext.Result] as? Result<String>
+        request = sharedExampleContext()[ResultSharedExamplesContext.Result] as? Promise<String>
         value = sharedExampleContext()[ResultSharedExamplesContext.Value] as? String
         
         successSentinels = [nil, nil, nil]
@@ -186,10 +186,10 @@ class ResultSharedExamplesConfiguration: QuickConfiguration {
   }
 }
 
-class ResultTests: QuickSpec {
+class PromiseTests: QuickSpec {
   override func spec() {
-    describe("Result") {
-      var request: Result<String>!
+    describe("Promise") {
+      var request: Promise<String>!
       let sentinelsCount = 3
       var successSentinels: [String?]!
       var failureSentinels: [ErrorType?]!
@@ -208,7 +208,7 @@ class ResultTests: QuickSpec {
       }
       
       context("when mimicing another result") {
-        var mimiced: Result<String>!
+        var mimiced: Promise<String>!
         var successValue: String!
         var errorValue: ErrorType!
         var canceled: Bool!
@@ -218,8 +218,8 @@ class ResultTests: QuickSpec {
           errorValue = nil
           canceled = false
           
-          mimiced = Result<String>()
-          request = Result<String>()
+          mimiced = Promise<String>()
+          request = Promise<String>()
             .onSuccess({ successValue = $0 })
             .onFailure({ errorValue = $0 })
             .onCancel({ canceled = true })
@@ -359,10 +359,10 @@ class ResultTests: QuickSpec {
         }
         
         context("when mimicing two results at the same time") {
-          var mimiced2: Result<String>!
+          var mimiced2: Promise<String>!
           
           beforeEach {
-            mimiced2 = Result<String>()
+            mimiced2 = Promise<String>()
             request.mimic(mimiced2)
           }
           
@@ -428,7 +428,7 @@ class ResultTests: QuickSpec {
       
       context("when initialized with the designated initializer") {
         beforeEach {
-          request = Result<String>()
+          request = Promise<String>()
           
           resetSentinels()
         
@@ -950,7 +950,7 @@ class ResultTests: QuickSpec {
         let value = "this is a sync success value"
         
         beforeEach {
-          request = Result(value: value)
+          request = Promise(value: value)
         }
         
         itBehavesLike("success case") {
@@ -964,7 +964,7 @@ class ResultTests: QuickSpec {
       context("when initialized with an optional value and an error") {
         context("when the optional value is nil") {
           beforeEach {
-            request = Result(value: nil, error: TestError.SimpleError)
+            request = Promise(value: nil, error: TestError.SimpleError)
           }
         
           itBehavesLike("failure case") {
@@ -978,7 +978,7 @@ class ResultTests: QuickSpec {
           let value = "this is a sync success value"
       
           beforeEach {
-            request = Result(value: value, error: TestError.SimpleError)
+            request = Promise(value: value, error: TestError.SimpleError)
           }
           
           itBehavesLike("success case") {
@@ -994,7 +994,7 @@ class ResultTests: QuickSpec {
         let error = TestError.SimpleError
         
         beforeEach {
-          request = Result<String>(error: error)
+          request = Promise<String>(error: error)
         }
       
         itBehavesLike("failure case") {

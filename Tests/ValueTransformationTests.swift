@@ -26,10 +26,10 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
         let key = "12"
         var successValue: String?
         var failureValue: ErrorType?
-        var fakeRequest: Result<Int>!
+        var fakeRequest: Promise<Int>!
         
         beforeEach {
-          fakeRequest = Result<Int>()
+          fakeRequest = Promise<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           
           cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -167,8 +167,8 @@ class ValueTransformationTests: QuickSpec {
     var cache: BasicCache<String, String>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: TwoWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: Int -> Result<String> = {
-      let result = Result<String>()
+    let forwardTransformationClosure: Int -> Promise<String> = {
+      let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {
@@ -176,8 +176,8 @@ class ValueTransformationTests: QuickSpec {
       }
       return result
     }
-    let inverseTransformationClosure: String -> Result<Int> = {
-      return Result(value: Int($0), error: TestError.AnotherError)
+    let inverseTransformationClosure: String -> Promise<Int> = {
+      return Promise(value: Int($0), error: TestError.AnotherError)
     }
     
     describe("Value transformation using a transformer and a cache, with the global function") {

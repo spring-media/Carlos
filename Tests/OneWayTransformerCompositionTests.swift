@@ -69,9 +69,9 @@ class OneWayTransformerCompositionTests: QuickSpec {
     var composedTransformer: OneWayTransformationBox<String, Int>!
     
     beforeEach {
-      transformer1 = OneWayTransformationBox(transform: { Result(value: Float($0), error: TestError.SimpleError) })
+      transformer1 = OneWayTransformationBox(transform: { Promise(value: Float($0), error: TestError.SimpleError) })
       transformer2 = OneWayTransformationBox(transform: {
-        let result = Result<Int>()
+        let result = Promise<Int>()
         
         if $0 < 0 {
           result.fail(TestError.SimpleError)

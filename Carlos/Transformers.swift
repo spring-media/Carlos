@@ -14,12 +14,12 @@ extension NSDateFormatter: TwoWayTransformer {
   public typealias TypeIn = NSDate
   public typealias TypeOut = String
   
-  public func transform(val: TypeIn) -> Result<TypeOut> {
-    return Result(value: stringFromDate(val))
+  public func transform(val: TypeIn) -> Promise<TypeOut> {
+    return Promise(value: stringFromDate(val))
   }
   
-  public func inverseTransform(val: TypeOut) -> Result<TypeIn> {
-    return Result(value: dateFromString(val), error: Error.InvalidInputString)
+  public func inverseTransform(val: TypeOut) -> Promise<TypeIn> {
+    return Promise(value: dateFromString(val), error: Error.InvalidInputString)
   }
 }
 
@@ -37,12 +37,12 @@ extension NSNumberFormatter: TwoWayTransformer {
   public typealias TypeIn = NSNumber
   public typealias TypeOut = String
   
-  public func transform(val: TypeIn) -> Result<TypeOut> {
-    return Result(value: stringFromNumber(val), error: Error.CannotConvertToString)
+  public func transform(val: TypeIn) -> Promise<TypeOut> {
+    return Promise(value: stringFromNumber(val), error: Error.CannotConvertToString)
   }
   
-  public func inverseTransform(val: TypeOut) -> Result<TypeIn> {
-    return Result(value: numberFromString(val), error: Error.InvalidString)
+  public func inverseTransform(val: TypeOut) -> Promise<TypeIn> {
+    return Promise(value: numberFromString(val), error: Error.InvalidString)
   }
 }
 
@@ -55,11 +55,11 @@ extension MKDistanceFormatter: TwoWayTransformer {
   public typealias TypeIn = CLLocationDistance
   public typealias TypeOut = String
   
-  public func transform(val: TypeIn) -> Result<TypeOut> {
-    return Result(value: stringFromDistance(val))
+  public func transform(val: TypeIn) -> Promise<TypeOut> {
+    return Promise(value: stringFromDistance(val))
   }
   
-  public func inverseTransform(val: TypeOut) -> Result<TypeIn> {
-    return Result(value: distanceFromString(val))
+  public func inverseTransform(val: TypeOut) -> Promise<TypeIn> {
+    return Promise(value: distanceFromString(val))
   }
 }

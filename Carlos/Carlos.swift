@@ -5,7 +5,7 @@ internal struct CarlosGlobals {
   static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] 
 }
 
-internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> Result<B>) -> BasicCache<A, B> {
+internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> Promise<B>) -> BasicCache<A, B> {
   return BasicCache(
     getClosure: closure,
     setClosure: { (_, _) in },
@@ -14,11 +14,11 @@ internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> Result<B>) ->
   )
 }
 
-internal func wrapClosureIntoFetcher<A, B>(closure: (key: A) -> Result<B>) -> BasicFetcher<A, B> {
+internal func wrapClosureIntoFetcher<A, B>(closure: (key: A) -> Promise<B>) -> BasicFetcher<A, B> {
   return BasicFetcher(getClosure: closure)
 }
 
-internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> Result<B>) -> OneWayTransformationBox<A, B> {
+internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> Promise<B>) -> OneWayTransformationBox<A, B> {
   return OneWayTransformationBox(transform: transformerClosure)
 }
 
@@ -37,9 +37,9 @@ public protocol AsyncComputation {
   
   - parameter input: The input for the computation
    
-  - returns: A Result that will contain the result of the computation or an error
+  - returns: A Promise that will contain the result of the computation or an error
   */
-  func perform(input: Input) -> Result<Output>
+  func perform(input: Input) -> Promise<Output>
 }
 
 /// An abstraction for a generic cache level
@@ -55,9 +55,9 @@ public protocol CacheLevel: AsyncComputation {
   
   - parameter key: The key of the value you would like to get
   
-  - returns: a Result that you can attach success and failure closures to
+  - returns: a Promise that you can attach success and failure closures to
   */
-  func get(key: KeyType) -> Result<OutputType>
+  func get(key: KeyType) -> Promise<OutputType>
   
   /**
   Tries to set a value on the cache level
@@ -93,7 +93,7 @@ extension CacheLevel {
    
   - returns: an object containing the result of the get request
   */
-  public func perform(input: KeyType) -> Result<OutputType> {
+  public func perform(input: KeyType) -> Promise<OutputType> {
     return get(input)
   }
 }

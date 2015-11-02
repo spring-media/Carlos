@@ -45,14 +45,14 @@ internal struct GCD: GCDQueue {
 /// An async dispatch operation
 internal class AsyncDispatch<T> {
   /// The inner async operation
-  var operation: Result<T>
+  var operation: Promise<T>
   
-  init(operation: Result<T>) {
+  init(operation: Promise<T>) {
     self.operation = operation
   }
   
   private func dispatchClosureAsync<O>(closure: T -> O, queue: GCDQueue) -> AsyncDispatch<O> {
-    let innerResult = Result<O>()
+    let innerResult = Promise<O>()
     let result = AsyncDispatch<O>(operation: innerResult)
     
     operation.onSuccess { value in
@@ -103,7 +103,7 @@ extension GCDQueue {
   - returns: An AsyncDispatch object. You can keep chaining async calls on this object
   */
   internal func async<T>(closure: Void -> T) -> AsyncDispatch<T> {
-    let innerResult = Result<T>()
+    let innerResult = Promise<T>()
     let result = AsyncDispatch<T>(operation: innerResult)
     
     dispatch_async(queue) {

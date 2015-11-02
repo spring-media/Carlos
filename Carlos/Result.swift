@@ -1,7 +1,7 @@
 import Foundation
 
 /// This class wraps a cache request future, where you can attach failure and success callbacks.
-public class Result<T> {
+public class Promise<T> {
   private var failureListeners: [(ErrorType) -> Void] = []
   private var successListeners: [(T) -> Void] = []
   private var cancelListeners: [Void -> Void] = []
@@ -10,13 +10,13 @@ public class Result<T> {
   private var canceled = false
   
   /**
-  Creates a new Result
+  Creates a new Promise
   */
   public init() {
   }
   
   /**
-  Initializes a new Result and makes it immediately succeed with the given value
+  Initializes a new Promise and makes it immediately succeed with the given value
   
   - parameter value: The success value of the request
   */
@@ -27,7 +27,7 @@ public class Result<T> {
   }
   
   /**
-  Initializes a new Result and makes it immediately succeed or fail depending on the value
+  Initializes a new Promise and makes it immediately succeed or fail depending on the value
    
   - parameter value: The success value of the request, if not .None
   - parameter error: The error of the request, if value is .None
@@ -43,7 +43,7 @@ public class Result<T> {
   }
   
   /**
-  Initializes a new Result and makes it immediately fail with the given error
+  Initializes a new Promise and makes it immediately fail with the given error
   
   - parameter error: The error of the request
   */
@@ -54,14 +54,14 @@ public class Result<T> {
   }
   
   /**
-  Mimics the given Result, so that it fails or succeeds when the stamps does so (in addition to its pre-existing behavior)
+  Mimics the given Promise, so that it fails or succeeds when the stamps does so (in addition to its pre-existing behavior)
   Moreover, if the mimiced request is canceled, the request will also cancel itself
    
-  - parameter stamp: The Result to mimic
+  - parameter stamp: The Promise to mimic
    
-  - returns: The Result itself
+  - returns: The Promise itself
   */
-  public func mimic(stamp: Result<T>) -> Result<T> {
+  public func mimic(stamp: Promise<T>) -> Promise<T> {
     stamp
       .onSuccess(self.succeed)
       .onFailure(self.fail)
@@ -132,7 +132,7 @@ public class Result<T> {
    
   - returns: The updated request
   */
-  public func onCancel(callback: Void -> Void) -> Result<T> {
+  public func onCancel(callback: Void -> Void) -> Promise<T> {
     if canceled {
       callback()
     } else {
@@ -149,7 +149,7 @@ public class Result<T> {
   
   - returns: The updated request
   */
-  public func onSuccess(callback: (T) -> Void) -> Result<T> {
+  public func onSuccess(callback: (T) -> Void) -> Promise<T> {
     if let value = value {
       callback(value)
     } else {
@@ -166,7 +166,7 @@ public class Result<T> {
   
   - returns: The updated request
   */
-  public func onFailure(callback: (ErrorType) -> Void) -> Result<T> {
+  public func onFailure(callback: (ErrorType) -> Void) -> Promise<T> {
     if let error = error {
       callback(error)
     } else {
@@ -183,7 +183,7 @@ public class Result<T> {
   
   - returns: The updated request
   */
-  public func onCompletion(completion: (value: T?, error: ErrorType?) -> Void) -> Result<T> {
+  public func onCompletion(completion: (value: T?, error: ErrorType?) -> Void) -> Promise<T> {
     if let error = error {
       completion(value: nil, error: error)
     } else if let value = value {

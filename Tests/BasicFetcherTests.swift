@@ -9,11 +9,11 @@ class BasicFetcherTests: QuickSpec {
       var fetcher: BasicFetcher<String, Int>!
       var numberOfTimesCalledGet = 0
       var didGetKey: String?
-      var fakeRequest: Result<Int>!
+      var fakeRequest: Promise<Int>!
       
       beforeEach {
         numberOfTimesCalledGet = 0
-        fakeRequest = Result<Int>()
+        fakeRequest = Promise<Int>()
         
         fetcher = BasicFetcher<String, Int>(
           getClosure: { key in
@@ -27,7 +27,7 @@ class BasicFetcherTests: QuickSpec {
       
       context("when calling perform") {
         let key = "key to test"
-        var request: Result<Int>!
+        var request: Promise<Int>!
         
         beforeEach {
           request = fetcher.perform(key)
@@ -48,7 +48,7 @@ class BasicFetcherTests: QuickSpec {
       
       context("when calling get") {
         let key = "key to test"
-        var request: Result<Int>!
+        var request: Promise<Int>!
         
         beforeEach {
           request = fetcher.get(key)

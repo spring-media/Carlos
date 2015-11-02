@@ -7,9 +7,9 @@ public protocol TwoWayTransformer: OneWayTransformer {
   
   - parameter val: The value to inverse transform
   
-  - returns: A Result that will contain the original value, or fail if the transformation failed
+  - returns: A Promise that will contain the original value, or fail if the transformation failed
   */
-  func inverseTransform(val: TypeOut) -> Result<TypeIn>
+  func inverseTransform(val: TypeOut) -> Promise<TypeIn>
 }
 
 extension TwoWayTransformer {
@@ -35,8 +35,8 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  private let transformClosure: I -> Result<O>
-  private let inverseTransformClosure: O -> Result<I>
+  private let transformClosure: I -> Promise<O>
+  private let inverseTransformClosure: O -> Promise<I>
   
   /**
   Initializes a new instance of a 2-way transformation box
@@ -44,7 +44,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   - parameter transform: The transformation closure to convert a value of type TypeIn to a value of type TypeOut
   - parameter inverseTransform: The transformation closure to convert a value of type TypeOut to a value of type TypeIn
   */
-  public init(transform: (I -> Result<O>), inverseTransform: (O -> Result<I>)) {
+  public init(transform: (I -> Promise<O>), inverseTransform: (O -> Promise<I>)) {
     self.transformClosure = transform
     self.inverseTransformClosure = inverseTransform
   }
@@ -54,9 +54,9 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   - parameter val: The value to convert
   
-  - returns: A Result that will contain the converted value, or fail if the transformation fails
+  - returns: A Promise that will contain the converted value, or fail if the transformation fails
   */
-  public func transform(val: I) -> Result<O> {
+  public func transform(val: I) -> Promise<O> {
     return transformClosure(val)
   }
   
@@ -65,9 +65,9 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   - parameter val: The value to convert
   
-  - returns: A Result that will contain the converted value, or fail if the inverse transformation fails
+  - returns: A Promise that will contain the converted value, or fail if the inverse transformation fails
   */
-  public func inverseTransform(val: O) -> Result<I> {
+  public func inverseTransform(val: O) -> Promise<I> {
     return inverseTransformClosure(val)
   }
 }

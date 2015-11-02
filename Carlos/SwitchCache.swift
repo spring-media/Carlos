@@ -18,7 +18,7 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
 */
-public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: A, cacheB: (key: B) -> Result<C>, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
+public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: A, cacheB: (key: B) -> Promise<C>, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
   return switchLevels(cacheA, cacheB: wrapClosureIntoFetcher(cacheB), switchClosure: switchClosure)
 }
 
@@ -32,7 +32,7 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
 */
-public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: (key: B) -> Result<C>, cacheB: A, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
+public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: (key: B) -> Promise<C>, cacheB: A, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
   return switchLevels(wrapClosureIntoFetcher(cacheA), cacheB: cacheB, switchClosure: switchClosure)
 }
 
@@ -46,7 +46,7 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
 */
-public func switchLevels<A, B>(cacheA: (key: A) -> Result<B>, cacheB: (key: A) -> Result<B>, switchClosure: (key: A) -> CacheLevelSwitchResult) -> BasicCache<A, B> {
+public func switchLevels<A, B>(cacheA: (key: A) -> Promise<B>, cacheB: (key: A) -> Promise<B>, switchClosure: (key: A) -> CacheLevelSwitchResult) -> BasicCache<A, B> {
   return switchLevels(wrapClosureIntoFetcher(cacheA), cacheB: wrapClosureIntoFetcher(cacheB), switchClosure: switchClosure)
 }
 

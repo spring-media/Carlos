@@ -24,8 +24,8 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     
     let JSONFetcher: BasicFetcher<NSURL, AnyObject> = NetworkFetcher() =>> JSONTransformer()
-    let cache = JSONFetcher =>> { (JSONResult: AnyObject) -> Result<BitcoinResult> in
-      let result = Result<BitcoinResult>()
+    let cache = JSONFetcher =>> { (JSONResult: AnyObject) -> Promise<BitcoinResult> in
+      let result = Promise<BitcoinResult>()
       
       if let JSON = JSONResult as? [String: AnyObject],
         let BTCDict = JSON["BTC"] as? [String: AnyObject],

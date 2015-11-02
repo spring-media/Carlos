@@ -11,15 +11,15 @@ class CacheLevelFake<A, B>: CacheLevel {
   
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
-  var cacheRequestToReturn: Result<OutputType>?
-  func get(key: KeyType) -> Result<OutputType> {
+  var cacheRequestToReturn: Promise<OutputType>?
+  func get(key: KeyType) -> Promise<OutputType> {
     numberOfTimesCalledGet++
     
     didGetKey = key
     
     queueUsedForTheLastCall = currentQueueSpecific()
     
-    return cacheRequestToReturn ?? Result<OutputType>()
+    return cacheRequestToReturn ?? Promise<OutputType>()
   }
   
   var numberOfTimesCalledSet = 0
@@ -59,14 +59,14 @@ class FetcherFake<A, B>: Fetcher {
   
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
-  var cacheRequestToReturn: Result<OutputType>?
-  func get(key: KeyType) -> Result<OutputType> {
+  var cacheRequestToReturn: Promise<OutputType>?
+  func get(key: KeyType) -> Promise<OutputType> {
     numberOfTimesCalledGet++
     
     didGetKey = key
     
     queueUsedForTheLastCall = currentQueueSpecific()
     
-    return cacheRequestToReturn ?? Result<OutputType>()
+    return cacheRequestToReturn ?? Promise<OutputType>()
   }
 }

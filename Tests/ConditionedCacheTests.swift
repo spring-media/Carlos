@@ -21,14 +21,14 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let value = 221
-        var fakeRequest: Result<Int>!
+        var fakeRequest: Promise<Int>!
         var successSentinel: Bool?
         var successValue: Int?
         var failureSentinel: Bool?
         var failureValue: ErrorType?
         
         beforeEach {
-          fakeRequest = Result<Int>()
+          fakeRequest = Promise<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
         }
         
@@ -187,9 +187,9 @@ class ConditionedCacheTests: QuickSpec {
         internalCache = CacheLevelFake<String, Int>()
         cache = internalCache.conditioned { key in
           if key.characters.count >= 5 {
-            return Result(value: true)
+            return Promise(value: true)
           } else {
-            return Result(error: ConditionError.MyError)
+            return Promise(error: ConditionError.MyError)
           }
         }
       }
@@ -207,9 +207,9 @@ class ConditionedCacheTests: QuickSpec {
         internalCache = CacheLevelFake<String, Int>()
         cache = conditioned(internalCache, condition: { key in
           if key.characters.count >= 5 {
-            return Result(value: true)
+            return Promise(value: true)
           } else {
-            return Result(error: ConditionError.MyError)
+            return Promise(error: ConditionError.MyError)
           }
         })
       }
@@ -227,9 +227,9 @@ class ConditionedCacheTests: QuickSpec {
         internalCache = CacheLevelFake<String, Int>()
         cache = { key in
           if key.characters.count >= 5 {
-            return Result(value: true)
+            return Promise(value: true)
           } else {
-            return Result(error: ConditionError.MyError)
+            return Promise(error: ConditionError.MyError)
           }
         } <?> internalCache
       }
@@ -247,9 +247,9 @@ class ConditionedCacheTests: QuickSpec {
         internalCache = CacheLevelFake<String, Int>()
         cache = conditioned(internalCache.get, condition: { key in
           if key.characters.count >= 5 {
-            return Result(value: true)
+            return Promise(value: true)
           } else {
-            return Result(error: ConditionError.MyError)
+            return Promise(error: ConditionError.MyError)
           }
         })
       }
@@ -267,9 +267,9 @@ class ConditionedCacheTests: QuickSpec {
         internalCache = CacheLevelFake<String, Int>()
         cache = { key in
           if key.characters.count >= 5 {
-            return Result(value: true)
+            return Promise(value: true)
           } else {
-            return Result(error: ConditionError.MyError)
+            return Promise(error: ConditionError.MyError)
           }
         } <?> internalCache.get
       }

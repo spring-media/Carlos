@@ -25,8 +25,8 @@ public class ImageTransformer: TwoWayTransformer {
   
   - returns: A UIImage object if the input was valid, .None otherwise
   */
-  public func transform(val: TypeIn) -> Result<TypeOut> {
-    let result = Result<TypeOut>()
+  public func transform(val: TypeIn) -> Promise<TypeOut> {
+    let result = Promise<TypeOut>()
     
     GCD.background {
       UIImage(data: val)
@@ -48,8 +48,8 @@ public class ImageTransformer: TwoWayTransformer {
   
   - returns: An NSData instance obtained with UIImagePNGRepresentation if the input was valid, .None otherwise
   */
-  public func inverseTransform(val: TypeOut) -> Result<TypeIn> {
-    let result = Result<TypeIn>()
+  public func inverseTransform(val: TypeOut) -> Promise<TypeIn> {
+    let result = Promise<TypeIn>()
     
     GCD.background {
       /* This is a waste of bytes, we should probably use a lower-level framework */

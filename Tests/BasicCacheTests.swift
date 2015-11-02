@@ -14,7 +14,7 @@ class BasicCacheTests: QuickSpec {
       var didSetKey: String?
       var didSetValue: Int?
       var didGetKey: String?
-      var fakeRequest: Result<Int>!
+      var fakeRequest: Promise<Int>!
       
       beforeEach {
         numberOfTimesCalledClear = 0
@@ -22,7 +22,7 @@ class BasicCacheTests: QuickSpec {
         numberOfTimesCalledOnMemoryWarning = 0
         numberOfTimesCalledSet = 0
         
-        fakeRequest = Result<Int>()
+        fakeRequest = Promise<Int>()
         
         cache = BasicCache<String, Int>(
           getClosure: { key in
@@ -47,7 +47,7 @@ class BasicCacheTests: QuickSpec {
       
       context("when calling perform") {
         let key = "key to test"
-        var request: Result<Int>!
+        var request: Promise<Int>!
         
         beforeEach {
           request = cache.perform(key)
@@ -68,7 +68,7 @@ class BasicCacheTests: QuickSpec {
       
       context("when calling get") {
         let key = "key to test"
-        var request: Result<Int>!
+        var request: Promise<Int>!
         
         beforeEach {
           request = cache.get(key)

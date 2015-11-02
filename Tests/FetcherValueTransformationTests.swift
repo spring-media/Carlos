@@ -26,10 +26,10 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
         let key = "12"
         var successValue: String?
         var failureValue: ErrorType?
-        var fakeRequest: Result<Int>!
+        var fakeRequest: Promise<Int>!
         
         beforeEach {
-          fakeRequest = Result<Int>()
+          fakeRequest = Promise<Int>()
           internalFetcher.cacheRequestToReturn = fakeRequest
           
           fetcher.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -109,8 +109,8 @@ class FetcherValueTransformationTests: QuickSpec {
     var fetcher: BasicFetcher<String, String>!
     var internalFetcher: FetcherFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: Int -> Result<String> = {
-      let result = Result<String>()
+    let forwardTransformationClosure: Int -> Promise<String> = {
+      let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {

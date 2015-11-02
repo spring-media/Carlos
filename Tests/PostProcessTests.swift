@@ -26,10 +26,10 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
         let key = "12"
         var successValue: Int?
         var failureValue: ErrorType?
-        var fakeRequest: Result<Int>!
+        var fakeRequest: Promise<Int>!
         
         beforeEach {
-          fakeRequest = Result<Int>()
+          fakeRequest = Promise<Int>()
           internalCache.cacheRequestToReturn = fakeRequest
           successValue = nil
           failureValue = nil
@@ -163,8 +163,8 @@ class PostProcessTests: QuickSpec {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, Int>!
-    let transformationClosure: Int -> Result<Int> = {
-      let result = Result<Int>()
+    let transformationClosure: Int -> Promise<Int> = {
+      let result = Promise<Int>()
       if $0 > 0 {
         result.succeed($0 + 1)
       } else {

@@ -40,8 +40,8 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    cache = { key -> Result<Bool> in
-      let result = Result<Bool>()
+    cache = { key -> Promise<Bool> in
+      let result = Promise<Bool>()
       
       if self.globalKillSwitch {
         result.fail(ConditionError.GlobalKillSwitch)

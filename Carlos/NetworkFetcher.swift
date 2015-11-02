@@ -31,8 +31,8 @@ public class NetworkFetcher: Fetcher {
     return responseIsValid
   }
   
-  private func startRequest(URL: NSURL) -> Result<NSData> {
-    let result = Result<NSData>()
+  private func startRequest(URL: NSURL) -> Promise<NSData> {
+    let result = Promise<NSData>()
     
     let task = NSURLSession.sharedSession().dataTaskWithURL(URL) { [weak self] (data, response, error) in
       guard let strongSelf = self else { return }
@@ -73,15 +73,15 @@ public class NetworkFetcher: Fetcher {
     return result
   }
 
-  private var pendingRequests: [Result<OutputType>] = []
+  private var pendingRequests: [Promise<OutputType>] = []
 
-  private func addPendingRequest(request: Result<OutputType>) {
+  private func addPendingRequest(request: Promise<OutputType>) {
     lock.withWriteLock {
       self.pendingRequests.append(request)
     }
   }
 
-  private func removePendingRequests(request: Result<OutputType>) {
+  private func removePendingRequests(request: Promise<OutputType>) {
     if let idx = lock.withReadLock({ self.pendingRequests.indexOf({ $0 === request }) }) {
       lock.withWriteLock {
         self.pendingRequests.removeAtIndex(idx)
@@ -99,9 +99,9 @@ public class NetworkFetcher: Fetcher {
   
   - parameter key: The key for the value. It represents the URL to fetch the value
   
-  - returns: A Result that you can use to get the asynchronous results of the network fetch
+  - returns: A Promise that you can use to get the asynchronous results of the network fetch
   */
-  public func get(key: KeyType) -> Result<OutputType> {
+  public func get(key: KeyType) -> Promise<OutputType> {
     let result = startRequest(key)
       
     result

@@ -74,8 +74,8 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
    
   A soft-cache is used to avoid hitting the persistent domain everytime. This operation is thread-safe
   */
-  public func get(key: KeyType) -> Result<OutputType> {
-    let result = Result<OutputType>()
+  public func get(key: KeyType) -> Promise<OutputType> {
+    let result = Promise<OutputType>()
     
     if let cachedValue = lock.withReadLock({ safeInternalDomain[key.toString()] }) {
       if let unencodedObject = NSKeyedUnarchiver.su_unarchiveObjectWithData(cachedValue) as? T {

@@ -12,7 +12,7 @@ class DeferredResultOperationTests: QuickSpec {
   override func spec() {
     describe("DeferredResultOperation") {
       var operation: DeferredResultOperation<CacheLevelFake<Int, String>>!
-      var decoy: Result<String>!
+      var decoy: Promise<String>!
       var key: Int!
       var internalCache: CacheLevelFake<Int, String>!
       var successSentinel: Bool?
@@ -23,7 +23,7 @@ class DeferredResultOperationTests: QuickSpec {
         successSentinel = nil
         failureSentinel = nil
         
-        decoy = Result<String>()
+        decoy = Promise<String>()
         
         decoy.onSuccess({ value in
           successSentinel = true
@@ -58,10 +58,10 @@ class DeferredResultOperationTests: QuickSpec {
       
       context("when the operation is added to a queue") {
         var queue: NSOperationQueue!
-        var requestToReturn: Result<String>!
+        var requestToReturn: Promise<String>!
         
         beforeEach {
-          requestToReturn = Result<String>()
+          requestToReturn = Promise<String>()
           internalCache.cacheRequestToReturn = requestToReturn
           
           queue = NSOperationQueue()

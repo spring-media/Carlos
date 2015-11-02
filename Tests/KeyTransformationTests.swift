@@ -27,10 +27,10 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           let key = 12
           var successValue: Int?
           var failureValue: ErrorType?
-          var fakeRequest: Result<Int>!
+          var fakeRequest: Promise<Int>!
           
           beforeEach {
-            fakeRequest = Result<Int>()
+            fakeRequest = Promise<Int>()
             internalCache.cacheRequestToReturn = fakeRequest
             
             cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -75,10 +75,10 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           let key = -12
           var successValue: Int?
           var failureValue: ErrorType?
-          var fakeRequest: Result<Int>!
+          var fakeRequest: Promise<Int>!
           
           beforeEach {
-            fakeRequest = Result<Int>()
+            fakeRequest = Promise<Int>()
             internalCache.cacheRequestToReturn = fakeRequest
             
             cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
@@ -188,8 +188,8 @@ class KeyTransformationTests: QuickSpec {
     var cache: BasicCache<Int, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let transformationClosure: Int -> Result<String> = {
-      let result = Result<String>()
+    let transformationClosure: Int -> Promise<String> = {
+      let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {

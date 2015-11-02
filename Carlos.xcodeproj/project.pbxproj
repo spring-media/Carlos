@@ -70,7 +70,7 @@
 		52615CE21BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */; };
 		526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339741B52435C00074CB9 /* KeyTransformation.swift */; };
 		526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339761B52450C00074CB9 /* ConditionedCacheTests.swift */; };
-		526339791B524B3400074CB9 /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339781B524B3400074CB9 /* ResultTests.swift */; };
+		526339791B524B3400074CB9 /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339781B524B3400074CB9 /* PromiseTests.swift */; };
 		5263397B1B52536700074CB9 /* KeyTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397A1B52536700074CB9 /* KeyTransformationTests.swift */; };
 		5263397D1B525D1600074CB9 /* MemoryCacheLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */; };
 		5263397F1B52760F00074CB9 /* ValueTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */; };
@@ -509,7 +509,7 @@
 		52615CE11BBC87F4001DA9BE /* OneWayTransformerCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformerCompositionTests.swift; sourceTree = "<group>"; };
 		526339741B52435C00074CB9 /* KeyTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformation.swift; sourceTree = "<group>"; };
 		526339761B52450C00074CB9 /* ConditionedCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedCacheTests.swift; sourceTree = "<group>"; };
-		526339781B524B3400074CB9 /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
+		526339781B524B3400074CB9 /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
 		5263397A1B52536700074CB9 /* KeyTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformationTests.swift; sourceTree = "<group>"; };
 		5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryCacheLevelTests.swift; sourceTree = "<group>"; };
 		5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformationTests.swift; sourceTree = "<group>"; };
@@ -774,7 +774,7 @@
 				C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */,
 				52BBFD571B51BAD20000084A /* PoolCacheTests.swift */,
 				526339761B52450C00074CB9 /* ConditionedCacheTests.swift */,
-				526339781B524B3400074CB9 /* ResultTests.swift */,
+				526339781B524B3400074CB9 /* PromiseTests.swift */,
 				5263397A1B52536700074CB9 /* KeyTransformationTests.swift */,
 				5263397C1B525D1600074CB9 /* MemoryCacheLevelTests.swift */,
 				5263397E1B52760F00074CB9 /* ValueTransformationTests.swift */,
@@ -1543,7 +1543,7 @@
 				526078251BE2590E0022040B /* ConditionedTransformersTests.swift in Sources */,
 				526339851B52A82800074CB9 /* CompositionTests.swift in Sources */,
 				52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */,
-				526339791B524B3400074CB9 /* ResultTests.swift in Sources */,
+				526339791B524B3400074CB9 /* PromiseTests.swift in Sources */,
 				526339771B52450C00074CB9 /* ConditionedCacheTests.swift in Sources */,
 				52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */,
 				C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */,

@@ -5,14 +5,14 @@ public final class BasicFetcher<A, B>: Fetcher {
   public typealias KeyType = A
   public typealias OutputType = B
   
-  private let getClosure: (key: A) -> Result<B>
+  private let getClosure: (key: A) -> Promise<B>
   
   /**
    Initializes a new instance of a BasicFetcher specifying a get closure, thus determining the behavior of the fetcher as a whole
    
    - parameter getClosure: The closure to execute when you call get(key) on this instance
    */
-  public init(getClosure: (key: A) -> Result<B>) {
+  public init(getClosure: (key: A) -> Promise<B>) {
     self.getClosure = getClosure
   }
   
@@ -23,7 +23,7 @@ public final class BasicFetcher<A, B>: Fetcher {
    
    - returns: The result of the getClosure specified when initializing the instance
    */
-  public func get(key: KeyType) -> Result<OutputType> {
+  public func get(key: KeyType) -> Promise<OutputType> {
     return getClosure(key: key)
   }
 }

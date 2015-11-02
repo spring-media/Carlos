@@ -17,7 +17,7 @@ extension CacheLevel {
     
     return BasicCache(
       getClosure: { key in
-        let result = Result<OutputType>()
+        let result = Promise<OutputType>()
         
         gcd.async {
           result.mimic(self.get(key))
@@ -60,6 +60,6 @@ Dispatches all the operations of a given fetch closure on the given GCD queue
  
 - returns: A new CacheLevel that dispatches the fetch closure on the given GCD queue
 */
-public func ~>><A, B>(lhs: A -> Result<B>, rhs: dispatch_queue_t) -> BasicCache<A, B> {
+public func ~>><A, B>(lhs: A -> Promise<B>, rhs: dispatch_queue_t) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(lhs).dispatch(rhs)
 }

@@ -184,9 +184,9 @@ class TwoWayTransformationBoxTests: QuickSpec {
         box = TwoWayTransformationBox<NSURL, String>(transform: {
           let possible = $0.scheme == "http"
           
-          return Result(value: possible ? $0.absoluteString : nil, error: TestError.AnotherError)
+          return Promise(value: possible ? $0.absoluteString : nil, error: TestError.AnotherError)
         }, inverseTransform: {
-          Result(value: NSURL(string: $0), error: TestError.AnotherError)
+          Promise(value: NSURL(string: $0), error: TestError.AnotherError)
         })
       }
       

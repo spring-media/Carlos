@@ -221,21 +221,21 @@ class ConditionedTransformersTests: QuickSpec {
   override func spec() {
     describe("Conditioned one way transformers") {
       var transformer: OneWayTransformationBox<String, Int>!
-      let condition: (String) -> Result<Bool> = { input in
+      let condition: (String) -> Promise<Bool> = { input in
         if input.rangeOfString("fail") != nil {
           if input.rangeOfString("custom") != nil {
-            return Result(error: ConditionError.CustomError)
+            return Promise(error: ConditionError.CustomError)
           } else {
-            return Result(value: false)
+            return Promise(value: false)
           }
         } else {
-          return Result(value: true)
+          return Promise(value: true)
         }
       }
       
       beforeEach {
         transformer = OneWayTransformationBox<String, Int>(transform: {
-          Result(value: Int($0), error: TransformerError.TransformationError)
+          Promise(value: Int($0), error: TransformerError.TransformationError)
         }).conditioned(condition)
       }
       
@@ -248,34 +248,34 @@ class ConditionedTransformersTests: QuickSpec {
     
     describe("Conditioned two way transformers") {
       var transformer: TwoWayTransformationBox<String, Int>!
-      let condition: (String) -> Result<Bool> = { input in
+      let condition: (String) -> Promise<Bool> = { input in
         if input.rangeOfString("fail") != nil {
           if input.rangeOfString("custom") != nil {
-            return Result(error: ConditionError.CustomError)
+            return Promise(error: ConditionError.CustomError)
           } else {
-            return Result(value: false)
+            return Promise(value: false)
           }
         } else {
-          return Result(value: true)
+          return Promise(value: true)
         }
       }
-      let inverseCondition: (Int) -> Result<Bool> = { input in
+      let inverseCondition: (Int) -> Promise<Bool> = { input in
         if input >= 0 {
           if input == 0 {
-            return Result(error: ConditionError.CustomError)
+            return Promise(error: ConditionError.CustomError)
           } else {
-            return Result(value: true)
+            return Promise(value: true)
           }
         } else {
-          return Result(value: false)
+          return Promise(value: false)
         }
       }
       
       beforeEach {
         transformer = TwoWayTransformationBox<String, Int>(transform: {
-          Result(value: Int($0), error: TransformerError.TransformationError)
+          Promise(value: Int($0), error: TransformerError.TransformationError)
         }, inverseTransform: {
-          Result(value: "\($0)")
+          Promise(value: "\($0)")
         }).conditioned(condition, inverseCondition: inverseCondition)
       }
       

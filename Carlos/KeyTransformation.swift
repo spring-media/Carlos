@@ -14,7 +14,7 @@ extension CacheLevel {
   public func transformKeys<A: OneWayTransformer where KeyType == A.TypeOut>(transformer: A) -> BasicCache<A.TypeIn, OutputType> {
     return BasicCache(
       getClosure: { key in
-        let result = Result<OutputType>()
+        let result = Promise<OutputType>()
         
         transformer.transform(key)
           .onSuccess { transformedKey in
@@ -44,7 +44,7 @@ extension CacheLevel {
   
   - returns: A new cache level result of the transformation of the original cache level
   */
-  public func transformKeys<A>(transformerClosure: A -> Result<KeyType>) -> BasicCache<A, OutputType> {
+  public func transformKeys<A>(transformerClosure: A -> Promise<KeyType>) -> BasicCache<A, OutputType> {
     return self.transformKeys(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }
@@ -60,7 +60,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 - returns: A new cache level result of the transformation of the original cache level
 */
 @available(*, deprecated=0.5)
-public func transformKeys<A, B: OneWayTransformer>(transformer: B, fetchClosure: (key: B.TypeOut) -> Result<A>) -> BasicCache<B.TypeIn, A> {
+public func transformKeys<A, B: OneWayTransformer>(transformer: B, fetchClosure: (key: B.TypeOut) -> Promise<A>) -> BasicCache<B.TypeIn, A> {
   return wrapClosureIntoFetcher(fetchClosure).transformKeys(transformer)
 }
 
@@ -75,7 +75,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 - returns: A new cache level result of the transformation of the original cache level
 */
 @available(*, deprecated=0.5)
-public func transformKeys<A, B, C>(transformerClosure: C -> Result<A>, fetchClosure: (key: A) -> Result<B>) -> BasicCache<C, B> {
+public func transformKeys<A, B, C>(transformerClosure: C -> Promise<A>, fetchClosure: (key: A) -> Promise<B>) -> BasicCache<C, B> {
   return wrapClosureIntoFetcher(fetchClosure).transformKeys(transformerClosure)
 }
 
@@ -105,7 +105,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 - returns: A new cache level result of the transformation of the original cache level
 */
 @available(*, deprecated=0.5)
-public func transformKeys<A: CacheLevel, B>(transformerClosure: B -> Result<A.KeyType>, cache: A) -> BasicCache<B, A.OutputType> {
+public func transformKeys<A: CacheLevel, B>(transformerClosure: B -> Promise<A.KeyType>, cache: A) -> BasicCache<B, A.OutputType> {
   return cache.transformKeys(transformerClosure)
 }
 
@@ -119,7 +119,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 
 - returns: A new cache level result of the transformation of the original cache level
 */
-public func =>><A, B: OneWayTransformer>(transformer: B, fetchClosure: (key: B.TypeOut) -> Result<A>) -> BasicCache<B.TypeIn, A> {
+public func =>><A, B: OneWayTransformer>(transformer: B, fetchClosure: (key: B.TypeOut) -> Promise<A>) -> BasicCache<B.TypeIn, A> {
   return wrapClosureIntoFetcher(fetchClosure).transformKeys(transformer)
 }
 
@@ -133,7 +133,7 @@ Use this transformation when you use a domain specific key or a wrapper key that
 
 - returns: A new cache level result of the transformation of the original cache level
 */
-public func =>><A, B, C>(transformerClosure: C -> Result<A>, fetchClosure: (key: A) -> Result<B>) -> BasicCache<C, B> {
+public func =>><A, B, C>(transformerClosure: C -> Promise<A>, fetchClosure: (key: A) -> Promise<B>) -> BasicCache<C, B> {
   return wrapClosureIntoFetcher(fetchClosure).transformKeys(transformerClosure)
 }
 
@@ -161,6 +161,6 @@ Use this transformation when you use a domain specific key or a wrapper key that
 
 - returns: A new cache level result of the transformation of the original cache level
 */
-public func =>><A: CacheLevel, B>(transformerClosure: B -> Result<A.KeyType>, cache: A) -> BasicCache<B, A.OutputType> {
+public func =>><A: CacheLevel, B>(transformerClosure: B -> Promise<A.KeyType>, cache: A) -> BasicCache<B, A.OutputType> {
   return cache.transformKeys(transformerClosure)
 }
