@@ -224,7 +224,7 @@ enum URLTransformationError: ErrorType {
     case InvalidURLString
 }
 
-let transformedCache = { Result(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString) } =>> NetworkFetcher()
+let transformedCache = { Promise(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString) } =>> NetworkFetcher()
 ``` 
 
 With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into a previously defined cache level that takes `String` keys:
@@ -236,7 +236,7 @@ let cache = MemoryCacheLevel<String, NSData>() >>> transformedCache
 or 
 
 ```swift
-let cache = MemoryCacheLevel<String, NSData>() >>> ({ Result(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString) } =>> NetworkFetcher())
+let cache = MemoryCacheLevel<String, NSData>() >>> ({ Promise(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString) } =>> NetworkFetcher())
 ```
 
 If this doesn't look very safe (one could always pass string garbage as a key and it won't magically translate to a `NSURL`, thus causing the `NetworkFetcher` to silently fail), we can still use a domain specific structure as a key, assuming it contains both `String` and `NSURL` values:
@@ -247,12 +247,12 @@ struct Image {
   let URL: NSURL
 }
 
-let imageToString = OneWayTransformationBox(transform: { (image: Image) -> Result<String> in
-    Result(value: image.identifier)
+let imageToString = OneWayTransformationBox(transform: { (image: Image) -> Promise<String> in
+    Promise(value: image.identifier)
 })
     
-let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> Result<NSURL> in
-    Result(value: image.URL)
+let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> Promise<NSURL> in
+    Promise(value: image.URL)
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, NSData>()
@@ -274,13 +274,13 @@ cache.get(image).onSuccess { value in
 }
 ```
 
-Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for key transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Result<Bool>`, having the chance to return a specific error for the failure of the transformation.
+Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for key transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Promise<Bool>`, having the chance to return a specific error for the failure of the transformation.
 
 ```swift
 let transformer = OneWayTransformationBox<String, NSURL>(transform: { key in
-  Result(value: NSURL(string: key), error: MyError.StringIsNotURL)
+  Promise(value: NSURL(string: key), error: MyError.StringIsNotURL)
 }).conditioned { key in
-  Result(value: key.rangeOfString("http") != nil)
+  Promise(value: key.rangeOfString("http") != nil)
 }
 
 let cache = transformer =>> CacheProvider.imageCache()
@@ -295,10 +295,10 @@ What if our disk cache only stores `NSData`, but we want our memory cache to con
 Value transformers let you have a cache that (let's say) stores `NSData` and mutate it to a cache that stores `UIImage` values. Let's see how:
 
 ```swift
-let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> Result<NSData> in
-    Result(value: UIImagePNGRepresentation(image))
-}, inverseTransform: { (data: NSData) -> Result<UIImage> in
-    Result(value: UIImage(data: data)!)
+let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> Promise<NSData> in
+    Promise(value: UIImagePNGRepresentation(image))
+}, inverseTransform: { (data: NSData) -> Promise<UIImage> in
+    Promise(value: UIImage(data: data)!)
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, UIImage>() =>> dataTransformer
@@ -321,13 +321,13 @@ This means you can easily chain `Fetcher` (closures as well) that get a JSON fro
 
 As of `Carlos 0.5`, all transformers natively support asynchronous computation, so you can have expensive transformations in your custom transformers without blocking other operations. In fact, the `ImageTransformer` that comes out of the box processes image transformations on a background queue.
 
-As of `Carlos 0.5` you can also apply conditions to `TwoWayTransformers` used for value transformations. Just call the `conditioned` function on the transformer and pass your conditions (one for the forward transformation, one for the inverse transformation). The conditions can also be asynchronous and have to return a `Result<Bool>`, having the chance to return a specific error for the failure of the transformation.
+As of `Carlos 0.5` you can also apply conditions to `TwoWayTransformers` used for value transformations. Just call the `conditioned` function on the transformer and pass your conditions (one for the forward transformation, one for the inverse transformation). The conditions can also be asynchronous and have to return a `Promise<Bool>`, having the chance to return a specific error for the failure of the transformation.
 
 ```swift
 let transformer = JSONTransformer().conditioned({ input in
-  Result(value: myCondition)
+  Promise(value: myCondition)
 }, inverseCondition: { input in
-  Result(value: myCondition)
+  Promise(value: myCondition)
 })
 
 let cache = CacheProvider.dataCache() =>> transformer
@@ -344,7 +344,7 @@ The `postProcess` function takes a `CacheLevel` (or a fetch closure) and a `OneW
 
 ```swift
 // Let's create a simple "to uppercase" transformer
-let transformer = OneWayTransformationBox<NSString, NSString>(transform: { Result(value: $0.uppercaseString) }) 
+let transformer = OneWayTransformationBox<NSString, NSString>(transform: { Promise(value: $0.uppercaseString) }) 
 
 // Our memory cache
 let memoryCache = MemoryCacheLevel<String, NSString>()
@@ -366,13 +366,13 @@ transformedCache.get("key").onSuccess { value in
 }
 ```
 
-Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for post processing transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Result<Bool>`, having the chance to return a specific error for the failure of the transformation. Keep in mind that the condition will actually take the output of the cache as the input, not the key used to fetch this value! 
+Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for post processing transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Promise<Bool>`, having the chance to return a specific error for the failure of the transformation. Keep in mind that the condition will actually take the output of the cache as the input, not the key used to fetch this value! 
 
 ```swift
 let processer = OneWayTransformationBox<NSData, NSData>(transform: { value in
-  Result(value: NSString(data: value, encoding: NSUTF8StringEncoding)?.uppercaseString.dataUsingEncoding(NSUTF8StringEncoding), error: MyError.DataCannotBeDecoded)
+  Promise(value: NSString(data: value, encoding: NSUTF8StringEncoding)?.uppercaseString.dataUsingEncoding(NSUTF8StringEncoding), error: MyError.DataCannotBeDecoded)
 }).conditioned { value in
-  Result(value: value.length < 1000)
+  Promise(value: value.length < 1000)
 }
 
 let cache = CacheProvider.dataCache() ~>> processer
@@ -460,7 +460,7 @@ Sometimes we may have levels that should only be queried under some conditions. 
 
 ```swift
 let conditionedCache = conditioned(cache) { key in
-  Result(value: appSettingIsEnabled)
+  Promise(value: appSettingIsEnabled)
 }
 ```
 
@@ -468,17 +468,17 @@ or, with protocol extensions:
 
 ```swift
 let conditionedCache = cache.conditioned { key in
-  Result(value: appSettingIsEnabled)
+  Promise(value: appSettingIsEnabled)
 }
 ```
 
-The closure gets the key the cache was asked to fetch and has to return a `Result<Bool>` object indicating whether the request can proceed or should skip the level, with the possibility to fail with a specific `ErrorType` to communicate the error to the caller.
+The closure gets the key the cache was asked to fetch and has to return a `Promise<Bool>` object indicating whether the request can proceed or should skip the level, with the possibility to fail with a specific `ErrorType` to communicate the error to the caller.
 
 The same effect can be obtained through the `<?>` operator:
 
 ```swift
 let conditionedCache = { _ in
-  Result(value: appSettingIsEnabled)
+  Promise(value: appSettingIsEnabled)
 } <?> cache
 ```
 
@@ -576,8 +576,8 @@ class MyLevel: CacheLevel {
   typealias KeyType = Int
   typealias OutputType = Float
   
-  func get(key: KeyType) -> Result<OutputType> {
-    let request = Result<OutputType>()
+  func get(key: KeyType) -> Promise<OutputType> {
+    let request = Promise<OutputType>()
     
     // Perform the fetch and either succeed or fail
     [...]
@@ -607,7 +607,7 @@ First thing we need is to declare what key types we accept and what output types
 
 The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarning`.
 
-`get` has to return a `Result`, we can create one in the beginning of the method body and return it. Then we inform the listeners by calling `succeed` or `fail` on it depending on the outcome of the fetch. These calls can (and most of the times will) be asynchronous.
+`get` has to return a `Promise`, we can create one in the beginning of the method body and return it. Then we inform the listeners by calling `succeed` or `fail` on it depending on the outcome of the fetch. These calls can (and most of the times will) be asynchronous.
 
 `set` has to store the given value for the given key.
 
@@ -617,13 +617,13 @@ The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarn
 
 This sample cache can now be pipelined to a list of other caches, transforming its keys or values if needed as we saw in the earlier paragraphs.
 
-You can create a `Result` in several ways:
+You can create a `Promise` in several ways:
 - as shown in the snippet above, that is by instantiating one and calling `succeed` or `fail` depending on the result of the operation;
 - by directly returning the result of the initialization, passing either a value, an error, or both (if the value is optional):
 
 ```swift
 //#1
-let result: Result<String>()
+let result: Promise<String>()
 
 [...]
 
@@ -636,13 +636,13 @@ result.fail(Error.InvalidData)
 
 ```swift
 //#2
-return Result<String>(value: "success")
+return Promise<String>(value: "success")
 
 //#3
-return Result<String>(error: Error.InvalidData)
+return Promise<String>(error: Error.InvalidData)
 
 //#4
-return Result<String>(value: optionalString, error: Error.InvalidData)
+return Promise<String>(value: optionalString, error: Error.InvalidData)
 ```
 
 ### Creating custom fetchers
@@ -656,8 +656,8 @@ class CustomFetcher: Fetcher {
   typealias KeyType = String
   typealias OutputType = String
   
-  func get(key: KeyType) -> Result<OutputType> {
-    return Result(value: "Found an hardcoded value :)")
+  func get(key: KeyType) -> Promise<OutputType> {
+    return Promise(value: "Found an hardcoded value :)")
   }
 }
 ```
@@ -669,8 +669,8 @@ You still need to declare what `KeyType` and `OutputType` your `CacheLevel` deal
 Sometimes we could have simple fetchers that don't need `set`, `clear` and `onMemoryWarning` implementations because they don't store anything. In this case we can pipeline fetch closures instead of full-blown caches.
 
 ```swift
-let fetcherLevel = { (image: Image) -> Result<NSData> in
-    let request = Result<NSData>()
+let fetcherLevel = { (image: Image) -> Promise<NSData> in
+    let request = Promise<NSData>()
       
     request.succeed(NSData(contentsOfURL: image.URL)!)
       

@@ -3,21 +3,21 @@
 ## 0.5
 
 **New features**
-- `Result` can now be canceled. Call `cancel()` to cancel a `Result`. Be notified of a canceled operation with the `onCancel` function. Use `onCancel` to setup the cancel behavior of your custom operation. Remember that an operation can only be canceled once, and can only be *executing*, *canceled*, *failed* or *succeeded* at any given time.
+- `Promise` can now be canceled. Call `cancel()` to cancel a `Promise`. Be notified of a canceled operation with the `onCancel` function. Use `onCancel` to setup the cancel behavior of your custom operation. Remember that an operation can only be canceled once, and can only be *executing*, *canceled*, *failed* or *succeeded* at any given time.
 - It's now possible to apply a condition to a `OneWayTransformer`. You can call `conditioned` on the instance of `OneWayTransformer` to decorate and pass the condition on the input. This means you can effectively implement conditioned key transformations on `CacheLevel`s. Moreover, you can implement conditioned post processing transformations as well. For this, though, keep in mind that the input of the `OneWayTransformer` will be the output of the cache, not the key.
 - It's now possible to apply a condition to a `TwoWayTransformer`. You can call `conditioned` on the instance of `TwoWayTransformer` to decorate and pass two conditions: the one to apply for the forward transformation and the one to apply for the inverse transformation, that will take of course different input types. This means you can effectively implement conditioned value transformations on `CacheLevel`s. 
 - A new `NSUserDefaultsCacheLevel` is now included in `Carlos`. You can use this `CacheLevel` to persist values on `NSUserDefaults`, and you can even use multiple instances of this level to persist sandboxed sets of values
 - It's now possible to dispatch a `CacheLevel` or a fetch closure on a given GCD queue. Use the `dispatch` protocol extension or the `~>>` operator and pass the  specific `dispatch_queue_t`. Global functions are not provided since we're moving towards a global-functions-free API for `Carlos 1.0`
 
 **Major changes**
-- **API Breaking**: `CacheRequest` is now renamed to `Result`
-- **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now asynchronous, i.e. they return a `Result<T>` instead of a `T` directly
-- **API Breaking**: all the `conditioned` variants now take an asynchronous condition closure, i.e. the closure has to return a `Result<Bool>` instead of a `(Bool, ErrorType)` tuple
+- **API Breaking**: `CacheRequest` is now renamed to `Promise`
+- **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now asynchronous, i.e. they return a `Promise<T>` instead of a `T` directly
+- **API Breaking**: all the `conditioned` variants now take an asynchronous condition closure, i.e. the closure has to return a `Promise<Bool>` instead of a `(Bool, ErrorType)` tuple
 - All the global functions are now **deprecated**. They will be removed from the public API with the release of `Carlos 1.0`
 
 **Minor improvements**
-- `Result` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
-- `Result` now has a `mimic` function that takes another `Result<T>` and succeeds or fails when the given `Result` does so
+- `Promise` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
+- `Promise` now has a `mimic` function that takes another `Promise<T>` and succeeds or fails when the given `Promise` does so
 - `ImageTransformer` now applies its tranformations on a background queue
 - `JSONTransformer` now passes the right error when the transformations fail 
 - `CacheProvider.dataCache` now pools requests on the network **and** disk levels, so pooled requests don't result in multiple `set` calls on the disk level
