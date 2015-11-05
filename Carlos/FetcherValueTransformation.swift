@@ -28,7 +28,7 @@ extension Fetcher {
    
    - returns: A new fetcher result of the transformation of the original fetcher
    */
-  public func transformValues<A>(transformerClosure: OutputType -> Promise<A>) -> BasicFetcher<KeyType, A> {
+  public func transformValues<A>(transformerClosure: OutputType -> Future<A>) -> BasicFetcher<KeyType, A> {
     return self.transformValues(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }
@@ -44,7 +44,7 @@ extension Fetcher {
  - returns: A new fetcher result of the transformation of the original fetcher
  */
 @available(*, deprecated=0.5)
-public func transformValues<A, B: OneWayTransformer>(fetchClosure: (key: A) -> Promise<B.TypeIn>, transformer: B) -> BasicFetcher<A, B.TypeOut> {
+public func transformValues<A, B: OneWayTransformer>(fetchClosure: (key: A) -> Future<B.TypeIn>, transformer: B) -> BasicFetcher<A, B.TypeOut> {
   return transformValues(wrapClosureIntoFetcher(fetchClosure), transformer: transformer)
 }
 
@@ -74,7 +74,7 @@ public func transformValues<A: Fetcher, B: OneWayTransformer where A.OutputType 
  - returns: A new fetcher result of the transformation of the original fetcher
  */
 @available(*, deprecated=0.5)
-public func transformValues<A, B, C>(fetchClosure: (key: A) -> Promise<B>, transformerClosure: B -> Promise<C>) -> BasicFetcher<A, C> {
+public func transformValues<A, B, C>(fetchClosure: (key: A) -> Future<B>, transformerClosure: B -> Future<C>) -> BasicFetcher<A, C> {
   return transformValues(wrapClosureIntoFetcher(fetchClosure), transformer: wrapClosureIntoOneWayTransformer(transformerClosure))
 }
 
@@ -89,7 +89,7 @@ public func transformValues<A, B, C>(fetchClosure: (key: A) -> Promise<B>, trans
  - returns: A new fetcher result of the transformation of the original fetcher
  */
 @available(*, deprecated=0.5)
-public func transformValues<A: Fetcher, B>(fetcher: A, transformerClosure: A.OutputType -> Promise<B>) -> BasicFetcher<A.KeyType, B> {
+public func transformValues<A: Fetcher, B>(fetcher: A, transformerClosure: A.OutputType -> Future<B>) -> BasicFetcher<A.KeyType, B> {
   return fetcher.transformValues(transformerClosure)
 }
 
@@ -103,7 +103,7 @@ public func transformValues<A: Fetcher, B>(fetcher: A, transformerClosure: A.Out
  
  - returns: A new fetcher result of the transformation of the original fetcher
  */
-public func =>><A, B: OneWayTransformer>(fetchClosure: (key: A) -> Promise<B.TypeIn>, transformer: B) -> BasicFetcher<A, B.TypeOut> {
+public func =>><A, B: OneWayTransformer>(fetchClosure: (key: A) -> Future<B.TypeIn>, transformer: B) -> BasicFetcher<A, B.TypeOut> {
   return wrapClosureIntoFetcher(fetchClosure).transformValues(transformer)
 }
 
@@ -131,7 +131,7 @@ public func =>><A: Fetcher, B: OneWayTransformer where A.OutputType == B.TypeIn>
  
  - returns: A new fetcher result of the transformation of the original fetcher
  */
-public func =>><A, B, C>(fetchClosure: (key: A) -> Promise<B>, transformerClosure: B -> Promise<C>) -> BasicFetcher<A, C> {
+public func =>><A, B, C>(fetchClosure: (key: A) -> Future<B>, transformerClosure: B -> Future<C>) -> BasicFetcher<A, C> {
   return wrapClosureIntoFetcher(fetchClosure).transformValues(wrapClosureIntoOneWayTransformer(transformerClosure))
 }
 
@@ -145,6 +145,6 @@ public func =>><A, B, C>(fetchClosure: (key: A) -> Promise<B>, transformerClosur
  
  - returns: A new fetcher result of the transformation of the original fetcher
  */
-public func =>><A: Fetcher, B>(fetcher: A, transformerClosure: A.OutputType -> Promise<B>) -> BasicFetcher<A.KeyType, B> {
+public func =>><A: Fetcher, B>(fetcher: A, transformerClosure: A.OutputType -> Future<B>) -> BasicFetcher<A.KeyType, B> {
   return fetcher.transformValues(wrapClosureIntoOneWayTransformer(transformerClosure))
 }

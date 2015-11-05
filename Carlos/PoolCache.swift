@@ -32,7 +32,7 @@ Wraps a fetcher closure with a requests pool
 - returns: A PoolCache that will pool requests coming to the closure. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
 */
 @available(*, deprecated=0.5)
-public func pooled<A, B>(fetcherClosure: (key: A) -> Promise<B>) -> PoolCache<BasicCache<A, B>> {
+public func pooled<A, B>(fetcherClosure: (key: A) -> Future<B>) -> PoolCache<BasicCache<A, B>> {
   return wrapClosureIntoCacheLevel(fetcherClosure).pooled()
 }
 
@@ -45,7 +45,7 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   
   private let internalCache: C
   private let lock: ReadWriteLock = PThreadReadWriteLock()
-  private var requestsPool: [C.KeyType: Promise<C.OutputType>] = [:]
+  private var requestsPool: [C.KeyType: Future<C.OutputType>] = [:]
   
   /**
   Creates a new instance of a pooled cache
@@ -61,10 +61,10 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   
   - parameter key: The key for the value
   
-  - returns: A Promise that could either have been just created or it could have been reused from a pool of pending Promises if there is a Promise for the same key going on at the moment.
+  - returns: A Future that could either have been just created or it could have been reused from a pool of pending Futures if there is a Future for the same key going on at the moment.
   */
-  public func get(key: KeyType) -> Promise<OutputType> {
-    let request: Promise<OutputType>
+  public func get(key: KeyType) -> Future<OutputType> {
+    let request: Future<OutputType>
     
     if let pooledRequest = lock.withReadLock ({ self.requestsPool[key] }) {
       Logger.log("Using pooled request \(pooledRequest) for key \(key)")

@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     
     let JSONFetcher: BasicFetcher<NSURL, AnyObject> = NetworkFetcher() =>> JSONTransformer()
-    let cache = JSONFetcher =>> { (JSONResult: AnyObject) -> Promise<BitcoinResult> in
+    let cache = JSONFetcher =>> { (JSONResult: AnyObject) -> Future<BitcoinResult> in
       let result = Promise<BitcoinResult>()
       
       if let JSON = JSONResult as? [String: AnyObject],
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         result.fail(Error.InvalidJSON)
       }
       
-      return result
+      return result.future
     }
     
     cache.get(NSURL(string: "http://coinabul.com/api.php")!).onSuccess { result in

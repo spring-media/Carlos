@@ -15,9 +15,9 @@ public class JSONTransformer: TwoWayTransformer {
   
   - parameter val: The NSData representing the received JSON
   
-  - returns: An Optional<AnyObject> value, with the parsed JSON if the input data was valid, .None otherwise
+  - returns: A Future<AnyObject> value, with the parsed JSON if the input data was valid
   */
-  public func transform(val: TypeIn) -> Promise<TypeOut> {
+  public func transform(val: TypeIn) -> Future<TypeOut> {
     let result = Promise<TypeOut>()
     
     do {
@@ -27,7 +27,7 @@ public class JSONTransformer: TwoWayTransformer {
       result.fail(error)
     }
     
-    return result
+    return result.future
   }
   
   /**
@@ -35,9 +35,9 @@ public class JSONTransformer: TwoWayTransformer {
   
   - parameter val: The JSON object you want to deserialize
   
-  - returns: An Optional<NSData> value, with the deserialized JSON if the input was valid, .None otherwise
+  - returns: A Future<NSData> value, with the deserialized JSON if the input was valid
   */
-  public func inverseTransform(val: TypeOut) -> Promise<TypeIn> {
+  public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
     let result = Promise<TypeIn>()
     
     do {
@@ -47,6 +47,6 @@ public class JSONTransformer: TwoWayTransformer {
       result.fail(error)
     }
     
-    return result
+    return result.future
   }
 }

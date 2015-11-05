@@ -20,14 +20,14 @@ class BasicFetcherTests: QuickSpec {
             didGetKey = key
             numberOfTimesCalledGet++
             
-            return fakeRequest
+            return fakeRequest.future
           }
         )
       }
       
       context("when calling perform") {
         let key = "key to test"
-        var request: Promise<Int>!
+        var request: Future<Int>!
         
         beforeEach {
           request = fetcher.perform(key)
@@ -42,13 +42,13 @@ class BasicFetcherTests: QuickSpec {
         }
         
         it("should not modify the request") {
-          expect(request).to(beIdenticalTo(fakeRequest))
+          expect(request).to(beIdenticalTo(fakeRequest.future))
         }
       }
       
       context("when calling get") {
         let key = "key to test"
-        var request: Promise<Int>!
+        var request: Future<Int>!
         
         beforeEach {
           request = fetcher.get(key)
@@ -63,7 +63,7 @@ class BasicFetcherTests: QuickSpec {
         }
         
         it("should not modify the request") {
-          expect(request).to(beIdenticalTo(fakeRequest))
+          expect(request).to(beIdenticalTo(fakeRequest.future))
         }
       }
     }

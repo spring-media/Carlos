@@ -23,9 +23,9 @@ public class ImageTransformer: TwoWayTransformer {
   
   - parameter val: The NSData you want to serialize
   
-  - returns: A UIImage object if the input was valid, .None otherwise
+  - returns: A Future<UIImage> object
   */
-  public func transform(val: TypeIn) -> Promise<TypeOut> {
+  public func transform(val: TypeIn) -> Future<TypeOut> {
     let result = Promise<TypeOut>()
     
     GCD.background {
@@ -38,7 +38,7 @@ public class ImageTransformer: TwoWayTransformer {
       }
     }
     
-    return result
+    return result.future
   }
   
   /**
@@ -46,9 +46,9 @@ public class ImageTransformer: TwoWayTransformer {
   
   - parameter val: The UIImage you want to deserialize
   
-  - returns: An NSData instance obtained with UIImagePNGRepresentation if the input was valid, .None otherwise
+  - returns: A Future<NSData> instance obtained with UIImagePNGRepresentation
   */
-  public func inverseTransform(val: TypeOut) -> Promise<TypeIn> {
+  public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
     let result = Promise<TypeIn>()
     
     GCD.background {
@@ -62,6 +62,6 @@ public class ImageTransformer: TwoWayTransformer {
       }
     }
     
-    return result
+    return result.future
   }
 }

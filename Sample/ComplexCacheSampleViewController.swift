@@ -16,7 +16,7 @@ class CustomCacheLevel: Fetcher {
   typealias KeyType = Int
   typealias OutputType = String
   
-  func get(key: KeyType) -> Promise<OutputType> {
+  func get(key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     
     if key > 0 {
@@ -27,7 +27,7 @@ class CustomCacheLevel: Fetcher {
       request.fail(IgnoreError.Ignore)
     }
     
-    return request
+    return request.future
   }
 }
 
@@ -46,16 +46,16 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    let modelDomainToString: ModelDomain -> Promise<String> = {
-      Promise(value: $0.name)
+    let modelDomainToString: ModelDomain -> Future<String> = {
+      Promise(value: $0.name).future
     }
     
-    let modelDomainToInt: ModelDomain -> Promise<Int> = {
-      Promise(value: $0.identifier)
+    let modelDomainToInt: ModelDomain -> Future<Int> = {
+      Promise(value: $0.identifier).future
     }
     
     let stringToData = StringTransformer().invert()
-    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Promise(value: $0.uppercaseString) })
+    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Promise(value: $0.uppercaseString).future })
     
     cache = ((modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> { (key: ModelDomain) in
       let request = Promise<NSData>()
@@ -64,7 +64,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
       
       request.succeed("Last level was hit!".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
       
-      return request
+      return request.future
     }).dispatch(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
   }
   

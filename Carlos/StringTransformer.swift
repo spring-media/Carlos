@@ -28,10 +28,10 @@ public class StringTransformer: TwoWayTransformer {
   
   - parameter val: The NSData instance to serialize
   
-  - returns: The serialized String with the given encoding if the input is valid, .None otherwise
+  - returns: A Future containing the serialized String with the given encoding if the input is valid
   */
-  public func transform(val: TypeIn) -> Promise<TypeOut> {
-    return Promise(value: NSString(data: val, encoding: encoding) as? String, error: Error.InvalidData)
+  public func transform(val: TypeIn) -> Future<TypeOut> {
+    return Promise(value: NSString(data: val, encoding: encoding) as? String, error: Error.InvalidData).future
   }
   
   /**
@@ -39,9 +39,9 @@ public class StringTransformer: TwoWayTransformer {
   
   - parameter val: The String to deserialize
   
-  - returns: An NSData instance containing the bytes representation of the given string, .None if the deserialization failed
+  - returns: A Future<NSData> instance containing the bytes representation of the given string
   */
-  public func inverseTransform(val: TypeOut) -> Promise<TypeIn> {
-    return Promise(value: val.dataUsingEncoding(encoding, allowLossyConversion: false), error: Error.DataConversionToStringFailed)
+  public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
+    return Promise(value: val.dataUsingEncoding(encoding, allowLossyConversion: false), error: Error.DataConversionToStringFailed).future
   }
 }

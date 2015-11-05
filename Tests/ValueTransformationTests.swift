@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct ValueTransformationsSharedExamplesContext {
+struct ValueTransformationsSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
   static let Transformer = "transformer"
@@ -30,7 +30,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
         
         beforeEach {
           fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest
+          internalCache.cacheRequestToReturn = fakeRequest.future
           
           cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
         }
@@ -167,17 +167,17 @@ class ValueTransformationTests: QuickSpec {
     var cache: BasicCache<String, String>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: TwoWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: Int -> Promise<String> = {
+    let forwardTransformationClosure: Int -> Future<String> = {
       let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {
         result.fail(TestError.AnotherError)
       }
-      return result
+      return result.future
     }
-    let inverseTransformationClosure: String -> Promise<Int> = {
-      return Promise(value: Int($0), error: TestError.AnotherError)
+    let inverseTransformationClosure: String -> Future<Int> = {
+      return Promise(value: Int($0), error: TestError.AnotherError).future
     }
     
     describe("Value transformation using a transformer and a cache, with the global function") {

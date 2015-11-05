@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct ConditionedTransformerSharedExamplesContext {
+struct ConditionedTransformerSharedExamplesContext {
   static let TransformerToTest = "transformer"
 }
 
@@ -221,21 +221,21 @@ class ConditionedTransformersTests: QuickSpec {
   override func spec() {
     describe("Conditioned one way transformers") {
       var transformer: OneWayTransformationBox<String, Int>!
-      let condition: (String) -> Promise<Bool> = { input in
+      let condition: (String) -> Future<Bool> = { input in
         if input.rangeOfString("fail") != nil {
           if input.rangeOfString("custom") != nil {
-            return Promise(error: ConditionError.CustomError)
+            return Promise(error: ConditionError.CustomError).future
           } else {
-            return Promise(value: false)
+            return Promise(value: false).future
           }
         } else {
-          return Promise(value: true)
+          return Promise(value: true).future
         }
       }
       
       beforeEach {
         transformer = OneWayTransformationBox<String, Int>(transform: {
-          Promise(value: Int($0), error: TransformerError.TransformationError)
+          Promise(value: Int($0), error: TransformerError.TransformationError).future
         }).conditioned(condition)
       }
       
@@ -248,34 +248,34 @@ class ConditionedTransformersTests: QuickSpec {
     
     describe("Conditioned two way transformers") {
       var transformer: TwoWayTransformationBox<String, Int>!
-      let condition: (String) -> Promise<Bool> = { input in
+      let condition: (String) -> Future<Bool> = { input in
         if input.rangeOfString("fail") != nil {
           if input.rangeOfString("custom") != nil {
-            return Promise(error: ConditionError.CustomError)
+            return Promise(error: ConditionError.CustomError).future
           } else {
-            return Promise(value: false)
+            return Promise(value: false).future
           }
         } else {
-          return Promise(value: true)
+          return Promise(value: true).future
         }
       }
-      let inverseCondition: (Int) -> Promise<Bool> = { input in
+      let inverseCondition: (Int) -> Future<Bool> = { input in
         if input >= 0 {
           if input == 0 {
-            return Promise(error: ConditionError.CustomError)
+            return Promise(error: ConditionError.CustomError).future
           } else {
-            return Promise(value: true)
+            return Promise(value: true).future
           }
         } else {
-          return Promise(value: false)
+          return Promise(value: false).future
         }
       }
       
       beforeEach {
         transformer = TwoWayTransformationBox<String, Int>(transform: {
-          Promise(value: Int($0), error: TransformerError.TransformationError)
+          Promise(value: Int($0), error: TransformerError.TransformationError).future
         }, inverseTransform: {
-          Promise(value: "\($0)")
+          Promise(value: "\($0)").future
         }).conditioned(condition, inverseCondition: inverseCondition)
       }
       

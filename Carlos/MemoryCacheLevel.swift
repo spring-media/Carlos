@@ -23,9 +23,9 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: 
   
   - parameter key: The key for the value
   
-  - returns: A Promise where you can call onSuccess and onFailure to be notified of the result of the fetch
+  - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
-  public func get(key: KeyType) -> Promise<OutputType> {
+  public func get(key: KeyType) -> Future<OutputType> {
     let request = Promise<T>()
     if let result = internalCache.objectForKey(key.toString()) as? T {
       Logger.log("Fetched \(key.toString()) on memory level")
@@ -35,7 +35,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: 
       request.fail(FetchError.ValueNotInCache)
     }
     
-    return request
+    return request.future
   }
   
   /**

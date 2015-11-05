@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct KeyTransformationsSharedExamplesContext {
+struct KeyTransformationsSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
   static let Transformer = "transformer"
@@ -31,7 +31,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           
           beforeEach {
             fakeRequest = Promise<Int>()
-            internalCache.cacheRequestToReturn = fakeRequest
+            internalCache.cacheRequestToReturn = fakeRequest.future
             
             cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
           }
@@ -79,7 +79,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           
           beforeEach {
             fakeRequest = Promise<Int>()
-            internalCache.cacheRequestToReturn = fakeRequest
+            internalCache.cacheRequestToReturn = fakeRequest.future
             
             cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
           }
@@ -188,14 +188,14 @@ class KeyTransformationTests: QuickSpec {
     var cache: BasicCache<Int, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let transformationClosure: Int -> Promise<String> = {
+    let transformationClosure: Int -> Future<String> = {
       let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {
         result.fail(TestError.SimpleError)
       }
-      return result
+      return result.future
     }
     
     describe("Key transformation using a transformer and a cache, with the global function") {

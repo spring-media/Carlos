@@ -10,14 +10,14 @@
 - It's now possible to dispatch a `CacheLevel` or a fetch closure on a given GCD queue. Use the `dispatch` protocol extension or the `~>>` operator and pass the  specific `dispatch_queue_t`. Global functions are not provided since we're moving towards a global-functions-free API for `Carlos 1.0`
 
 **Major changes**
-- **API Breaking**: `CacheRequest` is now renamed to `Promise`
-- **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now asynchronous, i.e. they return a `Promise<T>` instead of a `T` directly
-- **API Breaking**: all the `conditioned` variants now take an asynchronous condition closure, i.e. the closure has to return a `Promise<Bool>` instead of a `(Bool, ErrorType)` tuple
+- **API Breaking**: `CacheRequest` is now renamed to `Future`. All the public API return `Future` instances now, and you can use `Promise` for your custom cache levels and fetchers
+- **API Breaking**: `OneWayTransformer` and `TwoWayTransformer` are now asynchronous, i.e. they return a `Future<T>` instead of a `T` directly
+- **API Breaking**: all the `conditioned` variants now take an asynchronous condition closure, i.e. the closure has to return a `Future<Bool>` instead of a `(Bool, ErrorType)` tuple
 - All the global functions are now **deprecated**. They will be removed from the public API with the release of `Carlos 1.0`
 
 **Minor improvements**
 - `Promise` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
-- `Promise` now has a `mimic` function that takes another `Promise<T>` and succeeds or fails when the given `Promise` does so
+- `Promise` now has a `mimic` function that takes a `Future<T>` and succeeds or fails when the given `Future` does so
 - `ImageTransformer` now applies its tranformations on a background queue
 - `JSONTransformer` now passes the right error when the transformations fail 
 - `CacheProvider.dataCache` now pools requests on the network **and** disk levels, so pooled requests don't result in multiple `set` calls on the disk level

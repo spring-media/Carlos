@@ -29,7 +29,7 @@ class BasicCacheTests: QuickSpec {
             didGetKey = key
             numberOfTimesCalledGet++
             
-            return fakeRequest
+            return fakeRequest.future
           },
           setClosure: { (value, key) in
             didSetKey = key
@@ -47,7 +47,7 @@ class BasicCacheTests: QuickSpec {
       
       context("when calling perform") {
         let key = "key to test"
-        var request: Promise<Int>!
+        var request: Future<Int>!
         
         beforeEach {
           request = cache.perform(key)
@@ -62,13 +62,13 @@ class BasicCacheTests: QuickSpec {
         }
         
         it("should not modify the request") {
-          expect(request).to(beIdenticalTo(fakeRequest))
+          expect(request).to(beIdenticalTo(fakeRequest.future))
         }
       }
       
       context("when calling get") {
         let key = "key to test"
-        var request: Promise<Int>!
+        var request: Future<Int>!
         
         beforeEach {
           request = cache.get(key)
@@ -83,7 +83,7 @@ class BasicCacheTests: QuickSpec {
         }
         
         it("should not modify the request") {
-          expect(request).to(beIdenticalTo(fakeRequest))
+          expect(request).to(beIdenticalTo(fakeRequest.future))
         }
       }
       

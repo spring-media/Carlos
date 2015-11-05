@@ -1,16 +1,16 @@
 import Foundation
 
-extension Promise {
+extension Future {
   
   /**
-  Mutates a Promise from a type A to a type B through a OneWayTransformer
+  Mutates a Future from a type A to a type B through a OneWayTransformer
 
-  - parameter origin: The original Promise
+  - parameter origin: The original Future
   - parameter transformer: The OneWayTransformer from A to B
 
-  - returns: A new Promise<B>
+  - returns: A new Future<B>
   */
-  internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> Promise<A.TypeOut> {
+  internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> Future<A.TypeOut> {
     let mutatedRequest = Promise<A.TypeOut>()
     
     self
@@ -19,18 +19,18 @@ extension Promise {
         mutatedRequest.mimic(transformer.transform(result))
       }
     
-    return mutatedRequest
+    return mutatedRequest.future
   }
 
   /**
-  Mutates a Promise from a type A to a type B through a OneWayTransformer
+  Mutates a Future from a type A to a type B through a OneWayTransformer
 
-  - parameter origin: The original Promise
+  - parameter origin: The original Future
   - parameter transformerClosure: The transformation closure from A to B
 
-  - returns: A new Promise<B>
+  - returns: A new Future<B>
   */
-  internal func mutate<A>(transformerClosure: T -> Promise<A>) -> Promise<A> {
+  internal func mutate<A>(transformerClosure: T -> Future<A>) -> Future<A> {
     return self.mutate(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }

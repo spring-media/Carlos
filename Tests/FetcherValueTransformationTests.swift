@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct FetcherValueTransformationsSharedExamplesContext {
+struct FetcherValueTransformationsSharedExamplesContext {
   static let FetcherToTest = "fetcher"
   static let InternalFetcher = "internalFetcher"
   static let Transformer = "transformer"
@@ -30,7 +30,7 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
         
         beforeEach {
           fakeRequest = Promise<Int>()
-          internalFetcher.cacheRequestToReturn = fakeRequest
+          internalFetcher.cacheRequestToReturn = fakeRequest.future
           
           fetcher.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
         }
@@ -109,14 +109,14 @@ class FetcherValueTransformationTests: QuickSpec {
     var fetcher: BasicFetcher<String, String>!
     var internalFetcher: FetcherFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: Int -> Promise<String> = {
+    let forwardTransformationClosure: Int -> Future<String> = {
       let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {
         result.fail(TestError.SimpleError)
       }
-      return result
+      return result.future
     }
     
     describe("Value transformation using a transformer and a fetcher, with the global function") {

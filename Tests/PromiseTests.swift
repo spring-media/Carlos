@@ -3,12 +3,12 @@ import Quick
 import Nimble
 import Carlos
 
-private struct ResultSharedExamplesContext {
-  static let Result = "result"
+struct PromiseSharedExamplesContext {
+  static let Promise = "promise"
   static let Value = "value"
 }
 
-class ResultSharedExamplesConfiguration: QuickConfiguration {
+class PromiseSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
     sharedExamples("failure case") { (sharedExampleContext: SharedExampleContext) in
       var request: Promise<String>!
@@ -17,7 +17,7 @@ class ResultSharedExamplesConfiguration: QuickConfiguration {
       var cancelSentinels: [Bool?]!
       
       beforeEach {
-        request = sharedExampleContext()[ResultSharedExamplesContext.Result] as? Promise<String>
+        request = sharedExampleContext()[PromiseSharedExamplesContext.Promise] as? Promise<String>
         
         cancelSentinels = [nil, nil, nil]
         successSentinels = [nil, nil, nil]
@@ -108,8 +108,8 @@ class ResultSharedExamplesConfiguration: QuickConfiguration {
       var cancelSentinels: [Bool?]!
       
       beforeEach {
-        request = sharedExampleContext()[ResultSharedExamplesContext.Result] as? Promise<String>
-        value = sharedExampleContext()[ResultSharedExamplesContext.Value] as? String
+        request = sharedExampleContext()[PromiseSharedExamplesContext.Promise] as? Promise<String>
+        value = sharedExampleContext()[PromiseSharedExamplesContext.Value] as? String
         
         successSentinels = [nil, nil, nil]
         failureSentinels = [nil, nil, nil]
@@ -207,7 +207,7 @@ class PromiseTests: QuickSpec {
         cancelCompletedSentinels = [Bool?](count: sentinelsCount, repeatedValue: nil)
       }
       
-      context("when mimicing another result") {
+      context("when mimicing another future") {
         var mimiced: Promise<String>!
         var successValue: String!
         var errorValue: ErrorType!
@@ -223,10 +223,10 @@ class PromiseTests: QuickSpec {
             .onSuccess({ successValue = $0 })
             .onFailure({ errorValue = $0 })
             .onCancel({ canceled = true })
-            .mimic(mimiced)
+            .mimic(mimiced.future)
         }
         
-        context("when the other result succeeds") {
+        context("when the other future succeeds") {
           let value = "success value"
           
           beforeEach {
@@ -250,7 +250,7 @@ class PromiseTests: QuickSpec {
           }
         }
         
-        context("when the other result fails") {
+        context("when the other future fails") {
           let error = TestError.AnotherError
           
           beforeEach {
@@ -274,7 +274,7 @@ class PromiseTests: QuickSpec {
           }
         }
         
-        context("when the other result is canceled") {
+        context("when the other future is canceled") {
           beforeEach {
             mimiced.cancel()
           }
@@ -292,7 +292,7 @@ class PromiseTests: QuickSpec {
           }
         }
         
-        context("when the result itself succeeds") {
+        context("when the promise itself succeeds") {
           let value = "also a success value"
           
           beforeEach {
@@ -316,7 +316,7 @@ class PromiseTests: QuickSpec {
           }
         }
         
-        context("when the result itself fails") {
+        context("when the promise itself fails") {
           let error = TestError.SimpleError
           
           beforeEach {
@@ -340,7 +340,7 @@ class PromiseTests: QuickSpec {
           }
         }
         
-        context("when the result itself is canceled") {
+        context("when the promise itself is canceled") {
           beforeEach {
             request.cancel()
           }
@@ -358,15 +358,15 @@ class PromiseTests: QuickSpec {
           }
         }
         
-        context("when mimicing two results at the same time") {
+        context("when mimicing two futures at the same time") {
           var mimiced2: Promise<String>!
           
           beforeEach {
             mimiced2 = Promise<String>()
-            request.mimic(mimiced2)
+            request.mimic(mimiced2.future)
           }
           
-          context("when the other result succeeds") {
+          context("when the other future succeeds") {
             let value = "still a success value"
             
             beforeEach {
@@ -386,7 +386,7 @@ class PromiseTests: QuickSpec {
             }
           }
           
-          context("when the other result fails") {
+          context("when the other future fails") {
             let error = TestError.AnotherError
             
             beforeEach {
@@ -406,7 +406,7 @@ class PromiseTests: QuickSpec {
             }
           }
           
-          context("when the other result is canceled") {
+          context("when the other future is canceled") {
             beforeEach {
               mimiced2.cancel()
             }
@@ -423,6 +423,26 @@ class PromiseTests: QuickSpec {
               expect(errorValue).to(beNil())
             }
           }
+        }
+      }
+      
+      context("when returning its associated Future") {
+        var future: Future<String>!
+        
+        beforeEach {
+          request = Promise<String>()
+          future = request.future
+        }
+        
+        it("should return always the same instance") {
+          expect(future).to(beIdenticalTo(request.future))
+        }
+        
+        itBehavesLike("a Future") {
+          [
+            FutureSharedExamplesContext.Future: future,
+            FutureSharedExamplesContext.Promise: request
+          ]
         }
       }
       
@@ -955,8 +975,8 @@ class PromiseTests: QuickSpec {
         
         itBehavesLike("success case") {
           [
-            ResultSharedExamplesContext.Result: request,
-            ResultSharedExamplesContext.Value: value
+            PromiseSharedExamplesContext.Promise: request,
+            PromiseSharedExamplesContext.Value: value
           ]
         }
       }
@@ -969,7 +989,7 @@ class PromiseTests: QuickSpec {
         
           itBehavesLike("failure case") {
             [
-              ResultSharedExamplesContext.Result: request
+              PromiseSharedExamplesContext.Promise: request
             ]
           }
         }
@@ -983,8 +1003,8 @@ class PromiseTests: QuickSpec {
           
           itBehavesLike("success case") {
             [
-              ResultSharedExamplesContext.Result: request,
-              ResultSharedExamplesContext.Value: value
+              PromiseSharedExamplesContext.Promise: request,
+              PromiseSharedExamplesContext.Value: value
             ]
           }
         }
@@ -999,7 +1019,7 @@ class PromiseTests: QuickSpec {
       
         itBehavesLike("failure case") {
           [
-            ResultSharedExamplesContext.Result: request
+            PromiseSharedExamplesContext.Promise: request
           ]
         }
       }

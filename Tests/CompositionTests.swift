@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct ComposedCacheSharedExamplesContext {
+struct ComposedCacheSharedExamplesContext {
   static let CacheToTest = "composedCache"
   static let FirstComposedCache = "cache1"
   static let SecondComposedCache = "cache2"
@@ -29,14 +29,14 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
-        var resultRequest: Promise<Int>!
+        var resultRequest: Future<Int>!
         
         beforeEach {
           cache1Request = Promise<Int>()
-          cache1.cacheRequestToReturn = cache1Request
+          cache1.cacheRequestToReturn = cache1Request.future
           
           cache2Request = Promise<Int>()
-          cache2.cacheRequestToReturn = cache2Request
+          cache2.cacheRequestToReturn = cache2Request.future
           
           for cache in [cache1, cache2] {
             cache.numberOfTimesCalledGet = 0
@@ -178,14 +178,14 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
-        var resultRequest: Promise<Int>!
+        var resultRequest: Future<Int>!
         
         beforeEach {
           cache1Request = Promise<Int>()
-          cache1.cacheRequestToReturn = cache1Request
+          cache1.cacheRequestToReturn = cache1Request.future
           
           cache2Request = Promise<Int>()
-          cache2.cacheRequestToReturn = cache2Request
+          cache2.cacheRequestToReturn = cache2Request.future
           
           for cache in [cache1, cache2] {
             cache.numberOfTimesCalledGet = 0

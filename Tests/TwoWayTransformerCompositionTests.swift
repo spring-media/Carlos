@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct ComposedTwoWayTransformerSharedExamplesContext {
+struct ComposedTwoWayTransformerSharedExamplesContext {
   static let TransformerToTest = "composedTransformer"
 }
 
@@ -112,7 +112,7 @@ class TwoWayTransformerCompositionTests: QuickSpec {
     
     beforeEach {
       transformer1 = TwoWayTransformationBox(transform: {
-        Promise(value: Float($0), error: TestError.SimpleError)
+        Promise(value: Float($0), error: TestError.SimpleError).future
       }, inverseTransform: {
         let result = Promise<String>()
         if $0 > 100 {
@@ -120,24 +120,24 @@ class TwoWayTransformerCompositionTests: QuickSpec {
         } else {
           result.succeed("\($0)")
         }
-        return result
+        return result.future
       })
       transformer2 = TwoWayTransformationBox(transform: {
         let result = Promise<Int>()
         if $0 < 0 {
           result.fail(TestError.SimpleError)
         } else {
-          result.mimic(Promise(value: Int($0), error: TestError.SimpleError))
+          result.mimic(Promise(value: Int($0), error: TestError.SimpleError).future)
         }
-        return result
+        return result.future
       }, inverseTransform: {
         let result = Promise<Float>()
         if $0 < 0 {
           result.fail(TestError.SimpleError)
         } else {
-          result.mimic(Promise(value: Float($0), error: TestError.SimpleError))
+          result.mimic(Promise(value: Float($0), error: TestError.SimpleError).future)
         }
-        return result
+        return result.future
       })
     }
     

@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct PostProcessSharedExamplesContext {
+struct PostProcessSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
   static let Transformer = "transformer"
@@ -30,7 +30,7 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
         
         beforeEach {
           fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest
+          internalCache.cacheRequestToReturn = fakeRequest.future
           successValue = nil
           failureValue = nil
           
@@ -163,14 +163,14 @@ class PostProcessTests: QuickSpec {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, Int>!
-    let transformationClosure: Int -> Promise<Int> = {
+    let transformationClosure: Int -> Future<Int> = {
       let result = Promise<Int>()
       if $0 > 0 {
         result.succeed($0 + 1)
       } else {
         result.fail(TestError.SimpleError)
       }
-      return result
+      return result.future
     }
     
     describe("Post processing using a transformer and a cache, with the global function") {

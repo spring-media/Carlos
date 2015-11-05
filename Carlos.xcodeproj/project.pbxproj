@@ -82,7 +82,7 @@
 		52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
 		52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52635A4F1B4F0F6F00F187EE /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		52635A501B4F0F6F00F187EE /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
+		52635A501B4F0F6F00F187EE /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Promise.swift */; };
 		52635A511B4F0F6F00F187EE /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		52635A521B4F0F6F00F187EE /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		52635A531B4F0F6F00F187EE /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -131,7 +131,7 @@
 		52C3197F1BC0459F00893D19 /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52C319801BC0459F00893D19 /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; };
 		52C319811BC0459F00893D19 /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		52C319821BC0459F00893D19 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
+		52C319821BC0459F00893D19 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Promise.swift */; };
 		52C319831BC0459F00893D19 /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		52C319841BC0459F00893D19 /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		52C319851BC0459F00893D19 /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -168,7 +168,7 @@
 		52CF0A8E1B91F5EE0061022D /* CountryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0A8D1B91F5EE0061022D /* CountryRow.swift */; };
 		52CF0AA11B9203730061022D /* CarlosMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 52CF0AA01B9203730061022D /* CarlosMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52CF0AA61B9203B30061022D /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		52CF0AA71B9203B30061022D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
+		52CF0AA71B9203B30061022D /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Promise.swift */; };
 		52CF0AA81B9203B30061022D /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		52CF0AA91B9203B30061022D /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -207,6 +207,11 @@
 		52CFD5571BE009A600468730 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CFD5551BE009A600468730 /* GCD.swift */; };
 		52CFD5581BE009A600468730 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CFD5551BE009A600468730 /* GCD.swift */; };
 		52CFD5591BE009A600468730 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CFD5551BE009A600468730 /* GCD.swift */; };
+		52D537421BEB6BF000F7BDCC /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D537411BEB6BF000F7BDCC /* Future.swift */; };
+		52D537431BEB6BF000F7BDCC /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D537411BEB6BF000F7BDCC /* Future.swift */; };
+		52D537441BEB6BF000F7BDCC /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D537411BEB6BF000F7BDCC /* Future.swift */; };
+		52D537451BEB6BF000F7BDCC /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D537411BEB6BF000F7BDCC /* Future.swift */; };
+		52D537491BEB783E00F7BDCC /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D537481BEB783E00F7BDCC /* FutureTests.swift */; };
 		52D805AD1BC03995000F0733 /* CarlosTv.h in Headers */ = {isa = PBXBuildFile; fileRef = 52D805AC1BC03995000F0733 /* CarlosTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52E0CBF91BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
 		52E0CBFA1BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
@@ -224,7 +229,7 @@
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
 		AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
-		AD64D9461B8DE62400C783D3 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Result.swift */; };
+		AD64D9461B8DE62400C783D3 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3D1B4F0F6F00F187EE /* Promise.swift */; };
 		AD64D9471B8DE62400C783D3 /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		AD64D9481B8DE62400C783D3 /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
 		AD64D9491B8DE62400C783D3 /* Conditioned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A401B4F0F6F00F187EE /* Conditioned.swift */; };
@@ -521,7 +526,7 @@
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
 		52635A3C1B4F0F6F00F187EE /* BasicCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCache.swift; sourceTree = "<group>"; };
-		52635A3D1B4F0F6F00F187EE /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		52635A3D1B4F0F6F00F187EE /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		52635A3E1B4F0F6F00F187EE /* Carlos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Carlos.swift; sourceTree = "<group>"; };
 		52635A3F1B4F0F6F00F187EE /* Composed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Composed.swift; sourceTree = "<group>"; };
 		52635A401B4F0F6F00F187EE /* Conditioned.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conditioned.swift; sourceTree = "<group>"; };
@@ -571,6 +576,8 @@
 		52CF0AD71B920DC20061022D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52CF0AD91B920DC20061022D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52CFD5551BE009A600468730 /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
+		52D537411BEB6BF000F7BDCC /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
+		52D537481BEB783E00F7BDCC /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		52D805AA1BC03995000F0733 /* CarlosTv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosTv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D805AC1BC03995000F0733 /* CarlosTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosTv.h; sourceTree = "<group>"; };
 		52D805AE1BC03995000F0733 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -707,7 +714,7 @@
 				AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */,
 				52635A1F1B4F0F3D00F187EE /* Supporting Files */,
 				52635A3C1B4F0F6F00F187EE /* BasicCache.swift */,
-				52635A3D1B4F0F6F00F187EE /* Result.swift */,
+				52635A3D1B4F0F6F00F187EE /* Promise.swift */,
 				52635A3E1B4F0F6F00F187EE /* Carlos.swift */,
 				52635A3F1B4F0F6F00F187EE /* Composed.swift */,
 				52635A401B4F0F6F00F187EE /* Conditioned.swift */,
@@ -750,6 +757,7 @@
 				5207E6981BE13D2E0062DEAC /* ExpensiveObject.swift */,
 				5207E6AC1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift */,
 				5260781D1BE20CB50022040B /* Dispatched.swift */,
+				52D537411BEB6BF000F7BDCC /* Future.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -798,6 +806,7 @@
 				5235BAD61BE175BE0049CFA6 /* NSUserDefaultsCacheLevelTests.swift */,
 				526078221BE211250022040B /* DispatchedCacheTests.swift */,
 				526078241BE2590E0022040B /* ConditionedTransformersTests.swift */,
+				52D537481BEB783E00F7BDCC /* FutureTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -1472,7 +1481,7 @@
 				52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */,
 				52635A571B4F0F6F00F187EE /* Extensions.swift in Sources */,
 				52635A5B1B4F0F6F00F187EE /* NetworkFetcher.swift in Sources */,
-				52635A501B4F0F6F00F187EE /* Result.swift in Sources */,
+				52635A501B4F0F6F00F187EE /* Promise.swift in Sources */,
 				527C65471B7A66D90005023B /* SwitchCache.swift in Sources */,
 				52B7620F1BB84EFF0087CD91 /* ImageTransformer+iOS.swift in Sources */,
 				52635A591B4F0F6F00F187EE /* MemoryCacheLevel.swift in Sources */,
@@ -1500,6 +1509,7 @@
 				52635A561B4F0F6F00F187EE /* Errors.swift in Sources */,
 				5207E6991BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */,
 				52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */,
+				52D537421BEB6BF000F7BDCC /* Future.swift in Sources */,
 				52635A551B4F0F6F00F187EE /* DiskCacheLevel.swift in Sources */,
 				52CF0AC61B9204C20061022D /* CacheProvider+iOS.swift in Sources */,
 				52635A5A1B4F0F6F00F187EE /* MemoryWarning.swift in Sources */,
@@ -1518,6 +1528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52D537491BEB783E00F7BDCC /* FutureTests.swift in Sources */,
 				52E6E24C1B5C02EA00C3DF6C /* DeferredCacheRequestOperationTests.swift in Sources */,
 				526005AF1BB84AB200D96242 /* ImageTransformerTests.swift in Sources */,
 				526339811B52805000074CB9 /* MemoryWarningNotificationTests.swift in Sources */,
@@ -1561,7 +1572,7 @@
 			files = (
 				52CF0AA61B9203B30061022D /* BasicCache.swift in Sources */,
 				52B7621E1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
-				52CF0AA71B9203B30061022D /* Result.swift in Sources */,
+				52CF0AA71B9203B30061022D /* Promise.swift in Sources */,
 				52CF0AA81B9203B30061022D /* Carlos.swift in Sources */,
 				52CFD5581BE009A600468730 /* GCD.swift in Sources */,
 				5205729D1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
@@ -1595,6 +1606,7 @@
 				52CF0ABB1B9203B30061022D /* DeferredCacheRequestOperation.swift in Sources */,
 				52CF0ABC1B9203B30061022D /* GenericOperation.swift in Sources */,
 				52CF0ABD1B9203B30061022D /* CacheProvider.swift in Sources */,
+				52D537441BEB6BF000F7BDCC /* Future.swift in Sources */,
 				52EC5F261BDA9F4C00097AC0 /* ReadWriteLock.swift in Sources */,
 				5274A99D1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */,
 				52CF0ABE1B9203B30061022D /* StringConvertible.swift in Sources */,
@@ -1631,7 +1643,7 @@
 				52C319811BC0459F00893D19 /* BasicCache.swift in Sources */,
 				5207E6B01BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */,
 				52C319941BC0459F00893D19 /* RequestCapperCache.swift in Sources */,
-				52C319821BC0459F00893D19 /* Result.swift in Sources */,
+				52C319821BC0459F00893D19 /* Promise.swift in Sources */,
 				52C319A31BC0459F00893D19 /* ComposedTwoWayTransformer.swift in Sources */,
 				52C319891BC0459F00893D19 /* Extensions.swift in Sources */,
 				52C3199A1BC0459F00893D19 /* SwitchCache.swift in Sources */,
@@ -1646,6 +1658,7 @@
 				52C319A11BC0459F00893D19 /* PostProcess.swift in Sources */,
 				52C319871BC0459F00893D19 /* DiskCacheLevel.swift in Sources */,
 				52C3198C1BC0459F00893D19 /* MemoryWarning.swift in Sources */,
+				52D537451BEB6BF000F7BDCC /* Future.swift in Sources */,
 				52C319921BC0459F00893D19 /* TwoWayTransformer.swift in Sources */,
 				52C319881BC0459F00893D19 /* Errors.swift in Sources */,
 				52C3198E1BC0459F00893D19 /* OneWayTransformer.swift in Sources */,
@@ -1675,7 +1688,7 @@
 				AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
 				52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
-				AD64D9461B8DE62400C783D3 /* Result.swift in Sources */,
+				AD64D9461B8DE62400C783D3 /* Promise.swift in Sources */,
 				52CFD5571BE009A600468730 /* GCD.swift in Sources */,
 				5257BBB51BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
 				AD64D94F1B8DE62400C783D3 /* MemoryCacheLevel.swift in Sources */,
@@ -1696,6 +1709,7 @@
 				526EA0DB1BC02D02005D8FF4 /* FunctionComposition.swift in Sources */,
 				AD64D9531B8DE62400C783D3 /* PoolCache.swift in Sources */,
 				AD64D95A1B8DE62400C783D3 /* DeferredCacheRequestOperation.swift in Sources */,
+				52D537431BEB6BF000F7BDCC /* Future.swift in Sources */,
 				AD64D9521B8DE62400C783D3 /* OneWayTransformer.swift in Sources */,
 				AD64D94C1B8DE62400C783D3 /* Errors.swift in Sources */,
 				AD64D94B1B8DE62400C783D3 /* DiskCacheLevel.swift in Sources */,

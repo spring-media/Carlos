@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct ComposedOneWayTransformerSharedExamplesContext {
+struct ComposedOneWayTransformerSharedExamplesContext {
   static let TransformerToTest = "composedTransformer"
 }
 
@@ -69,7 +69,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
     var composedTransformer: OneWayTransformationBox<String, Int>!
     
     beforeEach {
-      transformer1 = OneWayTransformationBox(transform: { Promise(value: Float($0), error: TestError.SimpleError) })
+      transformer1 = OneWayTransformationBox(transform: { Promise(value: Float($0), error: TestError.SimpleError).future })
       transformer2 = OneWayTransformationBox(transform: {
         let result = Promise<Int>()
         
@@ -79,7 +79,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
           result.succeed(Int($0))
         }
         
-        return result
+        return result.future
       })
     }
     

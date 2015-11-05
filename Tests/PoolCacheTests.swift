@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct PoolCacheSharedExamplesContext {
+struct PoolCacheSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
 }
@@ -32,7 +32,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           successValue = nil
           
           fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest
+          internalCache.cacheRequestToReturn = fakeRequest.future
           
           cache.get(key).onSuccess({ value in
             successSentinel = true
@@ -56,7 +56,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           
           beforeEach {
             fakeRequest2 = Promise<Int>()
-            internalCache.cacheRequestToReturn = fakeRequest2
+            internalCache.cacheRequestToReturn = fakeRequest2.future
             
             cache.get(otherKey)
           }

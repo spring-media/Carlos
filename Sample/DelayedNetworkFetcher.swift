@@ -5,7 +5,7 @@ class DelayedNetworkFetcher: NetworkFetcher {
   private static let delay = dispatch_time(DISPATCH_TIME_NOW,
     Int64(2 * Double(NSEC_PER_SEC))) // 2 seconds
   
-  override func get(key: KeyType) -> Promise<OutputType> {
+  override func get(key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     
     super.get(key)
@@ -20,6 +20,6 @@ class DelayedNetworkFetcher: NetworkFetcher {
         }
       })
     
-    return request
+    return request.future
   }
 }

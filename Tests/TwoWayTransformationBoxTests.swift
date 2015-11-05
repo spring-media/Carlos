@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct TwoWayTransformationBoxSharedExamplesContext {
+struct TwoWayTransformationBoxSharedExamplesContext {
   static let TransformerToTest = "transformer"
 }
 
@@ -184,9 +184,9 @@ class TwoWayTransformationBoxTests: QuickSpec {
         box = TwoWayTransformationBox<NSURL, String>(transform: {
           let possible = $0.scheme == "http"
           
-          return Promise(value: possible ? $0.absoluteString : nil, error: TestError.AnotherError)
+          return Promise(value: possible ? $0.absoluteString : nil, error: TestError.AnotherError).future
         }, inverseTransform: {
-          Promise(value: NSURL(string: $0), error: TestError.AnotherError)
+          Promise(value: NSURL(string: $0), error: TestError.AnotherError).future
         })
       }
       

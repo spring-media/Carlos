@@ -62,7 +62,7 @@ class DeferredResultOperationTests: QuickSpec {
         
         beforeEach {
           requestToReturn = Promise<String>()
-          internalCache.cacheRequestToReturn = requestToReturn
+          internalCache.cacheRequestToReturn = requestToReturn.future
           
           queue = NSOperationQueue()
           

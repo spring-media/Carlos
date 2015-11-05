@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct ConditionedCacheSharedExamplesContext {
+struct ConditionedCacheSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
 }
@@ -29,7 +29,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         
         beforeEach {
           fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest
+          internalCache.cacheRequestToReturn = fakeRequest.future
         }
         
         context("when the condition is satisfied") {
@@ -181,17 +181,18 @@ class ConditionedCacheTests: QuickSpec {
   override func spec() {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
+    let closure: (String -> Future<Bool>) = { key in
+      if key.characters.count >= 5 {
+        return Promise(value: true).future
+      } else {
+        return Promise(error: ConditionError.MyError).future
+      }
+    }
     
     describe("The conditioned instance function, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache.conditioned { key in
-          if key.characters.count >= 5 {
-            return Promise(value: true)
-          } else {
-            return Promise(error: ConditionError.MyError)
-          }
-        }
+        cache = internalCache.conditioned(closure)
       }
       
       itBehavesLike("a conditioned cache") {
@@ -205,13 +206,7 @@ class ConditionedCacheTests: QuickSpec {
     describe("The conditioned function, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = conditioned(internalCache, condition: { key in
-          if key.characters.count >= 5 {
-            return Promise(value: true)
-          } else {
-            return Promise(error: ConditionError.MyError)
-          }
-        })
+        cache = conditioned(internalCache, condition: closure)
       }
       
       itBehavesLike("a conditioned cache") {
@@ -225,13 +220,7 @@ class ConditionedCacheTests: QuickSpec {
     describe("The conditioned cache operator, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = { key in
-          if key.characters.count >= 5 {
-            return Promise(value: true)
-          } else {
-            return Promise(error: ConditionError.MyError)
-          }
-        } <?> internalCache
+        cache = closure <?> internalCache
       }
       
       itBehavesLike("a conditioned cache") {
@@ -245,13 +234,7 @@ class ConditionedCacheTests: QuickSpec {
     describe("The conditioned function, applied to a fetch closure") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = conditioned(internalCache.get, condition: { key in
-          if key.characters.count >= 5 {
-            return Promise(value: true)
-          } else {
-            return Promise(error: ConditionError.MyError)
-          }
-        })
+        cache = conditioned(internalCache.get, condition: closure)
       }
       
       itBehavesLike("a conditioned fetch closure") {
@@ -265,13 +248,7 @@ class ConditionedCacheTests: QuickSpec {
     describe("The conditioned cache operator, applied to a fetch closure") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = { key in
-          if key.characters.count >= 5 {
-            return Promise(value: true)
-          } else {
-            return Promise(error: ConditionError.MyError)
-          }
-        } <?> internalCache.get
+        cache = closure <?> internalCache.get
       }
       
       itBehavesLike("a conditioned fetch closure") {

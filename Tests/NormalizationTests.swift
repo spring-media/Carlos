@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct NormalizedCacheSharedExamplesContext {
+struct NormalizedCacheSharedExamplesContext {
   static let CacheToTest = "normalizedCache"
   static let OriginalCache = "originalCache"
 }
@@ -39,12 +39,12 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let key = "key to test"
-        var request: Promise<Int>!
+        var request: Future<Int>!
         var expectedRequest: Promise<Int>!
         
         beforeEach {
           expectedRequest = Promise<Int>()
-          originalCache.cacheRequestToReturn = expectedRequest
+          originalCache.cacheRequestToReturn = expectedRequest.future
           request = cacheToTest.get(key)
         }
         
@@ -57,7 +57,7 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not modify the request") {
-          expect(request).to(beIdenticalTo(expectedRequest))
+          expect(request).to(beIdenticalTo(expectedRequest.future))
         }
       }
       
@@ -114,7 +114,7 @@ class NormalizationTests: QuickSpec {
         var originalCache: BasicCache<String, Int>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ Promise(value: $0) })
+          originalCache = CacheLevelFake().transformKeys({ Promise(value: $0).future })
           cacheToTest = normalize(originalCache)
         }
         
@@ -148,7 +148,7 @@ class NormalizationTests: QuickSpec {
         var originalCache: BasicCache<String, Int>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ Promise(value: $0) })
+          originalCache = CacheLevelFake().transformKeys({ Promise(value: $0).future })
           cacheToTest = originalCache.normalize()
         }
         

@@ -23,7 +23,7 @@ extension CacheLevel {
           result.mimic(self.get(key))
         }
         
-        return result
+        return result.future
       },
       setClosure: { (value, key) in
         gcd.async {
@@ -60,6 +60,6 @@ Dispatches all the operations of a given fetch closure on the given GCD queue
  
 - returns: A new CacheLevel that dispatches the fetch closure on the given GCD queue
 */
-public func ~>><A, B>(lhs: A -> Promise<B>, rhs: dispatch_queue_t) -> BasicCache<A, B> {
+public func ~>><A, B>(lhs: A -> Future<B>, rhs: dispatch_queue_t) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(lhs).dispatch(rhs)
 }

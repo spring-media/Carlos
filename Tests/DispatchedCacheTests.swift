@@ -9,7 +9,7 @@ func getMutablePointer (object: AnyObject) -> UnsafeMutablePointer<Void> {
   return UnsafeMutablePointer<Void>(bitPattern: Int(ObjectIdentifier(object).uintValue))
 }
 
-private struct DispatchedShareExamplesContext {
+struct DispatchedShareExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
   static let QueueToUse = "queue"
@@ -41,7 +41,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
           successValue = nil
           
           fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest
+          internalCache.cacheRequestToReturn = fakeRequest.future
           
           cache.get(key).onSuccess({ value in
             successSentinel = true

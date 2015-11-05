@@ -45,15 +45,15 @@ internal struct GCD: GCDQueue {
 /// An async dispatch operation
 internal class AsyncDispatch<T> {
   /// The inner async operation
-  var operation: Promise<T>
+  var operation: Future<T>
   
-  init(operation: Promise<T>) {
+  init(operation: Future<T>) {
     self.operation = operation
   }
   
   private func dispatchClosureAsync<O>(closure: T -> O, queue: GCDQueue) -> AsyncDispatch<O> {
     let innerResult = Promise<O>()
-    let result = AsyncDispatch<O>(operation: innerResult)
+    let result = AsyncDispatch<O>(operation: innerResult.future)
     
     operation.onSuccess { value in
       queue.async {
@@ -104,7 +104,7 @@ extension GCDQueue {
   */
   internal func async<T>(closure: Void -> T) -> AsyncDispatch<T> {
     let innerResult = Promise<T>()
-    let result = AsyncDispatch<T>(operation: innerResult)
+    let result = AsyncDispatch<T>(operation: innerResult.future)
     
     dispatch_async(queue) {
       innerResult.succeed(closure())

@@ -1,6 +1,6 @@
 import Foundation
 
-/// This class wraps a cache request future, where you can attach failure and success callbacks.
+/// This class is a Future computation, where you can attach failure and success callbacks.
 public class Promise<T> {
   private var failureListeners: [(ErrorType) -> Void] = []
   private var successListeners: [(T) -> Void] = []
@@ -8,6 +8,11 @@ public class Promise<T> {
   private var error: ErrorType?
   private var value: T?
   private var canceled = false
+  
+  /// The Future associated to this Promise
+  public lazy var future: Future<T> = {
+    return Future(promise: self)
+  }()
   
   /**
   Creates a new Promise
@@ -18,7 +23,7 @@ public class Promise<T> {
   /**
   Initializes a new Promise and makes it immediately succeed with the given value
   
-  - parameter value: The success value of the request
+  - parameter value: The success value of the Promise
   */
   public convenience init(value: T) {
     self.init()
@@ -29,8 +34,8 @@ public class Promise<T> {
   /**
   Initializes a new Promise and makes it immediately succeed or fail depending on the value
    
-  - parameter value: The success value of the request, if not .None
-  - parameter error: The error of the request, if value is .None
+  - parameter value: The success value of the Promise, if not .None
+  - parameter error: The error of the Promise, if value is .None
   */
   public convenience init(value: T?, error: ErrorType) {
     self.init()
@@ -45,7 +50,7 @@ public class Promise<T> {
   /**
   Initializes a new Promise and makes it immediately fail with the given error
   
-  - parameter error: The error of the request
+  - parameter error: The error of the Promise
   */
   public convenience init(error: ErrorType) {
     self.init()
@@ -54,14 +59,14 @@ public class Promise<T> {
   }
   
   /**
-  Mimics the given Promise, so that it fails or succeeds when the stamps does so (in addition to its pre-existing behavior)
-  Moreover, if the mimiced request is canceled, the request will also cancel itself
+  Mimics the given Future, so that it fails or succeeds when the stamps does so (in addition to its pre-existing behavior)
+  Moreover, if the mimiced Future is canceled, the Promise will also cancel itself
    
-  - parameter stamp: The Promise to mimic
+  - parameter stamp: The Future to mimic
    
   - returns: The Promise itself
   */
-  public func mimic(stamp: Promise<T>) -> Promise<T> {
+  public func mimic(stamp: Future<T>) -> Promise<T> {
     stamp
       .onSuccess(self.succeed)
       .onFailure(self.fail)
@@ -71,9 +76,9 @@ public class Promise<T> {
   }
   
   /**
-  Makes the request succeed with a value
+  Makes the Promise succeed with a value
   
-  - parameter value: The value found for the request
+  - parameter value: The value found for the Promise
   
   Calling this method makes all the listeners get the onSuccess callback
   */
@@ -90,9 +95,9 @@ public class Promise<T> {
   }
   
   /**
-  Makes the request fail with an error
+  Makes the Promise fail with an error
   
-  - parameter error: The optional error that caused the request to fail
+  - parameter error: The optional error that caused the Promise to fail
   
   Calling this method makes all the listeners get the onFailure callback
   */
@@ -109,7 +114,7 @@ public class Promise<T> {
   }
   
   /**
-  Cancels the request
+  Cancels the Promise
   
   Calling this method makes all the listeners get the onCancel callback (but not the onFailure callback)
   */
@@ -126,11 +131,11 @@ public class Promise<T> {
   }
   
   /**
-  Adds a listener for the cancel event of this request
+  Adds a listener for the cancel event of this Promise
    
-  - parameter cancel: The closure that should be called when the request is canceled
+  - parameter cancel: The closure that should be called when the Promise is canceled
    
-  - returns: The updated request
+  - returns: The updated Promise
   */
   public func onCancel(callback: Void -> Void) -> Promise<T> {
     if canceled {
@@ -143,11 +148,11 @@ public class Promise<T> {
   }
   
   /**
-  Adds a listener for the success event of this request
+  Adds a listener for the success event of this Promise
   
-  - parameter success: The closure that should be called when the request succeeds, taking the value as a parameter
+  - parameter success: The closure that should be called when the Promise succeeds, taking the value as a parameter
   
-  - returns: The updated request
+  - returns: The updated Promise
   */
   public func onSuccess(callback: (T) -> Void) -> Promise<T> {
     if let value = value {
@@ -160,11 +165,11 @@ public class Promise<T> {
   }
   
   /**
-  Adds a listener for the failure event of this request
+  Adds a listener for the failure event of this Promise
   
-  - parameter success: The closure that should be called when the request fails, taking the error as a parameter
+  - parameter success: The closure that should be called when the Promise fails, taking the error as a parameter
   
-  - returns: The updated request
+  - returns: The updated Promise
   */
   public func onFailure(callback: (ErrorType) -> Void) -> Promise<T> {
     if let error = error {
@@ -177,11 +182,11 @@ public class Promise<T> {
   }
   
   /**
-  Adds a listener for both success and failure events of this request
+  Adds a listener for both success and failure events of this Promise
   
-  - parameter completion: The closure that should be called when the request completes (succeeds or fails), taking both an optional value in case the request succeeded and an optional error in case the request failed as parameters. If the request is canceled, both values will be nil
+  - parameter completion: The closure that should be called when the Promise completes (succeeds or fails), taking both an optional value in case the Promise succeeded and an optional error in case the Promise failed as parameters. If the Promise is canceled, both values will be nil
   
-  - returns: The updated request
+  - returns: The updated Promise
   */
   public func onCompletion(completion: (value: T?, error: ErrorType?) -> Void) -> Promise<T> {
     if let error = error {

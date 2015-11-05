@@ -3,7 +3,7 @@ import Quick
 import Nimble
 import Carlos
 
-private struct RequestCapperCacheSharedExamplesContext {
+struct RequestCapperCacheSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
   static let RequestCap = "requestCap"
@@ -25,7 +25,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get") {
         let key = "test-key"
         let value = 10211
-        var pendingRequest: Promise<Int>!
+        var pendingRequest: Future<Int>!
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
@@ -36,7 +36,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
           failureSentinel = nil
           
           requestToReturn = Promise<Int>()
-          internalCache.cacheRequestToReturn = requestToReturn
+          internalCache.cacheRequestToReturn = requestToReturn.future
           
           pendingRequest = cache.get(key).onSuccess({ value in
             successSentinel = true
@@ -94,7 +94,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
             
             for _ in (1..<requestCap).enumerate() {
               let fakeRequest = Promise<Int>()
-              internalCache.cacheRequestToReturn = fakeRequest
+              internalCache.cacheRequestToReturn = fakeRequest.future
               
               cache.get(key)
               
@@ -118,7 +118,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               exceedingRequestValue = nil
               
               exceedingRequest = Promise<Int>()
-              internalCache.cacheRequestToReturn = exceedingRequest
+              internalCache.cacheRequestToReturn = exceedingRequest.future
               
               cache.get(key).onSuccess({ value in
                 exceedingRequestSuccess = true

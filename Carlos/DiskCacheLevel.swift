@@ -68,9 +68,9 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   
   - parameter key: The key for the value
   
-  - returns: A Promise where you can call onSuccess and onFailure to be notified of the result of the fetch
+  - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
-  public func get(key: KeyType) -> Promise<OutputType> {
+  public func get(key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     
     cacheQueue.async { Void -> Void in
@@ -93,7 +93,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
       }
     }
     
-    return request
+    return request.future
   }
   
   /**
