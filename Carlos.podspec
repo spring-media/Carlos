@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Carlos"
-  s.version          = "0.4"
+  s.version          = "0.5"
   s.summary          = "A simple but flexible cache."
   s.description      = <<-DESC
 			Carlos is a small set of classes, global functions and convenience operators to realize custom, flexible and powerful cache layers in your iOS, Watch OS 2, tvOS and Mac OS X applications.
