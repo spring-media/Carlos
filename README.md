@@ -33,6 +33,7 @@
   - [Creating custom fetchers](#creating-custom-fetchers)
   - [Composing with closures](#composing-with-closures)
   - [Built-in levels](#built-in-levels)
+  - [Logging](#logging)
 - [Tests](#tests)
 - [Future development](#future-development)
 - [Authors](#authors)
@@ -715,6 +716,19 @@ This cache level is thread-safe.
 It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `NSCoding` protocol.
 It has an internal soft cache used to avoid hitting the persistent storage too often, and can be cleared without affecting other values saved on the `standardUserDefaults` or on other persistent domains.
 This cache level is thread-safe.
+
+### Logging
+
+When we decided how to handle logging in Carlos, we went for the most flexible approach that didn't require us to code a complete logging framework, that is the ability to plug-in your own logging library.
+If you want the output of Carlos to only be printed if exceeding a given level, if you want to completely silent it for release builds, or if you want to route it to a file, or whatever else: just assign your logging handling closure to `Carlos.Logger.output`:
+
+```swift
+Carlos.Logger.output = { message, level in 
+   myLibrary.log(message) //Plug here your logging library
+}
+```
+
+We're using [XCGLogger](https://github.com/DaveWoodCom/XCGLogger) in production and we are able to only log in debug builds without too much effort.
 
 ## Tests
 
