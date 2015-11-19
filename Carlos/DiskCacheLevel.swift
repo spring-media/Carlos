@@ -164,13 +164,18 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   private func setDataSync(data: T, key: K) {
     let path = pathForKey(key)
     let previousSize = sizeForFileAtPath(path)
-    if !NSKeyedArchiver.archiveRootObject(data, toFile: path) {
+    
+    if NSKeyedArchiver.archiveRootObject(data, toFile: path) {
+      let newSize = sizeForFileAtPath(path)
+      if newSize > previousSize {
+        size += newSize - previousSize
+        controlCapacity()
+      } else {
+        size -= previousSize - newSize
+      }
+    } else {
       Logger.log("Failed to write key \(key.toString()) on the disk cache", .Error)
     }
-    
-    size += max(0, sizeForFileAtPath(path) - previousSize)
-    
-    controlCapacity()
   }
   
   private func updateDiskAccessDateAtPath(path: String) -> Bool {
