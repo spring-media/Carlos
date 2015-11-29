@@ -132,16 +132,22 @@ Getting a value for a given key on this cache will first try getting it on the m
 In case both levels don't have a value, the request will fail.
 In case the disk level can fetch a value, this will also be set on the memory level so that the next fetch will be faster.
 
-`Carlos` comes with a `CacheProvider` class so that standard caches are easily accessible. Starting from version `0.2.0`, `CacheProvider` has 2 static functions:
+`Carlos` comes with a `CacheProvider` class so that standard caches are easily accessible. 
 
 - `CacheProvider.dataCache()` to create a cache that takes `NSURL` keys and returns `NSData` values
 - `CacheProvider.imageCache()` to create a cache that takes `NSURL` keys and returns `UIImage` values
+- `CacheProvider.JSONCache()` to create a cache that takes `NSURL` keys and returns `AnyObject` values (that should be then safely casted to arrays or dictionaries depending on your application)
 
 The method `CacheProvider.imageCache()` is not available yet for the `CarlosMac.framework` framework.
 
-Starting from version `0.4.0`, `CacheProvider` also offers the new function:
+The above methods always create new instances (so calling `CacheProvider.imageCache()` twice doesn't return the same instance, even though the disk level will be effectively shared because it will use the same folder on disk, but this is a side-effect and should not be relied upon) and you should take care of retaining the result in your application layer.
+If you want to always get the same instance, you can use the following accessors instead:
 
-- `CacheProvider.JSONCache()` to create a cache that takes `NSURL` keys and returns `AnyObject` values (that should be then safely casted to arrays or dictionaries depending on your application)
+- `CacheProvider.sharedDataCache` to retrieve a shared instance of a data cache
+- `CacheProvider.sharedImageCache` to retrieve a shared instance of an image cache
+- `CacheProvider.sharedJSONCache` to retrieve a shared instance of a JSON cache
+
+As for the corresponding functions, `sharedImageCache` is not available for the `CarlosMac.framework` framework yet.
 
 ### Creating requests
 

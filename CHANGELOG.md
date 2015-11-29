@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6
+
+**Minor improvements**
+- `CacheProvider` now has accessors to retrieve shared instances of the built-in caches (`sharedImageCache`, `sharedDataCache` and `sharedJSONCache`)
+
 ## 0.5
 
 **New features**
