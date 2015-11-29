@@ -92,6 +92,8 @@ public class Promise<T> {
     for listener in successListeners {
       listener(value)
     }
+    
+    successListeners.removeAll()
   }
   
   /**
@@ -111,6 +113,8 @@ public class Promise<T> {
     for listener in failureListeners {
       listener(error)
     }
+    
+    failureListeners.removeAll()
   }
   
   /**
@@ -128,6 +132,8 @@ public class Promise<T> {
     for listener in cancelListeners {
       listener()
     }
+    
+    cancelListeners.removeAll()
   }
   
   /**
