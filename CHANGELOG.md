@@ -2,6 +2,9 @@
 
 ## 0.6
 
+**Fixes**
+- `Carthage` integration works again
+
 **Minor improvements**
 - `CacheProvider` now has accessors to retrieve shared instances of the built-in caches (`sharedImageCache`, `sharedDataCache` and `sharedJSONCache`)
 
