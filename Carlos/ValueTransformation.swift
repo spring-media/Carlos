@@ -21,6 +21,27 @@ extension Future {
     
     return mutatedRequest.future
   }
+  
+  /**
+   Mutates a future from a type A to a type B through a conditioned OneWayTransformer
+   
+   - parameter key The key to use for the condition
+   - parameter conditionedTransformer A closure accepting a key and a value and returning a future
+   
+   - returns A new Future with the transformed value
+   */
+  internal func mutate<K, O>(key: K, conditionedTransformer: (key: K, value: T) -> Future<O>) -> Future<O> {
+    let mutatedRequest = Promise<O>()
+    
+    self
+      .onFailure(mutatedRequest.fail)
+      .onCancel(mutatedRequest.cancel)
+      .onSuccess { result in
+        mutatedRequest.mimic(conditionedTransformer(key: key, value: result))
+      }
+    
+    return mutatedRequest.future
+  }
 
   /**
   Mutates a Future from a type A to a type B through a OneWayTransformer
