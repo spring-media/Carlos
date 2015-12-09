@@ -18,19 +18,23 @@ class DeferredResultOperationTests: QuickSpec {
       var successSentinel: Bool?
       var failureSentinel: Bool?
       var successValue: String?
+      var cancelSentinel: Bool?
       
       beforeEach {
         successSentinel = nil
         failureSentinel = nil
+        cancelSentinel = nil
         
         decoy = Promise<String>()
         
-        decoy.onSuccess({ value in
+        decoy.onSuccess { value in
           successSentinel = true
           successValue = value
-        }).onFailure({ _ in
+        }.onFailure { _ in
           failureSentinel = true
-        })
+        }.onCancel {
+          cancelSentinel = true
+        }
         
         key = 10
         internalCache = CacheLevelFake<Int, String>()
@@ -81,6 +85,10 @@ class DeferredResultOperationTests: QuickSpec {
           expect(failureSentinel).toEventually(beNil())
         }
         
+        it("should not call the cancel closure yet") {
+          expect(cancelSentinel).toEventually(beNil())
+        }
+        
         context("when the internal request succeeds") {
           let value = "10"
           
@@ -100,6 +108,32 @@ class DeferredResultOperationTests: QuickSpec {
             expect(failureSentinel).toEventually(beNil())
           }
           
+          it("should not call the cancel closure") {
+            expect(cancelSentinel).toEventually(beNil())
+          }
+          
+          it("should finish the operation") {
+            expect(operation.finished).toEventually(beTrue())
+          }
+        }
+        
+        context("when the internal request is canceled") {
+          beforeEach {
+            requestToReturn.cancel()
+          }
+          
+          it("should not call the failure closure") {
+            expect(failureSentinel).toEventually(beNil())
+          }
+          
+          it("should not call the success closure") {
+            expect(successSentinel).toEventually(beNil())
+          }
+          
+          it("should call the cancel closure") {
+            expect(cancelSentinel).toEventually(beTrue())
+          }
+          
           it("should finish the operation") {
             expect(operation.finished).toEventually(beTrue())
           }
@@ -116,6 +150,10 @@ class DeferredResultOperationTests: QuickSpec {
           
           it("should not call the success closure") {
             expect(successSentinel).toEventually(beNil())
+          }
+          
+          it("should not call the cancel closure") {
+            expect(cancelSentinel).toEventually(beNil())
           }
           
           it("should finish the operation") {

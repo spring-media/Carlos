@@ -35,16 +35,12 @@ internal func >>> <A, B, C>(f: A -> Future<B>, g: B -> Future<C>) -> A -> Future
     f(param)
       .onSuccess { result in
         g(result)
-          .onSuccess { result in
-            resultingRequest.succeed(result)
-          }
-          .onFailure { error in
-            resultingRequest.fail(error)
-          }
+          .onSuccess(resultingRequest.succeed)
+          .onFailure(resultingRequest.fail)
+          .onCancel(resultingRequest.cancel)
       }
-      .onFailure { error in
-        resultingRequest.fail(error)
-      }
+      .onCancel(resultingRequest.cancel)
+      .onFailure(resultingRequest.fail)
     
     return resultingRequest.future
   }

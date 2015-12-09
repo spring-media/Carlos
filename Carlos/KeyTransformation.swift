@@ -21,6 +21,7 @@ extension CacheLevel {
             result.mimic(self.get(transformedKey))
           }
           .onFailure(result.fail)
+          .onCancel(result.cancel)
         
         return result.future
       },

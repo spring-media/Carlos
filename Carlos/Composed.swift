@@ -33,12 +33,14 @@ extension CacheLevel {
           .onSuccess { result in
             request.succeed(result)
           }
+          .onCancel(request.cancel)
           .onFailure { error in
             cache.get(key)
               .onSuccess { result in
                 request.succeed(result)
                 self.set(result, forKey: key)
               }
+              .onCancel(request.cancel)
               .onFailure{ error in
                 request.fail(error)
               }

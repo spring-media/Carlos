@@ -15,6 +15,7 @@ extension Future {
     
     self
       .onFailure(mutatedRequest.fail)
+      .onCancel(mutatedRequest.cancel)
       .onSuccess { result in
         mutatedRequest.mimic(transformer.transform(result))
       }

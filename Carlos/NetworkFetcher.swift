@@ -113,6 +113,10 @@ public class NetworkFetcher: Fetcher {
         Logger.log("Failed fetching \(key) from the network fetcher", .Error)
         self.removePendingRequests(result)
       }
+      .onCancel {
+        Logger.log("Canceled request for \(key) on the network fetcher", .Info)
+        self.removePendingRequests(result)
+      }
     
     self.addPendingRequest(result)
     

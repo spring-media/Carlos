@@ -28,10 +28,16 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         var cache2Request: Promise<Int>!
         var successSentinel: Bool?
         var failureSentinel: Bool?
+        var cancelSentinel: Bool!
         var successValue: Int?
         var resultRequest: Future<Int>!
         
         beforeEach {
+          cancelSentinel = false
+          successSentinel = nil
+          successValue = nil
+          failureSentinel = nil
+          
           cache1Request = Promise<Int>()
           cache1.cacheRequestToReturn = cache1Request.future
           
@@ -43,12 +49,15 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             cache.numberOfTimesCalledSet = 0
           }
           
-          resultRequest = composedCache.get(key).onSuccess({ result in
+          resultRequest = composedCache.get(key)
+          .onSuccess { result in
             successSentinel = true
             successValue = result
-          }).onFailure({ _ in
+          }.onFailure { _ in
             failureSentinel = true
-          })
+          }.onCancel {
+            cancelSentinel = true
+          }
         }
         
         it("should not call any success closure") {
@@ -57,6 +66,10 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         it("should not call any failure closure") {
           expect(failureSentinel).to(beNil())
+        }
+        
+        it("should not call any cancel closure") {
+          expect(cancelSentinel).to(beFalse())
         }
         
         it("should call get on the first cache") {
@@ -86,16 +99,35 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             expect(failureSentinel).to(beNil())
           }
           
+          it("should not call the cancel closure") {
+            expect(cancelSentinel).to(beFalse())
+          }
+          
           it("should not call get on the second cache") {
             expect(cache2.numberOfTimesCalledGet).to(equal(0))
           }
         }
         
+        context("when the first request is canceled") {
+          beforeEach {
+            cache1Request.cancel()
+          }
+          
+          it("should not call the success closure") {
+            expect(successSentinel).to(beNil())
+          }
+          
+          it("should not call the failure closure") {
+            expect(failureSentinel).to(beNil())
+          }
+          
+          it("should call the cancel closure") {
+            expect(cancelSentinel).to(beTrue())
+          }
+        }
+        
         context("when the first request fails") {
           beforeEach {
-            successSentinel = nil
-            failureSentinel = nil
-            
             cache1Request.fail(TestError.SimpleError)
           }
           
@@ -105,6 +137,10 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           
           it("should not call the failure closure") {
             expect(failureSentinel).to(beNil())
+          }
+          
+          it("should not call the cancel closure") {
+            expect(cancelSentinel).to(beFalse())
           }
           
           it("should call get on the second cache") {
@@ -133,6 +169,28 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             it("should not call the failure closure") {
               expect(failureSentinel).to(beNil())
             }
+            
+            it("should not call the cancel closure") {
+              expect(cancelSentinel).to(beFalse())
+            }
+          }
+          
+          context("when the second request is canceled") {
+            beforeEach {
+              cache2Request.cancel()
+            }
+            
+            it("should not call the success closure") {
+              expect(successSentinel).to(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(failureSentinel).to(beNil())
+            }
+            
+            it("should call the cancel closure") {
+              expect(cancelSentinel).to(beTrue())
+            }
           }
           
           context("when the second request fails") {
@@ -146,6 +204,10 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             
             it("should call the failure closure") {
               expect(failureSentinel).notTo(beNil())
+            }
+            
+            it("should not call the cancel closure") {
+              expect(cancelSentinel).to(beFalse())
             }
             
             it("should not do other get calls on the first cache") {
@@ -178,9 +240,15 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
+        var cancelSentinel: Bool!
         var resultRequest: Future<Int>!
         
         beforeEach {
+          cancelSentinel = false
+          successSentinel = nil
+          failureSentinel = nil
+          successValue = nil
+          
           cache1Request = Promise<Int>()
           cache1.cacheRequestToReturn = cache1Request.future
           
@@ -192,12 +260,15 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             cache.numberOfTimesCalledSet = 0
           }
           
-          resultRequest = composedCache.get(key).onSuccess({ result in
+          resultRequest = composedCache.get(key)
+          .onSuccess { result in
             successSentinel = true
             successValue = result
-          }).onFailure({ _ in
+          }.onFailure { _ in
             failureSentinel = true
-          })
+          }.onCancel {
+            cancelSentinel = true
+          }
         }
         
         itBehavesLike("get without considering set calls") {
@@ -210,9 +281,6 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the first request fails") {
           beforeEach {
-            successSentinel = nil
-            failureSentinel = nil
-            
             cache1Request.fail(TestError.SimpleError)
           }
           

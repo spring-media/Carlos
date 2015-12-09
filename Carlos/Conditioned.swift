@@ -36,6 +36,7 @@ private func conditionedClosure<A, B>(closure: A -> Future<B>, condition: A -> F
         }
       }
       .onFailure(request.fail)
+      .onCancel(request.cancel)
     
     return request.future
   }

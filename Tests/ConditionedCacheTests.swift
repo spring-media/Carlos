@@ -26,8 +26,15 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         var successValue: Int?
         var failureSentinel: Bool?
         var failureValue: ErrorType?
+        var cancelSentinel: Bool?
         
         beforeEach {
+          failureSentinel = nil
+          failureValue = nil
+          successSentinel = nil
+          successValue = nil
+          cancelSentinel = nil
+          
           fakeRequest = Promise<Int>()
           internalCache.cacheRequestToReturn = fakeRequest.future
         }
@@ -36,13 +43,15 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "this key works"
           
           beforeEach {
-            cache.get(key).onSuccess({ success in
+            cache.get(key).onSuccess { success in
               successSentinel = true
               successValue = value
-            }).onFailure({ error in
+            }.onFailure { error in
               failureValue = error
               failureSentinel = true
-            })
+            }.onCancel {
+              cancelSentinel = true
+            }
           }
           
           it("should forward the call to the internal cache") {
@@ -65,6 +74,32 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
             it("should pass the right value") {
               expect(successValue).to(equal(value))
             }
+            
+            it("should not call the cancel closure") {
+              expect(cancelSentinel).to(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(failureSentinel).to(beNil())
+            }
+          }
+          
+          context("when the request is canceled") {
+            beforeEach {
+              fakeRequest.cancel()
+            }
+            
+            it("should call the original closure") {
+              expect(cancelSentinel).to(beTrue())
+            }
+            
+            it("should not call the success closure") {
+              expect(successSentinel).to(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(failureSentinel).to(beNil())
+            }
           }
           
           context("when the request fails") {
@@ -80,6 +115,14 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
             
             it("should pass the right error") {
               expect(failureValue as? TestError).to(equal(errorCode))
+            }
+            
+            it("should not call the cancel closure") {
+              expect(cancelSentinel).to(beNil())
+            }
+            
+            it("should not call the success closure") {
+              expect(successSentinel).to(beNil())
             }
           }
         }
@@ -107,6 +150,14 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
           
           it("should pass the provided error") {
             expect(failureValue as? ConditionError).to(equal(ConditionError.MyError))
+          }
+          
+          it("should not call the cancel closure") {
+            expect(cancelSentinel).to(beNil())
+          }
+          
+          it("should not call the success closure") {
+            expect(successSentinel).to(beNil())
           }
         }
       }

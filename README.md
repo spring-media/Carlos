@@ -782,7 +782,7 @@ We're using [XCGLogger](https://github.com/DaveWoodCom/XCGLogger) in production 
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are more than **1500 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are around **1800 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 

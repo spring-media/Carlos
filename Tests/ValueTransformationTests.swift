@@ -27,12 +27,17 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
         var successValue: String?
         var failureValue: ErrorType?
         var fakeRequest: Promise<Int>!
+        var canceled: Bool!
         
         beforeEach {
+          canceled = false
+          failureValue = nil
+          successValue = nil
+          
           fakeRequest = Promise<Int>()
           internalCache.cacheRequestToReturn = fakeRequest.future
           
-          cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
+          cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }.onCancel { canceled = true }
         }
         
         it("should forward the call to the internal cache") {
@@ -59,6 +64,14 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
               var expected: String!
               transformer.transform(value).onSuccess { expected = $0 }
               expect(successValue).to(equal(expected))
+            }
+            
+            it("should not call the original cancel closure") {
+              expect(canceled).to(beFalse())
+            }
+            
+            it("should not call the original failure closure") {
+              expect(failureValue).to(beNil())
             }
           }
           
@@ -97,6 +110,32 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
           
           it("should fail with the right code") {
             expect(failureValue as? TestError).to(equal(errorCode))
+          }
+          
+          it("should not call the original success closure") {
+            expect(successValue).to(beNil())
+          }
+          
+          it("should not call the original cancel closure") {
+            expect(canceled).to(beFalse())
+          }
+        }
+        
+        context("when the request is canceled") {
+          beforeEach {
+            fakeRequest.cancel()
+          }
+          
+          it("should call the original cancel closure") {
+            expect(canceled).to(beTrue())
+          }
+          
+          it("should not call the original failure closure") {
+            expect(failureValue).to(beNil())
+          }
+          
+          it("should not call the original success closure") {
+            expect(successValue).to(beNil())
           }
         }
       }
