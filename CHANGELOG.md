@@ -3,7 +3,8 @@
 ## 0.6
 
 **New features**
-- It's now possible to conditionally transform values fetched from `CacheLevel`s (or fetch closures) on the key used to fetch the value. Use the function `conditionedPostProcess` or consult the `README.md` for more information
+- It's now possible to conditionally post-process values fetched from `CacheLevel`s (or fetch closures) on the key used to fetch the value. Use the function `conditionedPostProcess` or consult the `README.md` for more information
+- It's now possible to conditionally transform values fetched from (or set on) `CacheLevel`s on the key used to fetch (or set) the value. Use the function `conditionedValueTransformation` or consult the `README.md` for more information
 
 **Fixes**
 - `Carthage` integration works again

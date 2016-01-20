@@ -22,6 +22,7 @@
   - [Value transformations](#value-transformations)
   - [Output post-processing](#post-processing-output)
   - [Conditioned output post-processing](#conditioned-output-post-processing)
+  - [Conditioned value transformation](#conditioned-value-transformation)
   - [Composing transformers](#composing-transformers)
   - [Pooling requests](#pooling-requests)
   - [Limiting concurrent requests](#limiting-concurrent-requests)
@@ -54,7 +55,7 @@ With `Carlos` you can:
 - Cancel pending requests
 - [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on). Some common value transformers are already provided with `Carlos`
 - Apply [post-processing steps](#post-processing-output) to a cache level, for example sanitizing the output or resizing images
-- Post-processing steps can also be [applied conditionally](#conditioned-output-post-processing) on the key used to fetch the value 
+- [Post-processing steps](#conditioned-output-post-processing) and [value transformations](#conditioned-value-transformation) can also be applied conditionally on the key used to fetch the value 
 - [react to memory pressure events](#listening-to-memory-warnings) in your app
 - **automatically populate upper levels when one of the lower levels fetches a value** for a key, so the next time the first level will already have it cached
 - enable or disable specific levels of your composed cache depending on [boolean conditions](#conditioning-caches)
@@ -395,7 +396,7 @@ Extending the case for simple [output post-processing](#post-processing-output),
 For these cases, the `conditionedPostProcess` function introduced with `Carlos 0.6` could come helpful.
 The function is available as a protocol extension of the `CacheLevel` protocol and as an operator in the form of `?>>`.
 
-The `conditionedPostProcess` function takes a `CacheLevel` (or a fetch closure) and a conditioned transformation closure `(key, value) -> Future<ValueType>` as parameters and outputs a decorated `CacheLevel` with the conditional post-processing step embedded in.
+The `conditionedPostProcess` function takes a `CacheLevel` (or a fetch closure) and a conditioned transformer conforming to `ConditionedOneWayTransformer` as parameters and outputs a decorated `CacheLevel` with the conditional post-processing step embedded in.
 
 ```swift
 
@@ -403,13 +404,13 @@ The `conditionedPostProcess` function takes a `CacheLevel` (or a fetch closure) 
 let memoryCache = MemoryCacheLevel<String, NSString>()
 
 // Our decorated cache
-let transformedCache = memoryCache.conditionedPostProcess { (key, value) in
+let transformedCache = memoryCache.conditionedPostProcess(ConditionedOneWayTransformationBox(conditionalTransformClosure: { (key, value) in
 	if key == "some sentinel value" {
 	    return Promise(value: value.uppercaseString).future
 	} else {
 		return Promise(value: value).future
 	}
-}
+})
 
 // Lowercase value set on the memory layer
 memoryCache.set("test String", forKey: "some sentinel value")
@@ -423,6 +424,52 @@ memoryCache.get("some sentinel value").onSuccess { value in
 transformedCache.get("some sentinel value").onSuccess { value in
   let x = value
 }
+```
+
+### Conditioned value transformation
+
+Extending the case for simple [value transformation](#value-transformations), you can also apply conditional transformations based on the key used to fetch or set the value.
+
+For these cases, the `conditionedValueTransformation` function introduced with `Carlos 0.6` could come helpful.
+The function is available as a protocol extension of the `CacheLevel` protocol and as an operator in the form of `?>>`.
+
+The `conditionedValueTransformation` function takes a `CacheLevel` and a conditioned transformer conforming to `ConditionedTwoWayTransformer` as parameters and outputs a decorated `CacheLevel` with a modified `OutputType` (equal to the transformer's `TypeOut`, as in the normal value transformation case) with the conditional value transformation step embedded in.
+
+```swift
+
+// Our memory cache
+let memoryCache = MemoryCacheLevel<String, NSString>()
+
+// Our decorated cache
+let transformedCache = memoryCache.conditionedValueTransformation(ConditionedTwoWayTransformationBox(conditionalTransformClosure: { (key, value) in
+	if key == "some sentinel value" {
+	    return Promise(value: 1).future
+	} else {
+		return Promise(value: 0).future
+	}
+}, conditionalInverseTransformClosure: { (key, value) in 
+    if key > 0 {
+	    return Promise(value: "Positive").future
+	} else {
+		return Promise(value: "Null or negative").future
+	}
+})
+
+// Value set on the memory layer
+memoryCache.set("test String", forKey: "some sentinel value")
+
+// We get the same value from the undecorated memory layer 
+memoryCache.get("some sentinel value").onSuccess { value in
+  let x = value
+}
+
+// We get 1 from the decorated cache, though
+transformedCache.get("some sentinel value").onSuccess { value in
+  let x = value
+}
+
+// We set "Positive" on the decorated cache
+transformedCache.set(5, forKey: "test")
 ```
 
 ### Composing transformers
@@ -782,7 +829,7 @@ We're using [XCGLogger](https://github.com/DaveWoodCom/XCGLogger) in production 
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **1800 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are around **1900 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 

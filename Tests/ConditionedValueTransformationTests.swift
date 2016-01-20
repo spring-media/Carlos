@@ -3,28 +3,28 @@ import Quick
 import Nimble
 import Carlos
 
-struct ConditionedPostProcessSharedExamplesContext {
+struct ConditionedValueTransformationSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
   static let Transformer = "transformer"
 }
 
-class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
+class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(configuration: Configuration) {
-    sharedExamples("a fetch closure with conditioned post-processing") { (sharedExampleContext: SharedExampleContext) in
-      var cache: BasicCache<String, Int>!
+    sharedExamples("a cache with conditioned value transformation") { (sharedExampleContext: SharedExampleContext) in
+      var cache: BasicCache<String, Float>!
       var internalCache: CacheLevelFake<String, Int>!
-      var transformer: ConditionedOneWayTransformationBox<String, Int, Int>!
+      var transformer: ConditionedTwoWayTransformationBox<String, Int, Float>!
       
       beforeEach {
-        cache = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
-        internalCache = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
-        transformer = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.Transformer] as? ConditionedOneWayTransformationBox<String, Int, Int>
+        cache = sharedExampleContext()[ConditionedValueTransformationSharedExamplesContext.CacheToTest] as? BasicCache<String, Float>
+        internalCache = sharedExampleContext()[ConditionedValueTransformationSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
+        transformer = sharedExampleContext()[ConditionedValueTransformationSharedExamplesContext.Transformer] as? ConditionedTwoWayTransformationBox<String, Int, Float>
       }
       
-      context("when calling get with a key that triggers some post-processing") {
+      context("when calling get with a key that meets the condition") {
         let key = "do"
-        var successValue: Int?
+        var successValue: Float?
         var failureValue: ErrorType?
         var fakeRequest: Promise<Int>!
         
@@ -53,7 +53,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should call the transformation closure with the right value") {
-            var expected: Int!
+            var expected: Float!
             transformer.conditionalTransform(key, value: value).onSuccess { expected = $0 }
             expect(successValue).to(equal(expected))
           }
@@ -72,9 +72,9 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
         }
       }
       
-      context("when calling get with a key that triggers failure on the post-processing") {
+      context("when calling get with a key that doesn't meet the condition") {
         let key = "don't"
-        var successValue: Int?
+        var successValue: Float?
         var failureValue: ErrorType?
         var fakeRequest: Promise<Int>!
         
@@ -130,7 +130,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let key = "12"
-        var successValue: Int?
+        var successValue: Float?
         var failureValue: ErrorType?
         var fakeRequest: Promise<Int>!
         
@@ -160,7 +160,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should call the transformation closure with the success value") {
-              var expected: Int!
+              var expected: Float!
               transformer.conditionalTransform(key, value: value).onSuccess { expected = $0 }
               expect(successValue).to(equal(expected))
             }
@@ -199,45 +199,40 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
           }
         }
       }
-    }
-    
-    sharedExamples("a cache with conditioned post-processing") { (sharedExampleContext: SharedExampleContext) in
-      var cache: BasicCache<String, Int>!
-      var internalCache: CacheLevelFake<String, Int>!
-      var transformer: ConditionedOneWayTransformationBox<String, Int, Int>!
-      
-      beforeEach {
-        cache = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
-        internalCache = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
-        transformer = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.Transformer] as? ConditionedOneWayTransformationBox<String, Int, Int>
-      }
-      
-      itBehavesLike("a fetch closure with conditioned post-processing") {
-        [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
       
       context("when calling set") {
-        let key = "10"
-        let value = 222
-        
-        beforeEach {
-          cache.set(value, forKey: key)
+        context("when the condition is met") {
+          let key = "10"
+          let value: Float = 222
+          
+          beforeEach {
+            cache.set(value, forKey: key)
+          }
+          
+          it("should forward the call to the internal cache") {
+            expect(internalCache.numberOfTimesCalledSet).to(equal(1))
+          }
+          
+          it("should forward the key") {
+            expect(internalCache.didSetKey).to(equal(key))
+          }
+          
+          it("should pass the right value") {
+            expect(internalCache.didSetValue).to(equal(Int(value)))
+          }
         }
         
-        it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledSet).to(equal(1))
-        }
-        
-        it("should forward the key") {
-          expect(internalCache.didSetKey).to(equal(key))
-        }
-        
-        it("should pass the right value") {
-          expect(internalCache.didSetValue).to(equal(value))
+        context("when the condition is not met") {
+          let key = "Test"
+          let value: Float = -222
+          
+          beforeEach {
+            cache.set(value, forKey: key)
+          }
+          
+          it("should not forward the call to the internal cache") {
+            expect(internalCache.numberOfTimesCalledSet).to(equal(0))
+          }
         }
       }
       
@@ -264,20 +259,36 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
   }
 }
 
-class ConditionedOutputPostProcessingTests: QuickSpec {
+class ConditionedValueTransformationTests: QuickSpec {
   override func spec() {
-    var cache: BasicCache<String, Int>!
+    var cache: BasicCache<String, Float>!
     var internalCache: CacheLevelFake<String, Int>!
-    let transformer: ConditionedOneWayTransformationBox<String, Int, Int>= ConditionedOneWayTransformationBox(conditionalTransformClosure: { (key, value) in
-      let result = Promise<Int>()
+    let transformer: ConditionedTwoWayTransformationBox<String, Int, Float>= ConditionedTwoWayTransformationBox(conditionalTransformClosure: { (key, value) in
+      let result = Promise<Float>()
       
       if key == "do" {
-        result.succeed(value * 2)
+        result.succeed(Float(value * 2))
       } else if key == "don't" {
         result.fail(TestError.AnotherError)
       } else {
         if value > 0 {
-          result.succeed(value)
+          result.succeed(Float(value))
+        } else {
+          result.fail(TestError.SimpleError)
+        }
+      }
+      
+      return result.future
+    }, conditionalInverseTransformClosure: { (key, value) in
+      let result = Promise<Int>()
+      
+      if key == "do" {
+        result.succeed(Int(value / 2))
+      } else if key == "don't" {
+        result.fail(TestError.AnotherError)
+      } else {
+        if value > 0 {
+          result.succeed(Int(value))
         } else {
           result.fail(TestError.SimpleError)
         }
@@ -289,10 +300,10 @@ class ConditionedOutputPostProcessingTests: QuickSpec {
     describe("Conditioned post processing on a CacheLevel with the protocol extension") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache.conditionedPostProcess(transformer)
+        cache = internalCache.conditionedValueTransformation(transformer)
       }
       
-      itBehavesLike("a cache with conditioned post-processing") {
+      itBehavesLike("a cache with conditioned value transformation") {
         [
           ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
           ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
@@ -307,22 +318,7 @@ class ConditionedOutputPostProcessingTests: QuickSpec {
         cache = internalCache ?>> transformer
       }
       
-      itBehavesLike("a cache with conditioned post-processing") {
-        [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Conditioned post processing on a fetch closure with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache.get ?>> transformer
-      }
-      
-      itBehavesLike("a fetch closure with conditioned post-processing") {
+      itBehavesLike("a cache with conditioned value transformation") {
         [
           ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
           ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,

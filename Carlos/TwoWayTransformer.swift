@@ -79,6 +79,7 @@ Inverts a TwoWayTransformer
 
 - returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
 */
+@available(*, deprecated=0.6)
 public func invert<A: TwoWayTransformer, B, C where A.TypeIn == B, A.TypeOut == C>(transformer: A) -> TwoWayTransformationBox<C, B> {
   return transformer.invert()
 }
