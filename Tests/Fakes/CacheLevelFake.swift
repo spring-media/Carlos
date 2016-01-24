@@ -12,6 +12,7 @@ class CacheLevelFake<A, B>: CacheLevel {
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
   var cacheRequestToReturn: Future<OutputType>?
+  var promisesReturned: [Promise<OutputType>] = []
   func get(key: KeyType) -> Future<OutputType> {
     numberOfTimesCalledGet++
     
@@ -19,7 +20,20 @@ class CacheLevelFake<A, B>: CacheLevel {
     
     queueUsedForTheLastCall = currentQueueSpecific()
     
-    return cacheRequestToReturn ?? Promise<OutputType>().future
+    let returningPromise: Promise<OutputType>
+    let returningFuture: Future<OutputType>
+    
+    if let requestToReturn = cacheRequestToReturn {
+      returningFuture = requestToReturn
+      returningPromise = Promise<OutputType>().mimic(requestToReturn)
+    } else {
+      returningPromise = Promise<OutputType>()
+      returningFuture = returningPromise.future
+    }
+    
+    promisesReturned.append(returningPromise)
+    
+    return returningFuture
   }
   
   var numberOfTimesCalledSet = 0

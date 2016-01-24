@@ -103,7 +103,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   */
   public func clear() {
     cacheQueue.async { Void -> Void in
-      for filePath in self.itemsInDirectory(self.path) {
+      self.itemsInDirectory(self.path).forEach { filePath in
         _ = try? self.fileManager.removeItemAtPath(filePath)
       }
       self.calculateSize()

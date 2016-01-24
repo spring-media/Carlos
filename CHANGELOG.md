@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7
+**New features**
+- It's now possible to batch a set of fetch requests. You can use `batchGetAll` if you want to pass a list of keys and get the success callback when **all** of them succeed and the failure callback **as soon as one** of them fails, or `batchGetSome` if you want to pass a list of keys and get the success callback when all of them completed (successfully or not) but only get the list of successful responses back.
+
 ## 0.6
 
 **New features**
