@@ -233,6 +233,10 @@
 		52D537491BEB783E00F7BDCC /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D537481BEB783E00F7BDCC /* FutureTests.swift */; };
 		52D5F3481C503C6700BA3452 /* ConditionedTwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D5F3471C503C6700BA3452 /* ConditionedTwoWayTransformationBoxTests.swift */; };
 		52D5F3541C52C32000BA3452 /* ConditionedValueTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D5F3531C52C32000BA3452 /* ConditionedValueTransformationTests.swift */; };
+		52D7DDAD1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */; };
+		52D7DDAE1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */; };
+		52D7DDAF1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */; };
+		52D7DDB01C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */; };
 		52D805AD1BC03995000F0733 /* CarlosTv.h in Headers */ = {isa = PBXBuildFile; fileRef = 52D805AC1BC03995000F0733 /* CarlosTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52E0CBF91BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
 		52E0CBFA1BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
@@ -608,6 +612,7 @@
 		52D537481BEB783E00F7BDCC /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		52D5F3471C503C6700BA3452 /* ConditionedTwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedTwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		52D5F3531C52C32000BA3452 /* ConditionedValueTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedValueTransformationTests.swift; sourceTree = "<group>"; };
+		52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CacheLevel+Batch.swift"; sourceTree = "<group>"; };
 		52D805AA1BC03995000F0733 /* CarlosTv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosTv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D805AC1BC03995000F0733 /* CarlosTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosTv.h; sourceTree = "<group>"; };
 		52D805AE1BC03995000F0733 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -792,6 +797,7 @@
 				52463F7E1C1837CF0034D032 /* ConditionedValueTransformation.swift */,
 				5222107B1C501C5400E682D1 /* ConditionedOneWayTransformer.swift */,
 				5222108A1C501F2100E682D1 /* ConditionedTwoWayTransformer.swift */,
+				52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -1527,6 +1533,7 @@
 				52B7620F1BB84EFF0087CD91 /* ImageTransformer+iOS.swift in Sources */,
 				52635A591B4F0F6F00F187EE /* MemoryCacheLevel.swift in Sources */,
 				52635A511B4F0F6F00F187EE /* Carlos.swift in Sources */,
+				52D7DDAD1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */,
 				52635A4F1B4F0F6F00F187EE /* BasicCache.swift in Sources */,
 				52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */,
 				52635A5F1B4F0F6F00F187EE /* ValueTransformation.swift in Sources */,
@@ -1663,6 +1670,7 @@
 				52CF0ABE1B9203B30061022D /* StringConvertible.swift in Sources */,
 				52CF0ABF1B9203B30061022D /* SwitchCache.swift in Sources */,
 				5257BBB61BBFC3FD00787819 /* ComposedTwoWayTransformer.swift in Sources */,
+				52D7DDAF1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */,
 				5222107E1C501C5400E682D1 /* ConditionedOneWayTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1687,6 +1695,7 @@
 				52C3199B1BC0459F00893D19 /* ExpensiveObject+iOS.swift in Sources */,
 				52C3198A1BC0459F00893D19 /* Logger.swift in Sources */,
 				52C3198D1BC0459F00893D19 /* NetworkFetcher.swift in Sources */,
+				52D7DDB01C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */,
 				52463F821C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */,
 				52C3199E1BC0459F00893D19 /* ImageTransformer+iOS.swift in Sources */,
 				52C319901BC0459F00893D19 /* ValueTransformation.swift in Sources */,
@@ -1742,6 +1751,7 @@
 				AD64D9561B8DE62400C783D3 /* TwoWayTransformer.swift in Sources */,
 				5250E3811BB1345700EB7388 /* Normalize.swift in Sources */,
 				AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
+				52D7DDAE1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */,
 				52463F801C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */,
 				AD64D9511B8DE62400C783D3 /* NetworkFetcher.swift in Sources */,
 				52CF0AC41B9204A90061022D /* ExpensiveObject+iOS.swift in Sources */,
