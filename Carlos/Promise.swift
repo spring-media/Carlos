@@ -8,6 +8,9 @@ public class Promise<T> {
   private var error: ErrorType?
   private var value: T?
   private var canceled = false
+  private let successLock: ReadWriteLock = PThreadReadWriteLock()
+  private let failureLock: ReadWriteLock = PThreadReadWriteLock()
+  private let cancelLock: ReadWriteLock = PThreadReadWriteLock()
   
   /// The Future associated to this Promise
   public lazy var future: Future<T> = {
@@ -89,11 +92,15 @@ public class Promise<T> {
     
     self.value = value
     
-    for listener in successListeners {
-      listener(value)
+    successLock.withReadLock {
+      successListeners.forEach { listener in
+        listener(value)
+      }
     }
     
-    successListeners.removeAll()
+    successLock.withWriteLock {
+      successListeners.removeAll()
+    }
   }
   
   /**
@@ -110,11 +117,15 @@ public class Promise<T> {
     
     self.error = error
     
-    for listener in failureListeners {
-      listener(error)
+    failureLock.withReadLock {
+      failureListeners.forEach { listener in
+        listener(error)
+      }
     }
     
-    failureListeners.removeAll()
+    failureLock.withWriteLock {
+      failureListeners.removeAll()
+    }
   }
   
   /**
@@ -129,11 +140,15 @@ public class Promise<T> {
     
     canceled = true
     
-    for listener in cancelListeners {
-      listener()
+    cancelLock.withReadLock {
+      cancelListeners.forEach { listener in
+        listener()
+      }
     }
     
-    cancelListeners.removeAll()
+    cancelLock.withWriteLock {
+      cancelListeners.removeAll()
+    }
   }
   
   /**
@@ -147,7 +162,9 @@ public class Promise<T> {
     if canceled {
       callback()
     } else {
-      cancelListeners.append(callback)
+      cancelLock.withWriteLock {
+        cancelListeners.append(callback)
+      }
     }
     
     return self
@@ -164,7 +181,9 @@ public class Promise<T> {
     if let value = value {
       callback(value)
     } else {
-      successListeners.append(callback)
+      successLock.withWriteLock {
+        successListeners.append(callback)
+      }
     }
     
     return self
@@ -181,7 +200,9 @@ public class Promise<T> {
     if let error = error {
       callback(error)
     } else {
-      failureListeners.append(callback)
+      failureLock.withWriteLock {
+        failureListeners.append(callback)
+      }
     }
     
     return self
