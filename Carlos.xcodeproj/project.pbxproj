@@ -237,6 +237,7 @@
 		52D7DDAE1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */; };
 		52D7DDAF1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */; };
 		52D7DDB01C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */; };
+		52D7DDBC1C552854007E5328 /* BatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7DDBB1C552854007E5328 /* BatchTests.swift */; };
 		52D805AD1BC03995000F0733 /* CarlosTv.h in Headers */ = {isa = PBXBuildFile; fileRef = 52D805AC1BC03995000F0733 /* CarlosTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52E0CBF91BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
 		52E0CBFA1BBC4E1800F20C22 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
@@ -613,6 +614,7 @@
 		52D5F3471C503C6700BA3452 /* ConditionedTwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedTwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		52D5F3531C52C32000BA3452 /* ConditionedValueTransformationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedValueTransformationTests.swift; sourceTree = "<group>"; };
 		52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CacheLevel+Batch.swift"; sourceTree = "<group>"; };
+		52D7DDBB1C552854007E5328 /* BatchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchTests.swift; sourceTree = "<group>"; };
 		52D805AA1BC03995000F0733 /* CarlosTv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosTv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D805AC1BC03995000F0733 /* CarlosTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosTv.h; sourceTree = "<group>"; };
 		52D805AE1BC03995000F0733 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 				5222108F1C50358700E682D1 /* ConditionedOneWayTransformationBoxTests.swift */,
 				52D5F3471C503C6700BA3452 /* ConditionedTwoWayTransformationBoxTests.swift */,
 				52D5F3531C52C32000BA3452 /* ConditionedValueTransformationTests.swift */,
+				52D7DDBB1C552854007E5328 /* BatchTests.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -1597,6 +1600,7 @@
 				5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */,
 				52A194A91B91026300EA61B3 /* Crypto.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
+				52D7DDBC1C552854007E5328 /* BatchTests.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
 				5274A9D91BC069E7006962E8 /* FetcherValueTransformationTests.swift in Sources */,
 				526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */,

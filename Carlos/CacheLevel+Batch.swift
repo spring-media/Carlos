@@ -13,8 +13,10 @@ extension CacheLevel {
     let lock: ReadWriteLock = PThreadReadWriteLock()
     var intermediateResults = Array<OutputType?>(count: keys.count, repeatedValue: nil)
     
+    var batchedRequests: [Future<OutputType>] = []
+    
     keys.enumerate().forEach { (iteration, key) in
-      get(key)
+      batchedRequests.append(get(key)
         .onSuccess { value in
           lock.withWriteLock {
             intermediateResults[iteration] = value
@@ -26,7 +28,13 @@ extension CacheLevel {
           }
         }
         .onFailure(result.fail)
-        .onCancel(result.cancel)
+        .onCancel(result.cancel))
+    }
+    
+    result.onCancel {
+      batchedRequests.forEach { request in
+        request.cancel()
+      }
     }
     
     return result.future
@@ -45,9 +53,10 @@ extension CacheLevel {
     let counterLock: ReadWriteLock = PThreadReadWriteLock()
     var completedRequests = 0
     var intermediateResults = Array<OutputType?>(count: keys.count, repeatedValue: nil)
+    var batchedRequests: [Future<OutputType>] = []
     
     keys.enumerate().forEach { (iteration, key) in
-      get(key)
+      batchedRequests.append(get(key)
         .onCompletion { value, _ in
           if let value = value {
             resultsLock.withWriteLock {
@@ -63,6 +72,13 @@ extension CacheLevel {
             }
           }
         }
+      )
+    }
+    
+    result.onCancel {
+      batchedRequests.forEach { request in
+        request.cancel()
+      }
     }
     
     return result.future

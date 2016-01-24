@@ -25,6 +25,7 @@
   - [Conditioned value transformation](#conditioned-value-transformation)
   - [Composing transformers](#composing-transformers)
   - [Pooling requests](#pooling-requests)
+  - [Batching get requests](#batching-get-requests)
   - [Limiting concurrent requests](#limiting-concurrent-requests)
   - [Conditioning caches](#conditioning-caches)
   - [Dispatching with GCD](#dispatching-caches)
@@ -60,6 +61,7 @@ With `Carlos` you can:
 - **automatically populate upper levels when one of the lower levels fetches a value** for a key, so the next time the first level will already have it cached
 - enable or disable specific levels of your composed cache depending on [boolean conditions](#conditioning-caches)
 - easily [**pool requests**](#pooling-requests) so you don't have to care whether 5 requests with the same key have to be executed by an expensive cache level before even only 1 of them is done. `Carlos` can take care of that for you
+- [batch get requests](#batching-get-requests) to only get notified when all of them are done 
 - setup [multiple lanes](#multiple-cache-lanes) for complex scenarios where, depending on certain keys or conditions, different caches should be used
 - [Cap the number of concurrent requests](#limiting-concurrent-requests) a cache should handle
 - [Dispatch](#dispatching-caches) all the operations of your cache on a specific GCD queue
@@ -526,6 +528,52 @@ func ==(lhs: Image, rhs: Image) -> Bool {
 ```
 
 Now we can execute multiple fetches for the same `Image` value and be sure that only one network request will be started.
+
+### Batching get requests
+
+Since `Carlos 0.7` you can pass a list of keys to your `CacheLevel` through `batchGetAll` and `batchGetSome`. 
+The former returns a `Future` that succeeds only when the requests for **all** of the specified keys succeed, and fails **as soon as one** of the requests for the specified keys fails. 
+The latter returns a `Future` that succeeds when all the requests for the specified keys *complete*, not necessarily succeeding. You will only get the successful values in the success callback, though.
+If you cancel the `Future` returned by either API, all of the pending requests are canceled, too.
+
+An example of the usage:
+
+```swift
+// batchGetAll
+let cache = MemoryCacheLevel<String, Int>()
+    
+for iter in 0..<99 {
+  cache.set(iter, forKey: "key_\(iter)")
+}
+    
+let keysToBatch = (0..<100).map { "key_\($0)" }
+    
+cache.batchGetAll(keysToBatch)
+  .onSuccess { values in
+    print("Got \(values.count) values in total")
+  }.onFailure {
+    print("Failed because \($0)")
+  }
+
+// batchGetSome
+
+let cache = MemoryCacheLevel<String, Int>()
+    
+for iter in 0..<99 {
+  cache.set(iter, forKey: "key_\(iter)")
+}
+    
+let keysToBatch = (0..<100).map { "key_\($0)" }
+    
+cache.batchGetSome(keysToBatch)
+  .onSuccess { values in
+    print("Got \(values.count) values in total")
+  }.onFailure {
+    print("Failed because \($0)")
+  }
+```
+
+In this case the `batchGetAll` call will fail because there are only 99 keys set and the last request will make the whole batch fail, with a `ValueNotInCache` error. The `batchGetSome` will succeed instead, printing `Got 99 values in total`.
 
 ### Limiting concurrent requests
 
