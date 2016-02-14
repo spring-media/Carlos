@@ -31,16 +31,10 @@ extension CacheLevel {
         transformer.transform(key)
           .onSuccess { transformedKey in
             self.set(value, forKey: transformedKey)
-              .onSuccess {
-                promise.succeed()
-              }
-              .onFailure {
-                promise.fail($0)
-              }
+              .onSuccess(promise.succeed)
+              .onFailure(promise.fail)
           }
-          .onFailure {
-            promise.fail($0)
-          }
+          .onFailure(promise.fail)
 
         return promise.future
       },

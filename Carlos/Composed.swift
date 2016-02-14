@@ -61,12 +61,8 @@ extension CacheLevel {
           .onCancel(promise.cancel)
           .onFailure { error in
             cache.set(value, forKey: key)
-              .onSuccess {
-                promise.succeed()
-              }
-              .onFailure { error in
-                promise.fail(error)
-              }
+              .onSuccess(promise.succeed)
+              .onFailure(promise.fail)
           }
 
         return promise.future
