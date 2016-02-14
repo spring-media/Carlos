@@ -8,7 +8,12 @@ internal struct CarlosGlobals {
 internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> Future<B>) -> BasicCache<A, B> {
   return BasicCache(
     getClosure: closure,
-    setClosure: { (_, _) in },
+    setClosure: { _, _ in
+      let promise = Promise<()>()
+      promise.succeed()
+
+      return promise.future
+    },
     clearClosure: { },
     memoryClosure: { }
   )
@@ -69,7 +74,7 @@ public protocol CacheLevel: AsyncComputation {
   - parameter value: The bytes to set on the cache level
   - parameter key: The key of the value you're trying to set
   */
-  func set(value: OutputType, forKey key: KeyType)
+  func set(value: OutputType, forKey key: KeyType) -> Future<()>
   
   /**
   Asks to clear the cache level
@@ -114,5 +119,11 @@ extension Fetcher {
   public func onMemoryWarning() {}
   
   /// No-op
-  public func set(value: OutputType, forKey key: KeyType) {}
+  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+    let promise = Promise<()>()
+
+    promise.succeed()
+
+    return promise.future
+  }
 }

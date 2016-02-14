@@ -53,10 +53,23 @@ extension CacheLevel {
         return self.get(key).mutate(transformer)
       },
       setClosure: { (value, key) in
+        let promise = Promise<()>()
         transformer.inverseTransform(value)
           .onSuccess { transformedValue in
             self.set(transformedValue, forKey: key)
-        }
+              .onSuccess {
+                promise.succeed()
+              }
+              .onFailure {
+                promise.fail($0)
+              }
+
+          }
+          .onFailure {
+            promise.fail($0)
+          }
+
+        return promise.future
       },
       clearClosure: self.clear,
       memoryClosure: self.onMemoryWarning

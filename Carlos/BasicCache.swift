@@ -6,7 +6,7 @@ public final class BasicCache<A, B>: CacheLevel {
   public typealias OutputType = B
   
   private let getClosure: (key: A) -> Future<B>
-  private let setClosure: (value: B, key: A) -> Void
+  private let setClosure: (value: B, key: A) -> Future<()>
   private let clearClosure: () -> Void
   private let memoryClosure: () -> Void
   
@@ -18,7 +18,7 @@ public final class BasicCache<A, B>: CacheLevel {
   - parameter clearClosure: The closure to execute when you call clear() on this instance
   - parameter memoryClosure: The closure to execute when you call onMemoryWarning() on this instance, or when a memory warning is thrown by the system and the cache level is listening for memory pressure events
   */
-  public init(getClosure: (key: A) -> Future<B>, setClosure: (value: B, key: A) -> Void, clearClosure: () -> Void, memoryClosure: () -> Void) {
+  public init(getClosure: (key: A) -> Future<B>, setClosure: (value: B, key: A) -> Future<()>, clearClosure: () -> Void, memoryClosure: () -> Void) {
     self.getClosure = getClosure
     self.setClosure = setClosure
     self.clearClosure = clearClosure
@@ -44,8 +44,8 @@ public final class BasicCache<A, B>: CacheLevel {
   
   This call executes the setClosure specified when initializing the instance
   */
-  public func set(value: B, forKey key: A) {
-    setClosure(value: value, key: key)
+  public func set(value: B, forKey key: A) -> Future<()> {
+    return setClosure(value: value, key: key)
   }
   
   /**

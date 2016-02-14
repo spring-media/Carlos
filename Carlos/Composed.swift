@@ -49,8 +49,27 @@ extension CacheLevel {
         return request.future
       },
       setClosure: { (value, key) in
+        let promise = Promise<()>()
+
         self.set(value, forKey: key)
-        cache.set(value, forKey: key)
+          .onSuccess { _ in
+            cache.set(value, forKey: key)
+              .onSuccess {
+                promise.succeed()
+              }
+          }
+          .onCancel(promise.cancel)
+          .onFailure { error in
+            cache.set(value, forKey: key)
+              .onSuccess {
+                promise.succeed()
+              }
+              .onFailure { error in
+                promise.fail(error)
+              }
+          }
+
+        return promise.future
       },
       clearClosure: {
         self.clear()
