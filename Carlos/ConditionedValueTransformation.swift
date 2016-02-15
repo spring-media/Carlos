@@ -47,9 +47,7 @@ extension CacheLevel {
 
         transformer.conditionalInverseTransform(key, value: value)
           .onSuccess { transformedValue in
-            self.set(transformedValue, forKey: key)
-              .onSuccess(promise.succeed)
-              .onFailure(promise.fail)
+            promise.mimic(self.set(transformedValue, forKey: key))
           }
           .onFailure(promise.fail)
 

@@ -30,9 +30,7 @@ extension CacheLevel {
 
         transformer.transform(key)
           .onSuccess { transformedKey in
-            self.set(value, forKey: transformedKey)
-              .onSuccess(promise.succeed)
-              .onFailure(promise.fail)
+            promise.mimic(self.set(value, forKey: transformedKey))
           }
           .onFailure(promise.fail)
 

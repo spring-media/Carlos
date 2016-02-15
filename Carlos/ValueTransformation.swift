@@ -56,11 +56,9 @@ extension CacheLevel {
         let promise = Promise<()>()
         transformer.inverseTransform(value)
           .onSuccess { transformedValue in
-            self.set(transformedValue, forKey: key)
-              .onSuccess(promise.succeed)
-              .onFailure(promise.fail)
-
+            promise.mimic(self.set(transformedValue, forKey: key))
           }
+          .onCancel(promise.cancel)
           .onFailure(promise.fail)
 
         return promise.future
