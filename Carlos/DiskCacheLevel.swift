@@ -118,17 +118,6 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     }
   }
   
-  private func updateAccessDate(@autoclosure(escaping) getData: () -> T?, key: K) {
-    cacheQueue.async { Void -> Void in
-      let path = self.pathForKey(key)
-      if !self.updateDiskAccessDateAtPath(path) && !self.fileManager.fileExistsAtPath(path) {
-        if let data = getData() {
-          self.setDataSync(data, key: key)
-        }
-      }
-    }
-  }
-  
   private func pathForKey(key: K) -> String {
     return (path as NSString).stringByAppendingPathComponent(key.toString().MD5String())
   }
@@ -166,6 +155,8 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     let previousSize = sizeForFileAtPath(path)
     
     if NSKeyedArchiver.archiveRootObject(data, toFile: path) {
+      updateDiskAccessDateAtPath(path)
+      
       let newSize = sizeForFileAtPath(path)
       if newSize > previousSize {
         size += newSize - previousSize
