@@ -34,10 +34,7 @@ internal func >>> <A, B, C>(f: A -> Future<B>, g: B -> Future<C>) -> A -> Future
     
     f(param)
       .onSuccess { result in
-        g(result)
-          .onSuccess(resultingRequest.succeed)
-          .onFailure(resultingRequest.fail)
-          .onCancel(resultingRequest.cancel)
+        resultingRequest.mimic(g(result))
       }
       .onCancel(resultingRequest.cancel)
       .onFailure(resultingRequest.fail)
