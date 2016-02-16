@@ -96,8 +96,8 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   
   Calls to this method are not capped
   */
-  public func set(value: OutputType, forKey key: KeyType) {
-    internalCache.set(value, forKey: key)
+  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+    return internalCache.set(value, forKey: key)
   }
   
   /**

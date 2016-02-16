@@ -1,5 +1,10 @@
 import Foundation
 
+
+public enum DiskCacheError: ErrorType {
+  case DiskArchiveWriteFailed
+}
+
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
 public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   /// At the moment the disk cache level only accepts keys that can be converted to string values
@@ -56,11 +61,15 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   - parameter value: The value to save on disk
   - parameter key: The key for the value
   */
-  public func set(value: T, forKey key: K) {
+  public func set(value: T, forKey key: K) -> Future<()> {
+    let promise = Promise<()>()
+
     cacheQueue.async { Void -> Void in
       Logger.log("Setting a value for the key \(key.toString()) on the disk cache \(self)")
-      self.setDataSync(value, key: key)
+      self.setDataSync(value, key: key, promise: promise)
     }
+
+    return promise.future
   }
   
   /**
@@ -150,7 +159,7 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     }
   }
   
-  private func setDataSync(data: T, key: K) {
+  private func setDataSync(data: T, key: K, promise: Promise<()>) {
     let path = pathForKey(key)
     let previousSize = sizeForFileAtPath(path)
     
@@ -164,7 +173,9 @@ public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
       } else {
         size -= previousSize - newSize
       }
+      promise.succeed()
     } else {
+      promise.fail(DiskCacheError.DiskArchiveWriteFailed)
       Logger.log("Failed to write key \(key.toString()) on the disk cache", .Error)
     }
   }

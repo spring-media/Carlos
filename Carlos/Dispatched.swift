@@ -26,9 +26,13 @@ extension CacheLevel {
         return result.future
       },
       setClosure: { (value, key) in
+        let result = Promise<()>()
+
         gcd.async {
-          self.set(value, forKey: key)
+          result.mimic(self.set(value, forKey: key))
         }
+
+        return result.future
       },
       clearClosure: {
         gcd.async(self.clear)

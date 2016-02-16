@@ -9,6 +9,7 @@
 
 **Improvements**
 - `Promise`s are now safer to use with GCD and in multi-thread scenarios.
+- `set` method on `CacheLevel` now returns a `Future` enabling error-handling and progress-tracking of `set` calls.
 
 
 ## 0.6
@@ -28,7 +29,7 @@
 **New features**
 - `Promise` can now be canceled. Call `cancel()` to cancel a `Promise`. Be notified of a canceled operation with the `onCancel` function. Use `onCancel` to setup the cancel behavior of your custom operation. Remember that an operation can only be canceled once, and can only be *executing*, *canceled*, *failed* or *succeeded* at any given time.
 - It's now possible to apply a condition to a `OneWayTransformer`. You can call `conditioned` on the instance of `OneWayTransformer` to decorate and pass the condition on the input. This means you can effectively implement conditioned key transformations on `CacheLevel`s. Moreover, you can implement conditioned post processing transformations as well. For this, though, keep in mind that the input of the `OneWayTransformer` will be the output of the cache, not the key.
-- It's now possible to apply a condition to a `TwoWayTransformer`. You can call `conditioned` on the instance of `TwoWayTransformer` to decorate and pass two conditions: the one to apply for the forward transformation and the one to apply for the inverse transformation, that will take of course different input types. This means you can effectively implement conditioned value transformations on `CacheLevel`s. 
+- It's now possible to apply a condition to a `TwoWayTransformer`. You can call `conditioned` on the instance of `TwoWayTransformer` to decorate and pass two conditions: the one to apply for the forward transformation and the one to apply for the inverse transformation, that will take of course different input types. This means you can effectively implement conditioned value transformations on `CacheLevel`s.
 - A new `NSUserDefaultsCacheLevel` is now included in `Carlos`. You can use this `CacheLevel` to persist values on `NSUserDefaults`, and you can even use multiple instances of this level to persist sandboxed sets of values
 - It's now possible to dispatch a `CacheLevel` or a fetch closure on a given GCD queue. Use the `dispatch` protocol extension or the `~>>` operator and pass the  specific `dispatch_queue_t`. Global functions are not provided since we're moving towards a global-functions-free API for `Carlos 1.0`
 
@@ -42,7 +43,7 @@
 - `Promise` can now be initialized with an `Optional<T>` and an `ErrorType`, correctly behaving depending on the optional value
 - `Promise` now has a `mimic` function that takes a `Future<T>` and succeeds or fails when the given `Future` does so
 - `ImageTransformer` now applies its tranformations on a background queue
-- `JSONTransformer` now passes the right error when the transformations fail 
+- `JSONTransformer` now passes the right error when the transformations fail
 - `CacheProvider.dataCache` now pools requests on the network **and** disk levels, so pooled requests don't result in multiple `set` calls on the disk level
 - It's now possible to `cancel` operations coming from a `NetworkFetcher`
 - `Int`, `Float`, `Double` and `Character` conform to `ExpensiveObject` now with a unit (`1`) cost
@@ -53,9 +54,9 @@
 
 **Major changes**
 - Adds a `Fetcher` protocol that you can use to create your custom fetchers.
-- Adds the possibility to transform values coming out of `Fetcher` instances through `OneWayTransformer` objects without forcing them to be `TwoWayTransformer` as in the case of transforming values of `CacheLevel` instances 
+- Adds the possibility to transform values coming out of `Fetcher` instances through `OneWayTransformer` objects without forcing them to be `TwoWayTransformer` as in the case of transforming values of `CacheLevel` instances
 - Adds a `JSONCache` function to `CacheProvider`
-- Adds output processers to process/sanitize values coming out of `CacheLevel`s (see `postProcess`) 
+- Adds output processers to process/sanitize values coming out of `CacheLevel`s (see `postProcess`)
 - Adds a way to compose multiple `OneWayTransformer`s through functions, operators and protocol extensions
 - Adds a way to compose multiple `TwoWayTransformer`s through functions, operators and protocol extensions
 - Adds a `normalize` function and protocol extension transforming `CacheLevel` instances into `BasicCache` ones to make it easier to store instance properties

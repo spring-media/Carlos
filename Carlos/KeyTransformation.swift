@@ -26,10 +26,15 @@ extension CacheLevel {
         return result.future
       },
       setClosure: { (value, key) in
+        let promise = Promise<()>()
+
         transformer.transform(key)
           .onSuccess { transformedKey in
-            self.set(value, forKey: transformedKey)
-        }
+            promise.mimic(self.set(value, forKey: transformedKey))
+          }
+          .onFailure(promise.fail)
+
+        return promise.future
       },
       clearClosure: self.clear,
       memoryClosure: self.onMemoryWarning

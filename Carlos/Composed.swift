@@ -28,7 +28,9 @@ extension CacheLevel {
     return BasicCache(
       getClosure: { key in
         let request = Promise<A.OutputType>()
-        
+
+        // TODO: if self.set succeeds and cache.set fails we don't call 
+        // promise.fail, that could be an error
         self.get(key)
           .onSuccess { result in
             request.succeed(result)
@@ -41,16 +43,27 @@ extension CacheLevel {
                 self.set(result, forKey: key)
               }
               .onCancel(request.cancel)
-              .onFailure{ error in
-                request.fail(error)
-              }
+              .onFailure(request.fail)
         }
         
         return request.future
       },
       setClosure: { (value, key) in
+        let promise = Promise<()>()
+
         self.set(value, forKey: key)
-        cache.set(value, forKey: key)
+          .onSuccess { _ in
+            cache.set(value, forKey: key)
+              .onSuccess {
+                promise.succeed()
+              }
+          }
+          .onCancel(promise.cancel)
+          .onFailure { error in
+            promise.mimic(cache.set(value, forKey: key))
+          }
+
+        return promise.future
       },
       clearClosure: {
         self.clear()

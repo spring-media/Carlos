@@ -54,7 +54,8 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
    
   A soft-cache is used to avoid hitting the persistent domain everytime you are going to fetch values from this cache. The operation is thread-safe
   */
-  public func set(value: OutputType, forKey key: KeyType) {
+  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+    let promise = Promise<()>()
     var softCache = safeInternalDomain
     
     Logger.log("Setting a value for the key \(key.toString()) on the user defaults cache \(self)")
@@ -62,7 +63,11 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
       softCache[key.toString()] = NSKeyedArchiver.archivedDataWithRootObject(value)
       internalDomain = softCache
       userDefaults.setPersistentDomain(softCache, forName: domainName)
+
+      promise.succeed()
     }
+
+    return promise.future
   }
   
   /**
