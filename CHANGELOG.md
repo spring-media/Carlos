@@ -4,8 +4,12 @@
 **New features**
 - It's now possible to batch a set of fetch requests. You can use `batchGetAll` if you want to pass a list of keys and get the success callback when **all** of them succeed and the failure callback **as soon as one** of them fails, or `batchGetSome` if you want to pass a list of keys and get the success callback when all of them completed (successfully or not) but only get the list of successful responses back.
 
+**Fixes**
+- Correctly updates access date on the disk cache when calling `set` on a `DiskCacheLevel`
+
 **Improvements**
 - `Promise`s are now safer to use with GCD and in multi-thread scenarios.
+
 
 ## 0.6
 
