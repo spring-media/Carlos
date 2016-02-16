@@ -79,7 +79,7 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
       Logger.log("Creating a new request \(request) for key \(key)")
       
       request
-        .onCompletion { _, _ in
+        .onCompletion { _ in
           self.lock.withWriteLock {
             self.requestsPool[key] = nil
           }

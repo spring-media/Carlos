@@ -75,10 +75,14 @@ class PromiseSharedExamplesConfiguration: QuickConfiguration {
       context("when calling onCompletion") {
         beforeEach {
           for idx in 0..<successSentinels.count {
-            request.onCompletion { value, error in
-              successSentinels[idx] = value
-              if let error = error {
+            request.onCompletion { result in
+              switch result {
+              case .Success(let value):
+                successSentinels[idx] = value
+              case .Error(let error):
                 failureSentinels[idx] = error
+              default:
+                break
               }
             }
           }
@@ -165,10 +169,14 @@ class PromiseSharedExamplesConfiguration: QuickConfiguration {
       context("when calling onCompletion") {
         beforeEach {
           for idx in 0..<successSentinels.count {
-            request.onCompletion { value, error in
-              successSentinels[idx] = value
-              if let error = error {
+            request.onCompletion { result in
+              switch result {
+              case .Success(let value):
+                successSentinels[idx] = value
+              case .Error(let error):
                 failureSentinels[idx] = error
+              default:
+                break
               }
             }
           }
@@ -463,12 +471,13 @@ class PromiseTests: QuickSpec {
               .onCancel {
                 cancelSentinels[idx] = true
               }
-              .onCompletion { value, error in
-                if let error = error {
-                  failureCompletedSentinels[idx] = error
-                } else if let value = value {
+              .onCompletion { result in
+                switch result {
+                case .Success(let value):
                   successCompletedSentinels[idx] = value
-                } else {
+                case .Error(let error):
+                  failureCompletedSentinels[idx] = error
+                case .NotComputed:
                   cancelCompletedSentinels[idx] = true
                 }
               }
@@ -546,8 +555,10 @@ class PromiseTests: QuickSpec {
             var subsequentSuccessSentinel: String?
             
             beforeEach {
-              request.onCompletion { (value, error) in
-                subsequentSuccessSentinel = value
+              request.onCompletion { result in
+                if case .Success(let value) = result {
+                  subsequentSuccessSentinel = value
+                }
               }
             }
             
@@ -704,8 +715,10 @@ class PromiseTests: QuickSpec {
             var subsequentFailureSentinel: ErrorType?
               
             beforeEach {
-              request.onCompletion { (value, error) in
-                subsequentFailureSentinel = error
+              request.onCompletion { result in
+                if case .Error(let error) = result {
+                  subsequentFailureSentinel = error
+                }
               }
             }
               
@@ -856,8 +869,12 @@ class PromiseTests: QuickSpec {
             var subsequentCancelSentinel: Bool?
                 
             beforeEach {
-              request.onCompletion { (value, error) in
-                subsequentCancelSentinel = error == nil && value == nil
+              request.onCompletion { result in
+                if case .NotComputed = result {
+                  subsequentCancelSentinel = true
+                } else {
+                  subsequentCancelSentinel = false
+                }
               }
             }
                 

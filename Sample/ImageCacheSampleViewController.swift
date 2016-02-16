@@ -10,13 +10,18 @@ class ImageCacheSampleViewController: BaseCacheViewController {
     super.fetchRequested()
     
     cache.get(NSURL(string: urlKeyField?.text ?? "")!)
-      .onCompletion { (image, error) in
-        if let imageView = self.imageView {
-          if let image = image {
-            imageView.image = image
-          } else if let _ = error {
-            imageView.image = self.imageWithColor(.darkGrayColor(), size: imageView.frame.size)
-          }
+      .onCompletion { result in
+        guard let imageView = self.imageView else {
+          return
+        }
+        
+        switch result {
+        case .Success(let image):
+          imageView.image = image
+        case .Error(_):
+          imageView.image = self.imageWithColor(.darkGrayColor(), size: imageView.frame.size)
+        default:
+          break
         }
       }
   }

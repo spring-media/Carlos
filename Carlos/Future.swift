@@ -59,11 +59,11 @@ public class Future<T> {
   /**
    Adds a listener for both success and failure events of this Future
    
-   - parameter completion: The closure that should be called when the Future completes (succeeds or fails), taking both an optional value in case the Future succeeded and an optional error in case the Future failed as parameters. If the Future is canceled, both values will be nil
+   - parameter completion: The closure that should be called when the Future completes (succeeds or fails), taking a Result<T> with value .Success in case the Future succeeded and .Error in case the Future failed as parameter. If the Future is canceled, the result will be .NotComputed
    
    - returns: The updated Future
    */
-  public func onCompletion(completion: (value: T?, error: ErrorType?) -> Void) -> Future<T> {
+  public func onCompletion(completion: (result: Result<T>) -> Void) -> Future<T> {
     promise.onCompletion(completion)
     
     return self

@@ -204,14 +204,15 @@ request.cancel()
 If you are just interested in when the request completes, regardless of whether it succeeded, failed or was canceled, you can use `onCompletion`:
 
 ```swift
-request.onCompletion { (value, error) in
-   if let value = value {
-       print("Request succeeded with value \(value)")
-   } else if let error = error {
-       print("Request failed with code \(error)")
-   } else {
-   	   print("This request has been canceled")
-   }
+request.onCompletion { result in
+   switch result {
+   case .Success(let value):
+     print("Request succeeded with value \(value)")
+   case .Error(let error):
+     print("Request failed with code \(error)")
+   case .NotComputed:
+     print("This request has been canceled")
+  	}
    
    print("Nevertheless the request completed")
 }

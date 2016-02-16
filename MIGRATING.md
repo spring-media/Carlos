@@ -1,3 +1,34 @@
+## Migrating from 0.6 to 0.7
+
+##### - Check all your usages of `onCompletion` and replace the tuple `(value, error)` with the value `result`. Code will look like the following:
+
+*Before*
+```swift
+future.onCompletion { (value, error) in
+  if let value = value {
+    //handle success case
+  } else if let error = error {
+  	//handle error case
+  } else {
+    //handle cancelation case
+  }
+}
+```
+
+*Now*
+```swift
+future.onCompletion { result in
+  switch result {
+  case .Success(let value):
+     //handle success case
+  case .Error(let error):
+    //handle error case
+  case .NotComputed:
+    //handle cancelation case
+  }
+}
+```
+
 ## Migrating from 0.4 to 0.5
 
 ##### - Rename all your usages of `CacheRequest` to `Future`

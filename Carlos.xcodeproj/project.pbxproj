@@ -252,6 +252,10 @@
 		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
+		52F9D3621C73C6FE0076B79F /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9D3611C73C6FE0076B79F /* Result.swift */; };
+		52F9D3631C73C6FE0076B79F /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9D3611C73C6FE0076B79F /* Result.swift */; };
+		52F9D3641C73C6FE0076B79F /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9D3611C73C6FE0076B79F /* Result.swift */; };
+		52F9D3651C73C6FE0076B79F /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9D3611C73C6FE0076B79F /* Result.swift */; };
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
 		AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD64D9451B8DE62400C783D3 /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
@@ -626,6 +630,7 @@
 		52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKDistanceFormatterTransformerTests.swift; sourceTree = "<group>"; };
+		52F9D3611C73C6FE0076B79F /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		7125763FA112BF618F1B0F73 /* Pods-CarlosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CarlosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CarlosTests/Pods-CarlosTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E75A8F39308A7998DCD90E0 /* Pods_CarlosSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CarlosSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheProvider.swift; sourceTree = "<group>"; };
@@ -800,6 +805,7 @@
 				5222107B1C501C5400E682D1 /* ConditionedOneWayTransformer.swift */,
 				5222108A1C501F2100E682D1 /* ConditionedTwoWayTransformer.swift */,
 				52D7DDAC1C54F4E1007E5328 /* CacheLevel+Batch.swift */,
+				52F9D3611C73C6FE0076B79F /* Result.swift */,
 			);
 			path = Carlos;
 			sourceTree = SOURCE_ROOT;
@@ -1572,6 +1578,7 @@
 				52B7621C1BB84F160087CD91 /* JSONTransformer.swift in Sources */,
 				5243C4B31B77670F00737B3B /* StringConvertible.swift in Sources */,
 				5274A9A01BC0613C006962E8 /* BasicFetcher.swift in Sources */,
+				52F9D3621C73C6FE0076B79F /* Result.swift in Sources */,
 				5250E3801BB1345700EB7388 /* Normalize.swift in Sources */,
 				5222107C1C501C5400E682D1 /* ConditionedOneWayTransformer.swift in Sources */,
 			);
@@ -1635,6 +1642,7 @@
 				52CF0AA81B9203B30061022D /* Carlos.swift in Sources */,
 				52CFD5581BE009A600468730 /* GCD.swift in Sources */,
 				5205729D1BB8716E0098DD09 /* StringTransformer.swift in Sources */,
+				52F9D3641C73C6FE0076B79F /* Result.swift in Sources */,
 				52CF0AA91B9203B30061022D /* Composed.swift in Sources */,
 				52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */,
 				52CF0AAB1B9203B30061022D /* Crypto.swift in Sources */,
@@ -1698,6 +1706,7 @@
 				52C319851BC0459F00893D19 /* Conditioned.swift in Sources */,
 				52C3199B1BC0459F00893D19 /* ExpensiveObject+iOS.swift in Sources */,
 				52C3198A1BC0459F00893D19 /* Logger.swift in Sources */,
+				52F9D3651C73C6FE0076B79F /* Result.swift in Sources */,
 				52C3198D1BC0459F00893D19 /* NetworkFetcher.swift in Sources */,
 				52D7DDB01C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */,
 				52463F821C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */,
@@ -1754,6 +1763,7 @@
 				AD64D94D1B8DE62400C783D3 /* Extensions.swift in Sources */,
 				AD64D9561B8DE62400C783D3 /* TwoWayTransformer.swift in Sources */,
 				5250E3811BB1345700EB7388 /* Normalize.swift in Sources */,
+				52F9D3631C73C6FE0076B79F /* Result.swift in Sources */,
 				AD8558121BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52D7DDAE1C54F4E1007E5328 /* CacheLevel+Batch.swift in Sources */,
 				52463F801C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */,

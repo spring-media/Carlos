@@ -211,21 +211,21 @@ public class Promise<T> {
   /**
   Adds a listener for both success and failure events of this Promise
   
-  - parameter completion: The closure that should be called when the Promise completes (succeeds or fails), taking both an optional value in case the Promise succeeded and an optional error in case the Promise failed as parameters. If the Promise is canceled, both values will be nil
+  - parameter completion: The closure that should be called when the Promise completes (succeeds or fails), taking a result with value .Success in case the Promise succeeded and .Error in case the Promise failed as parameter. If the Promise is canceled, the result will be .NotComputed
   
   - returns: The updated Promise
   */
-  public func onCompletion(completion: (value: T?, error: ErrorType?) -> Void) -> Promise<T> {
+  public func onCompletion(completion: (result: Result<T>) -> Void) -> Promise<T> {
     if let error = error {
-      completion(value: nil, error: error)
+      completion(result: .Error(error))
     } else if let value = value {
-      completion(value: value, error: nil)
+      completion(result: .Success(value))
     } else if canceled {
-      completion(value: nil, error: nil)
+      completion(result: .NotComputed)
     } else {
-      onSuccess { completion(value: $0, error: nil) }
-      onFailure { completion(value: nil, error: $0) }
-      onCancel { completion(value: nil, error: nil) }
+      onSuccess { completion(result: .Success($0)) }
+      onFailure { completion(result: .Error($0)) }
+      onCancel { completion(result: .NotComputed) }
     }
     
     return self

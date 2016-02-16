@@ -41,10 +41,17 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
           .onCancel {
             cancelSentinel = true
           }
-          .onCompletion { value, error in
+          .onCompletion { result in
             completionWasCalled = true
-            completionValueSentinel = value
-            completionErrorSentinel = error
+            
+            switch result {
+            case .Success(let value):
+              completionValueSentinel = value
+            case .Error(let error):
+              completionErrorSentinel = error
+            default:
+              break
+            }
           }
       }
       

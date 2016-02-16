@@ -48,7 +48,7 @@ extension CacheLevel {
    - returns: A Future that will call the success callback when all the keys will be either fetched or failed, passing a list containing just the successful results
    */
   public func batchGetSome(keys: [KeyType]) -> Future<[OutputType]> {
-    let result = Promise<[OutputType]>()
+    let resultPromise = Promise<[OutputType]>()
     let resultsLock: ReadWriteLock = PThreadReadWriteLock()
     let counterLock: ReadWriteLock = PThreadReadWriteLock()
     var completedRequests = 0
@@ -57,8 +57,8 @@ extension CacheLevel {
     
     keys.enumerate().forEach { (iteration, key) in
       batchedRequests.append(get(key)
-        .onCompletion { value, _ in
-          if let value = value {
+        .onCompletion { result in
+          if case .Success(let value) = result {
             resultsLock.withWriteLock {
               intermediateResults[iteration] = value
             }
@@ -68,19 +68,19 @@ extension CacheLevel {
             completedRequests += 1
             
             if completedRequests == keys.count {
-              result.succeed(intermediateResults.flatMap { $0 })
+              resultPromise.succeed(intermediateResults.flatMap { $0 })
             }
           }
         }
       )
     }
     
-    result.onCancel {
+    resultPromise.onCancel {
       batchedRequests.forEach { request in
         request.cancel()
       }
     }
     
-    return result.future
+    return resultPromise.future
   }
 }
