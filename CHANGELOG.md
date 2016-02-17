@@ -4,6 +4,9 @@
 **Breaking changes**
 - `onCompletion` argument now is a closure accepting a `Result<T>` as a parameter instead of a tuple `(value: T?, error: ErrorType?)`. `Result<T>` is the usual `enum` (aka `Either`) that can be `.Success(T)`, `.Error(ErrorType)` or `NotComputed` in case of canceled computations.
 
+**Deprecated**
+- APIs using closures instead of `Fetcher`, `CacheLevel` or `OneWayTransformer` parameters are now deprecated in favor of their counterparts. They will be removed from Carlos with the 1.0 release.
+
 **New features**
 - It's now possible to batch a set of fetch requests. You can use `batchGetAll` if you want to pass a list of keys and get the success callback when **all** of them succeed and the failure callback **as soon as one** of them fails, or `batchGetSome` if you want to pass a list of keys and get the success callback when all of them completed (successfully or not) but only get the list of successful responses back.
 

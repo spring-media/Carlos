@@ -34,7 +34,6 @@
   - [Normalizing cache levels](#normalization)
   - [Creating custom levels](#creating-custom-levels)
   - [Creating custom fetchers](#creating-custom-fetchers)
-  - [Composing with closures](#composing-with-closures)
   - [Built-in levels](#built-in-levels)
   - [Logging](#logging)
 - [Tests](#tests)
@@ -51,7 +50,7 @@ By default, **`Carlos` ships with an in-memory cache, a disk cache, a simple net
 
 With `Carlos` you can:
 
-- **create levels and fetchers** depending on your needs, either [through classes](#creating-custom-levels) or with [simple closures](#composing-with-closures)
+- **[create levels and fetchers](#creating-custom-levels)** depending on your needs
 - [combine levels](#usage-examples)
 - Cancel pending requests
 - [transform the key](#key-transformations) each level will get, [or the values](#value-transformations) each level will output (this means you're free to implement every level independing on how it will be used later on). Some common value transformers are already provided with `Carlos`
@@ -212,7 +211,7 @@ request.onCompletion { result in
      print("Request failed with code \(error)")
    case .NotComputed:
      print("This request has been canceled")
-  	}
+   }
    
    print("Nevertheless the request completed")
 }
@@ -238,19 +237,13 @@ enum URLTransformationError: ErrorType {
     case InvalidURLString
 }
 
-let transformedCache = { Promise(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString).future } =>> NetworkFetcher()
+let transformedCache = OneWayTransformationBox(transform: { Promise(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString).future }) =>> NetworkFetcher()
 ``` 
 
 With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into a previously defined cache level that takes `String` keys:
 
 ```swift
 let cache = MemoryCacheLevel<String, NSData>() >>> transformedCache
-```
-
-or 
-
-```swift
-let cache = MemoryCacheLevel<String, NSData>() >>> ({ Promise(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString).future } =>> NetworkFetcher())
 ```
 
 If this doesn't look very safe (one could always pass string garbage as a key and it won't magically translate to a `NSURL`, thus causing the `NetworkFetcher` to silently fail), we can still use a domain specific structure as a key, assuming it contains both `String` and `NSURL` values:
@@ -275,8 +268,6 @@ let networkLevel = imageToURL =>> NetworkFetcher()
     
 let cache = memoryLevel >>> diskLevel >>> networkLevel
 ```
-
-*All the transformer objects could be replaced with closures* as we did in the previous example, and the whole cache could be created in one line, if needed.
 
 Now we can perform safe requests like this:
 
@@ -500,12 +491,6 @@ When you have a working cache, but some of your levels are expensive (say a Netw
 This functionality comes with `Carlos`.
 
 ```swift
-let cache = pooled(memoryLevel >>> diskLevel >>> networkLevel)
-```
-
-or, using protocol extensions:
-
-```swift
 let cache = (memoryLevel >>> diskLevel >>> networkLevel).pooled()
 ```
 
@@ -519,9 +504,7 @@ extension Image: Hashable {
   }
 }
 
-extension Image: Equatable {
-  
-}
+extension Image: Equatable {}
 
 func ==(lhs: Image, rhs: Image) -> Bool {
   return lhs.identifier == rhs.identifier && lhs.URL == rhs.URL
@@ -585,12 +568,6 @@ This is how it looks in practice:
 ```swift
 let myCache = MyFirstLevel() >>> MySecondLevel()
 
-let cappedCache = capRequests(myCache, 3)
-```
-
-or, with protocol extensions:
-
-```swift
 let cappedCache = myCache.capRequests(3)
 ```
 
@@ -600,14 +577,6 @@ let cappedCache = myCache.capRequests(3)
 ### Conditioning caches 
 
 Sometimes we may have levels that should only be queried under some conditions. Let's say we have a `DatabaseLevel` that should only be triggered when users enable a given setting in the app that actually starts storing data in the database. We may want to avoid accessing the database if the setting is disabled in the first place.
-
-```swift
-let conditionedCache = conditioned(cache) { key in
-  Promise(value: appSettingIsEnabled).future
-}
-```
-
-or, with protocol extensions:
 
 ```swift
 let conditionedCache = cache.conditioned { key in
@@ -812,27 +781,6 @@ class CustomFetcher: Fetcher {
 
 You still need to declare what `KeyType` and `OutputType` your `CacheLevel` deals with, of course, but then you're only required to implement `get`. Less boilerplate for you!
 
-### Composing with closures
-
-Sometimes we could have simple fetchers that don't need `set`, `clear` and `onMemoryWarning` implementations because they don't store anything. In this case we can pipeline fetch closures instead of full-blown caches.
-
-```swift
-let fetcherLevel = { (image: Image) -> Future<NSData> in
-    let request = Promise<NSData>()
-      
-    request.succeed(NSData(contentsOfURL: image.URL)!)
-      
-    return request.future
-}
-    
-```
-
-This fetcher can be plugged in and replace the `NetworkFetcher` for example:
-
-```swift
-let cache = pooled(memoryLevel >>> diskLevel >>> fetcherLevel)
-```
-
 ### Built-in levels
 
 `Carlos` comes with 3 cache levels out of the box:
@@ -878,7 +826,7 @@ We're using [XCGLogger](https://github.com/DaveWoodCom/XCGLogger) in production 
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **1900 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
+As of today, there are around **2000 tests** for `Carlos` (see the folder `Tests`), and overall the tests codebase is *double the size* of the production codebase.
 
 ## Future development
 

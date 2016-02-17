@@ -36,8 +36,8 @@ Cap requests on a given fetcher closure
 - returns: An initialized RequestCapperCache (a CacheLevel itself)
 */
 @available(*, deprecated=0.5)
-public func capRequests<A, B>(fetcherClosure: (key: A) -> Future<B>, requestsCap: Int) -> RequestCapperCache<BasicCache<A, B>> {
-  return wrapClosureIntoCacheLevel(fetcherClosure).capRequests(requestsCap)
+public func capRequests<A, B>(fetcherClosure: (key: A) -> Future<B>, requestsCap: Int) -> RequestCapperCache<BasicFetcher<A, B>> {
+  return wrapClosureIntoFetcher(fetcherClosure).capRequests(requestsCap)
 }
 
 /** 

@@ -59,7 +59,8 @@ Dispatches all the operations of a given fetch closure on the given GCD queue
 - parameter rhs: The queue you want to dispatch the fetch closure on
  
 - returns: A new CacheLevel that dispatches the fetch closure on the given GCD queue
-*/
+ */
+@available(*, deprecated=0.7)
 public func ~>><A, B>(lhs: A -> Future<B>, rhs: dispatch_queue_t) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(lhs).dispatch(rhs)
 }

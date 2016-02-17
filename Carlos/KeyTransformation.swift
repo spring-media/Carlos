@@ -44,7 +44,8 @@ extension CacheLevel {
   - parameter transformerClosure: The transformation closure you want to apply
   
   - returns: A new cache level result of the transformation of the original cache level
-  */
+   */
+  @available(*, deprecated=0.7)
   public func transformKeys<A>(transformerClosure: A -> Future<KeyType>) -> BasicCache<A, OutputType> {
     return self.transformKeys(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
@@ -119,7 +120,8 @@ Use this transformation when you use a domain specific key or a wrapper key that
 - parameter transformer: The transformation you want to apply
 
 - returns: A new cache level result of the transformation of the original cache level
-*/
+ */
+@available(*, deprecated=0.7)
 public func =>><A, B: OneWayTransformer>(transformer: B, fetchClosure: (key: B.TypeOut) -> Future<A>) -> BasicCache<B.TypeIn, A> {
   return wrapClosureIntoFetcher(fetchClosure).transformKeys(transformer)
 }
@@ -133,7 +135,8 @@ Use this transformation when you use a domain specific key or a wrapper key that
 - parameter transformerClosure: The transformation closure you want to apply
 
 - returns: A new cache level result of the transformation of the original cache level
-*/
+ */
+@available(*, deprecated=0.7)
 public func =>><A, B, C>(transformerClosure: C -> Future<A>, fetchClosure: (key: A) -> Future<B>) -> BasicCache<C, B> {
   return wrapClosureIntoFetcher(fetchClosure).transformKeys(transformerClosure)
 }
@@ -161,7 +164,8 @@ Use this transformation when you use a domain specific key or a wrapper key that
 - parameter transformerClosure: The transformation closure you want to apply
 
 - returns: A new cache level result of the transformation of the original cache level
-*/
+ */
+@available(*, deprecated=0.7)
 public func =>><A: CacheLevel, B>(transformerClosure: B -> Future<A.KeyType>, cache: A) -> BasicCache<B, A.OutputType> {
   return cache.transformKeys(transformerClosure)
 }

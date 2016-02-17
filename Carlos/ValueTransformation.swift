@@ -30,7 +30,8 @@ extension Future {
   - parameter transformerClosure: The transformation closure from A to B
 
   - returns: A new Future<B>
-  */
+   */
+  @available(*, deprecated=0.7)
   internal func mutate<A>(transformerClosure: T -> Future<A>) -> Future<A> {
     return self.mutate(wrapClosureIntoOneWayTransformer(transformerClosure))
   }

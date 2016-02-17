@@ -46,18 +46,18 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    let modelDomainToString: ModelDomain -> Future<String> = {
+    let modelDomainToString = OneWayTransformationBox<ModelDomain, String>(transform: {
       Promise(value: $0.name).future
-    }
+    })
     
-    let modelDomainToInt: ModelDomain -> Future<Int> = {
+    let modelDomainToInt = OneWayTransformationBox<ModelDomain, Int>(transform: {
       Promise(value: $0.identifier).future
-    }
+    })
     
     let stringToData = StringTransformer().invert()
     let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Promise(value: $0.uppercaseString).future })
     
-    cache = ((modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> { (key: ModelDomain) in
+    cache = ((modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> BasicFetcher(getClosure: { (key: ModelDomain) in
       let request = Promise<NSData>()
       
       Logger.log("Fetched \(key.name) on the fetcher closure", .Info)
@@ -65,7 +65,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
       request.succeed("Last level was hit!".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
       
       return request.future
-    }).dispatch(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
+    })).dispatch(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
   }
   
   override func fetchRequested() {

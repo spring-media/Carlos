@@ -5,15 +5,6 @@ internal struct CarlosGlobals {
   static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] 
 }
 
-internal func wrapClosureIntoCacheLevel<A, B>(closure: (key: A) -> Future<B>) -> BasicCache<A, B> {
-  return BasicCache(
-    getClosure: closure,
-    setClosure: { (_, _) in },
-    clearClosure: { },
-    memoryClosure: { }
-  )
-}
-
 internal func wrapClosureIntoFetcher<A, B>(closure: (key: A) -> Future<B>) -> BasicFetcher<A, B> {
   return BasicFetcher(getClosure: closure)
 }

@@ -29,6 +29,8 @@ future.onCompletion { result in
 }
 ```
 
+##### - Check all your usages of closures in the API. Methods taking closures instead of `Fetcher`, `CacheLevel` or `OneWayTransformer` values have been deprecated.
+
 ## Migrating from 0.4 to 0.5
 
 ##### - Rename all your usages of `CacheRequest` to `Future`

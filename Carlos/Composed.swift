@@ -69,7 +69,8 @@ extension CacheLevel {
   - parameter fetchClosure: The cache closure
   
   - returns: A new cache level that is the result of the composition of the cache level with the cache closure
-  */
+   */
+  @available(*, deprecated=0.7)
   public func compose(fetchClosure: (key: KeyType) -> Future<OutputType>) -> BasicCache<KeyType, OutputType> {
     return self.compose(wrapClosureIntoFetcher(fetchClosure))
   }
@@ -121,7 +122,8 @@ Composes two cache closures
 - parameter secondFetcher: The second cache closure
 
 - returns: A new cache level that is the result of the composition of the two cache closures
-*/
+ */
+@available(*, deprecated=0.7)
 public func >>><A, B>(firstFetcher: (key: A) -> Future<B>, secondFetcher: (key: A) -> Future<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(firstFetcher).compose(wrapClosureIntoFetcher(secondFetcher))
 }
@@ -145,7 +147,8 @@ Composes a cache level with a cache closure
 - parameter fetchClosure: The cache closure
 
 - returns: A new cache level that is the result of the composition of the cache level with the cache closure
-*/
+ */
+@available(*, deprecated=0.7)
 public func >>><A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType) -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.compose(wrapClosureIntoFetcher(fetchClosure))
 }
@@ -157,7 +160,8 @@ Composes a cache closure with a cache level
 - parameter cache: The cache level
 
 - returns: A new cache level that is the result of the composition of the cache closure with the cache level
-*/
+ */
+@available(*, deprecated=0.7)
 public func >>><A: CacheLevel>(fetchClosure: (key: A.KeyType) -> Future<A.OutputType>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return wrapClosureIntoFetcher(fetchClosure).compose(cache)
 }
