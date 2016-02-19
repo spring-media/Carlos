@@ -38,6 +38,7 @@
   - [Logging](#logging)
 - [Tests](#tests)
 - [Future development](#future-development)
+- [Apps using Carlos](#apps-using-carlos)
 - [Authors](#authors)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
@@ -840,6 +841,12 @@ If you want to contribute to this repo, please:
 - Implement your solution
 - Write tests (untested features won't be merged)
 - When all the tests are written and green, create a pull request, with a short description of the approach taken
+
+## Apps using Carlos
+
+- [Die Welt Edition](https://itunes.apple.com/de/app/welt-edition-digitale-zeitung/id372746348?mt=8)
+
+Using Carlos? Please let us know through a Pull request, we'll be happy to mention your app!
 
 ## Authors
 
