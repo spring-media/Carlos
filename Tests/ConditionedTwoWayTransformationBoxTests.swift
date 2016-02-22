@@ -2,6 +2,7 @@ import Foundation
 import Carlos
 import Quick
 import Nimble
+import CarlosFutures
 
 class ConditionedTwoWayTransformationBoxTests: QuickSpec {
   override func spec() {

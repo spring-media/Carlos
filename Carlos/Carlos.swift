@@ -1,4 +1,5 @@
 import Foundation
+import CarlosFutures
 
 internal struct CarlosGlobals {
   static let QueueNamePrefix = "com.carlos."

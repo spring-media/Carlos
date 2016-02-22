@@ -10,12 +10,12 @@ Pod::Spec.new do |s|
   s.version          = "0.6"
   s.summary          = "A simple but flexible cache."
   s.description      = <<-DESC
-			Carlos is a small set of classes, global functions and convenience operators to realize custom, flexible and powerful cache layers in your iOS, Watch OS 2, tvOS and Mac OS X applications.
+			Carlos is a small set of classes convenience operators to realize custom, flexible and powerful cache layers in your iOS, watchOS 2, tvOS and Mac OS X applications.
                        DESC
   s.homepage         = "https://github.com/WeltN24/Carlos"
   s.license          = 'MIT'
   s.author           = { "Vittorio Monaco" => "vittorio.monaco1@gmail.com" }
-  s.source           = { :git => "https://github.com/WeltN24/Carlos.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/WeltN24/Carlos.git", :tag => 'Carlos-' + s.version.to_s }
 
   s.ios.platform = :ios, "9.0"
   s.osx.platform = :osx, "10.10"
@@ -28,6 +28,8 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
   
   s.requires_arc = true
+
+  s.dependency 'CarlosFutures', '~> 0.6'
 
   s.ios.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
   s.watchos.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'

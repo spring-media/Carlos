@@ -8,15 +8,33 @@
 
 import Foundation
 
-protocol ReadWriteLock {
+/// Abstracts a Read/Write lock
+public protocol ReadWriteLock {
+  /**
+  Executes a given closure with a read lock
+   
+  - parameter body: The code to execute with a read lock
+   
+  - returns: The result of the given code
+  */
   func withReadLock<T>(@noescape body: () -> T) -> T
+  
+  /**
+  Executes a given closure with a write lock
+   
+  - parameter body: The code to execute with a write lock
+   
+  - returns: The result of the given code
+  */
   func withWriteLock<T>(@noescape body: () -> T) -> T
 }
 
-final class PThreadReadWriteLock: ReadWriteLock {
+/// An implemenation of ReadWriteLock based on pthread, taken from https://github.com/bignerdranch/Deferred
+public final class PThreadReadWriteLock: ReadWriteLock {
   private var lock: UnsafeMutablePointer<pthread_rwlock_t>
   
-  init() {
+  /// Instantiates a new read/write lock
+  public init() {
     lock = UnsafeMutablePointer.alloc(1)
     let status = pthread_rwlock_init(lock, nil)
     assert(status == 0)
@@ -28,7 +46,7 @@ final class PThreadReadWriteLock: ReadWriteLock {
     lock.dealloc(1)
   }
   
-  func withReadLock<T>(@noescape body: () -> T) -> T {
+  public func withReadLock<T>(@noescape body: () -> T) -> T {
     let result: T
     pthread_rwlock_rdlock(lock)
     result = body()
@@ -36,7 +54,7 @@ final class PThreadReadWriteLock: ReadWriteLock {
     return result
   }
   
-  func withWriteLock<T>(@noescape body: () -> T) -> T {
+  public func withWriteLock<T>(@noescape body: () -> T) -> T {
     let result: T
     pthread_rwlock_wrlock(lock)
     result = body()

@@ -2,6 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
+import CarlosFutures
 
 class BasicCacheTests: QuickSpec {
   override func spec() {

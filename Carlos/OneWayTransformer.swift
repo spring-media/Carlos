@@ -1,4 +1,5 @@
 import Foundation
+import CarlosFutures
 
 /// Abstract an object that can transform values to another type
 public protocol OneWayTransformer: AsyncComputation {

@@ -2,6 +2,7 @@ import Foundation
 import Carlos
 import Quick
 import Nimble
+import CarlosFutures
 
 class BatchTests: QuickSpec {
   override func spec() {

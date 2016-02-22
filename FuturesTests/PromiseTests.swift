@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-import Carlos
+import CarlosFutures
 
 struct PromiseSharedExamplesContext {
   static let Promise = "promise"
@@ -477,7 +477,7 @@ class PromiseTests: QuickSpec {
                   successCompletedSentinels[idx] = value
                 case .Error(let error):
                   failureCompletedSentinels[idx] = error
-                case .NotComputed:
+                case .Cancelled:
                   cancelCompletedSentinels[idx] = true
                 }
               }
@@ -870,7 +870,7 @@ class PromiseTests: QuickSpec {
                 
             beforeEach {
               request.onCompletion { result in
-                if case .NotComputed = result {
+                if case .Cancelled = result {
                   subsequentCancelSentinel = true
                 } else {
                   subsequentCancelSentinel = false

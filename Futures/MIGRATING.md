@@ -1,0 +1,1 @@
+`Carlos Futures` has been introduced with `Carlos 0.7` and since then there have been no needed migrations.

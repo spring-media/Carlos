@@ -1,4 +1,5 @@
 import Foundation
+import CarlosFutures
 
 public enum NetworkFetcherError: ErrorType {
   /// Used when the status code of the network response is not included in the range 200..<300

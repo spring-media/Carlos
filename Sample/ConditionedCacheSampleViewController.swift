@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import Carlos
+import CarlosFutures
 
 enum ConditionError: ErrorType {
   case GlobalKillSwitch

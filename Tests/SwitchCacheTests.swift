@@ -2,6 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
+import CarlosFutures
 
 let switchClosure: (String) -> CacheLevelSwitchResult = { str in
   if str.characters.count > 5 {

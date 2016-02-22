@@ -2,6 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
+import CarlosFutures
 
 struct PoolCacheSharedExamplesContext {
   static let CacheToTest = "cache"

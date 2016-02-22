@@ -1,6 +1,5 @@
 import Foundation
-
-//TODO: Expose and use GCDQueue
+import CarlosFutures
 
 infix operator ~>> { }
 

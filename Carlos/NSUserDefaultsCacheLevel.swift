@@ -1,4 +1,5 @@
 import Foundation
+import CarlosFutures
 
 /** 
 Default name for the persistent domain used by the NSUserDefaultsCacheLevel
