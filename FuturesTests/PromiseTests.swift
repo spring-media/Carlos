@@ -195,6 +195,37 @@ class PromiseSharedExamplesConfiguration: QuickConfiguration {
 }
 
 class PromiseTests: QuickSpec {
+  private class MemoryHelper {
+    weak var weakVarSuccess: MemorySentinel?
+    weak var weakVarFailure: MemorySentinel?
+    weak var weakVarCancel: MemorySentinel?
+    weak var referencedPromise: Promise<String>?
+    
+    func setupWithPromise(promise: Promise<String>) {
+      referencedPromise = promise
+      
+      promise.onSuccess { _ in
+        self.weakVarSuccess?.doFoo()
+      }
+      
+      promise.onFailure { _ in
+        self.weakVarFailure?.doFoo()
+      }
+      
+      promise.onCancel {
+        self.weakVarCancel?.doFoo()
+      }
+    }
+  }
+  
+  private class MemorySentinel {
+    var didFoo = false
+    
+    func doFoo() {
+      didFoo = true
+    }
+  }
+  
   override func spec() {
     describe("Promise") {
       var request: Promise<String>!
@@ -213,6 +244,92 @@ class PromiseTests: QuickSpec {
         successCompletedSentinels = [String?](count: sentinelsCount, repeatedValue: nil)
         failureCompletedSentinels = [ErrorType?](count: sentinelsCount, repeatedValue: nil)
         cancelCompletedSentinels = [Bool?](count: sentinelsCount, repeatedValue: nil)
+      }
+      
+      context("when managing its listeners") {
+        weak var weakSut: MemoryHelper?
+        var promise: Promise<String>!
+        var successSentinel: MemorySentinel!
+        var failureSentinel: MemorySentinel!
+        var cancelSentinel: MemorySentinel!
+        
+        beforeEach {
+          let sut = MemoryHelper()
+          
+          successSentinel = MemorySentinel()
+          failureSentinel = MemorySentinel()
+          cancelSentinel = MemorySentinel()
+          
+          sut.weakVarSuccess = successSentinel
+          sut.weakVarFailure = failureSentinel
+          sut.weakVarCancel = cancelSentinel
+          
+          promise = Promise<String>()
+          sut.setupWithPromise(promise)
+          
+          weakSut = sut
+        }
+        
+        it("should not release the subject under test because of the listeners retaining it") {
+          expect(weakSut).notTo(beNil())
+        }
+        
+        context("when the promise succeeds") {
+          beforeEach {
+            promise.succeed("test")
+          }
+          
+          it("should call doFoo on the weak sentinel") {
+            expect(successSentinel.didFoo).to(beTrue())
+          }
+          
+          it("should not call doFoo on the other sentinels") {
+            expect(failureSentinel.didFoo).to(beFalse())
+            expect(cancelSentinel.didFoo).to(beFalse())
+          }
+          
+          it("should release the subject under test because the listeners are not retaining it anymore") {
+            expect(weakSut).to(beNil())
+          }
+        }
+        
+        context("when the promise is canceled") {
+          beforeEach {
+            promise.cancel()
+          }
+          
+          it("should call doFoo on the weak sentinel") {
+            expect(cancelSentinel.didFoo).to(beTrue())
+          }
+          
+          it("should not call doFoo on the other sentinels") {
+            expect(failureSentinel.didFoo).to(beFalse())
+            expect(successSentinel.didFoo).to(beFalse())
+          }
+          
+          it("should release the subject under test because the listeners are not retaining it anymore") {
+            expect(weakSut).to(beNil())
+          }
+        }
+        
+        context("when the promise fails") {
+          beforeEach {
+            promise.fail(TestError.SimpleError)
+          }
+          
+          it("should call doFoo on the weak sentinel") {
+            expect(failureSentinel.didFoo).to(beTrue())
+          }
+          
+          it("should not call doFoo on the other sentinels") {
+            expect(successSentinel.didFoo).to(beFalse())
+            expect(cancelSentinel.didFoo).to(beFalse())
+          }
+          
+          it("should release the subject under test because the listeners are not retaining it anymore") {
+            expect(weakSut).to(beNil())
+          }
+        }
       }
       
       context("when mimicing another future") {

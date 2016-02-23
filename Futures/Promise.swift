@@ -20,8 +20,7 @@ public class Promise<T> {
   /**
   Creates a new Promise
   */
-  public init() {
-  }
+  public init() {}
   
   /**
   Initializes a new Promise and makes it immediately succeed with the given value
@@ -78,6 +77,20 @@ public class Promise<T> {
     return self
   }
   
+  private func clearListeners() {
+    successLock.withWriteLock {
+      successListeners.removeAll()
+    }
+    
+    failureLock.withWriteLock {
+      failureListeners.removeAll()
+    }
+    
+    cancelLock.withWriteLock {
+      cancelListeners.removeAll()
+    }
+  }
+  
   /**
   Makes the Promise succeed with a value
   
@@ -98,9 +111,7 @@ public class Promise<T> {
       }
     }
     
-    successLock.withWriteLock {
-      successListeners.removeAll()
-    }
+    clearListeners()
   }
   
   /**
@@ -123,9 +134,7 @@ public class Promise<T> {
       }
     }
     
-    failureLock.withWriteLock {
-      failureListeners.removeAll()
-    }
+    clearListeners()
   }
   
   /**
@@ -146,9 +155,7 @@ public class Promise<T> {
       }
     }
     
-    cancelLock.withWriteLock {
-      cancelListeners.removeAll()
-    }
+    clearListeners()
   }
   
   /**

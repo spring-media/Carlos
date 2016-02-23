@@ -19,6 +19,7 @@ First release of `Carlos Futures` as a separate framework.
 
 **Fixes**
 - Correctly updates access date on the disk cache when calling `set` on a `DiskCacheLevel`
+- Fixes a bug where calling `succeed`, `fail` or `cancel` on a `Promise` or a `Future` didn't correctly release all the attached listeners.
 
 **Improvements**
 - `Promise`s are now safer to use with GCD and in multi-thread scenarios.

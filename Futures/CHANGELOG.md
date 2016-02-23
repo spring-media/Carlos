@@ -14,3 +14,6 @@ First release of `Carlos Futures` as a separate framework.
 
 **Improvements**
 - `Promise`s are now safer to use with GCD and in multi-thread scenarios.
+
+**Fixes**
+- Fixes a bug where calling `succeed`, `fail` or `cancel` on a `Promise` or a `Future` didn't correctly release all the attached listeners.
