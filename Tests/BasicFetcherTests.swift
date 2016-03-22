@@ -41,10 +41,6 @@ class BasicFetcherTests: QuickSpec {
         it("should pass the right key") {
           expect(didGetKey).to(equal(key))
         }
-        
-        it("should not modify the request") {
-          expect(request).to(beIdenticalTo(fakeRequest.future))
-        }
       }
     }
   }
