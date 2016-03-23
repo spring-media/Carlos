@@ -117,14 +117,9 @@
 		52463F7F1C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52463F7E1C1837CF0034D032 /* ConditionedValueTransformation.swift */; };
 		52463F811C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52463F7E1C1837CF0034D032 /* ConditionedValueTransformation.swift */; };
 		52463F821C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52463F7E1C1837CF0034D032 /* ConditionedValueTransformation.swift */; };
-		524CA2F11CA1BEDD00AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		524CA2F31CA1BF0100AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		524CA2F51CA1BF0B00AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		524CA2F81CA1BFC400AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		524CA2F91CA1C03300AFC564 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
 		524CA2FA1CA1C03800AFC564 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
 		524CA2FB1CA1C03B00AFC564 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
-		524CA3111CA1C56F00AFC564 /* Futures.h in Headers */ = {isa = PBXBuildFile; fileRef = 52051D761C79D903005F861A /* Futures.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5250E3801BB1345700EB7388 /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
 		5250E3821BB1345700EB7388 /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
 		5250E3841BB137BF00EB7388 /* NormalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E3831BB137BF00EB7388 /* NormalizationTests.swift */; };
@@ -486,46 +481,6 @@
 				5216CD261BC04BD9005B729F /* CarlosTv.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		524CA2E11CA1BED200AFC564 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 11;
-			files = (
-				524CA2F11CA1BEDD00AFC564 /* PiedPiper.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		524CA2F21CA1BEF800AFC564 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				524CA2F31CA1BF0100AFC564 /* PiedPiper.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		524CA2F41CA1BF0400AFC564 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				524CA2F51CA1BF0B00AFC564 /* PiedPiper.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		524CA2F71CA1BFBB00AFC564 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				524CA2F81CA1BFC400AFC564 /* PiedPiper.framework in CopyFiles */,
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		52CF0AE11B920DD60061022D /* Embed Frameworks */ = {
@@ -1202,7 +1157,6 @@
 			files = (
 				AD8557F51BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
 				52635A221B4F0F3D00F187EE /* Carlos.h in Headers */,
-				524CA3111CA1C56F00AFC564 /* Futures.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1299,7 +1253,6 @@
 				52635A191B4F0F3D00F187EE /* Frameworks */,
 				52635A1A1B4F0F3D00F187EE /* Headers */,
 				52635A1B1B4F0F3D00F187EE /* Resources */,
-				524CA2E11CA1BED200AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1337,7 +1290,6 @@
 				52CF0A9A1B9203730061022D /* Frameworks */,
 				52CF0A9B1B9203730061022D /* Headers */,
 				52CF0A9C1B9203730061022D /* Resources */,
-				524CA2F21CA1BEF800AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1376,7 +1328,6 @@
 				52D805A61BC03995000F0733 /* Frameworks */,
 				52D805A71BC03995000F0733 /* Headers */,
 				52D805A81BC03995000F0733 /* Resources */,
-				524CA2F41CA1BF0400AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1396,7 +1347,6 @@
 				AD64D9391B8DE58300C783D3 /* Frameworks */,
 				AD64D93A1B8DE58300C783D3 /* Headers */,
 				AD64D93B1B8DE58300C783D3 /* Resources */,
-				524CA2F71CA1BFBB00AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
