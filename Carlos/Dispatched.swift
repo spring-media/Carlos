@@ -1,6 +1,5 @@
 import Foundation
-
-//TODO: Expose and use GCDQueue
+import PiedPiper
 
 infix operator ~>> { }
 

@@ -1,5 +1,6 @@
 import Foundation
 import Carlos
+import PiedPiper
 
 class DelayedNetworkFetcher: NetworkFetcher {
   private static let delay = dispatch_time(DISPATCH_TIME_NOW,

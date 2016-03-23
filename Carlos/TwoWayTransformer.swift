@@ -1,4 +1,5 @@
 import Foundation
+import PiedPiper
 
 /// Abstract an object that can transform values to another type and back to the original one
 public protocol TwoWayTransformer: OneWayTransformer {

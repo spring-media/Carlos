@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 import Carlos
 
+private var myContext = 0
+
 class JSONCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<NSURL, AnyObject>!
   
@@ -10,6 +12,20 @@ class JSONCacheSampleViewController: BaseCacheViewController {
     
     cache.get(NSURL(string: urlKeyField?.text ?? "")!).onSuccess { JSON in
       self.eventsLogView.text = "\(self.eventsLogView.text)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
+    }
+    
+    let progrss = NSProgress.currentProgress()
+    
+    progrss?.addObserver(self, forKeyPath: "fractionCompleted", options: .Initial, context: &myContext)
+  }
+  
+  override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    if context == &myContext {
+      if let newValue = change?[NSKeyValueChangeNewKey] {
+        print("Progress changed: \(newValue)")
+      }
+    } else {
+      super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
     }
   }
   

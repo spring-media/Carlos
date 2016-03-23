@@ -2,6 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
+import PiedPiper
 
 struct ConditionedPostProcessSharedExamplesContext {
   static let CacheToTest = "cache"

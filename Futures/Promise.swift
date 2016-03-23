@@ -13,15 +13,21 @@ public class Promise<T> {
   private let cancelLock: ReadWriteLock = PThreadReadWriteLock()
   
   /// The Future associated to this Promise
-  public lazy var future: Future<T> = {
-    return Future(promise: self)
-  }()
+  private weak var _future: Future<T>?
+  public var future: Future<T> {
+    if let _future = _future {
+      return _future
+    }
+    
+    let newFuture = Future(promise: self)
+    _future = newFuture
+    return newFuture
+  }
   
   /**
   Creates a new Promise
   */
-  public init() {
-  }
+  public init() {}
   
   /**
   Initializes a new Promise and makes it immediately succeed with the given value
@@ -78,6 +84,20 @@ public class Promise<T> {
     return self
   }
   
+  private func clearListeners() {
+    successLock.withWriteLock {
+      successListeners.removeAll()
+    }
+    
+    failureLock.withWriteLock {
+      failureListeners.removeAll()
+    }
+    
+    cancelLock.withWriteLock {
+      cancelListeners.removeAll()
+    }
+  }
+  
   /**
   Makes the Promise succeed with a value
   
@@ -98,9 +118,7 @@ public class Promise<T> {
       }
     }
     
-    successLock.withWriteLock {
-      successListeners.removeAll()
-    }
+    clearListeners()
   }
   
   /**
@@ -123,9 +141,7 @@ public class Promise<T> {
       }
     }
     
-    failureLock.withWriteLock {
-      failureListeners.removeAll()
-    }
+    clearListeners()
   }
   
   /**
@@ -146,9 +162,7 @@ public class Promise<T> {
       }
     }
     
-    cancelLock.withWriteLock {
-      cancelListeners.removeAll()
-    }
+    clearListeners()
   }
   
   /**
@@ -211,7 +225,7 @@ public class Promise<T> {
   /**
   Adds a listener for both success and failure events of this Promise
   
-  - parameter completion: The closure that should be called when the Promise completes (succeeds or fails), taking a result with value .Success in case the Promise succeeded and .Error in case the Promise failed as parameter. If the Promise is canceled, the result will be .NotComputed
+  - parameter completion: The closure that should be called when the Promise completes (succeeds or fails), taking a result with value .Success in case the Promise succeeded and .Error in case the Promise failed as parameter. If the Promise is canceled, the result will be .Cancelled
   
   - returns: The updated Promise
   */
@@ -221,11 +235,11 @@ public class Promise<T> {
     } else if let value = value {
       completion(result: .Success(value))
     } else if canceled {
-      completion(result: .NotComputed)
+      completion(result: .Cancelled)
     } else {
       onSuccess { completion(result: .Success($0)) }
       onFailure { completion(result: .Error($0)) }
-      onCancel { completion(result: .NotComputed) }
+      onCancel { completion(result: .Cancelled) }
     }
     
     return self

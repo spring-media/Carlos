@@ -1,4 +1,5 @@
 import Foundation
+import PiedPiper
 
 /// Abstract an object that can conditionally transform values to another type and back to the original one, based on a given key
 public protocol ConditionedTwoWayTransformer: ConditionedOneWayTransformer {

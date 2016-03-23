@@ -8,6 +8,6 @@ public enum Result<T> {
   /// The result contains an error
   case Error(ErrorType)
   
-  /// The result was not computed
-  case NotComputed
+  /// The result was cancelled
+  case Cancelled
 }

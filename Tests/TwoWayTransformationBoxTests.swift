@@ -2,6 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
+import PiedPiper
 
 struct TwoWayTransformationBoxSharedExamplesContext {
   static let TransformerToTest = "transformer"
@@ -17,56 +18,6 @@ class TwoWayTransformationBoxSharedExamplesConfiguration: QuickConfiguration {
         error = nil
         
         invertedBox = sharedExampleContext()[TwoWayTransformationBoxSharedExamplesContext.TransformerToTest] as? TwoWayTransformationBox<String, NSURL>
-      }
-      
-      context("when calling perform") {
-        var result: NSURL!
-        
-        beforeEach {
-          result = nil
-        }
-        
-        context("if the transformation is possible") {
-          let originString = "http://github.com/WeltN24/Carlos"
-          
-          beforeEach {
-            invertedBox.perform(originString)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
-          }
-          
-          it("should call the success closure") {
-            expect(result).notTo(beNil())
-          }
-          
-          it("should not call the failure closure") {
-            expect(error).to(beNil())
-          }
-          
-          it("should return the expected result") {
-            expect(result?.absoluteString).to(equal(originString))
-          }
-        }
-        
-        context("if the transformation is not possible") {
-          beforeEach {
-            invertedBox.perform("not an URL")
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
-          }
-          
-          it("should call the error closure") {
-            expect(error).notTo(beNil())
-          }
-          
-          it("should not call the success closure") {
-            expect(result).to(beNil())
-          }
-          
-          it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.AnotherError))
-          }
-        }
       }
       
       context("when using the transformation") {
@@ -188,56 +139,6 @@ class TwoWayTransformationBoxTests: QuickSpec {
         }, inverseTransform: {
           Promise(value: NSURL(string: $0), error: TestError.AnotherError).future
         })
-      }
-      
-      context("when calling perform") {
-        var result: String!
-        
-        beforeEach {
-          result = nil
-        }
-        
-        context("when the transformation is possible") {
-          let originURL = NSURL(string: "http://github.com/WeltN24/Carlos")!
-          
-          beforeEach {
-            box.perform(originURL)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
-          }
-          
-          it("should call the success closure") {
-            expect(result).notTo(beNil())
-          }
-          
-          it("should not call the failure closure") {
-            expect(error).to(beNil())
-          }
-          
-          it("should return the expected result") {
-            expect(result).to(equal(originURL.absoluteString))
-          }
-        }
-        
-        context("when the transformation is not possible") {
-          beforeEach {
-            box.perform(NSURL(string: "ftp://whatever")!)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
-          }
-          
-          it("should not call the success closure") {
-            expect(result).to(beNil())
-          }
-          
-          it("should call the error closure") {
-            expect(error).notTo(beNil())
-          }
-          
-          it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.AnotherError))
-          }
-        }
       }
       
       context("when using the transformation") {

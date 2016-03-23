@@ -1,4 +1,5 @@
 import Foundation
+import PiedPiper
 
 /// A simple logger to use instead of println with configurable output closure
 public class Logger {

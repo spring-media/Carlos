@@ -1,6 +1,7 @@
 import Foundation
 
-// Expose later on when the library is more async-computation oriented
+infix operator >>> { associativity left }
+
 /**
 Composes two sync closures
 
@@ -9,7 +10,7 @@ Composes two sync closures
 
 - returns: A closure taking an A parameter and returning an Optional<C> obtained by combining f and g in a way similar to g(f(x))
 */
-internal func >>> <A, B, C>(f: A -> B?, g: B -> C?) -> A -> C? {
+public func >>> <A, B, C>(f: A -> B?, g: B -> C?) -> A -> C? {
   return { x in
     if let fx = f(x) {
       return g(fx)
@@ -19,7 +20,6 @@ internal func >>> <A, B, C>(f: A -> B?, g: B -> C?) -> A -> C? {
   }
 }
 
-// Expose later when transformers will to be async and caches will be chainable in a similar way
 /**
 Composes two async (Future) closures
 
@@ -28,7 +28,7 @@ Composes two async (Future) closures
 
 - returns: A closure taking an A parameter and returning a Future<C> (basically a future for a C return type) obtained by combining f and g in a way similar to g(f(x)) (if the closures were sync)
 */
-internal func >>> <A, B, C>(f: A -> Future<B>, g: B -> Future<C>) -> A -> Future<C> {
+public func >>> <A, B, C>(f: A -> Future<B>, g: B -> Future<C>) -> A -> Future<C> {
   return { param in
     let resultingRequest = Promise<C>()
     
@@ -43,7 +43,7 @@ internal func >>> <A, B, C>(f: A -> Future<B>, g: B -> Future<C>) -> A -> Future
   }
 }
 
-// Expose later if needed with async transformers
+//Expose later if it makes sense to
 /**
 Composes two async closures
 

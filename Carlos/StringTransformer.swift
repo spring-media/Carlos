@@ -1,4 +1,5 @@
 import Foundation
+import PiedPiper
 
 /**
 This class takes care of transforming NSData instances into String values.

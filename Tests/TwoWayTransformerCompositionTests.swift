@@ -2,6 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
+import PiedPiper
 
 struct ComposedTwoWayTransformerSharedExamplesContext {
   static let TransformerToTest = "composedTransformer"

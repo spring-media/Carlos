@@ -1,4 +1,5 @@
 import Foundation
+import PiedPiper
 
 /**
 This class takes care of transforming NSData instances into JSON objects in the form of AnyObject instances. Depending on your usage, the AnyObject could contain an Array, a Dictionary, or nil if the NSData is not a valid JSON

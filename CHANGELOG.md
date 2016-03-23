@@ -1,17 +1,27 @@
 # Changelog
 
 ## 0.7
+
+First release of `Pied Piper` as a separate framework.
+
 **Breaking changes**
-- `onCompletion` argument now is a closure accepting a `Result<T>` as a parameter instead of a tuple `(value: T?, error: ErrorType?)`. `Result<T>` is the usual `enum` (aka `Either`) that can be `.Success(T)`, `.Error(ErrorType)` or `NotComputed` in case of canceled computations.
+- `onCompletion` argument now is a closure accepting a `Result<T>` as a parameter instead of a tuple `(value: T?, error: ErrorType?)`. `Result<T>` is the usual `enum` (aka `Either`) that can be `.Success(T)`, `.Error(ErrorType)` or `Cancelled` in case of canceled computations.
+- Please add a `import PiedPiper` line everywhere you make use of Carlos' `Future`s or `Promise`s, since with 0.7 we now ship a separate `Pied Piper` framework.
+- `AsyncComputation` has been removed from the public API. Please use `OneWayTransformer` (or `CacheLevel`) instead now.
 
 **Deprecated**
 - APIs using closures instead of `Fetcher`, `CacheLevel` or `OneWayTransformer` parameters are now deprecated in favor of their counterparts. They will be removed from Carlos with the 1.0 release.
 
 **New features**
 - It's now possible to batch a set of fetch requests. You can use `batchGetAll` if you want to pass a list of keys and get the success callback when **all** of them succeed and the failure callback **as soon as one** of them fails, or `batchGetSome` if you want to pass a list of keys and get the success callback when all of them completed (successfully or not) but only get the list of successful responses back.
+- It's now possible to compose async functions and `Future`s through the `>>>` operator.
+- The implementation of `ReadWriteLock` taken from [Deferred](https://github.com/bignerdranch/Deferred) is now exposed as `public`.
+- It's now possible to take advantage of the `GCD` struct to execute asynchronous computation through the functions `main` and `background` for GCD built-in queues and `async` for GCD serial or custom queues.
 
 **Fixes**
 - Correctly updates access date on the disk cache when calling `set` on a `DiskCacheLevel`
+- Fixes a bug where calling `succeed`, `fail` or `cancel` on a `Promise` or a `Future` didn't correctly release all the attached listeners.
+- Fixes a retain cycle between `Promise` and `Future` objects.
 
 **Improvements**
 - `Promise`s are now safer to use with GCD and in multi-thread scenarios.

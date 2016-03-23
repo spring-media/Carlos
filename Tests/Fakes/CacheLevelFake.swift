@@ -1,5 +1,6 @@
 import Foundation
 import Carlos
+import PiedPiper
 
 class CacheLevelFake<A, B>: CacheLevel {
   typealias KeyType = A

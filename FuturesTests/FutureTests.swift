@@ -1,7 +1,12 @@
 import Foundation
 import Quick
 import Nimble
-import Carlos
+import PiedPiper
+
+internal enum TestError: ErrorType {
+  case SimpleError
+  case AnotherError
+}
 
 struct FutureSharedExamplesContext {
   static let Future = "future"
