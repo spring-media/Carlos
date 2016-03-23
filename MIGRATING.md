@@ -3,7 +3,7 @@
 ##### - Please note that with `Carlos` 0.7 the `Future` and `Promise`s code has been moved to a new framework. 
 
 - If you use `CocoaPods` or `Carthage`, you will just have to add a `import PiedPiper` line everywhere you make use of Carlos' `Future`s. 
-- If you did a submodule integration, please add `PiedPiper` as `Embeded binary` to your target.
+- If you did a submodule integration, please add `PiedPiper` as `Embedded binary` to your target.
 - If you did a manual integration, please make sure that all the files missing from your target are re-added from the `Futures` folder.
 
 ##### - Check all your usages of `onCompletion` and replace the tuple `(value, error)` with the value `result`. Code will look like the following:

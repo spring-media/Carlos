@@ -17,3 +17,4 @@ First release of `Pied Piper` as a separate framework.
 
 **Fixes**
 - Fixes a bug where calling `succeed`, `fail` or `cancel` on a `Promise` or a `Future` didn't correctly release all the attached listeners.
+- Fixes a retain cycle between `Promise` and `Future` objects.

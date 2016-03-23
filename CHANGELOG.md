@@ -21,6 +21,7 @@ First release of `Pied Piper` as a separate framework.
 **Fixes**
 - Correctly updates access date on the disk cache when calling `set` on a `DiskCacheLevel`
 - Fixes a bug where calling `succeed`, `fail` or `cancel` on a `Promise` or a `Future` didn't correctly release all the attached listeners.
+- Fixes a retain cycle between `Promise` and `Future` objects.
 
 **Improvements**
 - `Promise`s are now safer to use with GCD and in multi-thread scenarios.

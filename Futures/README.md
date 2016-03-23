@@ -34,7 +34,9 @@
 
 With `Pied Piper` you can:
 
-- WRITE
+- Use [`Future`](#futures)s and [`Promise`](#promises)s for your async tasks
+- Write easy to read async code [on top of GCD](#gcd-computation)
+- [Compose asynchronous functions](#function-composition) in an intuitive way
 
 ## Installation
 
