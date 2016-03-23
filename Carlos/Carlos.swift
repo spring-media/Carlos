@@ -1,5 +1,5 @@
 import Foundation
-import CarlosFutures
+import PiedPiper
 
 internal struct CarlosGlobals {
   static let QueueNamePrefix = "com.carlos."

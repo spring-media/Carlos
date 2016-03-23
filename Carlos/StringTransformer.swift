@@ -1,5 +1,5 @@
 import Foundation
-import CarlosFutures
+import PiedPiper
 
 /**
 This class takes care of transforming NSData instances into String values.

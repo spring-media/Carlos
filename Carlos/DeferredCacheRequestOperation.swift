@@ -1,5 +1,5 @@
 import Foundation
-import CarlosFutures
+import PiedPiper
 
 /*
   Warning! this class contains a workaround in order to have effective generic NSOperations in Swift

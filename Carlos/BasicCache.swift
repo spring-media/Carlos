@@ -1,5 +1,5 @@
 import Foundation
-import CarlosFutures
+import PiedPiper
 
 /// A wrapper cache that explicitly takes get, set, clear and memory warning closures
 public final class BasicCache<A, B>: CacheLevel {

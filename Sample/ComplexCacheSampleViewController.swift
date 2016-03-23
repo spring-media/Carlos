@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 import Carlos
-import CarlosFutures
 
 struct ModelDomain {
   let name: String

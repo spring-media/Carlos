@@ -2,10 +2,10 @@
 
 ## 0.7
 
-First release of `Carlos Futures` as a separate framework.
+First release of `Pied Piper` as a separate framework.
 
 **Breaking changes**
-- As documented in the `MIGRATING.md` file, you will have to add a `import CarlosFutures` line everywhere you make use of Carlos' `Future`s or `Promise`s.
+- As documented in the `MIGRATING.md` file, you will have to add a `import PiedPiper` line everywhere you make use of Carlos' `Future`s or `Promise`s.
 
 **New features**
 - It's now possible to compose async functions and `Future`s through the `>>>` operator.

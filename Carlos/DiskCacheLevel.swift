@@ -1,5 +1,5 @@
 import Foundation
-import CarlosFutures
+import PiedPiper
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
 public class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {

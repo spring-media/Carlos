@@ -14,13 +14,13 @@
 		52051DA01C79D91D005F861A /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051D991C79D91D005F861A /* Promise.swift */; };
 		52051DA11C79D91D005F861A /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051D9A1C79D91D005F861A /* ReadWriteLock.swift */; };
 		52051DA21C79D91D005F861A /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051D9B1C79D91D005F861A /* Result.swift */; };
-		52051DB41C79D950005F861A /* CarlosFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* CarlosFutures.framework */; };
+		52051DB41C79D950005F861A /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
 		52051DBA1C79D962005F861A /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		52051DBB1C79D966005F861A /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
 		52051DBE1C79D984005F861A /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051DBC1C79D984005F861A /* FutureTests.swift */; };
 		52051DBF1C79D984005F861A /* PromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051DBD1C79D984005F861A /* PromiseTests.swift */; };
 		52051DC11C79D9B4005F861A /* Dispatched.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051DC01C79D9B4005F861A /* Dispatched.swift */; };
-		52051DC21C79DCE1005F861A /* CarlosFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* CarlosFutures.framework */; };
+		52051DC21C79DCE1005F861A /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
 		52051DC51C79DD51005F861A /* Dispatched.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051DC01C79D9B4005F861A /* Dispatched.swift */; };
 		52051DC61C79DD51005F861A /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; };
 		52051DC71C79DD51005F861A /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
@@ -117,6 +117,14 @@
 		52463F7F1C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52463F7E1C1837CF0034D032 /* ConditionedValueTransformation.swift */; };
 		52463F811C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52463F7E1C1837CF0034D032 /* ConditionedValueTransformation.swift */; };
 		52463F821C1837CF0034D032 /* ConditionedValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52463F7E1C1837CF0034D032 /* ConditionedValueTransformation.swift */; };
+		524CA2F11CA1BEDD00AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		524CA2F31CA1BF0100AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		524CA2F51CA1BF0B00AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		524CA2F81CA1BFC400AFC564 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		524CA2F91CA1C03300AFC564 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
+		524CA2FA1CA1C03800AFC564 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
+		524CA2FB1CA1C03B00AFC564 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
+		524CA3111CA1C56F00AFC564 /* Futures.h in Headers */ = {isa = PBXBuildFile; fileRef = 52051D761C79D903005F861A /* Futures.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5250E3801BB1345700EB7388 /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
 		5250E3821BB1345700EB7388 /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
 		5250E3841BB137BF00EB7388 /* NormalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E3831BB137BF00EB7388 /* NormalizationTests.swift */; };
@@ -368,13 +376,6 @@
 			remoteGlobalIDString = 52D805A91BC03995000F0733;
 			remoteInfo = CarlosTv;
 		};
-		52635A321B4F0F3E00F187EE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 52635A1C1B4F0F3D00F187EE;
-			remoteInfo = Carlos;
-		};
 		52635A6D1B4F110500F187EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
@@ -402,13 +403,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AD64D9791B8DE69200C783D3;
 			remoteInfo = CarlosWatchSample;
-		};
-		AD64D99E1B8DE69D00C783D3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AD64D93C1B8DE58300C783D3;
-			remoteInfo = CarlosWatch;
 		};
 		C7C5D94A1B55475B00CDB402 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -494,6 +488,46 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		524CA2E11CA1BED200AFC564 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 11;
+			files = (
+				524CA2F11CA1BEDD00AFC564 /* PiedPiper.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		524CA2F21CA1BEF800AFC564 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				524CA2F31CA1BF0100AFC564 /* PiedPiper.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		524CA2F41CA1BF0400AFC564 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				524CA2F51CA1BF0B00AFC564 /* PiedPiper.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		524CA2F71CA1BFBB00AFC564 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				524CA2F81CA1BFC400AFC564 /* PiedPiper.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52CF0AE11B920DD60061022D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -552,7 +586,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		52051D741C79D903005F861A /* CarlosFutures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosFutures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52051D741C79D903005F861A /* PiedPiper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PiedPiper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52051D761C79D903005F861A /* Futures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Futures.h; sourceTree = "<group>"; };
 		52051D781C79D903005F861A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52051D961C79D91D005F861A /* FunctionComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionComposition.swift; sourceTree = "<group>"; };
@@ -561,7 +595,7 @@
 		52051D991C79D91D005F861A /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		52051D9A1C79D91D005F861A /* ReadWriteLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
 		52051D9B1C79D91D005F861A /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		52051DAF1C79D950005F861A /* FuturesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FuturesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52051DAF1C79D950005F861A /* PiedPiperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiedPiperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52051DB31C79D950005F861A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52051DBC1C79D984005F861A /* FutureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		52051DBD1C79D984005F861A /* PromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromiseTests.swift; sourceTree = "<group>"; };
@@ -648,7 +682,7 @@
 		52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformer.swift; sourceTree = "<group>"; };
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		526FC9C61C7A03B600300334 /* Futures.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Futures.playground; sourceTree = "<group>"; };
+		526FC9C61C7A03B600300334 /* PiedPiper.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PiedPiper.playground; sourceTree = "<group>"; };
 		526FC9C71C7A244200300334 /* FunctionCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionCompositionTests.swift; sourceTree = "<group>"; };
 		526FC9C91C7A244900300334 /* GCDTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDTests.swift; sourceTree = "<group>"; };
 		5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetcherValueTransformation.swift; sourceTree = "<group>"; };
@@ -729,7 +763,7 @@
 			files = (
 				52051DBB1C79D966005F861A /* Quick.framework in Frameworks */,
 				52051DBA1C79D962005F861A /* Nimble.framework in Frameworks */,
-				52051DB41C79D950005F861A /* CarlosFutures.framework in Frameworks */,
+				52051DB41C79D950005F861A /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,7 +779,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52051DC21C79DCE1005F861A /* CarlosFutures.framework in Frameworks */,
+				52051DC21C79DCE1005F861A /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +797,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				524CA2FA1CA1C03800AFC564 /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +813,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				524CA2F91CA1C03300AFC564 /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,6 +821,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				524CA2FB1CA1C03B00AFC564 /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,7 +1084,7 @@
 		AD695CD61B46CD65004E998D = {
 			isa = PBXGroup;
 			children = (
-				526FC9C61C7A03B600300334 /* Futures.playground */,
+				526FC9C61C7A03B600300334 /* PiedPiper.playground */,
 				52B6D3541B79307900A403E2 /* Carlos.playground */,
 				AD695CE11B46CD65004E998D /* Sample */,
 				52635A1E1B4F0F3D00F187EE /* Carlos */,
@@ -1079,8 +1116,8 @@
 				52CF0ACE1B920DC20061022D /* CarlosMacSample.app */,
 				52D805AA1BC03995000F0733 /* CarlosTv.framework */,
 				5216CD0C1BC04B43005B729F /* CarlosTvSample.app */,
-				52051D741C79D903005F861A /* CarlosFutures.framework */,
-				52051DAF1C79D950005F861A /* FuturesTests.xctest */,
+				52051D741C79D903005F861A /* PiedPiper.framework */,
+				52051DAF1C79D950005F861A /* PiedPiperTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1165,6 +1202,7 @@
 			files = (
 				AD8557F51BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */,
 				52635A221B4F0F3D00F187EE /* Carlos.h in Headers */,
+				524CA3111CA1C56F00AFC564 /* Futures.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,9 +1236,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		52051D731C79D903005F861A /* CarlosFutures */ = {
+		52051D731C79D903005F861A /* PiedPiper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52051D941C79D903005F861A /* Build configuration list for PBXNativeTarget "CarlosFutures" */;
+			buildConfigurationList = 52051D941C79D903005F861A /* Build configuration list for PBXNativeTarget "PiedPiper" */;
 			buildPhases = (
 				52051D6F1C79D903005F861A /* Sources */,
 				52051D701C79D903005F861A /* Frameworks */,
@@ -1211,14 +1249,14 @@
 			);
 			dependencies = (
 			);
-			name = CarlosFutures;
+			name = PiedPiper;
 			productName = Futures;
-			productReference = 52051D741C79D903005F861A /* CarlosFutures.framework */;
+			productReference = 52051D741C79D903005F861A /* PiedPiper.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		52051DAE1C79D950005F861A /* FuturesTests */ = {
+		52051DAE1C79D950005F861A /* PiedPiperTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52051DB71C79D950005F861A /* Build configuration list for PBXNativeTarget "FuturesTests" */;
+			buildConfigurationList = 52051DB71C79D950005F861A /* Build configuration list for PBXNativeTarget "PiedPiperTests" */;
 			buildPhases = (
 				52051DAB1C79D950005F861A /* Sources */,
 				52051DAC1C79D950005F861A /* Frameworks */,
@@ -1229,9 +1267,9 @@
 			dependencies = (
 				52051DB61C79D950005F861A /* PBXTargetDependency */,
 			);
-			name = FuturesTests;
+			name = PiedPiperTests;
 			productName = FuturesTests;
-			productReference = 52051DAF1C79D950005F861A /* FuturesTests.xctest */;
+			productReference = 52051DAF1C79D950005F861A /* PiedPiperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		5216CD0B1BC04B43005B729F /* CarlosTvSample */ = {
@@ -1261,6 +1299,7 @@
 				52635A191B4F0F3D00F187EE /* Frameworks */,
 				52635A1A1B4F0F3D00F187EE /* Headers */,
 				52635A1B1B4F0F3D00F187EE /* Resources */,
+				524CA2E11CA1BED200AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1298,6 +1337,7 @@
 				52CF0A9A1B9203730061022D /* Frameworks */,
 				52CF0A9B1B9203730061022D /* Headers */,
 				52CF0A9C1B9203730061022D /* Resources */,
+				524CA2F21CA1BEF800AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1336,6 +1376,7 @@
 				52D805A61BC03995000F0733 /* Frameworks */,
 				52D805A71BC03995000F0733 /* Headers */,
 				52D805A81BC03995000F0733 /* Resources */,
+				524CA2F41CA1BF0400AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1355,6 +1396,7 @@
 				AD64D9391B8DE58300C783D3 /* Frameworks */,
 				AD64D93A1B8DE58300C783D3 /* Headers */,
 				AD64D93B1B8DE58300C783D3 /* Resources */,
+				524CA2F71CA1BFBB00AFC564 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1395,7 +1437,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD64D99F1B8DE69D00C783D3 /* PBXTargetDependency */,
 			);
 			name = "CarlosWatchSample Extension";
 			productName = "CarlosWatchSample Extension";
@@ -1415,7 +1456,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				52635A331B4F0F3E00F187EE /* PBXTargetDependency */,
 				AD64D9931B8DE69200C783D3 /* PBXTargetDependency */,
 			);
 			name = CarlosSample;
@@ -1499,9 +1539,9 @@
 				AD64D93C1B8DE58300C783D3 /* CarlosWatch */,
 				52CF0A9D1B9203730061022D /* CarlosMac */,
 				52D805A91BC03995000F0733 /* CarlosTv */,
-				52051D731C79D903005F861A /* CarlosFutures */,
+				52051D731C79D903005F861A /* PiedPiper */,
 				52635A651B4F110500F187EE /* CarlosTests */,
-				52051DAE1C79D950005F861A /* FuturesTests */,
+				52051DAE1C79D950005F861A /* PiedPiperTests */,
 				AD695CDE1B46CD65004E998D /* CarlosSample */,
 				AD64D9791B8DE69200C783D3 /* CarlosWatchSample */,
 				AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */,
@@ -2044,38 +2084,33 @@
 /* Begin PBXTargetDependency section */
 		52051DA41C79D92D005F861A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 52051D731C79D903005F861A /* CarlosFutures */;
+			target = 52051D731C79D903005F861A /* PiedPiper */;
 			targetProxy = 52051DA31C79D92D005F861A /* PBXContainerItemProxy */;
 		};
 		52051DA81C79D936005F861A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 52051D731C79D903005F861A /* CarlosFutures */;
+			target = 52051D731C79D903005F861A /* PiedPiper */;
 			targetProxy = 52051DA71C79D936005F861A /* PBXContainerItemProxy */;
 		};
 		52051DAA1C79D939005F861A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 52051D731C79D903005F861A /* CarlosFutures */;
+			target = 52051D731C79D903005F861A /* PiedPiper */;
 			targetProxy = 52051DA91C79D939005F861A /* PBXContainerItemProxy */;
 		};
 		52051DB61C79D950005F861A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 52051D731C79D903005F861A /* CarlosFutures */;
+			target = 52051D731C79D903005F861A /* PiedPiper */;
 			targetProxy = 52051DB51C79D950005F861A /* PBXContainerItemProxy */;
 		};
 		52051DF41C79DD8D005F861A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 52051D731C79D903005F861A /* CarlosFutures */;
+			target = 52051D731C79D903005F861A /* PiedPiper */;
 			targetProxy = 52051DF31C79DD8D005F861A /* PBXContainerItemProxy */;
 		};
 		5216CD281BC04BD9005B729F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 52D805A91BC03995000F0733 /* CarlosTv */;
 			targetProxy = 5216CD271BC04BD9005B729F /* PBXContainerItemProxy */;
-		};
-		52635A331B4F0F3E00F187EE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 52635A1C1B4F0F3D00F187EE /* Carlos */;
-			targetProxy = 52635A321B4F0F3E00F187EE /* PBXContainerItemProxy */;
 		};
 		52635A6E1B4F110500F187EE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2096,11 +2131,6 @@
 			isa = PBXTargetDependency;
 			target = AD64D9791B8DE69200C783D3 /* CarlosWatchSample */;
 			targetProxy = AD64D9921B8DE69200C783D3 /* PBXContainerItemProxy */;
-		};
-		AD64D99F1B8DE69D00C783D3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AD64D93C1B8DE58300C783D3 /* CarlosWatch */;
-			targetProxy = AD64D99E1B8DE69D00C783D3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2158,12 +2188,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = Futures/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosFutures;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvsimulator appletvos watchos watchsimulator macosx";
@@ -2184,12 +2215,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = Futures/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosFutures;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvsimulator appletvos watchos watchsimulator macosx";
@@ -2207,7 +2239,7 @@
 				INFOPLIST_FILE = FuturesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.FuturesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2218,7 +2250,7 @@
 				INFOPLIST_FILE = FuturesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.FuturesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2265,6 +2297,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = Carlos/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2289,6 +2322,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = Carlos/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2352,6 +2386,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = CarlosMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2379,6 +2414,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = CarlosMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2438,6 +2474,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CarlosTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2460,6 +2497,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CarlosTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2486,6 +2524,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CarlosWatch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2512,6 +2551,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CarlosWatch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2717,7 +2757,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		52051D941C79D903005F861A /* Build configuration list for PBXNativeTarget "CarlosFutures" */ = {
+		52051D941C79D903005F861A /* Build configuration list for PBXNativeTarget "PiedPiper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52051D791C79D903005F861A /* Debug */,
@@ -2726,7 +2766,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		52051DB71C79D950005F861A /* Build configuration list for PBXNativeTarget "FuturesTests" */ = {
+		52051DB71C79D950005F861A /* Build configuration list for PBXNativeTarget "PiedPiperTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52051DB81C79D950005F861A /* Debug */,

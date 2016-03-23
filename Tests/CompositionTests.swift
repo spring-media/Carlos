@@ -2,7 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
-import CarlosFutures
+import PiedPiper
 
 struct ComposedCacheSharedExamplesContext {
   static let CacheToTest = "composedCache"

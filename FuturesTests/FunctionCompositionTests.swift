@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-import CarlosFutures
+import PiedPiper
 
 class FunctionCompositionTests: QuickSpec {
   override func spec() {

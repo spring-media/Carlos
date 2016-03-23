@@ -30,15 +30,15 @@ You start with a simple cache level or with one of the caches that `Carlos` prov
 
 For more information on how to use `Carlos`, please consult its complete [README](https://github.com/WeltN24/Carlos/blob/master/Carlos/README.md).
 
-`Carlos` now also ships with a small set of functions that make it easier to write asynchronous code through the use of `Future`s and `Promise`s. The child framework is called `Carlos Futures` and you can reda more about it [here](https://github.com/WeltN24/Carlos/blob/master/Futures/README.md).
+`Carlos` now also ships with a small set of functions that make it easier to write asynchronous code through the use of `Future`s and `Promise`s. The child framework is called `Pied Piper` and you can reda more about it [here](https://github.com/WeltN24/Carlos/blob/master/Futures/README.md).
 
 ## Installation
 
-Information on how to integrate `Carlos` or `Carlos Futures` in your project are available respectively [here](https://github.com/WeltN24/Carlos/blob/master/Carlos/README.md#installation) and [here](https://github.com/WeltN24/Carlos/blob/master/Futures/README.md#installation).
+Information on how to integrate `Carlos` or `Pied Piper` in your project are available respectively [here](https://github.com/WeltN24/Carlos/blob/master/Carlos/README.md#installation) and [here](https://github.com/WeltN24/Carlos/blob/master/Futures/README.md#installation).
 
 ## Playground
 
-`Carlos` and `Carlos Futures` ship with 2 playgrounds for you to get to know the frameworks better. 
+`Carlos` and `Pied Piper` ship with 2 playgrounds for you to get to know the frameworks better. 
 You can find more information on how to use the playground respectively [here](https://github.com/WeltN24/Carlos/blob/master/Carlos/README.md#playground) and [here](https://github.com/WeltN24/Carlos/blob/master/Futures/README.md#playground).
 
 ## Requirements
@@ -53,17 +53,17 @@ You can find more information on how to use the playground respectively [here](h
 
 To run the example project, clone the repo. You'll find sample schemes for `iOS`, `watchOS`, `Mac OS` and `tvOS`.
 
-For detailed information about what it's possible to do with `Carlos` and `Carlos Futures` please respectively have a look [here](https://github.com/WeltN24/Carlos/blob/master/Carlos/README.md#usage) and [here](https://github.com/WeltN24/Carlos/blob/master/Futures/README.md#usage).
+For detailed information about what it's possible to do with `Carlos` and `Pied Piper` please respectively have a look [here](https://github.com/WeltN24/Carlos/blob/master/Carlos/README.md#usage) and [here](https://github.com/WeltN24/Carlos/blob/master/Futures/README.md#usage).
 
 ## Tests
 
-`Carlos` and `Carlos Futures` are thouroughly tested so that the features they are designed to provide are safe for refactoring and as much as possible bug-free. 
+`Carlos` and `Pied Piper` are thouroughly tested so that the features they are designed to provide are safe for refactoring and as much as possible bug-free. 
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout, and have more than **2000 tests** covering the codebase at the moment.
 
 ## Future development
 
-`Carlos` and `Carlos Futures` are under development and [here](https://github.com/WeltN24/Carlos/issues) you can see all the open issues. They are assigned to milestones so that you can have an idea of when a given feature will be shipped.
+`Carlos` and `Pied Piper` are under development and [here](https://github.com/WeltN24/Carlos/issues) you can see all the open issues. They are assigned to milestones so that you can have an idea of when a given feature will be shipped.
 
 If you want to contribute to this repo, please:
 
@@ -82,7 +82,7 @@ Using Carlos? Please let us know through a Pull request, we'll be happy to menti
 
 ## Authors
 
-`Carlos` and `Carlos Futures` were made in-house by WeltN24
+`Carlos` and `Pied Piper` were made in-house by WeltN24
 
 ### Contributors:
 
@@ -92,7 +92,7 @@ Esad Hajdarevic, @esad
 
 ## License
 
-`Carlos` and `Carlos Futures` are available under the MIT license. See the LICENSE files for more info.
+`Carlos` and `Pied Piper` are available under the MIT license. See the LICENSE files for more info.
 
 ## Acknowledgements
 
@@ -103,6 +103,6 @@ Esad Hajdarevic, @esad
 
 The **DiskCacheLevel** class is inspired by [Haneke](https://github.com/Haneke/HanekeSwift). The source code has been heavily modified, but adapting the original file has proven valuable for `Carlos` development.
 
-`Carlos Futures` internally uses:
+`Pied Piper` internally uses:
 
 - Some parts of `ReadWriteLock.swift` (in particular the pthread-based read-write lock) belonging to **Deferred** (available on [Github](https://github.com/bignerdranch/Deferred))

@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   
   s.requires_arc = true
 
-  s.dependency 'CarlosFutures', '~> 0.6'
+  s.dependency 'PiedPiper', '~> 0.6'
 
   s.ios.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'
   s.watchos.source_files = 'Carlos/*.swift', 'Carlos/NSKeyedUnarchiver+SwiftUtilities.{h,m}'

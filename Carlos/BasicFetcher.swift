@@ -1,5 +1,5 @@
 import Foundation
-import CarlosFutures
+import PiedPiper
 
 /// A wrapper fetcher that explicitly takes a get closure
 public final class BasicFetcher<A, B>: Fetcher {

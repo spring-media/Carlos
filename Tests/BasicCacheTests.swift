@@ -2,7 +2,7 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
-import CarlosFutures
+import PiedPiper
 
 class BasicCacheTests: QuickSpec {
   override func spec() {

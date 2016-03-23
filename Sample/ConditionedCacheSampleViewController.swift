@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import Carlos
-import CarlosFutures
+import PiedPiper
 
 enum ConditionError: ErrorType {
   case GlobalKillSwitch

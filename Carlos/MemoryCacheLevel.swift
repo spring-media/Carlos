@@ -1,5 +1,5 @@
 import Foundation
-import CarlosFutures
+import PiedPiper
 
 /// This class is a memory cache level. It internally uses NSCache, and has a configurable total cost limit that defaults to 50 MB.
 public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: ExpensiveObject>: CacheLevel {

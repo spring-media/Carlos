@@ -660,7 +660,7 @@ In case you need to store the result of multiple `Carlos` composition calls in a
 
 ```swift
 import Carlos
-import CarlosFutures
+import PiedPiper
 
 class CacheManager {
   let cache: BasicCache<NSURL, NSData>

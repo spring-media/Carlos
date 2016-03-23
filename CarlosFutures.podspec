@@ -6,16 +6,16 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = "CarlosFutures"
+  s.name             = "PiedPiper"
   s.version          = "0.6"
   s.summary          = "Asynchronous code made easy."
   s.description      = <<-DESC
-			Carlos Futures is a small set of functions to write easy asynchronous code through Futures, Promises and some GCD love for your iOS, watchOS 2, tvOS and Mac OS X applications.
+			Pied Piper is a small set of functions to write easy asynchronous code through Futures, Promises and some GCD love for your iOS, watchOS 2, tvOS and Mac OS X applications.
                        DESC
   s.homepage         = "https://github.com/WeltN24/Carlos"
   s.license          = 'MIT'
   s.author           = { "Vittorio Monaco" => "vittorio.monaco1@gmail.com" }
-  s.source           = { :git => "https://github.com/WeltN24/Carlos.git", :tag => 'Futures-' + s.version.to_s }
+  s.source           = { :git => "https://github.com/WeltN24/Carlos.git", :tag => 'PiedPiper-' + s.version.to_s }
 
   s.ios.platform = :ios, "9.0"
   s.osx.platform = :osx, "10.10"

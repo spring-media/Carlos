@@ -2,7 +2,7 @@ import Foundation
 import Carlos
 import Quick
 import Nimble
-import CarlosFutures
+import PiedPiper
 
 class ConditionedTwoWayTransformationBoxTests: QuickSpec {
   override func spec() {

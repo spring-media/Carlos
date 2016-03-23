@@ -1,17 +1,17 @@
-# Carlos Futures
+# Pied Piper
 
 [![Build Status](https://www.bitrise.io/app/5146ccd8a33bdc42.svg?token=WncwcH_9wvpVKrjDl-lq_A&branch=master)](https://www.bitrise.io/app/5146ccd8a33bdc42)
 [![CI Status](http://img.shields.io/travis/WeltN24/Carlos.svg?style=flat)](https://travis-ci.org/WeltN24/Carlos)
-[![Version](https://img.shields.io/cocoapods/v/CarlosFutures.svg?style=flat)](http://cocoapods.org/pods/CarlosFutures)
+[![Version](https://img.shields.io/cocoapods/v/PiedPiper.svg?style=flat)](http://cocoapods.org/pods/PiedPiper)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![License](https://img.shields.io/cocoapods/l/CarlosFutures.svg?style=flat)](http://cocoapods.org/pods/CarlosFutures)
-[![Platform](https://img.shields.io/cocoapods/p/CarlosFutures.svg?style=flat)](http://cocoapods.org/pods/CarlosFutures)
+[![License](https://img.shields.io/cocoapods/l/PiedPiper.svg?style=flat)](http://cocoapods.org/pods/PiedPiper)
+[![Platform](https://img.shields.io/cocoapods/p/PiedPiper.svg?style=flat)](http://cocoapods.org/pods/PiedPiper)
 
 > A small set of classes and functions to make easy use of `Future`s, `Promise`s and async computation in general. All written in Swift for `iOS 8+`, `WatchOS 2`, `tvOS` and `Mac OS X` apps.
 
 # Contents of this Readme
 
-- [What is Carlos Futures?](#what-is-carlos-futures)
+- [What is Pied Piper?](#what-is-pied-piper)
 - [Installation](#installation)
 - [Playground](#playground)
 - [Requirements](#requirements)
@@ -23,16 +23,16 @@
 	- [Function composition](#function-composition)
 - [Tests](#tests)
 - [Future development](#future-development)
-- [Apps using Carlos Futures](#apps-using-carlos-futures)
+- [Apps using Pied Piper](#apps-using-pied-piper)
 - [Authors](#authors)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 
-## What is Carlos Futures?
+## What is Pied Piper?
 
-`Carlos Futures` is a small set of classes, functions and convenience operators to **write easy asynchronous code** in your application.
+`Pied Piper` is a small set of classes, functions and convenience operators to **write easy asynchronous code** in your application.
 
-With `Carlos Futures` you can:
+With `Pied Piper` you can:
 
 - WRITE
 
@@ -40,21 +40,21 @@ With `Carlos Futures` you can:
 
 ### CocoaPods
 
-`Carlos Futures` is available through [CocoaPods](http://cocoapods.org). To install
+`Pied Piper` is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```
-pod "CarlosFutures"
+pod "PiedPiper"
 ```
 
 ### Submodule
 
-If you don't use CocoaPods, you can still add `Carlos Futures` as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `CarlosFutures.framework` in your target.
+If you don't use CocoaPods, you can still add `Pied Piper` as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `PiedPiper.framework` in your target.
 
 - Drag `Carlos.xcodeproj` to your project
 - Select your app target
 - Click the `+` button on the `Embedded binaries` section
-- Add `CarlosFutures.framework`
+- Add `PiedPiper.framework`
 
 ### Carthage
 
@@ -62,20 +62,20 @@ If you don't use CocoaPods, you can still add `Carlos Futures` as a submodule, d
 
 ### Manual
 
-You can directly drag and drop the needed files into your project, but keep in mind that this way you won't be able to automatically get all the latest `Carlos Futures` features (e.g. new files including new operations).
+You can directly drag and drop the needed files into your project, but keep in mind that this way you won't be able to automatically get all the latest `Pied Piper` features (e.g. new files including new operations).
 
 The files are contained in the `Futures` folder and work for the `iOS`, `watchOS`, `MacOS` and `tvOS` frameworks.
 
 ## Playground
 
-We ship a small Xcode Playground with the project, so you can quickly see how `Carlos Futures` works and experiment with your custom layers, layers combinations and different configurations for requests pooling, capping, etc.
+We ship a small Xcode Playground with the project, so you can quickly see how `Pied Piper` works and experiment with your custom layers, layers combinations and different configurations for requests pooling, capping, etc.
 
 To use our Playground, please follow these steps:
 
 - Open the Xcode project `Carlos.xcodeproj`
-- Select the `Futures` framework target, and a **64-bit platform** (e.g. `iPhone 6`)
+- Select the `Pied Piper` framework target, and a **64-bit platform** (e.g. `iPhone 6`)
 - Build the target with `⌘+B`
-- Click the Playground file `Futures.playground`
+- Click the Playground file `PiedPiper.playground`
 - Write your code
 
 ## Requirements
@@ -160,10 +160,10 @@ func login(username: String, password: String) -> Future<User> {
 
 ### GCD computation
 
-`Carlos Futures` offers some helper functions on top of GCD to run blocks of code on the main queue or on a background queue.
+`Pied Piper` offers some helper functions on top of GCD to run blocks of code on the main queue or on a background queue.
 
 ```swift
-//Without Carlos Futures
+//Without Pied Piper
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
   // Execute your asynchronous code
   // ...
@@ -175,7 +175,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
   }
 }
 
-//With Carlos Futures
+//With Pied Piper
 GCD.background { Void -> Int in
   // Execute your asynchronous code
   return 10
@@ -203,9 +203,9 @@ queue.async { Void -> Int in
 
 ### Function composition
 
-`Carlos Futures` can also be helpful when you want to compose the result of asynchronous computation in a single function or object.
+`Pied Piper` can also be helpful when you want to compose the result of asynchronous computation in a single function or object.
 
-There are 3 public functions as of `Carlos Futures` 0.7:
+There are 3 public functions as of `Pied Piper` 0.7:
 
 - Compose functions
 
@@ -269,15 +269,15 @@ composition(1).onSuccess { result in
 
 ## Tests
 
-`Carlos Futures` is thouroughly tested so that the features it's designed to provide are safe for refactoring and as bug-free as possible. 
+`Pied Piper` is thouroughly tested so that the features it's designed to provide are safe for refactoring and as bug-free as possible. 
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **200 tests** for `Carlos Futures` (see the folder `FuturesTests`).
+As of today, there are around **200 tests** for `Pied Piper` (see the folder `FuturesTests`).
 
 ## Future development
 
-`Carlos Futures` is under development and [here](https://github.com/WeltN24/Carlos/labels/Futures) you can see all the open issues. They are assigned to milestones so that you can have an idea of when a given feature will be shipped.
+`Pied Piper` is under development and [here](https://github.com/WeltN24/Carlos/labels/PiedPiper) you can see all the open issues. They are assigned to milestones so that you can have an idea of when a given feature will be shipped.
 
 If you want to contribute to this repo, please:
 
@@ -288,15 +288,15 @@ If you want to contribute to this repo, please:
 - Write tests (untested features won't be merged)
 - When all the tests are written and green, create a pull request, with a short description of the approach taken
 
-## Apps using Carlos Futures
+## Apps using Pied Piper
 
 - [Die Welt Edition](https://itunes.apple.com/de/app/welt-edition-digitale-zeitung/id372746348?mt=8)
 
-Using Carlos Futures? Please let us know through a Pull request, we'll be happy to mention your app!
+Using Pied Piper? Please let us know through a Pull request, we'll be happy to mention your app!
 
 ## Authors
 
-`Carlos Futures` was made in-house by WeltN24
+`Pied Piper` was made in-house by WeltN24
 
 ### Contributors:
 
@@ -306,10 +306,10 @@ Esad Hajdarevic, @esad
 
 ## License
 
-`Carlos Futures` is available under the MIT license. See the LICENSE file for more info.
+`Pied Piper` is available under the MIT license. See the LICENSE file for more info.
 
 ## Acknowledgements
 
-`Carlos Futures` internally uses:
+`Pied Piper` internally uses:
 
 - Some parts of `ReadWriteLock.swift` (in particular the pthread-based read-write lock) belonging to **Deferred** (available on [Github](https://github.com/bignerdranch/Deferred))

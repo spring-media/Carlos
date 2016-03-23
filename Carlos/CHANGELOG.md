@@ -3,7 +3,7 @@
 ## 0.7
 **Breaking changes**
 - `onCompletion` argument now is a closure accepting a `Result<T>` as a parameter instead of a tuple `(value: T?, error: ErrorType?)`. `Result<T>` is the usual `enum` (aka `Either`) that can be `.Success(T)`, `.Error(ErrorType)` or `Cancelled` in case of canceled computations.
-- Please add a `import CarlosFutures` line everywhere you make use of Carlos' `Future`s or `Promise`s, since with 0.7 we now ship a separate `Carlos Futures` framework.
+- Please add a `import PiedPiper` line everywhere you make use of Carlos' `Future`s or `Promise`s, since with 0.7 we now ship a separate `Pied Piper` framework.
 - `AsyncComputation` has been removed from the public API. Please use `OneWayTransformer` (or `CacheLevel`) instead now.
 
 **Deprecated**
