@@ -23,10 +23,10 @@ infix operator =>> { associativity left }
 /// An abstraction for a generic cache level
 public protocol CacheLevel {
   /// A typealias for the key the cache level accepts
-  typealias KeyType
+  associatedtype KeyType
   
   /// A typealias for the data the cache returns in the success closure
-  typealias OutputType
+  associatedtype OutputType
   
   /**
   Tries to get a value from the cache level

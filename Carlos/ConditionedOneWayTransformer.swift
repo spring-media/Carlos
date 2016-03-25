@@ -4,13 +4,13 @@ import PiedPiper
 /// Abstract an object that can conditionally transform values to another type
 public protocol ConditionedOneWayTransformer {
   /// The input type of the transformer
-  typealias TypeIn
+  associatedtype TypeIn
   
   /// The output type of the transformer
-  typealias TypeOut
+  associatedtype TypeOut
   
   /// The type of the key used to evaluate the condition
-  typealias KeyType
+  associatedtype KeyType
   
   /**
    Apply the conditional transformation from A to B

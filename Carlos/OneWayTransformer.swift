@@ -4,10 +4,10 @@ import PiedPiper
 /// Abstract an object that can transform values to another type
 public protocol OneWayTransformer {
   /// The input type of the transformer
-  typealias TypeIn
+  associatedtype TypeIn
   
   /// The output type of the transformer
-  typealias TypeOut
+  associatedtype TypeOut
   
   /**
   Apply the transformation from A to B

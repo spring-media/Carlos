@@ -79,8 +79,8 @@ class HashBase {
     var msgLength = tmpMessage.length
     var counter = 0
     while msgLength % len != (len - 8) {
-      counter++
-      msgLength++
+      counter += 1
+      msgLength += 1
     }
     let bufZeros = UnsafeMutablePointer<UInt8>(calloc(counter, sizeof(UInt8)))
     tmpMessage.appendBytes(bufZeros, length: counter)
