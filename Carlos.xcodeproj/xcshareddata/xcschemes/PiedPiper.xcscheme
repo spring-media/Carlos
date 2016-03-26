@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "52051DAE1C79D950005F861A"
+               BuildableName = "PiedPiperTests.xctest"
+               BlueprintName = "PiedPiperTests"
+               ReferencedContainer = "container:Carlos.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "52051D731C79D903005F861A"
+            BuildableName = "PiedPiper.framework"
+            BlueprintName = "PiedPiper"
+            ReferencedContainer = "container:Carlos.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

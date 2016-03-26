@@ -28,7 +28,36 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "52635A651B4F110500F187EE"
+               BuildableName = "CarlosTests.xctest"
+               BlueprintName = "CarlosTests"
+               ReferencedContainer = "container:Carlos.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "52051DAE1C79D950005F861A"
+               BuildableName = "PiedPiperTests.xctest"
+               BlueprintName = "PiedPiperTests"
+               ReferencedContainer = "container:Carlos.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "52D805A91BC03995000F0733"
+            BuildableName = "CarlosTv.framework"
+            BlueprintName = "CarlosTv"
+            ReferencedContainer = "container:Carlos.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
