@@ -5,7 +5,7 @@ fastlane_version "1.68.0"
 
 desc "Runs all the tests"
 lane :test do
-  ENV["FASTLANE_XCODE_LIST_TIMEOUT"] = 30
+  ENV["FASTLANE_XCODE_LIST_TIMEOUT"] = "30"
   clear_derived_data
   scan(scheme: 'Carlos')
 end
