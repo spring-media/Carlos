@@ -1,4 +1,6 @@
-enum FutureMappingError: ErrorType {
+/// Errors that can arise when mapping Futures
+public enum FutureMappingError: ErrorType {
+  /// When the value can't be mapped
   case CantMapValue
 }
 
@@ -74,16 +76,9 @@ extension Future {
    
    - returns: A new Future<U> that will behave as the original one w.r.t. cancelation and failure, but will succeed with a value of type U obtained through the given closure if the returned Result is a success. Otherwise, the new Future will fail or get canceled depending on the state of the returned Result
    */
-  func map<U>(f: T -> Result<U>) -> Future<U> {
+  public func map<U>(f: T -> Result<U>) -> Future<U> {
     return _map { value, mapped in
-      switch f(value) {
-      case .Success(let value):
-        mapped.succeed(value)
-      case .Error(let error):
-        mapped.fail(error)
-      case .Cancelled:
-        mapped.cancel()
-      }
+      mapped.mimic(f(value))
     }
   }
   
@@ -96,16 +91,7 @@ extension Future {
    */
   public func map<U>(f: T -> Future<U>) -> Future<U> {
     return _map { value, mapped in
-      f(value).onCompletion { result in
-        switch result {
-        case .Success(let value):
-          mapped.succeed(value)
-        case .Error(let error):
-          mapped.fail(error)
-        case .Cancelled:
-          mapped.cancel()
-        }
-      }
+      mapped.mimic(f(value))
     }
   }
 }

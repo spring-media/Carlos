@@ -20,6 +20,7 @@
 	- [Futures](#futures)
 	- [Promises](#promises)
 	- [GCD Computation](#gcd-computation)
+	- [Advanced usage with Futures](#advanced-usage-with-futures)
 	- [Function composition](#function-composition)
 - [Tests](#tests)
 - [Future development](#future-development)
@@ -203,6 +204,36 @@ queue.async { Void -> Int in
 }
 ```
 
+### Advanced usage with Futures
+
+Since `Pied Piper 0.8` many convenience functions are available on `Future` values:
+
+#### Map
+
+It's possible to `map` `Future`s through:
+  - a simple closure
+  - a closure that `throws`
+  - a closure that returns an `Optional`
+  - a closure that returns another `Future`
+  - a closure that returns a `Result`  
+
+When mapping with a simple closure, you start with a `Future<T>`, pass a `T -> U` closure, and get a `Future<U>`:
+
+```swift
+let originalFuture: Future<Int> = doStuff()
+let mappedFuture: Future<String> = originalFuture.map {
+  "\($0)"
+}
+``` 
+
+When mapping with a closure `T throws -> U` that `throws`, the behavior is the same as before except when the mapping closure throws an error. In this case, the mapped `Future` will fail with the original error thrown by the closure.
+
+When mapping with a closure `T -> U?` that returns an `Optional`, the behavior is the same as before except when the mapping closure returns nil. In this case, the mapped `Future` will fail with a `FutureMappingError.CantMapValue` error.
+
+When mapping with a closure that returns a `Future<U>`, you get a new `Future` that will `mimic` the given one.
+
+When mapping with a closure that returns a `Result<U>`, you get a new `Future` that will `mimic` the given `Result`.
+
 ### Function composition
 
 `Pied Piper` can also be helpful when you want to compose the result of asynchronous computation in a single function or object.
@@ -275,7 +306,7 @@ composition(1).onSuccess { result in
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **200 tests** for `Pied Piper` (see the folder `FuturesTests`).
+As of today, there are around **300 tests** for `Pied Piper` (see the folder `FuturesTests`).
 
 ## Future development
 

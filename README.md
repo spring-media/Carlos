@@ -59,7 +59,7 @@ For detailed information about what it's possible to do with `Carlos` and `Pied 
 
 `Carlos` and `Pied Piper` are thouroughly tested so that the features they are designed to provide are safe for refactoring and as much as possible bug-free. 
 
-We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout, and have more than **2000 tests** covering the codebase at the moment.
+We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout, and have more than **2300 tests** covering the codebase at the moment.
 
 ## Future development
 

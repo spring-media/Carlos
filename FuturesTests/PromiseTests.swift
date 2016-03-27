@@ -551,6 +551,224 @@ class PromiseTests: QuickSpec {
         }
       }
       
+      context("when mimicing a result") {
+        var mimiced: Result<String>!
+        var successValue: String!
+        var errorValue: ErrorType!
+        var canceled: Bool!
+        
+        beforeEach {
+          successValue = nil
+          errorValue = nil
+          canceled = false
+          
+          request = Promise<String>()
+            .onSuccess({ successValue = $0 })
+            .onFailure({ errorValue = $0 })
+            .onCancel({ canceled = true })
+        }
+        
+        context("when the result succeeds") {
+          let value = "success value"
+          
+          beforeEach {
+            mimiced = Result.Success(value)
+            request.mimic(mimiced)
+          }
+          
+          it("should call the success closure") {
+            expect(successValue).notTo(beNil())
+          }
+          
+          it("should not call the error closure") {
+            expect(errorValue).to(beNil())
+          }
+          
+          it("should not call the cancel closure") {
+            expect(canceled).to(beFalse())
+          }
+          
+          it("should pass the right value") {
+            expect(successValue).to(equal(value))
+          }
+        }
+        
+        context("when the other future fails") {
+          let error = TestError.AnotherError
+          
+          beforeEach {
+            mimiced = Result.Error(error)
+            request.mimic(mimiced)
+          }
+          
+          it("should call the error closure") {
+            expect(errorValue).notTo(beNil())
+          }
+          
+          it("should not call the success closure") {
+            expect(successValue).to(beNil())
+          }
+          
+          it("should not call the cancel closure") {
+            expect(canceled).to(beFalse())
+          }
+          
+          it("should pass the right error") {
+            expect(errorValue as? TestError).to(equal(error))
+          }
+        }
+        
+        context("when the other future is canceled") {
+          beforeEach {
+            mimiced = Result.Cancelled
+            request.mimic(mimiced)
+          }
+          
+          it("should not call the success closure") {
+            expect(successValue).to(beNil())
+          }
+          
+          it("should call the cancel closure") {
+            expect(canceled).to(beTrue())
+          }
+          
+          it("should not call the failure closure") {
+            expect(errorValue).to(beNil())
+          }
+        }
+        
+        context("when the promise itself succeeds") {
+          let value = "also a success value"
+          
+          beforeEach {
+            request.succeed(value)
+          }
+          
+          it("should call the success closure") {
+            expect(successValue).notTo(beNil())
+          }
+          
+          it("should not call the failure closure") {
+            expect(errorValue).to(beNil())
+          }
+          
+          it("should not call the cancel closure") {
+            expect(canceled).to(beFalse())
+          }
+          
+          it("should pass the right value") {
+            expect(successValue).to(equal(value))
+          }
+        }
+        
+        context("when the promise itself fails") {
+          let error = TestError.SimpleError
+          
+          beforeEach {
+            request.fail(error)
+          }
+          
+          it("should call the failure closure") {
+            expect(errorValue).notTo(beNil())
+          }
+          
+          it("should not call the success closure") {
+            expect(successValue).to(beNil())
+          }
+          
+          it("should not call the cancel closure") {
+            expect(canceled).to(beFalse())
+          }
+          
+          it("should pass the right error") {
+            expect(errorValue as? TestError).to(equal(error))
+          }
+        }
+        
+        context("when the promise itself is canceled") {
+          beforeEach {
+            request.cancel()
+          }
+          
+          it("should not call the success closure") {
+            expect(successValue).to(beNil())
+          }
+          
+          it("should call the cancel closure") {
+            expect(canceled).to(beTrue())
+          }
+          
+          it("should not call the failure closure") {
+            expect(errorValue).to(beNil())
+          }
+        }
+        
+        context("when mimicing two results at the same time") {
+          var mimiced2: Result<String>!
+          
+          context("when the other future succeeds") {
+            let value = "still a success value"
+            
+            beforeEach {
+              mimiced2 = Result.Success(value)
+              request.mimic(mimiced2)
+            }
+            
+            it("should call the success closure") {
+              expect(successValue).notTo(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(errorValue).to(beNil())
+            }
+            
+            it("should pass the right value") {
+              expect(successValue).to(equal(value))
+            }
+          }
+          
+          context("when the other future fails") {
+            let error = TestError.AnotherError
+            
+            beforeEach {
+              mimiced2 = Result.Error(error)
+              request.mimic(mimiced2)
+            }
+            
+            it("should call the failure closure") {
+              expect(errorValue).notTo(beNil())
+            }
+            
+            it("should not call the success closure") {
+              expect(successValue).to(beNil())
+            }
+            
+            it("should pass the right error") {
+              expect(errorValue as? TestError).to(equal(error))
+            }
+          }
+          
+          context("when the other future is canceled") {
+            beforeEach {
+              mimiced2 = Result.Cancelled
+              request.mimic(mimiced2)
+            }
+            
+            it("should call the cancel closure") {
+              expect(canceled).to(beTrue())
+            }
+            
+            it("should not call the success closure") {
+              expect(successValue).to(beNil())
+            }
+            
+            it("should not call the failure closure") {
+              expect(errorValue).to(beNil())
+            }
+          }
+        }
+      }
+      
       context("when returning its associated Future") {
         var future: Future<String>!
         

@@ -76,10 +76,37 @@ public class Promise<T> {
   - returns: The Promise itself
   */
   public func mimic(stamp: Future<T>) -> Promise<T> {
-    stamp
-      .onSuccess(self.succeed)
-      .onFailure(self.fail)
-      .onCancel(self.cancel)
+    stamp.onCompletion { result in
+      switch result {
+      case .Success(let value):
+        self.succeed(value)
+      case .Error(let error):
+        self.fail(error)
+      case .Cancelled:
+        self.cancel()
+      }
+    }
+    
+    return self
+  }
+  
+  /**
+  Mimics the given Result, so that it fails or succeeds when the stamps does so (in addition to its pre-existing behavior)
+  Moreover, if the mimiced Result is canceled, the Promise will also cancel itself
+   
+  - parameter stamp: The Result to mimic
+   
+  - returns: The Promise itself
+  */
+  public func mimic(stamp: Result<T>) -> Promise<T> {
+    switch stamp {
+    case .Success(let value):
+      self.succeed(value)
+    case .Error(let error):
+      self.fail(error)
+    case .Cancelled:
+      self.cancel()
+    }
     
     return self
   }

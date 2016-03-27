@@ -5,6 +5,15 @@
 **Breaking changes**
 - The codebase has been migrated to Swift 2.2
 
+**New features**
+- It's now possible to `map` `Future`s through:
+  - a simple closure
+  - a closure that `throws`
+  - a closure that returns an `Optional`
+  - a closure that returns another `Future`
+  - a closure that returns a `Result`  
+- It's now possible to `mimic` a `Result`
+
 
 ## 0.7
 
