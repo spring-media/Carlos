@@ -7,12 +7,16 @@
 
 **New features**
 - It's now possible to `map` `Future`s through:
-  - a simple closure
+  - a simple transformation closure
   - a closure that `throws`
   - a closure that returns an `Optional`
   - a closure that returns another `Future`
   - a closure that returns a `Result`  
+- It's now possible to `filter` `Future`s through:
+  - a simple condition closure
+  - a closure that returns a `Future<Bool>`
 - It's now possible to `mimic` a `Result`
+
 
 ## 0.7
 

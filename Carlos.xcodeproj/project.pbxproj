@@ -164,6 +164,8 @@
 		52635A601B4F0F6F00F187EE /* Transformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4D1B4F0F6F00F187EE /* Transformers.swift */; };
 		52635A611B4F0F6F00F187EE /* TwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */; };
 		52635A6C1B4F110500F187EE /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */; };
+		526674271CA88DDB00DB0B5F /* Future+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526674261CA88DDB00DB0B5F /* Future+Filter.swift */; };
+		526674391CA8914600DB0B5F /* Future+FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526674371CA8901900DB0B5F /* Future+FilterTests.swift */; };
 		526FC9C81C7A244200300334 /* FunctionCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526FC9C71C7A244200300334 /* FunctionCompositionTests.swift */; };
 		526FC9CA1C7A244900300334 /* GCDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526FC9C91C7A244900300334 /* GCDTests.swift */; };
 		5274A99B1BC05CB0006962E8 /* FetcherValueTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99A1BC05CB0006962E8 /* FetcherValueTransformation.swift */; };
@@ -639,6 +641,8 @@
 		52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformer.swift; sourceTree = "<group>"; };
 		52635A661B4F110500F187EE /* CarlosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarlosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A691B4F110500F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		526674261CA88DDB00DB0B5F /* Future+Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Filter.swift"; sourceTree = "<group>"; };
+		526674371CA8901900DB0B5F /* Future+FilterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+FilterTests.swift"; sourceTree = "<group>"; };
 		526FC9C61C7A03B600300334 /* PiedPiper.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PiedPiper.playground; sourceTree = "<group>"; };
 		526FC9C71C7A244200300334 /* FunctionCompositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionCompositionTests.swift; sourceTree = "<group>"; };
 		526FC9C91C7A244900300334 /* GCDTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDTests.swift; sourceTree = "<group>"; };
@@ -822,6 +826,7 @@
 				52051D761C79D903005F861A /* Futures.h */,
 				52051D781C79D903005F861A /* Info.plist */,
 				529FDA0B1CA7E96200D4768F /* Future+Map.swift */,
+				526674261CA88DDB00DB0B5F /* Future+Filter.swift */,
 			);
 			path = Futures;
 			sourceTree = "<group>";
@@ -835,6 +840,7 @@
 				526FC9C71C7A244200300334 /* FunctionCompositionTests.swift */,
 				526FC9C91C7A244900300334 /* GCDTests.swift */,
 				529FDA1C1CA7EEA000D4768F /* Future+MapTests.swift */,
+				526674371CA8901900DB0B5F /* Future+FilterTests.swift */,
 			);
 			path = FuturesTests;
 			sourceTree = "<group>";
@@ -1720,6 +1726,7 @@
 			files = (
 				52051DA11C79D91D005F861A /* ReadWriteLock.swift in Sources */,
 				52051D9E1C79D91D005F861A /* Future.swift in Sources */,
+				526674271CA88DDB00DB0B5F /* Future+Filter.swift in Sources */,
 				529FDA0C1CA7E96200D4768F /* Future+Map.swift in Sources */,
 				52051D9D1C79D91D005F861A /* FunctionComposition.swift in Sources */,
 				52051DA01C79D91D005F861A /* Promise.swift in Sources */,
@@ -1736,6 +1743,7 @@
 				526FC9C81C7A244200300334 /* FunctionCompositionTests.swift in Sources */,
 				526FC9CA1C7A244900300334 /* GCDTests.swift in Sources */,
 				529FDA1D1CA7EEA000D4768F /* Future+MapTests.swift in Sources */,
+				526674391CA8914600DB0B5F /* Future+FilterTests.swift in Sources */,
 				52051DBE1C79D984005F861A /* FutureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

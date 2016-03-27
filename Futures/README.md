@@ -206,33 +206,18 @@ queue.async { Void -> Int in
 
 ### Advanced usage with Futures
 
-Since `Pied Piper 0.8` many convenience functions are available on `Future` values:
-
-#### Map
-
-It's possible to `map` `Future`s through:
-  - a simple closure
-  - a closure that `throws`
-  - a closure that returns an `Optional`
-  - a closure that returns another `Future`
-  - a closure that returns a `Result`  
-
-When mapping with a simple closure, you start with a `Future<T>`, pass a `T -> U` closure, and get a `Future<U>`:
+Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map` and `filter`.
 
 ```swift
-let originalFuture: Future<Int> = doStuff()
-let mappedFuture: Future<String> = originalFuture.map {
-  "\($0)"
+// In this snippet `doStuff` returns a Future<Int>
+let newFuture = doStuff().filter { value in
+  value > 0
+}.map { value in
+  "\(value)"
 }
+
+// `newFuture` is now a Future<String> that will only succeed when the original Future succeeds with a value > 0
 ``` 
-
-When mapping with a closure `T throws -> U` that `throws`, the behavior is the same as before except when the mapping closure throws an error. In this case, the mapped `Future` will fail with the original error thrown by the closure.
-
-When mapping with a closure `T -> U?` that returns an `Optional`, the behavior is the same as before except when the mapping closure returns nil. In this case, the mapped `Future` will fail with a `FutureMappingError.CantMapValue` error.
-
-When mapping with a closure that returns a `Future<U>`, you get a new `Future` that will `mimic` the given one.
-
-When mapping with a closure that returns a `Result<U>`, you get a new `Future` that will `mimic` the given `Result`.
 
 ### Function composition
 

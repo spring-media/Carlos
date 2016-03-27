@@ -5,7 +5,7 @@ public enum FutureMappingError: ErrorType {
 }
 
 extension Future {
-  private func _map<U>(handler: (T, Promise<U>) -> Void) -> Future<U> {
+  func _map<U>(handler: (T, Promise<U>) -> Void) -> Future<U> {
     let mapped = Promise<U>()
     
     self.onCompletion { result in
