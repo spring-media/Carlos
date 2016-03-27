@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8
+
+**Breaking changes**
+- The codebase has been migrated to Swift 2.2
+
 ## 0.7
 
 First release of `Pied Piper` as a separate framework.

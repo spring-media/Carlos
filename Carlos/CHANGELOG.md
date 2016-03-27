@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8
+
+**Breaking changes**
+- The codebase has been migrated to Swift 2.2
+
+
 ## 0.7
 **Breaking changes**
 - `onCompletion` argument now is a closure accepting a `Result<T>` as a parameter instead of a tuple `(value: T?, error: ErrorType?)`. `Result<T>` is the usual `enum` (aka `Either`) that can be `.Success(T)`, `.Error(ErrorType)` or `Cancelled` in case of canceled computations.
