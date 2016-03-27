@@ -178,6 +178,8 @@
 		527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C65521B7A89440005023B /* SwitchCacheTests.swift */; };
 		528FAD481B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */; };
 		5291C8531BB7FAA800C4E15E /* JSONTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291C8521BB7FAA800C4E15E /* JSONTransformerTests.swift */; };
+		529FDA0C1CA7E96200D4768F /* Future+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FDA0B1CA7E96200D4768F /* Future+Map.swift */; };
+		529FDA1D1CA7EEA000D4768F /* Future+MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FDA1C1CA7EEA000D4768F /* Future+MapTests.swift */; };
 		52A194A91B91026300EA61B3 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A411B4F0F6F00F187EE /* Crypto.swift */; };
 		52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */; };
 		52B7620F1BB84EFF0087CD91 /* ImageTransformer+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B7620E1BB84EFF0087CD91 /* ImageTransformer+iOS.swift */; };
@@ -648,6 +650,8 @@
 		527C65521B7A89440005023B /* SwitchCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheTests.swift; sourceTree = "<group>"; };
 		528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCacheSampleViewController.swift; sourceTree = "<group>"; };
 		5291C8521BB7FAA800C4E15E /* JSONTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONTransformerTests.swift; sourceTree = "<group>"; };
+		529FDA0B1CA7E96200D4768F /* Future+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Map.swift"; sourceTree = "<group>"; };
+		529FDA1C1CA7EEA000D4768F /* Future+MapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+MapTests.swift"; sourceTree = "<group>"; };
 		52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCapperCache.swift; sourceTree = "<group>"; };
 		52B6D3541B79307900A403E2 /* Carlos.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Carlos.playground; sourceTree = "<group>"; };
 		52B7620E1BB84EFF0087CD91 /* ImageTransformer+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageTransformer+iOS.swift"; sourceTree = "<group>"; };
@@ -817,6 +821,7 @@
 				52051D9B1C79D91D005F861A /* Result.swift */,
 				52051D761C79D903005F861A /* Futures.h */,
 				52051D781C79D903005F861A /* Info.plist */,
+				529FDA0B1CA7E96200D4768F /* Future+Map.swift */,
 			);
 			path = Futures;
 			sourceTree = "<group>";
@@ -829,6 +834,7 @@
 				52051DB31C79D950005F861A /* Info.plist */,
 				526FC9C71C7A244200300334 /* FunctionCompositionTests.swift */,
 				526FC9C91C7A244900300334 /* GCDTests.swift */,
+				529FDA1C1CA7EEA000D4768F /* Future+MapTests.swift */,
 			);
 			path = FuturesTests;
 			sourceTree = "<group>";
@@ -1714,6 +1720,7 @@
 			files = (
 				52051DA11C79D91D005F861A /* ReadWriteLock.swift in Sources */,
 				52051D9E1C79D91D005F861A /* Future.swift in Sources */,
+				529FDA0C1CA7E96200D4768F /* Future+Map.swift in Sources */,
 				52051D9D1C79D91D005F861A /* FunctionComposition.swift in Sources */,
 				52051DA01C79D91D005F861A /* Promise.swift in Sources */,
 				52051DA21C79D91D005F861A /* Result.swift in Sources */,
@@ -1728,6 +1735,7 @@
 				52051DBF1C79D984005F861A /* PromiseTests.swift in Sources */,
 				526FC9C81C7A244200300334 /* FunctionCompositionTests.swift in Sources */,
 				526FC9CA1C7A244900300334 /* GCDTests.swift in Sources */,
+				529FDA1D1CA7EEA000D4768F /* Future+MapTests.swift in Sources */,
 				52051DBE1C79D984005F861A /* FutureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
