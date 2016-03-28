@@ -1,7 +1,9 @@
 import Foundation
 
 /// This class is a Future computation, where you can attach failure and success callbacks.
-public class Promise<T> {
+public class Promise<T>: Async {
+  public typealias Value = T
+  
   private var failureListeners: [(ErrorType) -> Void] = []
   private var successListeners: [(T) -> Void] = []
   private var cancelListeners: [Void -> Void] = []

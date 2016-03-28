@@ -102,6 +102,8 @@
 		5222108E1C501F2100E682D1 /* ConditionedTwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222108A1C501F2100E682D1 /* ConditionedTwoWayTransformer.swift */; };
 		522210901C50358700E682D1 /* ConditionedOneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222108F1C50358700E682D1 /* ConditionedOneWayTransformationBoxTests.swift */; };
 		522A4E6B1B7BDACB00646D52 /* ImageCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */; };
+		52308BD11CA9474A00F86384 /* Future+Reduce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52308BD01CA9474A00F86384 /* Future+Reduce.swift */; };
+		52308BE21CA99BA100F86384 /* Future+ReduceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52308BE11CA99BA100F86384 /* Future+ReduceTests.swift */; };
 		523257D21B51993000A10A56 /* TwoWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */; };
 		523257D41B519AB900A10A56 /* OneWayTransformationBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */; };
 		5235BAD51BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BAD41BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift */; };
@@ -590,6 +592,8 @@
 		5222108A1C501F2100E682D1 /* ConditionedTwoWayTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedTwoWayTransformer.swift; sourceTree = "<group>"; };
 		5222108F1C50358700E682D1 /* ConditionedOneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionedOneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheSampleViewController.swift; sourceTree = "<group>"; };
+		52308BD01CA9474A00F86384 /* Future+Reduce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Reduce.swift"; sourceTree = "<group>"; };
+		52308BE11CA99BA100F86384 /* Future+ReduceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+ReduceTests.swift"; sourceTree = "<group>"; };
 		523257D11B51993000A10A56 /* TwoWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		523257D31B519AB900A10A56 /* OneWayTransformationBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneWayTransformationBoxTests.swift; sourceTree = "<group>"; };
 		5235BAD41BE16B010049CFA6 /* UserDefaultsCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsCacheSampleViewController.swift; sourceTree = "<group>"; };
@@ -832,6 +836,7 @@
 				529FDA0B1CA7E96200D4768F /* Future+Map.swift */,
 				526674261CA88DDB00DB0B5F /* Future+Filter.swift */,
 				52C664D51CA93E0E00CA7310 /* Future+FlatMap.swift */,
+				52308BD01CA9474A00F86384 /* Future+Reduce.swift */,
 			);
 			path = Futures;
 			sourceTree = "<group>";
@@ -847,6 +852,7 @@
 				529FDA1C1CA7EEA000D4768F /* Future+MapTests.swift */,
 				526674371CA8901900DB0B5F /* Future+FilterTests.swift */,
 				52C664E61CA93E5300CA7310 /* Future+FlatMapTests.swift */,
+				52308BE11CA99BA100F86384 /* Future+ReduceTests.swift */,
 			);
 			path = FuturesTests;
 			sourceTree = "<group>";
@@ -1738,6 +1744,7 @@
 				52051D9D1C79D91D005F861A /* FunctionComposition.swift in Sources */,
 				52051DA01C79D91D005F861A /* Promise.swift in Sources */,
 				52051DA21C79D91D005F861A /* Result.swift in Sources */,
+				52308BD11CA9474A00F86384 /* Future+Reduce.swift in Sources */,
 				52051D9F1C79D91D005F861A /* GCD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1750,6 +1757,7 @@
 				526FC9C81C7A244200300334 /* FunctionCompositionTests.swift in Sources */,
 				526FC9CA1C7A244900300334 /* GCDTests.swift in Sources */,
 				529FDA1D1CA7EEA000D4768F /* Future+MapTests.swift in Sources */,
+				52308BE21CA99BA100F86384 /* Future+ReduceTests.swift in Sources */,
 				52C664E71CA93E5300CA7310 /* Future+FlatMapTests.swift in Sources */,
 				526674391CA8914600DB0B5F /* Future+FilterTests.swift in Sources */,
 				52051DBE1C79D984005F861A /* FutureTests.swift in Sources */,

@@ -1,7 +1,22 @@
 import Foundation
 
+/// Abstracts a Future computation so that it's easier to extend SequenceType
+public protocol Async {
+  /// The generic parameter in the Future implementation
+  associatedtype Value
+
+  /// Accessor to the Future instance
+  var future: Future<Value> { get }
+}
+
 /// This class is a read-only Promise.
-public class Future<T> {
+public class Future<T>: Async {
+  public typealias Value = T
+  
+  public var future: Future<T> {
+    return self
+  }
+  
   private let promise: Promise<T>
   
   public init(promise: Promise<T>) {

@@ -16,6 +16,7 @@
 - It's now possible to `filter` `Future`s through:
   - a simple condition closure
   - a closure that returns a `Future<Bool>`
+- It's now possible to `reduce` a `SequenceType` of `Future`s into a new `Future` through a `combine` closure
 - It's now possible to `mimic` a `Result`
 
 

@@ -12,6 +12,11 @@ extension Future {
         mapped.cancel()
       }
     }
+
+    //TODO: Consider whether this is appropriate
+//    mapped.onCancel {
+//      self.cancel()
+//    }
     
     return mapped.future
   }
