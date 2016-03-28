@@ -226,6 +226,8 @@
 		52C319A11BC0459F00893D19 /* PostProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E0CBF81BBC4E1800F20C22 /* PostProcess.swift */; };
 		52C319A21BC0459F00893D19 /* ComposedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52615CD31BBC8123001DA9BE /* ComposedOneWayTransformer.swift */; };
 		52C319A31BC0459F00893D19 /* ComposedTwoWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5257BBB31BBFC3FD00787819 /* ComposedTwoWayTransformer.swift */; };
+		52C664D61CA93E0E00CA7310 /* Future+FlatMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C664D51CA93E0E00CA7310 /* Future+FlatMap.swift */; };
+		52C664E71CA93E5300CA7310 /* Future+FlatMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C664E61CA93E5300CA7310 /* Future+FlatMapTests.swift */; };
 		52CF0A8E1B91F5EE0061022D /* CountryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CF0A8D1B91F5EE0061022D /* CountryRow.swift */; };
 		52CF0AA11B9203730061022D /* CarlosMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 52CF0AA01B9203730061022D /* CarlosMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52CF0AA61B9203B30061022D /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
@@ -664,6 +666,8 @@
 		52BBFD571B51BAD20000084A /* PoolCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCacheTests.swift; sourceTree = "<group>"; };
 		52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentOperation.swift; sourceTree = "<group>"; };
 		52C0F62D1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeferredCacheRequestOperation.swift; sourceTree = "<group>"; };
+		52C664D51CA93E0E00CA7310 /* Future+FlatMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+FlatMap.swift"; sourceTree = "<group>"; };
+		52C664E61CA93E5300CA7310 /* Future+FlatMapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+FlatMapTests.swift"; sourceTree = "<group>"; };
 		52CF0A8D1B91F5EE0061022D /* CountryRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryRow.swift; sourceTree = "<group>"; };
 		52CF0A9E1B9203730061022D /* CarlosMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52CF0AA01B9203730061022D /* CarlosMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosMac.h; sourceTree = "<group>"; };
@@ -827,6 +831,7 @@
 				52051D781C79D903005F861A /* Info.plist */,
 				529FDA0B1CA7E96200D4768F /* Future+Map.swift */,
 				526674261CA88DDB00DB0B5F /* Future+Filter.swift */,
+				52C664D51CA93E0E00CA7310 /* Future+FlatMap.swift */,
 			);
 			path = Futures;
 			sourceTree = "<group>";
@@ -841,6 +846,7 @@
 				526FC9C91C7A244900300334 /* GCDTests.swift */,
 				529FDA1C1CA7EEA000D4768F /* Future+MapTests.swift */,
 				526674371CA8901900DB0B5F /* Future+FilterTests.swift */,
+				52C664E61CA93E5300CA7310 /* Future+FlatMapTests.swift */,
 			);
 			path = FuturesTests;
 			sourceTree = "<group>";
@@ -1724,6 +1730,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52C664D61CA93E0E00CA7310 /* Future+FlatMap.swift in Sources */,
 				52051DA11C79D91D005F861A /* ReadWriteLock.swift in Sources */,
 				52051D9E1C79D91D005F861A /* Future.swift in Sources */,
 				526674271CA88DDB00DB0B5F /* Future+Filter.swift in Sources */,
@@ -1743,6 +1750,7 @@
 				526FC9C81C7A244200300334 /* FunctionCompositionTests.swift in Sources */,
 				526FC9CA1C7A244900300334 /* GCDTests.swift in Sources */,
 				529FDA1D1CA7EEA000D4768F /* Future+MapTests.swift in Sources */,
+				52C664E71CA93E5300CA7310 /* Future+FlatMapTests.swift in Sources */,
 				526674391CA8914600DB0B5F /* Future+FilterTests.swift in Sources */,
 				52051DBE1C79D984005F861A /* FutureTests.swift in Sources */,
 			);

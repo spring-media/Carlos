@@ -206,14 +206,16 @@ queue.async { Void -> Int in
 
 ### Advanced usage with Futures
 
-Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map` and `filter`.
+Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap` and `filter`.
 
 ```swift
 // In this snippet `doStuff` returns a Future<Int>
 let newFuture = doStuff().filter { value in
   value > 0
+}.flatMap { value in
+  Promise(value: "\(value)").future
 }.map { value in
-  "\(value)"
+  "The result is \(value)"
 }
 
 // `newFuture` is now a Future<String> that will only succeed when the original Future succeeds with a value > 0

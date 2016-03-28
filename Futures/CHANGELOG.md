@@ -9,6 +9,7 @@
 - It's now possible to `map` `Future`s through:
   - a simple transformation closure
   - a closure that `throws`
+- It's now possible to `flatMap` `Future`s through:
   - a closure that returns an `Optional`
   - a closure that returns another `Future`
   - a closure that returns a `Result`  
