@@ -18,6 +18,7 @@
   - a simple condition closure
   - a closure that returns a `Future<Bool>`
 - It's now possible to `reduce` a `SequenceType` of `Future`s into a new `Future` through a `combine` closure 
+- It's now possible to `zip` a `Future` with either another `Future` or with a `Result`
 - It's now possible to `mimic` a `Result`
 
 

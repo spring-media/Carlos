@@ -129,6 +129,16 @@ login.onCompletion { result in
 }
 ```
 
+Since `Pied Piper 0.8` you can use convenience initializers on `Future` if you already know the result without any asynchronous work:
+
+```swift
+let future = Future(10)
+
+// or
+
+let future = Future(MyError.SomeError)
+```
+
 ### Promises
 
 `Future`s are really handy when you are the user of some async computations. But sometimes you may want to be the producer of these, and in this case you need to be able to determine when a `Future` should succeed or fail. Then you need a `Promise`.
@@ -206,7 +216,7 @@ queue.async { Void -> Int in
 
 ### Advanced usage with Futures
 
-Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter` and `reduce`.
+Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `zip` and `reduce`.
 
 ```swift
 // In this snippet `doStuff` returns a Future<Int>
@@ -233,6 +243,26 @@ let sumOfServerResults = serverRequests.reduce(0, combine: +).onSuccess {
   print("Sum of results is \($0)")
 }
 ``` 
+
+```swift
+// Example for zip
+
+let first: Future<Int> = doFoo()
+let second: Future<String> = doBar()
+
+let zipped = first.zip(second).onSuccess { (anInteger, aString) in 
+  // you get an Int and a String here
+}
+
+// or:
+
+let first: Future<Int> = doFoo()
+let second: Result<String> = doBar()
+
+let zipped = first.zip(second).onSuccess { (anInteger, aString) in 
+  // you get an Int and a String here
+}
+```
 
 ### Function composition
 
@@ -306,7 +336,7 @@ composition(1).onSuccess { result in
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **350 tests** for `Pied Piper` (see the folder `FuturesTests`).
+As of today, there are around **400 tests** for `Pied Piper` (see the folder `FuturesTests`).
 
 ## Future development
 
