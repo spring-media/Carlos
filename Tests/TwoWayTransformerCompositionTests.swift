@@ -113,7 +113,7 @@ class TwoWayTransformerCompositionTests: QuickSpec {
     
     beforeEach {
       transformer1 = TwoWayTransformationBox(transform: {
-        Promise(value: Float($0), error: TestError.SimpleError).future
+        Future(value: Float($0), error: TestError.SimpleError)
       }, inverseTransform: {
         let result = Promise<String>()
         if $0 > 100 {
@@ -128,7 +128,7 @@ class TwoWayTransformerCompositionTests: QuickSpec {
         if $0 < 0 {
           result.fail(TestError.SimpleError)
         } else {
-          result.mimic(Promise(value: Int($0), error: TestError.SimpleError).future)
+          result.mimic(Future(value: Int($0), error: TestError.SimpleError))
         }
         return result.future
       }, inverseTransform: {
@@ -136,7 +136,7 @@ class TwoWayTransformerCompositionTests: QuickSpec {
         if $0 < 0 {
           result.fail(TestError.SimpleError)
         } else {
-          result.mimic(Promise(value: Float($0), error: TestError.SimpleError).future)
+          result.mimic(Future(value: Float($0), error: TestError.SimpleError))
         }
         return result.future
       })

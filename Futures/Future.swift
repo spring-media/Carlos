@@ -19,15 +19,43 @@ public class Future<T>: Async {
   
   private let promise: Promise<T>
   
-  public init(promise: Promise<T>) {
+  init(promise: Promise<T>) {
     self.promise = promise
   }
   
   /**
-  Cancels the Future
+   Initializes a new Future and makes it immediately succeed with the given value
    
-  Calling this method makes all the listeners get the onCancel callback (but not the onFailure callback)
-  */
+   - parameter value: The success value of the Future
+   */
+  public convenience init(_ value: T) {
+    self.init(promise: Promise(value))
+  }
+  
+  /**
+   Initializes a new Future and makes it immediately succeed or fail depending on the value
+   
+   - parameter value: The success value of the Future, if not .None
+   - parameter error: The error of the Future, if value is .None
+   */
+  public convenience init(value: T?, error: ErrorType) {
+    self.init(promise: Promise(value: value, error: error))
+  }
+  
+  /**
+   Initializes a new Future and makes it immediately fail with the given error
+   
+   - parameter error: The error of the Future
+   */
+  public convenience init(_ error: ErrorType) {
+    self.init(promise: Promise(error))
+  }
+  
+  /**
+   Cancels the Future
+   
+   Calling this method makes all the listeners get the onCancel callback (but not the onFailure callback)
+   */
   public func cancel() {
     promise.cancel()
   }

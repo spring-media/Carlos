@@ -18,15 +18,15 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
             if key > 0 {
               let possible = value.scheme == "http"
               
-              return Promise(value: possible ? value.absoluteString : nil, error: TestError.SimpleError).future
+              return Future(value: possible ? value.absoluteString : nil, error: TestError.SimpleError)
             } else {
-              return Promise(error: TestError.AnotherError).future
+              return Future(TestError.AnotherError)
             }
           }, conditionalInverseTransformClosure: { (key, value) in
             if key > 0 {
-              return Promise(value: NSURL(string: value), error: TestError.SimpleError).future
+              return Future(value: NSURL(string: value), error: TestError.SimpleError)
             } else {
-              return Promise(error: TestError.AnotherError).future
+              return Future(TestError.AnotherError)
             }
           })
         }
@@ -328,9 +328,9 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
           originalTransformer = TwoWayTransformationBox(transform: { (value) in
             let possible = value.scheme == "http"
             
-            return Promise(value: possible ? value.absoluteString : nil, error: TestError.SimpleError).future
+            return Future(value: possible ? value.absoluteString : nil, error: TestError.SimpleError)
           }, inverseTransform: { (value) in
-              return Promise(value: NSURL(string: value), error: TestError.SimpleError).future
+              return Future(value: NSURL(string: value), error: TestError.SimpleError)
           })
           
           box = ConditionedTwoWayTransformationBox<Int, NSURL, String>(transformer: originalTransformer)

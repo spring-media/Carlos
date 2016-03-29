@@ -115,7 +115,7 @@ class NormalizationTests: QuickSpec {
         var originalCache: BasicCache<String, Int>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ Promise(value: $0).future })
+          originalCache = CacheLevelFake().transformKeys({ Future($0) })
           cacheToTest = normalize(originalCache)
         }
         
@@ -149,7 +149,7 @@ class NormalizationTests: QuickSpec {
         var originalCache: BasicCache<String, Int>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ Promise(value: $0).future })
+          originalCache = CacheLevelFake().transformKeys({ Future($0) })
           cacheToTest = originalCache.normalize()
         }
         

@@ -70,7 +70,7 @@ class OneWayTransformerCompositionTests: QuickSpec {
     var composedTransformer: OneWayTransformationBox<String, Int>!
     
     beforeEach {
-      transformer1 = OneWayTransformationBox(transform: { Promise(value: Float($0), error: TestError.SimpleError).future })
+      transformer1 = OneWayTransformationBox(transform: { Future(value: Float($0), error: TestError.SimpleError) })
       transformer2 = OneWayTransformationBox(transform: {
         let result = Promise<Int>()
         

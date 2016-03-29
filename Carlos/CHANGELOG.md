@@ -4,7 +4,7 @@
 
 **Breaking changes**
 - The codebase has been migrated to Swift 2.2
-
+- `Promise` now has only an empty `init`. If you used one of the convenience `init` (with `value:`, with `error:` or with `value:error:`), they now moved to `Future`.
 
 ## 0.7
 **Breaking changes**

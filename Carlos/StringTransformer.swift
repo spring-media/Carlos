@@ -32,7 +32,7 @@ public class StringTransformer: TwoWayTransformer {
   - returns: A Future containing the serialized String with the given encoding if the input is valid
   */
   public func transform(val: TypeIn) -> Future<TypeOut> {
-    return Promise(value: NSString(data: val, encoding: encoding) as? String, error: Error.InvalidData).future
+    return Future(value: NSString(data: val, encoding: encoding) as? String, error: Error.InvalidData)
   }
   
   /**
@@ -43,6 +43,6 @@ public class StringTransformer: TwoWayTransformer {
   - returns: A Future<NSData> instance containing the bytes representation of the given string
   */
   public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
-    return Promise(value: val.dataUsingEncoding(encoding, allowLossyConversion: false), error: Error.DataConversionToStringFailed).future
+    return Future(value: val.dataUsingEncoding(encoding, allowLossyConversion: false), error: Error.DataConversionToStringFailed)
   }
 }

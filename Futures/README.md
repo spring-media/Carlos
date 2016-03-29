@@ -213,7 +213,7 @@ Since `Pied Piper 0.8` many convenience functions are available on `Future` valu
 let newFuture = doStuff().filter { value in
   value > 0
 }.flatMap { value in
-  Promise(value: "\(value)").future
+  Future("\(value)")
 }.map { value in
   "The result is \(value)"
 }
@@ -286,11 +286,11 @@ composition() //Doesn't print
 ```swift
 
 func intFuture(input: Int) -> Future<Int> {
-  return Promise(value: input).future
+  return Future(input)
 }
 
 func stringFuture(input: Int) -> Future<String> {
-  return Promise(value: "Hello \(input)!").future
+  return Future("Hello \(input)!")
 }
 
 let composition = intFuture >>> stringFuture
@@ -306,7 +306,7 @@ composition(1).onSuccess { result in
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **300 tests** for `Pied Piper` (see the folder `FuturesTests`).
+As of today, there are around **350 tests** for `Pied Piper` (see the folder `FuturesTests`).
 
 ## Future development
 

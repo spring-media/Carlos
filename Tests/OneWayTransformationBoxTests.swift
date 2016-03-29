@@ -11,7 +11,7 @@ class OneWayTransformationBoxTests: QuickSpec {
       
       beforeEach {
         box = OneWayTransformationBox(transform: {
-          Promise(value: Int($0), error: TestError.SimpleError).future
+          Future(value: Int($0), error: TestError.SimpleError)
         })
       }
       

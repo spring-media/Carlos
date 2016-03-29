@@ -225,18 +225,18 @@ class ConditionedTransformersTests: QuickSpec {
       let condition: (String) -> Future<Bool> = { input in
         if input.rangeOfString("fail") != nil {
           if input.rangeOfString("custom") != nil {
-            return Promise(error: ConditionError.CustomError).future
+            return Future(ConditionError.CustomError)
           } else {
-            return Promise(value: false).future
+            return Future(false)
           }
         } else {
-          return Promise(value: true).future
+          return Future(true)
         }
       }
       
       beforeEach {
         transformer = OneWayTransformationBox<String, Int>(transform: {
-          Promise(value: Int($0), error: TransformerError.TransformationError).future
+          Future(value: Int($0), error: TransformerError.TransformationError)
         }).conditioned(condition)
       }
       
@@ -252,31 +252,31 @@ class ConditionedTransformersTests: QuickSpec {
       let condition: (String) -> Future<Bool> = { input in
         if input.rangeOfString("fail") != nil {
           if input.rangeOfString("custom") != nil {
-            return Promise(error: ConditionError.CustomError).future
+            return Future(ConditionError.CustomError)
           } else {
-            return Promise(value: false).future
+            return Future(false)
           }
         } else {
-          return Promise(value: true).future
+          return Future(true)
         }
       }
       let inverseCondition: (Int) -> Future<Bool> = { input in
         if input >= 0 {
           if input == 0 {
-            return Promise(error: ConditionError.CustomError).future
+            return Future(ConditionError.CustomError)
           } else {
-            return Promise(value: true).future
+            return Future(true)
           }
         } else {
-          return Promise(value: false).future
+          return Future(false)
         }
       }
       
       beforeEach {
         transformer = TwoWayTransformationBox<String, Int>(transform: {
-          Promise(value: Int($0), error: TransformerError.TransformationError).future
+          Future(value: Int($0), error: TransformerError.TransformationError)
         }, inverseTransform: {
-          Promise(value: "\($0)").future
+          Future("\($0)")
         }).conditioned(condition, inverseCondition: inverseCondition)
       }
       

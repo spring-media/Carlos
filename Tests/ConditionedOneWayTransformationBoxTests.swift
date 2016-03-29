@@ -13,9 +13,9 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
         beforeEach {
           box = ConditionedOneWayTransformationBox(conditionalTransformClosure: { key, value in
             if let _ = key["value"] {
-              return Promise(value: Int(value), error: TestError.SimpleError).future
+              return Future(value: Int(value), error: TestError.SimpleError)
             } else {
-              return Promise(error: TestError.AnotherError).future
+              return Future(TestError.AnotherError)
             }
           })
         }
@@ -98,7 +98,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
       context("when created through a one way transformer") {
         beforeEach {
           let transformer = OneWayTransformationBox<String, Int>(transform: { value in
-            Promise(value: Int(value), error: TestError.SimpleError).future
+            Future(value: Int(value), error: TestError.SimpleError)
           })
           
           box = ConditionedOneWayTransformationBox(transformer: transformer)

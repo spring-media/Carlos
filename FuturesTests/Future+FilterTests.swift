@@ -136,15 +136,15 @@ class FutureFilterTests: QuickSpec {
       context("when done through a closure that returns a Future") {
         let filteringClosure: Int -> Future<Bool> = { num in
           if num < 0 {
-            return Promise(error: TestError.SimpleError).future
+            return Future(TestError.SimpleError)
           } else if num == 0 {
             let result = Promise<Bool>()
             result.cancel()
             return result.future
           } else if num < 100 {
-            return Promise(value: true).future
+            return Future(true)
           } else {
-            return Promise(value: false).future
+            return Future(false)
           }
         }
         

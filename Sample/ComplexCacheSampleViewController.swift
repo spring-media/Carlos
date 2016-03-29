@@ -48,15 +48,15 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     super.setupCache()
     
     let modelDomainToString = OneWayTransformationBox<ModelDomain, String>(transform: {
-      Promise(value: $0.name).future
+      Future($0.name)
     })
     
     let modelDomainToInt = OneWayTransformationBox<ModelDomain, Int>(transform: {
-      Promise(value: $0.identifier).future
+      Future($0.identifier)
     })
     
     let stringToData = StringTransformer().invert()
-    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Promise(value: $0.uppercaseString).future })
+    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Future($0.uppercaseString) })
     
     cache = ((modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> BasicFetcher(getClosure: { (key: ModelDomain) in
       let request = Promise<NSData>()

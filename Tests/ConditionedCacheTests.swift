@@ -235,9 +235,9 @@ class ConditionedCacheTests: QuickSpec {
     var internalCache: CacheLevelFake<String, Int>!
     let closure: (String -> Future<Bool>) = { key in
       if key.characters.count >= 5 {
-        return Promise(value: true).future
+        return Future(true)
       } else {
-        return Promise(error: ConditionError.MyError).future
+        return Future(ConditionError.MyError)
       }
     }
     

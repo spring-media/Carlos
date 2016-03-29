@@ -279,18 +279,19 @@ class FutureFlatMapTests: QuickSpec {
       
       context("when done through a closure that returns a Future") {
         let mappingClosure: String -> Future<Int> = { str in
-          let result: Promise<Int>
+          let result: Future<Int>
           
           if str == "cancel" {
-            result = Promise<Int>()
-            result.cancel()
+            let intermediate = Promise<Int>()
+            intermediate.cancel()
+            result = intermediate.future
           } else if str == "failure" {
-            result = Promise(error: TestError.SimpleError)
+            result = Future(TestError.SimpleError)
           } else {
-            result = Promise(value: 1)
+            result = Future(1)
           }
           
-          return result.future
+          return result
         }
         
         beforeEach {

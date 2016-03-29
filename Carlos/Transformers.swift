@@ -16,11 +16,11 @@ extension NSDateFormatter: TwoWayTransformer {
   public typealias TypeOut = String
   
   public func transform(val: TypeIn) -> Future<TypeOut> {
-    return Promise(value: stringFromDate(val)).future
+    return Future(stringFromDate(val))
   }
   
   public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
-    return Promise(value: dateFromString(val), error: Error.InvalidInputString).future
+    return Future(value: dateFromString(val), error: Error.InvalidInputString)
   }
 }
 
@@ -39,11 +39,11 @@ extension NSNumberFormatter: TwoWayTransformer {
   public typealias TypeOut = String
   
   public func transform(val: TypeIn) -> Future<TypeOut> {
-    return Promise(value: stringFromNumber(val), error: Error.CannotConvertToString).future
+    return Future(value: stringFromNumber(val), error: Error.CannotConvertToString)
   }
   
   public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
-    return Promise(value: numberFromString(val), error: Error.InvalidString).future
+    return Future(value: numberFromString(val), error: Error.InvalidString)
   }
 }
 
@@ -57,10 +57,10 @@ extension MKDistanceFormatter: TwoWayTransformer {
   public typealias TypeOut = String
   
   public func transform(val: TypeIn) -> Future<TypeOut> {
-    return Promise(value: stringFromDistance(val)).future
+    return Future(stringFromDistance(val))
   }
   
   public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
-    return Promise(value: distanceFromString(val)).future
+    return Future(distanceFromString(val))
   }
 }

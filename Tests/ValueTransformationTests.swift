@@ -217,7 +217,7 @@ class ValueTransformationTests: QuickSpec {
       return result.future
     }
     let inverseTransformationClosure: String -> Future<Int> = {
-      return Promise(value: Int($0), error: TestError.AnotherError).future
+      return Future(value: Int($0), error: TestError.AnotherError)
     }
     
     describe("Value transformation using a transformer and a cache, with the global function") {

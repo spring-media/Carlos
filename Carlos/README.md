@@ -238,7 +238,7 @@ enum URLTransformationError: ErrorType {
     case InvalidURLString
 }
 
-let transformedCache = OneWayTransformationBox(transform: { Promise(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString).future }) =>> NetworkFetcher()
+let transformedCache = OneWayTransformationBox(transform: { Future(value: NSURL(string: $0), error: URLTransformationError.InvalidURLString) }) =>> NetworkFetcher()
 ``` 
 
 With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `NSURL` values first. We can now plug this cache into a previously defined cache level that takes `String` keys:
@@ -256,11 +256,11 @@ struct Image {
 }
 
 let imageToString = OneWayTransformationBox(transform: { (image: Image) -> Future<String> in
-    Promise(value: image.identifier).future
+    Future(image.identifier)
 })
     
 let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> Future<NSURL> in
-    Promise(value: image.URL).future
+    Future(image.URL)
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, NSData>()
@@ -284,9 +284,9 @@ Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used fo
 
 ```swift
 let transformer = OneWayTransformationBox<String, NSURL>(transform: { key in
-  Promise(value: NSURL(string: key), error: MyError.StringIsNotURL).future
+  Future(value: NSURL(string: key), error: MyError.StringIsNotURL)
 }).conditioned { key in
-  Promise(value: key.rangeOfString("http") != nil).future
+  Future(key.rangeOfString("http") != nil)
 }
 
 let cache = transformer =>> CacheProvider.imageCache()
@@ -302,9 +302,9 @@ Value transformers let you have a cache that (let's say) stores `NSData` and mut
 
 ```swift
 let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> Future<NSData> in
-    Promise(value: UIImagePNGRepresentation(image)).future
+    Future(UIImagePNGRepresentation(image))
 }, inverseTransform: { (data: NSData) -> Future<UIImage> in
-    Promise(value: UIImage(data: data)!).future
+    Future(UIImage(data: data)!)
 })
     
 let memoryLevel = imageToString =>> MemoryCacheLevel<String, UIImage>() =>> dataTransformer
@@ -331,9 +331,9 @@ As of `Carlos 0.5` you can also apply conditions to `TwoWayTransformers` used fo
 
 ```swift
 let transformer = JSONTransformer().conditioned({ input in
-  Promise(value: myCondition).future
+  Future(myCondition)
 }, inverseCondition: { input in
-  Promise(value: myCondition).future
+  Future(myCondition)
 })
 
 let cache = CacheProvider.dataCache() =>> transformer
@@ -350,7 +350,7 @@ The `postProcess` function takes a `CacheLevel` (or a fetch closure) and a `OneW
 
 ```swift
 // Let's create a simple "to uppercase" transformer
-let transformer = OneWayTransformationBox<NSString, NSString>(transform: { Promise(value: $0.uppercaseString).future }) 
+let transformer = OneWayTransformationBox<NSString, NSString>(transform: { Future($0.uppercaseString) }) 
 
 // Our memory cache
 let memoryCache = MemoryCacheLevel<String, NSString>()
@@ -376,9 +376,9 @@ Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used fo
 
 ```swift
 let processer = OneWayTransformationBox<NSData, NSData>(transform: { value in
-  Promise(value: NSString(data: value, encoding: NSUTF8StringEncoding)?.uppercaseString.dataUsingEncoding(NSUTF8StringEncoding), error: MyError.DataCannotBeDecoded).future
+  Future(value: NSString(data: value, encoding: NSUTF8StringEncoding)?.uppercaseString.dataUsingEncoding(NSUTF8StringEncoding), error: MyError.DataCannotBeDecoded)
 }).conditioned { value in
-  Promise(value: value.length < 1000).future
+  Future(value.length < 1000)
 }
 
 let cache = CacheProvider.dataCache() ~>> processer
@@ -401,9 +401,9 @@ let memoryCache = MemoryCacheLevel<String, NSString>()
 // Our decorated cache
 let transformedCache = memoryCache.conditionedPostProcess(ConditionedOneWayTransformationBox(conditionalTransformClosure: { (key, value) in
 	if key == "some sentinel value" {
-	    return Promise(value: value.uppercaseString).future
+	    return Future(value.uppercaseString)
 	} else {
-		return Promise(value: value).future
+		return Future(value)
 	}
 })
 
@@ -438,15 +438,15 @@ let memoryCache = MemoryCacheLevel<String, NSString>()
 // Our decorated cache
 let transformedCache = memoryCache.conditionedValueTransformation(ConditionedTwoWayTransformationBox(conditionalTransformClosure: { (key, value) in
 	if key == "some sentinel value" {
-	    return Promise(value: 1).future
+	    return Future(1)
 	} else {
-		return Promise(value: 0).future
+	    return Future(0)
 	}
 }, conditionalInverseTransformClosure: { (key, value) in 
     if key > 0 {
-	    return Promise(value: "Positive").future
+	    return Future("Positive")
 	} else {
-		return Promise(value: "Null or negative").future
+		return Future("Null or negative")
 	}
 })
 
@@ -581,7 +581,7 @@ Sometimes we may have levels that should only be queried under some conditions. 
 
 ```swift
 let conditionedCache = cache.conditioned { key in
-  Promise(value: appSettingIsEnabled).future
+  Future(appSettingIsEnabled)
 }
 ```
 
@@ -591,7 +591,7 @@ The same effect can be obtained through the `<?>` operator:
 
 ```swift
 let conditionedCache = { _ in
-  Promise(value: appSettingIsEnabled).future
+  Future(appSettingIsEnabled)
 } <?> cache
 ```
 
@@ -755,13 +755,13 @@ return result.future
 
 ```swift
 //#2
-return Promise<String>(value: "success").future
+return Future("success")
 
 //#3
-return Promise<String>(error: Error.InvalidData).future
+return Future(Error.InvalidData)
 
 //#4
-return Promise<String>(value: optionalString, error: Error.InvalidData).future
+return Future<String>(value: optionalString, error: Error.InvalidData)
 ```
 
 ### Creating custom fetchers
@@ -776,7 +776,7 @@ class CustomFetcher: Fetcher {
   typealias OutputType = String
   
   func get(key: KeyType) -> Future<OutputType> {
-    return Promise(value: "Found an hardcoded value :)").future
+    return Future("Found an hardcoded value :)")
   }
 }
 ```

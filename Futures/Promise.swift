@@ -31,24 +31,13 @@ public class Promise<T>: Async {
   */
   public init() {}
   
-  /**
-  Initializes a new Promise and makes it immediately succeed with the given value
-  
-  - parameter value: The success value of the Promise
-  */
-  public convenience init(value: T) {
+  convenience init(_ value: T) {
     self.init()
     
     succeed(value)
   }
   
-  /**
-  Initializes a new Promise and makes it immediately succeed or fail depending on the value
-   
-  - parameter value: The success value of the Promise, if not .None
-  - parameter error: The error of the Promise, if value is .None
-  */
-  public convenience init(value: T?, error: ErrorType) {
+  convenience init(value: T?, error: ErrorType) {
     self.init()
     
     if let value = value {
@@ -58,12 +47,7 @@ public class Promise<T>: Async {
     }
   }
   
-  /**
-  Initializes a new Promise and makes it immediately fail with the given error
-  
-  - parameter error: The error of the Promise
-  */
-  public convenience init(error: ErrorType) {
+  convenience init(_ error: ErrorType) {
     self.init()
     
     fail(error)
