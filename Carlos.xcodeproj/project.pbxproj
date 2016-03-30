@@ -191,6 +191,8 @@
 		52B7620F1BB84EFF0087CD91 /* ImageTransformer+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B7620E1BB84EFF0087CD91 /* ImageTransformer+iOS.swift */; };
 		52B7621C1BB84F160087CD91 /* JSONTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B7621B1BB84F160087CD91 /* JSONTransformer.swift */; };
 		52B7621E1BB84F160087CD91 /* JSONTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B7621B1BB84F160087CD91 /* JSONTransformer.swift */; };
+		52BA4C6D1CAC5B1900E1B29E /* Future+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BA4C6C1CAC5B1900E1B29E /* Future+Recover.swift */; };
+		52BA4C7E1CAC5FD500E1B29E /* Future+RecoverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BA4C7D1CAC5FD500E1B29E /* Future+RecoverTests.swift */; };
 		52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD551B51BA140000084A /* CacheLevelFake.swift */; };
 		52BBFD581B51BAD20000084A /* PoolCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BBFD571B51BAD20000084A /* PoolCacheTests.swift */; };
 		52C0F6261B58DCA1004AAB61 /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */; };
@@ -670,6 +672,8 @@
 		52B6D3541B79307900A403E2 /* Carlos.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Carlos.playground; sourceTree = "<group>"; };
 		52B7620E1BB84EFF0087CD91 /* ImageTransformer+iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageTransformer+iOS.swift"; sourceTree = "<group>"; };
 		52B7621B1BB84F160087CD91 /* JSONTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONTransformer.swift; sourceTree = "<group>"; };
+		52BA4C6C1CAC5B1900E1B29E /* Future+Recover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Recover.swift"; sourceTree = "<group>"; };
+		52BA4C7D1CAC5FD500E1B29E /* Future+RecoverTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+RecoverTests.swift"; sourceTree = "<group>"; };
 		52BBFD551B51BA140000084A /* CacheLevelFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLevelFake.swift; sourceTree = "<group>"; };
 		52BBFD571B51BAD20000084A /* PoolCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolCacheTests.swift; sourceTree = "<group>"; };
 		52C0F6251B58DCA1004AAB61 /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentOperation.swift; sourceTree = "<group>"; };
@@ -842,6 +846,7 @@
 				52C664D51CA93E0E00CA7310 /* Future+FlatMap.swift */,
 				52308BD01CA9474A00F86384 /* Future+Reduce.swift */,
 				52A58AEE1CAA71020043DD1A /* Future+Zip.swift */,
+				52BA4C6C1CAC5B1900E1B29E /* Future+Recover.swift */,
 			);
 			path = Futures;
 			sourceTree = "<group>";
@@ -859,6 +864,7 @@
 				52C664E61CA93E5300CA7310 /* Future+FlatMapTests.swift */,
 				52308BE11CA99BA100F86384 /* Future+ReduceTests.swift */,
 				52A58AFF1CAA75E60043DD1A /* Future+ZipTests.swift */,
+				52BA4C7D1CAC5FD500E1B29E /* Future+RecoverTests.swift */,
 			);
 			path = FuturesTests;
 			sourceTree = "<group>";
@@ -1753,6 +1759,7 @@
 				52051DA21C79D91D005F861A /* Result.swift in Sources */,
 				52308BD11CA9474A00F86384 /* Future+Reduce.swift in Sources */,
 				52051D9F1C79D91D005F861A /* GCD.swift in Sources */,
+				52BA4C6D1CAC5B1900E1B29E /* Future+Recover.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1767,6 +1774,7 @@
 				52308BE21CA99BA100F86384 /* Future+ReduceTests.swift in Sources */,
 				52C664E71CA93E5300CA7310 /* Future+FlatMapTests.swift in Sources */,
 				526674391CA8914600DB0B5F /* Future+FilterTests.swift in Sources */,
+				52BA4C7E1CAC5FD500E1B29E /* Future+RecoverTests.swift in Sources */,
 				52051DBE1C79D984005F861A /* FutureTests.swift in Sources */,
 				52A58B001CAA75E60043DD1A /* Future+ZipTests.swift in Sources */,
 			);

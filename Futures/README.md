@@ -218,6 +218,8 @@ queue.async { Void -> Int in
 
 Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `zip` and `reduce`.
 
+#### FlatMap, Map, Filter
+
 ```swift
 // In this snippet `doStuff` returns a Future<Int>
 let newFuture = doStuff().filter { value in
@@ -231,7 +233,7 @@ let newFuture = doStuff().filter { value in
 // `newFuture` is now a Future<String> that will only succeed when the original Future succeeds with a value > 0
 ```
 
-or 
+#### Reduce
 
 ```swift
 // Let's assume this value contains a list of server requests where each request obtains the number of items in a given category
@@ -243,6 +245,8 @@ let sumOfServerResults = serverRequests.reduce(0, combine: +).onSuccess {
   print("Sum of results is \($0)")
 }
 ``` 
+
+#### Zip
 
 ```swift
 // Example for zip
@@ -261,6 +265,26 @@ let second: Result<String> = doBar()
 
 let zipped = first.zip(second).onSuccess { (anInteger, aString) in 
   // you get an Int and a String here
+}
+```
+
+#### Recover
+
+It's now also possible to provide a "catch-all" handler to recover a failing `Future`:
+
+```swift
+let numberOfItemsTask: Future<Int> = doLongRunningTask()
+  .flatMap { result in
+    result.processAndPersist()
+  }.map { result in
+    result.numberOfItems
+  }.recover {
+    cache.lastNumberOfItems
+  }
+
+numberOfItemsTask.onSuccess { numberOfItems in
+  // This will be called even if one of the previous operations fails, with the rescue value `cache.lastNumberOfItems`
+  // ...
 }
 ```
 
@@ -336,7 +360,7 @@ composition(1).onSuccess { result in
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **400 tests** for `Pied Piper` (see the folder `FuturesTests`).
+As of today, there are around **500 tests** for `Pied Piper` (see the folder `FuturesTests`).
 
 ## Future development
 
