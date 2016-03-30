@@ -9,13 +9,12 @@ public enum Result<T> {
   /// The result was cancelled
   case Cancelled
   
-  //TODO: Expose in a later version
-  func map<U>(handler: T -> U) -> Future<U> {
+  private func _map<U>(handler: (T, Promise<U>) -> Void) -> Future<U> {
     let mapped = Promise<U>()
     
     switch self {
     case .Success(let value):
-      mapped.succeed(handler(value))
+      handler(value, mapped)
     case .Error(let error):
       mapped.fail(error)
     case .Cancelled:
@@ -23,5 +22,19 @@ public enum Result<T> {
     }
     
     return mapped.future
+  }
+  
+  //TODO: Expose in a later version
+  func map<U>(handler: T -> U) -> Future<U> {
+    return _map { value, mapped in
+      mapped.succeed(handler(value))
+    }
+  }
+  
+  //TODO: Expose in a later version
+  func flatMap<U>(handler: T -> Future<U>) -> Future<U> {
+    return _map { value, flatMapped in
+      flatMapped.mimic(handler(value))
+    }
   }
 }

@@ -268,11 +268,27 @@ class FutureZipTests: QuickSpec {
             }
           }
           
+          it("should immediately fail the zipped future") {
+            expect(failureValue).notTo(beNil())
+          }
+          
+          it("should immediately fail with the right error") {
+            expect(failureValue as? TestError).to(equal(error))
+          }
+          
+          it("should not succeed the zipped future") {
+            expect(successValue).to(beNil())
+          }
+          
+          it("should not cancel the zipped future") {
+            expect(wasCanceled).to(beFalse())
+          }
+          
           context("when the future fails") {
-            let error = TestError.AnotherError
+            let anotherError = TestError.AnotherError
             
             beforeEach {
-              promise.fail(error)
+              promise.fail(anotherError)
             }
             
             it("should fail the zipped future") {
@@ -297,16 +313,20 @@ class FutureZipTests: QuickSpec {
               promise.cancel()
             }
             
-            it("should not fail the zipped future") {
-              expect(failureValue).to(beNil())
+            it("should fail the zipped future") {
+              expect(failureValue).notTo(beNil())
+            }
+            
+            it("should fail with the right error") {
+              expect(failureValue as? TestError).to(equal(error))
             }
             
             it("should not succeed the zipped future") {
               expect(successValue).to(beNil())
             }
             
-            it("should cancel the zipped future") {
-              expect(wasCanceled).to(beTrue())
+            it("should not cancel the zipped future") {
+              expect(wasCanceled).to(beFalse())
             }
           }
           
@@ -351,6 +371,18 @@ class FutureZipTests: QuickSpec {
             }
           }
           
+          it("should not fail the zipped future") {
+            expect(failureValue).to(beNil())
+          }
+          
+          it("should not succeed the zipped future") {
+            expect(successValue).to(beNil())
+          }
+          
+          it("should immediately cancel the zipped future") {
+            expect(wasCanceled).to(beTrue())
+          }
+          
           context("when the future fails") {
             let error = TestError.AnotherError
             
@@ -358,20 +390,16 @@ class FutureZipTests: QuickSpec {
               promise.fail(error)
             }
             
-            it("should fail the zipped future") {
-              expect(failureValue).notTo(beNil())
-            }
-            
-            it("should fail with the right error") {
-              expect(failureValue as? TestError).to(equal(error))
+            it("should not fail the zipped future") {
+              expect(failureValue).to(beNil())
             }
             
             it("should not succeed the zipped future") {
               expect(successValue).to(beNil())
             }
             
-            it("should not cancel the zipped future") {
-              expect(wasCanceled).to(beFalse())
+            it("should cancel the zipped future") {
+              expect(wasCanceled).to(beTrue())
             }
           }
           
