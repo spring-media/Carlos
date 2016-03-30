@@ -2,6 +2,20 @@ import Quick
 import Nimble
 import PiedPiper
 
+private extension MutableCollectionType where Self.Index == Int {
+  mutating func shuffle() -> Self {
+    let numberOfElements = self.count
+    for iteration in 0..<(numberOfElements - 1) {
+      let swapIndex = Int(arc4random_uniform(UInt32(numberOfElements)))
+      if iteration != swapIndex {
+        swap(&self[iteration], &self[swapIndex])
+      }
+    }
+    
+    return self
+  }
+}
+
 class FutureSequenceReduceTests: QuickSpec {
   override func spec() {
     describe("Reducing a list of Futures") {
@@ -87,31 +101,81 @@ class FutureSequenceReduceTests: QuickSpec {
       context("when all the original futures succeed") {
         var expectedResult: Int!
         
-        beforeEach {
-          expectedResult = 5
-          var iteration = 1
-          promises.forEach { promise in
-            promise.succeed(iteration)
-            expectedResult = expectedResult + iteration
-            iteration += 1
+        context("when they succeed in the same order") {
+          beforeEach {
+            expectedResult = 5
+            var iteration = 1
+            promises.forEach { promise in
+              promise.succeed(iteration)
+              expectedResult = expectedResult + iteration
+              iteration += 1
+            }
+          }
+          
+          it("should not fail the reduced future") {
+            expect(failureValue).to(beNil())
+          }
+          
+          it("should not cancel the reduced future") {
+            expect(wasCanceled).to(beFalse())
+          }
+          
+          it("should succeed the reduced future") {
+            expect(successValue).notTo(beNil())
+          }
+          
+          it("should succeed with the right value") {
+            expect(successValue).to(equal(expectedResult))
           }
         }
+      }
+    }
+    
+    describe("Reducing a list of Futures, independently of the order they succeed") {
+      var promises: [Promise<String>]!
+      var reducedFuture: Future<String>!
+      var successValue: String?
+      var expectedResult: String!
+      
+      beforeEach {
+        promises = [
+          Promise(),
+          Promise(),
+          Promise(),
+          Promise(),
+          Promise()
+        ]
         
-        it("should not fail the reduced future") {
-          expect(failureValue).to(beNil())
+        successValue = nil
+        
+        reducedFuture = promises
+          .map { $0.future }
+          .reduce("BEGIN-", combine: +)
+        
+        reducedFuture.onSuccess {
+          successValue = $0
         }
         
-        it("should not cancel the reduced future") {
-          expect(wasCanceled).to(beFalse())
-        }
+        let sequenceOfIndexes = Array(0..<promises.count).map({ "\($0)" }).joinWithSeparator("")
+        expectedResult = "BEGIN-\(sequenceOfIndexes)"
         
-        it("should succeed the reduced future") {
-          expect(successValue).notTo(beNil())
-        }
+        var arrayOfIndexes = Array(promises.enumerate())
         
-        it("should succeed with the right value") {
-          expect(successValue).to(equal(expectedResult))
+        repeat {
+          arrayOfIndexes = arrayOfIndexes.shuffle()
+        } while arrayOfIndexes.map({ $0.0 }) == Array(0..<promises.count)
+          
+        arrayOfIndexes.forEach { (originalIndex, promise) in
+          promise.succeed("\(originalIndex)")
         }
+      }
+      
+      it("should succeed the reduced future") {
+        expect(successValue).notTo(beNil())
+      }
+      
+      it("should succeed with the right value") {
+        expect(successValue).to(equal(expectedResult))
       }
     }
   }
