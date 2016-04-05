@@ -119,7 +119,7 @@ To use our Playground, please follow these steps:
 - iOS 8.0+
 - WatchOS 2+
 - Mac OS X 10.9+
-- Xcode 7+
+- Xcode 7.3+
 - tvOS 9+
 
 ## Usage

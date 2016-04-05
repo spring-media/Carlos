@@ -11,11 +11,17 @@ class SequenceTraverseTests: QuickSpec {
       var failureValue: ErrorType?
       var wasCanceled: Bool!
       var valuesToTraverse: [Int]!
+      var originalPromisesCanceled: [Bool]!
       
       beforeEach {
         valuesToTraverse = Array(0...5)
-        promises = valuesToTraverse.map { _ in
-          Promise()
+        originalPromisesCanceled = (0..<valuesToTraverse.count).map { _ in
+          false
+        }
+        promises = (0..<valuesToTraverse.count).map { idx in
+          Promise().onCancel {
+            originalPromisesCanceled[idx] = true
+          }
         }
         
         wasCanceled = false
@@ -108,6 +114,35 @@ class SequenceTraverseTests: QuickSpec {
           
           it("should succeed with the right value") {
             expect(successValue).to(equal(expectedResult))
+          }
+        }
+      }
+      
+      context("when canceling the traversed future") {
+        context("when no promise was done") {
+          beforeEach {
+            traversedFuture.cancel()
+          }
+          
+          it("should cancel all the running promises") {
+            expect(originalPromisesCanceled).to(allPass({ $0 == true}))
+          }
+        }
+        
+        context("when some promise was done") {
+          let nonRunningPromiseIndex = 1
+          
+          beforeEach {
+            promises[nonRunningPromiseIndex].succeed(10)
+            traversedFuture.cancel()
+          }
+          
+          it("should cancel only the non running promises") {
+            expect(originalPromisesCanceled.filter({ $0 == true }).count).to(equal(promises.count - 1))
+          }
+          
+          it("should not cancel the non running promises") {
+            expect(originalPromisesCanceled[nonRunningPromiseIndex]).to(beFalse())
           }
         }
       }

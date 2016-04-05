@@ -24,15 +24,18 @@ class FutureSequenceReduceTests: QuickSpec {
       var successValue: Int?
       var failureValue: ErrorType?
       var wasCanceled: Bool!
+      var originalPromisesCanceled: [Bool]!
       
       beforeEach {
-        promises = [
-          Promise(),
-          Promise(),
-          Promise(),
-          Promise(),
-          Promise()
-        ]
+        let numberOfPromises = 5
+        originalPromisesCanceled = (0..<numberOfPromises).map { _ in
+          false
+        }
+        promises = (0..<numberOfPromises).map { idx in
+          Promise().onCancel {
+            originalPromisesCanceled[idx] = true
+          }
+        }
         
         wasCanceled = false
         successValue = nil
@@ -124,6 +127,35 @@ class FutureSequenceReduceTests: QuickSpec {
           
           it("should succeed with the right value") {
             expect(successValue).to(equal(expectedResult))
+          }
+        }
+      }
+      
+      context("when canceling the reduced future") {
+        context("when no promise was done") {
+          beforeEach {
+            reducedFuture.cancel()
+          }
+          
+          it("should cancel all the running promises") {
+            expect(originalPromisesCanceled).to(allPass({ $0 == true}))
+          }
+        }
+        
+        context("when some promise was done") {
+          let nonRunningPromiseIndex = 1
+          
+          beforeEach {
+            promises[nonRunningPromiseIndex].succeed(10)
+            reducedFuture.cancel()
+          }
+          
+          it("should cancel only the non running promises") {
+            expect(originalPromisesCanceled.filter({ $0 == true }).count).to(equal(promises.count - 1))
+          }
+          
+          it("should not cancel the non running promises") {
+            expect(originalPromisesCanceled[nonRunningPromiseIndex]).to(beFalse())
           }
         }
       }

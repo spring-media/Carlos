@@ -8,12 +8,20 @@ extension SequenceType where Generator.Element: Async {
   - returns: a new Future`<U>` that will succeed when all the Future`<T>` of this array will succeed, with a value obtained through the execution of the combine closure on each result of the original Futures in the same order. The result will fail or get canceled if one of the original futures fails or gets canceled
   */
   public func reduce<U>(initialValue: U, combine: (accumulator: U, value: Generator.Element.Value) -> U) -> Future<U> {
-    return reduce(Future(initialValue), combine: { accumulator, value in
+    let result = reduce(Future(initialValue), combine: { accumulator, value in
       accumulator.flatMap { reduced in
         value.future.map { mapped in
           combine(accumulator: reduced, value: mapped)
         }
       }
     })
+    
+    result.onCancel {
+      self.forEach {
+        $0.future.cancel()
+      }
+    }
+    
+    return result
   }
 }
