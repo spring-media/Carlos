@@ -43,7 +43,7 @@ class BatchTests: QuickSpec {
       
       context("when one of the requests fails") {
         beforeEach {
-          cache.promisesReturned[2].fail(TestError.SimpleError)
+          cache.promisesReturned[0].fail(TestError.SimpleError)
         }
         
         it("should fail the resulting future") {
@@ -61,7 +61,7 @@ class BatchTests: QuickSpec {
       
       context("when one of the requests succeeds") {
         beforeEach {
-          cache.promisesReturned[1].succeed("Test")
+          cache.promisesReturned[0].succeed("Test")
         }
         
         it("should not call the failure closure") {
@@ -101,7 +101,7 @@ class BatchTests: QuickSpec {
       
       context("when one of the requests is canceled") {
         beforeEach {
-          cache.promisesReturned[3].cancel()
+          cache.promisesReturned[0].cancel()
         }
         
         it("should not call the success closure") {

@@ -89,6 +89,7 @@
 		520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */; };
 		520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */; };
 		520BBBBD1CADB71000E8010B /* Future+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BBBBC1CADB71000E8010B /* Future+Merge.swift */; };
+		520BBBCE1CADB95B00E8010B /* Future+Traverse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BBBCD1CADB95B00E8010B /* Future+Traverse.swift */; };
 		5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD0E1BC04B43005B729F /* AppDelegate.swift */; };
 		5216CD111BC04B43005B729F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD101BC04B43005B729F /* ViewController.swift */; };
 		5216CD141BC04B43005B729F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216CD121BC04B43005B729F /* Main.storyboard */; };
@@ -286,6 +287,7 @@
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
 		52FBB59E1CB44AA500BA1DF3 /* Future+MergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FBB59D1CB44AA500BA1DF3 /* Future+MergeTests.swift */; };
+		52FBB5AF1CB44D3C00BA1DF3 /* Future+TraverseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FBB5AE1CB44D3C00BA1DF3 /* Future+TraverseTests.swift */; };
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
 		AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD64D97E1B8DE69200C783D3 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD64D97C1B8DE69200C783D3 /* Interface.storyboard */; };
@@ -589,6 +591,7 @@
 		520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CappedRequestCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayedNetworkFetcher.swift; sourceTree = "<group>"; };
 		520BBBBC1CADB71000E8010B /* Future+Merge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Merge.swift"; sourceTree = "<group>"; };
+		520BBBCD1CADB95B00E8010B /* Future+Traverse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Traverse.swift"; sourceTree = "<group>"; };
 		5216CD0C1BC04B43005B729F /* CarlosTvSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosTvSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216CD0E1BC04B43005B729F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5216CD101BC04B43005B729F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -711,6 +714,7 @@
 		52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKDistanceFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52FBB59D1CB44AA500BA1DF3 /* Future+MergeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+MergeTests.swift"; sourceTree = "<group>"; };
+		52FBB5AE1CB44D3C00BA1DF3 /* Future+TraverseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+TraverseTests.swift"; sourceTree = "<group>"; };
 		AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheProvider.swift; sourceTree = "<group>"; };
 		AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosWatch.h; sourceTree = "<group>"; };
@@ -852,6 +856,7 @@
 				52A58AEE1CAA71020043DD1A /* Future+Zip.swift */,
 				52BA4C6C1CAC5B1900E1B29E /* Future+Recover.swift */,
 				520BBBBC1CADB71000E8010B /* Future+Merge.swift */,
+				520BBBCD1CADB95B00E8010B /* Future+Traverse.swift */,
 			);
 			path = Futures;
 			sourceTree = "<group>";
@@ -871,6 +876,7 @@
 				52A58AFF1CAA75E60043DD1A /* Future+ZipTests.swift */,
 				52BA4C7D1CAC5FD500E1B29E /* Future+RecoverTests.swift */,
 				52FBB59D1CB44AA500BA1DF3 /* Future+MergeTests.swift */,
+				52FBB5AE1CB44D3C00BA1DF3 /* Future+TraverseTests.swift */,
 			);
 			path = FuturesTests;
 			sourceTree = "<group>";
@@ -1754,6 +1760,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				520BBBCE1CADB95B00E8010B /* Future+Traverse.swift in Sources */,
 				52C664D61CA93E0E00CA7310 /* Future+FlatMap.swift in Sources */,
 				52051DA11C79D91D005F861A /* ReadWriteLock.swift in Sources */,
 				52051D9E1C79D91D005F861A /* Future.swift in Sources */,
@@ -1780,6 +1787,7 @@
 				52FBB59E1CB44AA500BA1DF3 /* Future+MergeTests.swift in Sources */,
 				529FDA1D1CA7EEA000D4768F /* Future+MapTests.swift in Sources */,
 				52308BE21CA99BA100F86384 /* Future+ReduceTests.swift in Sources */,
+				52FBB5AF1CB44D3C00BA1DF3 /* Future+TraverseTests.swift in Sources */,
 				52C664E71CA93E5300CA7310 /* Future+FlatMapTests.swift in Sources */,
 				526674391CA8914600DB0B5F /* Future+FilterTests.swift in Sources */,
 				52BA4C7E1CAC5FD500E1B29E /* Future+RecoverTests.swift in Sources */,

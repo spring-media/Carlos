@@ -216,7 +216,7 @@ queue.async { Void -> Int in
 
 ### Advanced usage with Futures
 
-Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `zip`, `reduce` and `merge`.
+Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `recover`, `zip`, `reduce` and `merge`. Moreover, `traverse` is available for all `SequenceType` values.
 
 #### FlatMap, Map, Filter
 
@@ -231,6 +231,48 @@ let newFuture = doStuff().filter { value in
 }
 
 // `newFuture` is now a Future<String> that will only succeed when the original Future succeeds with a value > 0
+```
+
+#### Recover
+
+It's now also possible to provide a "catch-all" handler to recover a failing `Future`:
+
+```swift
+let numberOfItemsTask: Future<Int> = doLongRunningTask()
+  .flatMap { result in
+    result.processAndPersist()
+  }.map { result in
+    result.numberOfItems
+  }.recover {
+    cache.lastNumberOfItems
+  }
+
+numberOfItemsTask.onSuccess { numberOfItems in
+  // This will be called even if one of the previous operations fails, with the rescue value `cache.lastNumberOfItems`
+  // ...
+}
+```
+
+#### Zip
+
+```swift
+// Example for zip
+
+let first: Future<Int> = doFoo()
+let second: Future<String> = doBar()
+
+let zipped = first.zip(second).onSuccess { (anInteger, aString) in 
+  // you get an Int and a String here
+}
+
+// or:
+
+let first: Future<Int> = doFoo()
+let second: Result<String> = doBar()
+
+let zipped = first.zip(second).onSuccess { (anInteger, aString) in 
+  // you get an Int and a String here
+}
 ```
 
 #### Reduce
@@ -259,47 +301,21 @@ let allServerResults = serverRequests.merge().onSuccess { results in
 }
 ``` 
 
-#### Zip
+#### Traverse
 
 ```swift
-// Example for zip
+// Let's assume this list contains some product identifiers 
+let productIdentifiers: [Int] = basketProductsIds()
 
-let first: Future<Int> = doFoo()
-let second: Future<String> = doBar()
-
-let zipped = first.zip(second).onSuccess { (anInteger, aString) in 
-  // you get an Int and a String here
+// With this `traverse` call we create a Future for every identifier (for instance to retrieve details of each product), and we merge the results into one final Future
+let allProductDetails = productIdentifiers.traverse({ productId in
+  // Let's assume this call returns a Future<Product>
+  ProductManager.retrieveDetailsForProduct(productId)
+}).onSuccess { products in
+  // We get here only if all futures succeed
+  // `products` is a [Product]
 }
-
-// or:
-
-let first: Future<Int> = doFoo()
-let second: Result<String> = doBar()
-
-let zipped = first.zip(second).onSuccess { (anInteger, aString) in 
-  // you get an Int and a String here
-}
-```
-
-#### Recover
-
-It's now also possible to provide a "catch-all" handler to recover a failing `Future`:
-
-```swift
-let numberOfItemsTask: Future<Int> = doLongRunningTask()
-  .flatMap { result in
-    result.processAndPersist()
-  }.map { result in
-    result.numberOfItems
-  }.recover {
-    cache.lastNumberOfItems
-  }
-
-numberOfItemsTask.onSuccess { numberOfItems in
-  // This will be called even if one of the previous operations fails, with the rescue value `cache.lastNumberOfItems`
-  // ...
-}
-```
+``` 
 
 ### Function composition
 
