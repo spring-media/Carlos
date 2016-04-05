@@ -24,14 +24,12 @@ public enum Result<T> {
     return mapped.future
   }
   
-  //TODO: Expose in a later version
   func map<U>(handler: T -> U) -> Future<U> {
     return _map { value, mapped in
       mapped.succeed(handler(value))
     }
   }
   
-  //TODO: Expose in a later version
   func flatMap<U>(handler: T -> Future<U>) -> Future<U> {
     return _map { value, flatMapped in
       flatMapped.mimic(handler(value))

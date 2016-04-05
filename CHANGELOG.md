@@ -19,6 +19,7 @@
   - a closure that returns a `Future<Bool>`
 - It's now possible to `reduce` a `SequenceType` of `Future`s into a new `Future` through a `combine` closure
 - It's now possible to `zip` a `Future` with either another `Future` or with a `Result`
+- Added `merge` to a `SequenceType` of `Future`s to collapse a list of `Future`s into a single one
 - Added `recover` to `Future` so that it's possible to provide a default value the `Future` can use instead of failing
 - Added `mimic` to `Result`
 

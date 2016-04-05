@@ -48,5 +48,3 @@ func helloString(input: String) -> String {
 }
 
 let composition = randomInt >>> stringifyInt >>> helloString
-
-composi

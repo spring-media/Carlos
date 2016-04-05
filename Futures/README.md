@@ -216,7 +216,7 @@ queue.async { Void -> Int in
 
 ### Advanced usage with Futures
 
-Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `zip` and `reduce`.
+Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `zip`, `reduce` and `merge`.
 
 #### FlatMap, Map, Filter
 
@@ -243,6 +243,19 @@ let serverRequests: [Future<Int>] = doFoo()
 let sumOfServerResults = serverRequests.reduce(0, combine: +).onSuccess {
   // We get here only if all futures succeed
   print("Sum of results is \($0)")
+}
+``` 
+
+#### Merge
+
+```swift
+// Let's assume this value contains a list of server requests where each request obtains the number of items in a given category
+let serverRequests: [Future<Int>] = doFoo()
+
+// With this `merge` call we collapse the requests into one containing the result of all of them, if they all succeeded
+let allServerResults = serverRequests.merge().onSuccess { results in
+  // We get here only if all futures succeed
+  // `results` is an [Int]
 }
 ``` 
 

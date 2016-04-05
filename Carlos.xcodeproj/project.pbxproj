@@ -88,6 +88,7 @@
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
 		520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */; };
 		520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */; };
+		520BBBBD1CADB71000E8010B /* Future+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BBBBC1CADB71000E8010B /* Future+Merge.swift */; };
 		5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD0E1BC04B43005B729F /* AppDelegate.swift */; };
 		5216CD111BC04B43005B729F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD101BC04B43005B729F /* ViewController.swift */; };
 		5216CD141BC04B43005B729F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216CD121BC04B43005B729F /* Main.storyboard */; };
@@ -284,6 +285,7 @@
 		52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */; };
 		52F064511B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */; };
 		52F064551B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */; };
+		52FBB59E1CB44AA500BA1DF3 /* Future+MergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FBB59D1CB44AA500BA1DF3 /* Future+MergeTests.swift */; };
 		AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */; };
 		AD64D9401B8DE58300C783D3 /* CarlosWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD64D97E1B8DE69200C783D3 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD64D97C1B8DE69200C783D3 /* Interface.storyboard */; };
@@ -586,6 +588,7 @@
 		520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PooledCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CappedRequestCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayedNetworkFetcher.swift; sourceTree = "<group>"; };
+		520BBBBC1CADB71000E8010B /* Future+Merge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Merge.swift"; sourceTree = "<group>"; };
 		5216CD0C1BC04B43005B729F /* CarlosTvSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosTvSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216CD0E1BC04B43005B729F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5216CD101BC04B43005B729F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -707,6 +710,7 @@
 		52F0644E1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064501B51AE4300145C98 /* NSNumberFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNumberFormatterTransformerTests.swift; sourceTree = "<group>"; };
 		52F064541B51B26200145C98 /* MKDistanceFormatterTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKDistanceFormatterTransformerTests.swift; sourceTree = "<group>"; };
+		52FBB59D1CB44AA500BA1DF3 /* Future+MergeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+MergeTests.swift"; sourceTree = "<group>"; };
 		AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheProvider.swift; sourceTree = "<group>"; };
 		AD64D93D1B8DE58300C783D3 /* CarlosWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CarlosWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD64D93F1B8DE58300C783D3 /* CarlosWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarlosWatch.h; sourceTree = "<group>"; };
@@ -847,6 +851,7 @@
 				52308BD01CA9474A00F86384 /* Future+Reduce.swift */,
 				52A58AEE1CAA71020043DD1A /* Future+Zip.swift */,
 				52BA4C6C1CAC5B1900E1B29E /* Future+Recover.swift */,
+				520BBBBC1CADB71000E8010B /* Future+Merge.swift */,
 			);
 			path = Futures;
 			sourceTree = "<group>";
@@ -865,6 +870,7 @@
 				52308BE11CA99BA100F86384 /* Future+ReduceTests.swift */,
 				52A58AFF1CAA75E60043DD1A /* Future+ZipTests.swift */,
 				52BA4C7D1CAC5FD500E1B29E /* Future+RecoverTests.swift */,
+				52FBB59D1CB44AA500BA1DF3 /* Future+MergeTests.swift */,
 			);
 			path = FuturesTests;
 			sourceTree = "<group>";
@@ -1759,6 +1765,7 @@
 				52051DA21C79D91D005F861A /* Result.swift in Sources */,
 				52308BD11CA9474A00F86384 /* Future+Reduce.swift in Sources */,
 				52051D9F1C79D91D005F861A /* GCD.swift in Sources */,
+				520BBBBD1CADB71000E8010B /* Future+Merge.swift in Sources */,
 				52BA4C6D1CAC5B1900E1B29E /* Future+Recover.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1770,6 +1777,7 @@
 				52051DBF1C79D984005F861A /* PromiseTests.swift in Sources */,
 				526FC9C81C7A244200300334 /* FunctionCompositionTests.swift in Sources */,
 				526FC9CA1C7A244900300334 /* GCDTests.swift in Sources */,
+				52FBB59E1CB44AA500BA1DF3 /* Future+MergeTests.swift in Sources */,
 				529FDA1D1CA7EEA000D4768F /* Future+MapTests.swift in Sources */,
 				52308BE21CA99BA100F86384 /* Future+ReduceTests.swift in Sources */,
 				52C664E71CA93E5300CA7310 /* Future+FlatMapTests.swift in Sources */,
