@@ -304,6 +304,9 @@
 		AD85580F1BA94FCA0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD8558101BA94FCB0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; };
+		ADC729231CB7D7FE000CCED3 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADC729331CB7D805000CCED3 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADC729341CB7D80B000CCED3 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 		C7C5D9671B55480300CDB402 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D94B1B55475B00CDB402 /* Nimble.framework */; };
 		C7C5D9681B55480300CDB402 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5D9621B55476300CDB402 /* Quick.framework */; };
@@ -494,6 +497,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				ADC729341CB7D80B000CCED3 /* PiedPiper.framework in Embed Frameworks */,
 				5216CD261BC04BD9005B729F /* CarlosTv.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -505,6 +509,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				ADC729331CB7D805000CCED3 /* PiedPiper.framework in Embed Frameworks */,
 				52CF0ADE1B920DD60061022D /* CarlosMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -538,6 +543,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				ADC729231CB7D7FE000CCED3 /* PiedPiper.framework in Embed Frameworks */,
 				52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
