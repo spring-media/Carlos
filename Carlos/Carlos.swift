@@ -14,10 +14,6 @@ internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> Fu
   return OneWayTransformationBox(transform: transformerClosure)
 }
 
-internal func wrapClosureIntoConditionedOneWayTransformer<A, B, K>(conditionedTransformerClosure: (key: K, value: A) -> Future<B>) -> ConditionedOneWayTransformationBox<K, A, B> {
-  return ConditionedOneWayTransformationBox(conditionalTransformClosure: conditionedTransformerClosure)
-}
-
 infix operator =>> { associativity left }
 
 /// An abstraction for a generic cache level

@@ -26,20 +26,13 @@ extension CacheLevel {
 
 private func conditionedClosure<A, B>(closure: A -> Future<B>, condition: A -> Future<Bool>) -> (A -> Future<B>) {
   return { input in
-    let request = Promise<B>()
-    
-    condition(input)
-      .onSuccess { passesCondition in
-        if passesCondition {
-          request.mimic(closure(input))
-        } else {
-          request.fail(FetchError.ConditionNotSatisfied)
-        }
+    return condition(input).flatMap { (passesCondition: Bool) -> Future<B> in
+      if passesCondition {
+        return closure(input)
+      } else {
+        return Future(FetchError.ConditionNotSatisfied)
       }
-      .onFailure(request.fail)
-      .onCancel(request.cancel)
-    
-    return request.future
+    }
   }
 }
 

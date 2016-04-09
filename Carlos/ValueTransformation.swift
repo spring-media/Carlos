@@ -12,16 +12,7 @@ extension Future {
   - returns: A new Future<B>
   */
   internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> Future<A.TypeOut> {
-    let mutatedRequest = Promise<A.TypeOut>()
-    
-    self
-      .onFailure(mutatedRequest.fail)
-      .onCancel(mutatedRequest.cancel)
-      .onSuccess { result in
-        mutatedRequest.mimic(transformer.transform(result))
-      }
-    
-    return mutatedRequest.future
+    return flatMap(transformer.transform)
   }
 
   /**
@@ -58,7 +49,7 @@ extension CacheLevel {
         transformer.inverseTransform(value)
           .onSuccess { transformedValue in
             self.set(transformedValue, forKey: key)
-        }
+          }
       },
       clearClosure: self.clear,
       memoryClosure: self.onMemoryWarning

@@ -17,7 +17,7 @@ extension CacheLevel {
   public func postProcess<A: OneWayTransformer where OutputType == A.TypeIn, A.TypeIn == A.TypeOut>(transformer: A) -> BasicCache<KeyType, OutputType> {
     return BasicCache(
       getClosure: { key in
-        return self.get(key).mutate(transformer)
+        self.get(key).mutate(transformer)
       },
       setClosure: self.set,
       clearClosure: self.clear,

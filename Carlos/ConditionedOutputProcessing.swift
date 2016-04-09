@@ -14,16 +14,9 @@ extension Future {
    - returns A new Future with the transformed value
    */
   internal func mutate<K, O, Transformer: ConditionedOneWayTransformer where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O>(key: K, conditionedTransformer: Transformer) -> Future<O> {
-    let mutatedRequest = Promise<O>()
-    
-    self
-      .onFailure(mutatedRequest.fail)
-      .onCancel(mutatedRequest.cancel)
-      .onSuccess { result in
-        mutatedRequest.mimic(conditionedTransformer.conditionalTransform(key, value: result))
+    return flatMap { result in
+      conditionedTransformer.conditionalTransform(key, value: result)
     }
-    
-    return mutatedRequest.future
   }
 }
 

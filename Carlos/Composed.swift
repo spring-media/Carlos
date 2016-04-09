@@ -31,20 +31,13 @@ extension CacheLevel {
         let request = Promise<A.OutputType>()
         
         self.get(key)
-          .onSuccess { result in
-            request.succeed(result)
-          }
+          .onSuccess(request.succeed)
           .onCancel(request.cancel)
           .onFailure { error in
-            cache.get(key)
-              .onSuccess { result in
-                request.succeed(result)
-                self.set(result, forKey: key)
-              }
-              .onCancel(request.cancel)
-              .onFailure{ error in
-                request.fail(error)
-              }
+            request.mimic(cache.get(key).map { result in
+              self.set(result, forKey: key)
+              return result
+            })
         }
         
         return request.future

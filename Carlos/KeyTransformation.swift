@@ -15,16 +15,7 @@ extension CacheLevel {
   public func transformKeys<A: OneWayTransformer where KeyType == A.TypeOut>(transformer: A) -> BasicCache<A.TypeIn, OutputType> {
     return BasicCache(
       getClosure: { key in
-        let result = Promise<OutputType>()
-        
-        transformer.transform(key)
-          .onSuccess { transformedKey in
-            result.mimic(self.get(transformedKey))
-          }
-          .onFailure(result.fail)
-          .onCancel(result.cancel)
-        
-        return result.future
+        transformer.transform(key).flatMap(self.get)
       },
       setClosure: { (value, key) in
         transformer.transform(key)
