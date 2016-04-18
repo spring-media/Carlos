@@ -47,18 +47,22 @@ public final class PThreadReadWriteLock: ReadWriteLock {
   }
   
   public func withReadLock<T>(@noescape body: () -> T) -> T {
-    let result: T
     pthread_rwlock_rdlock(lock)
-    result = body()
-    pthread_rwlock_unlock(lock)
-    return result
+    
+    defer {
+      pthread_rwlock_unlock(lock)
+    }
+    
+    return body()
   }
   
   public func withWriteLock<T>(@noescape body: () -> T) -> T {
-    let result: T
     pthread_rwlock_wrlock(lock)
-    result = body()
-    pthread_rwlock_unlock(lock)
-    return result
+    
+    defer {
+      pthread_rwlock_unlock(lock)
+    }
+    
+    return body()
   }
 }
