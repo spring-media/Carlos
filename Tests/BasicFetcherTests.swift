@@ -19,7 +19,7 @@ class BasicFetcherTests: QuickSpec {
         fetcher = BasicFetcher<String, Int>(
           getClosure: { key in
             didGetKey = key
-            numberOfTimesCalledGet++
+            numberOfTimesCalledGet += 1
             
             return fakeRequest.future
           }

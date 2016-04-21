@@ -28,20 +28,20 @@ class BasicCacheTests: QuickSpec {
         cache = BasicCache<String, Int>(
           getClosure: { key in
             didGetKey = key
-            numberOfTimesCalledGet++
+            numberOfTimesCalledGet += 1
             
             return fakeRequest.future
           },
           setClosure: { (value, key) in
             didSetKey = key
             didSetValue = value
-            numberOfTimesCalledSet++
+            numberOfTimesCalledSet += 1
           },
           clearClosure: {
-            numberOfTimesCalledClear++
+            numberOfTimesCalledClear += 1
           },
           memoryClosure: {
-            numberOfTimesCalledOnMemoryWarning++
+            numberOfTimesCalledOnMemoryWarning += 1
           }
         )
       }

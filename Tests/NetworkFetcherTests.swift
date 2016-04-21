@@ -31,7 +31,7 @@ class NetworkFetcherTests: QuickSpec {
           for _ in 0..<simultaneousRequests {
             sut.get(url).onSuccess({ data in
               dispatch_sync(lockQueue) {
-                finished++
+                finished += 1
               }
             })
           }

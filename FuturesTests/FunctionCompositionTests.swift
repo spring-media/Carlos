@@ -15,7 +15,7 @@ class FunctionCompositionTests: QuickSpec {
           "\($0)"
         }
         
-        var composed: (Void -> String?)!
+        var composed: (Void -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -35,7 +35,7 @@ class FunctionCompositionTests: QuickSpec {
           print("\($0)")
         }
         
-        var composed: (Void -> Void?)!
+        var composed: (Void -> Void)!
         
         beforeEach {
           composed = first >>> second
@@ -56,7 +56,7 @@ class FunctionCompositionTests: QuickSpec {
           "hello!"
         }
         
-        var composed: (Int -> String?)!
+        var composed: (Int -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -76,7 +76,7 @@ class FunctionCompositionTests: QuickSpec {
           print("hello!")
         }
         
-        var composed: (Int -> Void?)!
+        var composed: (Int -> Void)!
         
         beforeEach {
           composed = first >>> second
@@ -97,7 +97,7 @@ class FunctionCompositionTests: QuickSpec {
           "...world!"
         }
         
-        var composed: (Void -> String?)!
+        var composed: (Void -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -117,7 +117,7 @@ class FunctionCompositionTests: QuickSpec {
           print("...world!")
         }
         
-        var composed: (Void -> Void?)!
+        var composed: (Void -> Void)!
         
         beforeEach {
           composed = first >>> second
@@ -138,7 +138,7 @@ class FunctionCompositionTests: QuickSpec {
           input.uppercaseString
         }
         
-        var composed: (String -> String?)!
+        var composed: (String -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -158,7 +158,7 @@ class FunctionCompositionTests: QuickSpec {
           print(input)
         }
         
-        var composed: (Int -> Void?)!
+        var composed: (Int -> Void)!
         
         beforeEach {
           composed = first >>> second

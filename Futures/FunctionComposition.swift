@@ -21,6 +21,20 @@ public func >>> <A, B, C>(f: A -> B?, g: B -> C?) -> A -> C? {
 }
 
 /**
+ Composes two sync closures
+ 
+ - parameter f: A closure taking an A parameter and returning a value of type B
+ - parameter g: A closure taking a B parameter and returning a value of type C
+ 
+ - returns: A closure taking an A parameter and returning a value of type C obtained by combining f and g through g(f(x))
+ */
+public func >>> <A, B, C>(f: A -> B, g: B -> C) -> A -> C {
+  return { x in
+    g(f(x))
+  }
+}
+
+/**
 Composes two async (Future) closures
 
 - parameter f: A closure taking an A parameter and returning a Future<B> (basically a future for a B return type)
