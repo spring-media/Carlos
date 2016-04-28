@@ -22,6 +22,14 @@
 - Added `merge` to a `SequenceType` of `Future`s to collapse a list of `Future`s into a single one
 - Added `traverse` to `SequenceType` to generate a list of `Future`s through a given closure and `merge` them together
 - Added `recover` to `Future` so that it's possible to provide a default value the `Future` can use instead of failing
+- It's now possible to `map` `Result`s through:
+  - a simple transformation closure
+  - a closure that `throws`
+- It's now possible to `flatMap` `Result`s through:
+  - a closure that returns an `Optional`
+  - a closure that returns a `Future`
+  - a closure that returns another `Result`
+- It's now possible to `filter` `Result`s through a simple condition closure  
 - Added `mimic` to `Result`
 
 

@@ -47,19 +47,19 @@ class FutureFilterTests: QuickSpec {
             promise.fail(error)
           }
           
-          it("should also fail the flitered future") {
+          it("should also fail the filtered future") {
             expect(failureValue).notTo(beNil())
           }
           
-          it("should fail the flitered future with the same error") {
+          it("should fail the filtered future with the same error") {
             expect(failureValue as? TestError).to(equal(error))
           }
           
-          it("should not succeed the flitered future") {
+          it("should not succeed the filtered future") {
             expect(successValue).to(beNil())
           }
           
-          it("should not cancel the flitered future") {
+          it("should not cancel the filtered future") {
             expect(wasCanceled).to(beFalse())
           }
         }
@@ -69,15 +69,15 @@ class FutureFilterTests: QuickSpec {
             promise.cancel()
           }
           
-          it("should also cancel the flitered future") {
+          it("should also cancel the filtered future") {
             expect(wasCanceled).to(beTrue())
           }
           
-          it("should not succeed the flitered future") {
+          it("should not succeed the filtered future") {
             expect(successValue).to(beNil())
           }
           
-          it("should not fail the flitered future") {
+          it("should not fail the filtered future") {
             expect(failureValue).to(beNil())
           }
         }
@@ -90,19 +90,19 @@ class FutureFilterTests: QuickSpec {
               promise.succeed(result)
             }
             
-            it("should also succeed the flitered future") {
+            it("should also succeed the filtered future") {
               expect(successValue).notTo(beNil())
             }
             
-            it("should succeed the flitered future with the original value") {
+            it("should succeed the filtered future with the original value") {
               expect(successValue).to(equal(result))
             }
             
-            it("should not fail the flitered future") {
+            it("should not fail the filtered future") {
               expect(failureValue).to(beNil())
             }
             
-            it("should not cancel the flitered future") {
+            it("should not cancel the filtered future") {
               expect(wasCanceled).to(beFalse())
             }
           }
@@ -114,11 +114,11 @@ class FutureFilterTests: QuickSpec {
               promise.succeed(result)
             }
             
-            it("should not succeed the flitered future") {
+            it("should not succeed the filtered future") {
               expect(successValue).to(beNil())
             }
             
-            it("should fail the flitered future") {
+            it("should fail the filtered future") {
               expect(failureValue).notTo(beNil())
             }
             
@@ -126,7 +126,7 @@ class FutureFilterTests: QuickSpec {
               expect(failureValue as? FutureFilteringError).to(equal(FutureFilteringError.ConditionUnsatisfied))
             }
             
-            it("should not cancel the flitered future") {
+            it("should not cancel the filtered future") {
               expect(wasCanceled).to(beFalse())
             }
           }
@@ -171,19 +171,19 @@ class FutureFilterTests: QuickSpec {
             promise.fail(error)
           }
           
-          it("should also fail the flitered future") {
+          it("should also fail the filtered future") {
             expect(failureValue).notTo(beNil())
           }
           
-          it("should fail the flitered future with the same error") {
+          it("should fail the filtered future with the same error") {
             expect(failureValue as? TestError).to(equal(error))
           }
           
-          it("should not succeed the flitered future") {
+          it("should not succeed the filtered future") {
             expect(successValue).to(beNil())
           }
           
-          it("should not cancel the flitered future") {
+          it("should not cancel the filtered future") {
             expect(wasCanceled).to(beFalse())
           }
         }
@@ -193,15 +193,15 @@ class FutureFilterTests: QuickSpec {
             promise.cancel()
           }
           
-          it("should also cancel the flitered future") {
+          it("should also cancel the filtered future") {
             expect(wasCanceled).to(beTrue())
           }
           
-          it("should not succeed the flitered future") {
+          it("should not succeed the filtered future") {
             expect(successValue).to(beNil())
           }
           
-          it("should not fail the flitered future") {
+          it("should not fail the filtered future") {
             expect(failureValue).to(beNil())
           }
         }
@@ -214,19 +214,19 @@ class FutureFilterTests: QuickSpec {
               promise.succeed(result)
             }
             
-            it("should also succeed the flitered future") {
+            it("should also succeed the filtered future") {
               expect(successValue).notTo(beNil())
             }
             
-            it("should succeed the flitered future with the original value") {
+            it("should succeed the filtered future with the original value") {
               expect(successValue).to(equal(result))
             }
             
-            it("should not fail the flitered future") {
+            it("should not fail the filtered future") {
               expect(failureValue).to(beNil())
             }
             
-            it("should not cancel the flitered future") {
+            it("should not cancel the filtered future") {
               expect(wasCanceled).to(beFalse())
             }
           }
@@ -238,11 +238,11 @@ class FutureFilterTests: QuickSpec {
               promise.succeed(result)
             }
             
-            it("should not succeed the flitered future") {
+            it("should not succeed the filtered future") {
               expect(successValue).to(beNil())
             }
             
-            it("should fail the flitered future") {
+            it("should fail the filtered future") {
               expect(failureValue).notTo(beNil())
             }
             
@@ -250,7 +250,7 @@ class FutureFilterTests: QuickSpec {
               expect(failureValue as? FutureFilteringError).to(equal(FutureFilteringError.ConditionUnsatisfied))
             }
             
-            it("should not cancel the flitered future") {
+            it("should not cancel the filtered future") {
               expect(wasCanceled).to(beFalse())
             }
           }
@@ -262,11 +262,11 @@ class FutureFilterTests: QuickSpec {
               promise.succeed(result)
             }
             
-            it("should not succeed the flitered future") {
+            it("should not succeed the filtered future") {
               expect(successValue).to(beNil())
             }
             
-            it("should fail the flitered future") {
+            it("should fail the filtered future") {
               expect(failureValue).notTo(beNil())
             }
             
@@ -274,7 +274,7 @@ class FutureFilterTests: QuickSpec {
               expect(failureValue as? TestError).to(equal(TestError.SimpleError))
             }
             
-            it("should not cancel the flitered future") {
+            it("should not cancel the filtered future") {
               expect(wasCanceled).to(beFalse())
             }
           }
@@ -286,15 +286,15 @@ class FutureFilterTests: QuickSpec {
               promise.succeed(result)
             }
             
-            it("should not succeed the flitered future") {
+            it("should not succeed the filtered future") {
               expect(successValue).to(beNil())
             }
             
-            it("should not fail the flitered future") {
+            it("should not fail the filtered future") {
               expect(failureValue).to(beNil())
             }
             
-            it("should cancel the flitered future") {
+            it("should cancel the filtered future") {
               expect(wasCanceled).to(beTrue())
             }
           }

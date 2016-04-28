@@ -218,6 +218,8 @@ queue.async { Void -> Int in
 
 Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `recover`, `zip`, `reduce` and `merge`. Moreover, `traverse` is available for all `SequenceType` values.
 
+Keep in mind that some of these functions (`map`, `flatMap` and `filter`) are also available on `Result` values. They work just like their `Future` counterparts.
+
 #### FlatMap, Map, Filter
 
 ```swift
@@ -389,7 +391,7 @@ composition(1).onSuccess { result in
 
 We use [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble) instead of `XCTest` in order to have a good BDD test layout.
 
-As of today, there are around **500 tests** for `Pied Piper` (see the folder `FuturesTests`).
+As of today, there are around **600 tests** for `Pied Piper` (see the folder `FuturesTests`).
 
 ## Future development
 
