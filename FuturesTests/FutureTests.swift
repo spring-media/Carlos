@@ -40,7 +40,7 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not call the closures") {
-          expect(successSentinels.filter({ $0 == nil }).count).to(equal(successSentinels.count))
+          expect(successSentinels.filter({ $0 == nil }).count).toEventually(equal(successSentinels.count))
         }
       }
       
@@ -54,13 +54,7 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should immediately call the closures") {
-          expect(failureSentinels.filter({ $0 != nil }).count).to(equal(failureSentinels.count))
-        }
-        
-        it("should pass the right error") {
-          for fSentinel in failureSentinels {
-            expect(fSentinel as? TestError).to(equal(TestError.SimpleError))
-          }
+          expect(failureSentinels.filter({ $0 != nil }).count).toEventually(equal(failureSentinels.count))
         }
       }
       
@@ -74,7 +68,7 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not call the closures") {
-          expect(cancelSentinels.filter({ $0 == nil}).count).to(equal(cancelSentinels.count))
+          expect(cancelSentinels.filter({ $0 == nil}).count).toEventually(equal(cancelSentinels.count))
         }
       }
       
@@ -95,17 +89,11 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should immediately call the closures") {
-          expect(failureSentinels.filter({ $0 != nil }).count).to(equal(failureSentinels.count))
-        }
-        
-        it("should pass the right error") {
-          for fSentinel in failureSentinels {
-            expect(fSentinel as? TestError).to(equal(TestError.SimpleError))
-          }
+          expect(failureSentinels.filter({ $0 != nil }).count).toEventually(equal(failureSentinels.count))
         }
         
         it("should not pass a value") {
-          expect(successSentinels.filter({ $0 == nil }).count).to(equal(successSentinels.count))
+          expect(successSentinels.filter({ $0 == nil }).count).toEventually(equal(successSentinels.count))
         }
       }
     }
@@ -136,11 +124,11 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should immediately call the closures") {
-          expect(successSentinels.filter({ $0 != nil }).count).to(equal(successSentinels.count))
+          expect(successSentinels.filter({ $0 != nil }).count).toEventually(equal(successSentinels.count))
         }
         
         it("should pass the right value") {
-          expect(successSentinels).to(allPass({ $0! == value }))
+          expect(successSentinels).toEventually(allPass({ $0! == value }))
         }
       }
       
@@ -154,7 +142,7 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not call the closures") {
-          expect(cancelSentinels.filter({ $0 == nil}).count).to(equal(cancelSentinels.count))
+          expect(cancelSentinels.filter({ $0 == nil}).count).toEventually(equal(cancelSentinels.count))
         }
       }
       
@@ -168,7 +156,7 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not call the closures") {
-          expect(failureSentinels.filter({ $0 == nil }).count).to(equal(failureSentinels.count))
+          expect(failureSentinels.filter({ $0 == nil }).count).toEventually(equal(failureSentinels.count))
         }
       }
       
@@ -189,11 +177,11 @@ class FutureSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not call the closures passing an error") {
-          expect(failureSentinels.filter({ $0 == nil }).count).to(equal(failureSentinels.count))
+          expect(failureSentinels.filter({ $0 == nil }).count).toEventually(equal(failureSentinels.count))
         }
         
         it("should call the closures passing a value") {
-          expect(successSentinels).to(allPass({ $0! == value }))
+          expect(successSentinels).toEventually(allPass({ $0! == value }))
         }
       }
     }
@@ -398,6 +386,39 @@ class FutureTests: QuickSpec {
         }
       }
       
+      context("when initialized with a closure") {
+        context("when the closure returns a value") {
+          let value = "Hi!"
+          
+          beforeEach {
+            future = Future {
+              value
+            }
+          }
+          
+          itBehavesLike("success case") {
+            [
+              FutureSharedExamplesContext.Future: future,
+              FutureSharedExamplesContext.Value: value
+            ]
+          }
+        }
+        
+        context("when the closure returns nil") {
+          beforeEach {
+            future = Future {
+              nil
+            }
+          }
+          
+          itBehavesLike("failure case") {
+            [
+              FutureSharedExamplesContext.Future: future
+            ]
+          }
+        }
+      }
+      
       context("when initialized with a value") {
         let value = "this is a sync success value"
 
@@ -412,7 +433,7 @@ class FutureTests: QuickSpec {
           ]
         }
       }
-
+      
       context("when initialized with an optional value and an error") {
         context("when the optional value is nil") {
           beforeEach {

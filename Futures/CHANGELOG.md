@@ -7,6 +7,8 @@
 - `Promise` now has only an empty `init`. If you used one of the convenience `init` (with `value:`, with `error:` or with `value:error:`), they now moved to `Future`.
 
 **New features**
+- Adds `value` and `error` properties to `Result`
+- Added a way to initialize `Future`s through closures
 - It's now possible to `map` `Future`s through:
   - a simple transformation closure
   - a closure that `throws`

@@ -31,7 +31,7 @@ extension CacheLevel {
     keys.enumerate().forEach { (iteration, key) in
       batchedRequests.append(get(key)
         .onCompletion { result in
-          if case .Success(let value) = result {
+          if let value = result.value {
             resultsLock.withWriteLock {
               intermediateResults[iteration] = value
             }

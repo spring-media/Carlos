@@ -91,6 +91,14 @@
 		520BBBBD1CADB71000E8010B /* Future+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BBBBC1CADB71000E8010B /* Future+Merge.swift */; };
 		520BBBCE1CADB95B00E8010B /* Future+Traverse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BBBCD1CADB95B00E8010B /* Future+Traverse.swift */; };
 		520BF1C61CBA6D9100F074C4 /* Result+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BF1C51CBA6D9100F074C4 /* Result+Map.swift */; };
+		521392D71CE86E0C004D70E9 /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521392D61CE86E0C004D70E9 /* ResultTests.swift */; };
+		521429E01CE85EBF00DA87C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521429DF1CE85EBF00DA87C7 /* AppDelegate.swift */; };
+		521429E21CE85EBF00DA87C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521429E11CE85EBF00DA87C7 /* ViewController.swift */; };
+		521429E51CE85EBF00DA87C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521429E31CE85EBF00DA87C7 /* Main.storyboard */; };
+		521429E71CE85EBF00DA87C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 521429E61CE85EBF00DA87C7 /* Assets.xcassets */; };
+		521429EA1CE85EBF00DA87C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521429E81CE85EBF00DA87C7 /* LaunchScreen.storyboard */; };
+		521429FE1CE85F6F00DA87C7 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; };
+		521429FF1CE85F6F00DA87C7 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52051D741C79D903005F861A /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD0E1BC04B43005B729F /* AppDelegate.swift */; };
 		5216CD111BC04B43005B729F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD101BC04B43005B729F /* ViewController.swift */; };
 		5216CD141BC04B43005B729F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216CD121BC04B43005B729F /* Main.storyboard */; };
@@ -389,6 +397,13 @@
 			remoteGlobalIDString = 52051D731C79D903005F861A;
 			remoteInfo = Futures;
 		};
+		52142A001CE85F6F00DA87C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52051D731C79D903005F861A;
+			remoteInfo = PiedPiper;
+		};
 		5216CD271BC04BD9005B729F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD695CD71B46CD65004E998D /* Project object */;
@@ -497,6 +512,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		52142A021CE85F7000DA87C7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				521429FF1CE85F6F00DA87C7 /* PiedPiper.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5216CD291BC04BD9005B729F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -605,6 +631,14 @@
 		520BBBBC1CADB71000E8010B /* Future+Merge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Merge.swift"; sourceTree = "<group>"; };
 		520BBBCD1CADB95B00E8010B /* Future+Traverse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+Traverse.swift"; sourceTree = "<group>"; };
 		520BF1C51CBA6D9100F074C4 /* Result+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+Map.swift"; sourceTree = "<group>"; };
+		521392D61CE86E0C004D70E9 /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
+		521429DD1CE85EBF00DA87C7 /* PiedPiperSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiedPiperSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		521429DF1CE85EBF00DA87C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		521429E11CE85EBF00DA87C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		521429E41CE85EBF00DA87C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		521429E61CE85EBF00DA87C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		521429E91CE85EBF00DA87C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		521429EB1CE85EBF00DA87C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5216CD0C1BC04B43005B729F /* CarlosTvSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosTvSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216CD0E1BC04B43005B729F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5216CD101BC04B43005B729F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -772,6 +806,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		521429DA1CE85EBF00DA87C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				521429FE1CE85F6F00DA87C7 /* PiedPiper.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5216CD091BC04B43005B729F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -901,8 +943,22 @@
 				524B2F031CD15B670008CC3D /* Result+FilterTests.swift */,
 				528187FC1CD2AB77001DEFB6 /* Result+MapTests.swift */,
 				5281880D1CD2AD6A001DEFB6 /* Result+FlatMapTests.swift */,
+				521392D61CE86E0C004D70E9 /* ResultTests.swift */,
 			);
 			path = FuturesTests;
+			sourceTree = "<group>";
+		};
+		521429DE1CE85EBF00DA87C7 /* PiedPiperSample */ = {
+			isa = PBXGroup;
+			children = (
+				521429DF1CE85EBF00DA87C7 /* AppDelegate.swift */,
+				521429E11CE85EBF00DA87C7 /* ViewController.swift */,
+				521429E31CE85EBF00DA87C7 /* Main.storyboard */,
+				521429E61CE85EBF00DA87C7 /* Assets.xcassets */,
+				521429E81CE85EBF00DA87C7 /* LaunchScreen.storyboard */,
+				521429EB1CE85EBF00DA87C7 /* Info.plist */,
+			);
+			path = PiedPiperSample;
 			sourceTree = "<group>";
 		};
 		5216CD0D1BC04B43005B729F /* CarlosTvSample */ = {
@@ -1125,6 +1181,7 @@
 				5216CD0D1BC04B43005B729F /* CarlosTvSample */,
 				52051D751C79D903005F861A /* Futures */,
 				52051DB01C79D950005F861A /* FuturesTests */,
+				521429DE1CE85EBF00DA87C7 /* PiedPiperSample */,
 				AD695CE01B46CD65004E998D /* Products */,
 				2677A0397774353D4B14F63F /* Frameworks */,
 			);
@@ -1145,6 +1202,7 @@
 				5216CD0C1BC04B43005B729F /* CarlosTvSample.app */,
 				52051D741C79D903005F861A /* PiedPiper.framework */,
 				52051DAF1C79D950005F861A /* PiedPiperTests.xctest */,
+				521429DD1CE85EBF00DA87C7 /* PiedPiperSample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1297,6 +1355,25 @@
 			productName = FuturesTests;
 			productReference = 52051DAF1C79D950005F861A /* PiedPiperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		521429DC1CE85EBF00DA87C7 /* PiedPiperSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 521429FD1CE85EBF00DA87C7 /* Build configuration list for PBXNativeTarget "PiedPiperSample" */;
+			buildPhases = (
+				521429D91CE85EBF00DA87C7 /* Sources */,
+				521429DA1CE85EBF00DA87C7 /* Frameworks */,
+				521429DB1CE85EBF00DA87C7 /* Resources */,
+				52142A021CE85F7000DA87C7 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52142A011CE85F6F00DA87C7 /* PBXTargetDependency */,
+			);
+			name = PiedPiperSample;
+			productName = PiedPiperSample;
+			productReference = 521429DD1CE85EBF00DA87C7 /* PiedPiperSample.app */;
+			productType = "com.apple.product-type.application";
 		};
 		5216CD0B1BC04B43005B729F /* CarlosTvSample */ = {
 			isa = PBXNativeTarget;
@@ -1492,7 +1569,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = WeltN24;
 				TargetAttributes = {
@@ -1501,6 +1578,9 @@
 					};
 					52051DAE1C79D950005F861A = {
 						CreatedOnToolsVersion = 7.2;
+					};
+					521429DC1CE85EBF00DA87C7 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 					5216CD0B1BC04B43005B729F = {
 						CreatedOnToolsVersion = 7.1;
@@ -1569,6 +1649,7 @@
 				AD64D9851B8DE69200C783D3 /* CarlosWatchSample Extension */,
 				52CF0ACD1B920DC20061022D /* CarlosMacSample */,
 				5216CD0B1BC04B43005B729F /* CarlosTvSample */,
+				521429DC1CE85EBF00DA87C7 /* PiedPiperSample */,
 			);
 		};
 /* End PBXProject section */
@@ -1693,6 +1774,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		521429DB1CE85EBF00DA87C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				521429EA1CE85EBF00DA87C7 /* LaunchScreen.storyboard in Resources */,
+				521429E71CE85EBF00DA87C7 /* Assets.xcassets in Resources */,
+				521429E51CE85EBF00DA87C7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1822,7 +1913,17 @@
 				52BA4C7E1CAC5FD500E1B29E /* Future+RecoverTests.swift in Sources */,
 				52051DBE1C79D984005F861A /* FutureTests.swift in Sources */,
 				52A58B001CAA75E60043DD1A /* Future+ZipTests.swift in Sources */,
+				521392D71CE86E0C004D70E9 /* ResultTests.swift in Sources */,
 				524B2F041CD15B670008CC3D /* Result+FilterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		521429D91CE85EBF00DA87C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				521429E21CE85EBF00DA87C7 /* ViewController.swift in Sources */,
+				521429E01CE85EBF00DA87C7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2151,6 +2252,11 @@
 			target = 52051D731C79D903005F861A /* PiedPiper */;
 			targetProxy = 52051DF31C79DD8D005F861A /* PBXContainerItemProxy */;
 		};
+		52142A011CE85F6F00DA87C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52051D731C79D903005F861A /* PiedPiper */;
+			targetProxy = 52142A001CE85F6F00DA87C7 /* PBXContainerItemProxy */;
+		};
 		5216CD281BC04BD9005B729F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 52D805A91BC03995000F0733 /* CarlosTv */;
@@ -2193,6 +2299,22 @@
 				5208637D1B64268E00F740C7 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		521429E31CE85EBF00DA87C7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				521429E41CE85EBF00DA87C7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		521429E81CE85EBF00DA87C7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				521429E91CE85EBF00DA87C7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		5216CD121BC04B43005B729F /* Main.storyboard */ = {
@@ -2295,6 +2417,35 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		521429EC1CE85EBF00DA87C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = PiedPiperSample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		521429ED1CE85EBF00DA87C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = PiedPiperSample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2815,6 +2966,15 @@
 			buildConfigurations = (
 				52051DB81C79D950005F861A /* Debug */,
 				52051DB91C79D950005F861A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		521429FD1CE85EBF00DA87C7 /* Build configuration list for PBXNativeTarget "PiedPiperSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				521429EC1CE85EBF00DA87C7 /* Debug */,
+				521429ED1CE85EBF00DA87C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -700,7 +700,7 @@ class PromiseTests: QuickSpec {
             
             beforeEach {
               request.onCompletion { result in
-                if case .Success(let value) = result {
+                if let value = result.value {
                   subsequentSuccessSentinel = value
                 }
               }

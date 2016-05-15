@@ -9,6 +9,10 @@ public protocol Async {
   var future: Future<Value> { get }
 }
 
+public enum FutureInitializationError: ErrorType {
+  case ClosureReturnedNil
+}
+
 /// This class is a read-only Promise.
 public class Future<T>: Async {
   public typealias Value = T
@@ -30,6 +34,29 @@ public class Future<T>: Async {
    */
   public convenience init(_ value: T) {
     self.init(promise: Promise(value))
+  }
+  
+  /**
+   Initializes a new Future and makes it succeed (or fail) with the result of the given closure
+   
+   - parameter closure: The closure that will be evaluated on a background thread
+   
+   The initialized future will succeed if the result of the closure is .Some, and will fail with a FutureInitializationError.ClosureReturnedNil if it's .None. The future will report on the main queue
+   */
+  public convenience init(closure: Void -> T?) {
+    let promise = Promise<T>()
+    
+    self.init(promise: promise)
+    
+    GCD.background {
+      closure()
+    }.main { result in
+      if let result = result {
+        promise.succeed(result)
+      } else {
+        promise.fail(FutureInitializationError.ClosureReturnedNil)
+      }
+    }
   }
   
   /**
