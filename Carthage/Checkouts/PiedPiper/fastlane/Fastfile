@@ -1,0 +1,11 @@
+# https://github.com/KrauseFx/fastlane/tree/master/docs
+# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
+
+fastlane_version "1.85.0"
+
+desc "Runs all the tests"
+lane :test do
+  ENV["FASTLANE_XCODE_LIST_TIMEOUT"] = "30"
+  clear_derived_data
+  scan(scheme: 'PiedPiper')
+end
