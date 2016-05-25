@@ -75,6 +75,10 @@
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
 		520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */; };
 		520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */; };
+		520DBB4F1CF6307500F9ABE3 /* BatchAllCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */; };
+		520DBB5F1CF6322E00F9ABE3 /* BatchAllCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */; };
+		520DBB601CF6322E00F9ABE3 /* BatchAllCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */; };
+		520DBB611CF6322F00F9ABE3 /* BatchAllCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */; };
 		5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD0E1BC04B43005B729F /* AppDelegate.swift */; };
 		5216CD111BC04B43005B729F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD101BC04B43005B729F /* ViewController.swift */; };
 		5216CD141BC04B43005B729F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216CD121BC04B43005B729F /* Main.storyboard */; };
@@ -525,6 +529,7 @@
 		520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PooledCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CappedRequestCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayedNetworkFetcher.swift; sourceTree = "<group>"; };
+		520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchAllCache.swift; sourceTree = "<group>"; };
 		5216CD0C1BC04B43005B729F /* CarlosTvSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosTvSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216CD0E1BC04B43005B729F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5216CD101BC04B43005B729F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -766,6 +771,7 @@
 		52635A1E1B4F0F3D00F187EE /* Carlos */ = {
 			isa = PBXGroup;
 			children = (
+				520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */,
 				52051DC01C79D9B4005F861A /* Dispatched.swift */,
 				AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */,
 				AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */,
@@ -1606,6 +1612,7 @@
 				526339751B52435C00074CB9 /* KeyTransformation.swift in Sources */,
 				AD22FB2D1B70BBF6007F319F /* CacheProvider.swift in Sources */,
 				5207E6AD1BE15BCE0062DEAC /* NSUserDefaultsCacheLevel.swift in Sources */,
+				520DBB4F1CF6307500F9ABE3 /* BatchAllCache.swift in Sources */,
 				52C0F62E1B58E0BB004AAB61 /* DeferredCacheRequestOperation.swift in Sources */,
 				52E6E2461B5BFB5E00C3DF6C /* GenericOperation.swift in Sources */,
 				52615CD41BBC8123001DA9BE /* ComposedOneWayTransformer.swift in Sources */,
@@ -1704,6 +1711,7 @@
 				52CF0AB61B9203B30061022D /* Transformers.swift in Sources */,
 				52CF0AB71B9203B30061022D /* TwoWayTransformer.swift in Sources */,
 				52CF0AB81B9203B30061022D /* KeyTransformation.swift in Sources */,
+				520DBB601CF6322E00F9ABE3 /* BatchAllCache.swift in Sources */,
 				52CF0AB91B9203B30061022D /* RequestCapperCache.swift in Sources */,
 				AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */,
@@ -1777,6 +1785,7 @@
 				52C3198B1BC0459F00893D19 /* MemoryCacheLevel.swift in Sources */,
 				5222108E1C501F2100E682D1 /* ConditionedTwoWayTransformer.swift in Sources */,
 				52C319831BC0459F00893D19 /* Carlos.swift in Sources */,
+				520DBB611CF6322F00F9ABE3 /* BatchAllCache.swift in Sources */,
 				5207E69C1BE13D2E0062DEAC /* ExpensiveObject.swift in Sources */,
 				52C319981BC0459F00893D19 /* CacheProvider.swift in Sources */,
 				52C319961BC0459F00893D19 /* DeferredCacheRequestOperation.swift in Sources */,
@@ -1790,6 +1799,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				520DBB5F1CF6322E00F9ABE3 /* BatchAllCache.swift in Sources */,
 				52051DC51C79DD51005F861A /* Dispatched.swift in Sources */,
 				52051DC61C79DD51005F861A /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52051DC71C79DD51005F861A /* BasicCache.swift in Sources */,

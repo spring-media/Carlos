@@ -3,7 +3,7 @@
 ## 0.9
 
 **Breaking changes**
-- `batchGetAll` has been removed and replaced with a reified `BatchAllCache`
+- `batchGetAll` has been deprecated and replaced with a reified `allBatch` (see **New features**)
 
 **New Features**
 - It's now possible to lift a `CacheLevel` into one that operates on a sequence of keys and returns a sequence of values. You can use `allBatch` to create a concrete `BatchAllCache`. You can use `get` on this cache if you want to pass a list of keys and get the success callback when **all** of them succeed and the failure callback **as soon as one** of them fails (old behavior of `batchGetAll`), or you can compose or transform an `allBatch` cache just like any another `CacheLevel`. Consult the `README.md` for an example.

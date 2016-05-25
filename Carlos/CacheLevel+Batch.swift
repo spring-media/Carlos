@@ -9,6 +9,7 @@ extension CacheLevel {
    
    - returns: A Future that will call the success callback when ALL the keys will be fetched successfully, and the failure callback as soon as JUST ONE of the keys cannot be fetched.
    */
+  @available(*, deprecated=0.9)
   public func batchGetAll(keys: [KeyType]) -> Future<[OutputType]> {
     return keys.traverse(get)
   }
