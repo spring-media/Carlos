@@ -516,9 +516,9 @@ Now we can execute multiple fetches for the same `Image` value and be sure that 
 
 ### Batching get requests
 
-Since `Carlos 0.7` you can pass a list of keys to your `CacheLevel` through `batchGetAll` and `batchGetSome`.
-The former returns a `Future` that succeeds only when the requests for **all** of the specified keys succeed, and fails **as soon as one** of the requests for the specified keys fails.
-The latter returns a `Future` that succeeds when all the requests for the specified keys *complete*, not necessarily succeeding. You will only get the successful values in the success callback, though.
+Since `Carlos 0.9` you can transform your `CacheLevel` into one that takes a list of keys through `allBatch` and `someBatch`.
+Calling `get` on the former returns a `Future` that succeeds only when the requests for **all** of the specified keys succeed, and fails **as soon as one** of the requests for the specified keys fails.
+Calling `get` on the latter returns a `Future` that succeeds when all the requests for the specified keys *complete*, not necessarily succeeding. You will only get the successful values in the success callback, though.
 If you cancel the `Future` returned by either API, all of the pending requests are canceled, too.
 
 An example of the usage:
@@ -533,7 +533,7 @@ for iter in 0..<99 {
 
 let keysToBatch = (0..<100).map { "key_\($0)" }
 
-cache.batchGetAll(keysToBatch)
+cache.allBatch().get(keysToBatch)
   .onSuccess { values in
     print("Got \(values.count) values in total")
   }.onFailure {
@@ -550,7 +550,7 @@ for iter in 0..<99 {
 
 let keysToBatch = (0..<100).map { "key_\($0)" }
 
-cache.batchGetSome(keysToBatch)
+cache.someBatch().get(keysToBatch)
   .onSuccess { values in
     print("Got \(values.count) values in total")
   }.onFailure {
@@ -558,7 +558,16 @@ cache.batchGetSome(keysToBatch)
   }
 ```
 
-In this case the `batchGetAll` call will fail because there are only 99 keys set and the last request will make the whole batch fail, with a `ValueNotInCache` error. The `batchGetSome` will succeed instead, printing `Got 99 values in total`.
+In this case the `allBatch().get` call will fail because there are only 99 keys set and the last request will make the whole batch fail, with a `ValueNotInCache` error. The `someBatch().get` will succeed instead, printing `Got 99 values in total`.
+
+
+Since `allBatch` and `someBatch` return new `CacheLevel`s, they can be composed or transformed just like any other cache:
+
+```swift
+let cache = MemoryCacheLevel<String, Int>().allBatch().capRequests(3)
+```
+
+In this case `cache` is a cache that takes a sequence of `String` keys and returns a `Future` of a list of `Int` values, but is limitted to 3 concurrent requests (see below for more information on limiting concurrent requests).
 
 ### Limiting concurrent requests
 
