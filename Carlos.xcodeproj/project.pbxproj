@@ -79,6 +79,7 @@
 		520DBB5F1CF6322E00F9ABE3 /* BatchAllCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */; };
 		520DBB601CF6322E00F9ABE3 /* BatchAllCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */; };
 		520DBB611CF6322F00F9ABE3 /* BatchAllCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520DBB4E1CF6307500F9ABE3 /* BatchAllCache.swift */; };
+		520DBB621CF632F800F9ABE3 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52B29CE51CEA227A00B5B277 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD0E1BC04B43005B729F /* AppDelegate.swift */; };
 		5216CD111BC04B43005B729F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD101BC04B43005B729F /* ViewController.swift */; };
 		5216CD141BC04B43005B729F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5216CD121BC04B43005B729F /* Main.storyboard */; };
@@ -448,6 +449,7 @@
 			files = (
 				52BED3551CE87C44002C045A /* Nimble.framework in CopyFiles */,
 				52BED3571CE87C44002C045A /* Quick.framework in CopyFiles */,
+				520DBB621CF632F800F9ABE3 /* PiedPiper.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
