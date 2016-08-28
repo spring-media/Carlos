@@ -18,9 +18,8 @@ extension CacheLevel {
         transformer.transform(key).flatMap(self.get)
       },
       setClosure: { (value, key) in
-        transformer.transform(key)
-          .onSuccess { transformedKey in
-            self.set(value, forKey: transformedKey)
+        return transformer.transform(key).flatMap { transformedKey in
+          self.set(value, forKey: transformedKey)
         }
       },
       clearClosure: self.clear,

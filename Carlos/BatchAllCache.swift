@@ -1,13 +1,17 @@
 import PiedPiper
 
 /// A reified batchGetAll
-public struct BatchAllCache<KeySeq: SequenceType, Cache: CacheLevel where KeySeq.Generator.Element == Cache.KeyType>: CacheLevel {
+public final class BatchAllCache<KeySeq: SequenceType, Cache: CacheLevel where KeySeq.Generator.Element == Cache.KeyType>: CacheLevel {
   /// A sequence of keys for the wrapped cache
   public typealias KeyType = KeySeq
   /// An array of output elements
   public typealias OutputType = [Cache.OutputType]
 
   private let cache: Cache
+  
+  public init(cache: Cache) {
+    self.cache = cache
+  }
 
   /**
    Dispatch each key in the sequence in parallel
@@ -20,10 +24,12 @@ public struct BatchAllCache<KeySeq: SequenceType, Cache: CacheLevel where KeySeq
   /**
   Zip the keys with the values and set them all
   */
-  public func set(value: OutputType, forKey key: KeyType) {
-    zip(key, value).forEach { (k, v) in
-      self.cache.set(v, forKey: k)
-    }
+  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+    return zip(value, key)
+      .map(cache.set)
+      .reduce(Future<()>(), combine: { previous, current in
+        previous.flatMap { current }
+      })
   }
 
   public func clear() {

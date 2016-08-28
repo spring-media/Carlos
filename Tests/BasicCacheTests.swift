@@ -15,7 +15,8 @@ class BasicCacheTests: QuickSpec {
       var didSetKey: String?
       var didSetValue: Int?
       var didGetKey: String?
-      var fakeRequest: Promise<Int>!
+      var getResult: Promise<Int>!
+      var setResult: Promise<()>!
       
       beforeEach {
         numberOfTimesCalledClear = 0
@@ -23,19 +24,22 @@ class BasicCacheTests: QuickSpec {
         numberOfTimesCalledOnMemoryWarning = 0
         numberOfTimesCalledSet = 0
         
-        fakeRequest = Promise<Int>()
+        getResult = Promise<Int>()
+        setResult = Promise<()>()
         
         cache = BasicCache<String, Int>(
           getClosure: { key in
             didGetKey = key
             numberOfTimesCalledGet += 1
             
-            return fakeRequest.future
+            return getResult.future
           },
           setClosure: { (value, key) in
             didSetKey = key
             didSetValue = value
             numberOfTimesCalledSet += 1
+            
+            return setResult.future
           },
           clearClosure: {
             numberOfTimesCalledClear += 1
@@ -48,10 +52,19 @@ class BasicCacheTests: QuickSpec {
       
       context("when calling get") {
         let key = "key to test"
-        var request: Future<Int>!
+        var succeeded: Int?
+        var failed: ErrorType?
+        var canceled: Bool!
         
         beforeEach {
-          request = cache.get(key)
+          canceled = false
+          failed = nil
+          succeeded = nil
+          
+          cache.get(key)
+            .onSuccess { succeeded = $0 }
+            .onFailure { failed = $0 }
+            .onCancel { canceled = true }
         }
         
         it("should call the closure") {
@@ -61,14 +74,58 @@ class BasicCacheTests: QuickSpec {
         it("should pass the right key") {
           expect(didGetKey).to(equal(key))
         }
+        
+        context("when the get closure succeeds") {
+          let value = 3
+          
+          beforeEach {
+            getResult.succeed(value)
+          }
+          
+          it("should succeed the future") {
+            expect(succeeded).to(equal(value))
+          }
+        }
+        
+        context("when the get clousure is canceled") {
+          beforeEach {
+            getResult.cancel()
+          }
+          
+          it("should cancel the future") {
+            expect(canceled).to(beTrue())
+          }
+        }
+        
+        context("when the get closure fails") {
+          let error = TestError.AnotherError
+          
+          beforeEach {
+            getResult.fail(error)
+          }
+          
+          it("should fail the future") {
+            expect(failed as? TestError).to(equal(error))
+          }
+        }
       }
       
       context("when calling set") {
         let key = "test key"
         let value = 101
+        var succeeded: Bool!
+        var failed: ErrorType?
+        var canceled: Bool!
         
         beforeEach {
+          succeeded = false
+          failed = nil
+          canceled = false
+          
           cache.set(value, forKey: key)
+            .onSuccess { _ in succeeded = true }
+            .onFailure { failed = $0 }
+            .onCancel { canceled = true }
         }
         
         it("should call the closure") {
@@ -81,6 +138,38 @@ class BasicCacheTests: QuickSpec {
         
         it("should pass the right value") {
           expect(didSetValue).to(equal(value))
+        }
+        
+        context("when the set closure succeeds") {
+          beforeEach {
+            setResult.succeed()
+          }
+          
+          it("should succeed the future") {
+            expect(succeeded).to(beTrue())
+          }
+        }
+        
+        context("when the set clousure is canceled") {
+          beforeEach {
+            setResult.cancel()
+          }
+          
+          it("should cancel the future") {
+            expect(canceled).to(beTrue())
+          }
+        }
+        
+        context("when the set closure fails") {
+          let error = TestError.AnotherError
+          
+          beforeEach {
+            setResult.fail(error)
+          }
+          
+          it("should fail the future") {
+            expect(failed as? TestError).to(equal(error))
+          }
         }
       }
       

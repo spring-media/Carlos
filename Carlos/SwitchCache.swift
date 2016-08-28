@@ -77,9 +77,9 @@ public func switchLevels<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyTy
     setClosure: { (value, key) in
       switch switchClosure(key: key) {
       case .CacheA:
-        cacheA.set(value, forKey: key)
+        return cacheA.set(value, forKey: key)
       case .CacheB:
-        cacheB.set(value, forKey: key)
+        return cacheB.set(value, forKey: key)
       }
     },
     clearClosure: {

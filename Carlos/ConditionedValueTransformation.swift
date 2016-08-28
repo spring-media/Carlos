@@ -37,10 +37,10 @@ extension CacheLevel {
         self.get(key).mutate(key, conditionedTransformer: transformer)
       },
       setClosure: { (value, key) in
-        transformer.conditionalInverseTransform(key, value: value)
-          .onSuccess { transformedValue in
+        return transformer.conditionalInverseTransform(key, value: value)
+          .flatMap { transformedValue in
             self.set(transformedValue, forKey: key)
-          }
+          }.future
       },
       clearClosure: self.clear,
       memoryClosure: self.onMemoryWarning

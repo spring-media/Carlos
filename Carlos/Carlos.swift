@@ -38,8 +38,10 @@ public protocol CacheLevel {
   
   - parameter value: The bytes to set on the cache level
   - parameter key: The key of the value you're trying to set
+   
+  - returns: A Future that will reflect the status of the set operation
   */
-  func set(value: OutputType, forKey key: KeyType)
+  func set(value: OutputType, forKey key: KeyType) -> Future<()>
   
   /**
   Asks to clear the cache level
@@ -64,5 +66,7 @@ extension Fetcher {
   public func onMemoryWarning() {}
   
   /// No-op
-  public func set(value: OutputType, forKey key: KeyType) {}
+  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+    return Future()
+  }
 }

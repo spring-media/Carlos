@@ -61,9 +61,17 @@ class MemoryCacheLevelTests: QuickSpec {
         let value = "value"
         var result: NSString?
         var failureSentinel: Bool?
+        var didWrite: Bool!
         
         beforeEach {
-          cache.set(value, forKey: key)
+          didWrite = false
+          cache.set(value, forKey: key).onSuccess {
+            didWrite = true
+          }
+        }
+        
+        it("should immediately succeed the future") {
+          expect(didWrite).to(beTrue())
         }
         
         context("when calling get") {

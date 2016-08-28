@@ -96,8 +96,8 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   - parameter value: The value to set
   - parameter key: The key for the value
   */
-  public func set(value: C.OutputType, forKey key: C.KeyType) {
-    internalCache.set(value, forKey: key)
+  public func set(value: C.OutputType, forKey key: C.KeyType) -> Future<()> {
+    return internalCache.set(value, forKey: key)
   }
   
   /**

@@ -205,12 +205,23 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling set") {
         let value = 30
+        var setSucceeded: Bool!
+        var setError: ErrorType?
+        
+        beforeEach {
+          setSucceeded = false
+          setError = nil
+        }
         
         context("when the switch closure returns cacheA") {
           let key = "quite long key"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            finalCache.set(value, forKey: key).onSuccess {
+              setSucceeded = true
+            }.onFailure {
+              setError = $0
+            }
           }
           
           it("should not dispatch the call to the second cache") {
@@ -228,13 +239,43 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           it("should pass the right value") {
             expect(cacheA.didSetValue).to(equal(value))
           }
+          
+          context("when set succeeds") {
+            beforeEach {
+              cacheA.setPromisesReturned.first?.succeed()
+            }
+            
+            it("should succeed") {
+              expect(setSucceeded).to(beTrue())
+            }
+          }
+          
+          context("when set fails") {
+            let setFailure = TestError.AnotherError
+            
+            beforeEach {
+              cacheA.setPromisesReturned.first?.fail(setFailure)
+            }
+            
+            it("should fail") {
+              expect(setError).notTo(beNil())
+            }
+            
+            it("should pass the error through") {
+              expect(setError as? TestError).to(equal(setFailure))
+            }
+          }
         }
         
         context("when the switch closure returns cacheB") {
           let key = "short"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            finalCache.set(value, forKey: key).onSuccess {
+              setSucceeded = true
+            }.onFailure {
+              setError = $0
+            }
           }
           
           it("should not dispatch the call to the first cache") {
@@ -251,6 +292,32 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           
           it("should pass the right value") {
             expect(cacheB.didSetValue).to(equal(value))
+          }
+          
+          context("when set succeeds") {
+            beforeEach {
+              cacheB.setPromisesReturned.first?.succeed()
+            }
+            
+            it("should succeed") {
+              expect(setSucceeded).to(beTrue())
+            }
+          }
+          
+          context("when set fails") {
+            let setFailure = TestError.AnotherError
+            
+            beforeEach {
+              cacheB.setPromisesReturned.first?.fail(setFailure)
+            }
+            
+            it("should fail") {
+              expect(setError).notTo(beNil())
+            }
+            
+            it("should pass the error through") {
+              expect(setError as? TestError).to(equal(setFailure))
+            }
           }
         }
       }
@@ -305,12 +372,23 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling set") {
         let value = 30
+        var setSucceeded: Bool!
+        var setError: ErrorType?
+        
+        beforeEach {
+          setSucceeded = false
+          setError = nil
+        }
         
         context("when the switch closure returns cacheA") {
           let key = "quite long key"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            finalCache.set(value, forKey: key).onSuccess {
+              setSucceeded = true
+            }.onFailure {
+              setError = $0
+            }
           }
           
           it("should not dispatch the call to the second cache") {
@@ -327,6 +405,32 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           
           it("should pass the right value") {
             expect(cacheA.didSetValue).to(equal(value))
+          }
+          
+          context("when set succeeds") {
+            beforeEach {
+              cacheA.setPromisesReturned.first?.succeed()
+            }
+            
+            it("should succeed") {
+              expect(setSucceeded).to(beTrue())
+            }
+          }
+          
+          context("when set fails") {
+            let setFailure = TestError.AnotherError
+            
+            beforeEach {
+              cacheA.setPromisesReturned.first?.fail(setFailure)
+            }
+            
+            it("should fail") {
+              expect(setError).notTo(beNil())
+            }
+            
+            it("should pass the error through") {
+              expect(setError as? TestError).to(equal(setFailure))
+            }
           }
         }
         
@@ -397,6 +501,13 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling set") {
         let value = 30
+        var setSucceeded: Bool!
+        var setError: ErrorType?
+        
+        beforeEach {
+          setSucceeded = false
+          setError = nil
+        }
         
         context("when the switch closure returns cacheA") {
           let key = "quite long key"
@@ -418,7 +529,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            finalCache.set(value, forKey: key).onSuccess {
+              setSucceeded = true
+            }.onFailure {
+              setError = $0
+            }
           }
           
           it("should not dispatch the call to the first cache") {
@@ -435,6 +550,32 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           
           it("should pass the right value") {
             expect(cacheB.didSetValue).to(equal(value))
+          }
+          
+          context("when set succeeds") {
+            beforeEach {
+              cacheB.setPromisesReturned.first?.succeed()
+            }
+            
+            it("should succeed") {
+              expect(setSucceeded).to(beTrue())
+            }
+          }
+          
+          context("when set fails") {
+            let setFailure = TestError.AnotherError
+            
+            beforeEach {
+              cacheB.setPromisesReturned.first?.fail(setFailure)
+            }
+            
+            it("should fail") {
+              expect(setError).notTo(beNil())
+            }
+            
+            it("should pass the error through") {
+              expect(setError as? TestError).to(equal(setFailure))
+            }
           }
         }
       }

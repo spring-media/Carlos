@@ -94,9 +94,18 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
       context("when calling set") {
         let key = "test_key"
         let value = 30
+        var setSucceeded: Bool!
+        var setError: ErrorType?
         
         beforeEach {
-          cache.set(value, forKey: key)
+          setSucceeded = false
+          setError = nil
+        
+          cache.set(value, forKey: key).onSuccess {
+            setSucceeded = true
+          }.onFailure {
+            setError = $0
+          }
         }
         
         it("should forward it to the internal cache") {
@@ -113,6 +122,33 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         
         it("should forward the calls on the right queue") {
           expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(queue)))
+        }
+        
+        //TODO: Find a way to call succeed() and fail(_) after some time to take into account the gcd.async call
+        pending("when set succeeds") {
+          beforeEach {
+            internalCache.setPromisesReturned.first?.succeed()
+          }
+          
+          it("should succeed") {
+            expect(setSucceeded).toEventually(beTrue())
+          }
+        }
+        
+        pending("when set fails") {
+          let setFailure = TestError.AnotherError
+          
+          beforeEach {
+            internalCache.setPromisesReturned.first?.fail(setFailure)
+          }
+          
+          it("should fail") {
+            expect(setError).toEventuallyNot(beNil())
+          }
+          
+          it("should pass the error through") {
+            expect(setError as? TestError).toEventually(equal(setFailure))
+          }
         }
       }
       

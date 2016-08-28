@@ -52,9 +52,11 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject where T: 
   - parameter value: The value to set
   - parameter key: The key for the value
   */
-  public func set(value: T, forKey key: K) {
+  public func set(value: T, forKey key: K) -> Future<()> {
     Logger.log("Setting a value for the key \(key.toString()) on the memory cache \(self)")
     internalCache.setObject(value, forKey: key.toString(), cost: value.cost)
+    
+    return Future()
   }
   
   /**

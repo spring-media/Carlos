@@ -31,7 +31,6 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         var failureSentinel: Bool?
         var cancelSentinel: Bool!
         var successValue: Int?
-        var resultRequest: Future<Int>!
         
         beforeEach {
           cancelSentinel = false
@@ -50,15 +49,15 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             cache.numberOfTimesCalledSet = 0
           }
           
-          resultRequest = composedCache.get(key)
-          .onSuccess { result in
-            successSentinel = true
-            successValue = result
-          }.onFailure { _ in
-            failureSentinel = true
-          }.onCancel {
-            cancelSentinel = true
-          }
+          composedCache.get(key)
+            .onSuccess { result in
+              successSentinel = true
+              successValue = result
+            }.onFailure { _ in
+              failureSentinel = true
+            }.onCancel {
+              cancelSentinel = true
+            }
         }
         
         it("should not call any success closure") {
@@ -238,18 +237,8 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         let key = "test key"
         var cache1Request: Promise<Int>!
         var cache2Request: Promise<Int>!
-        var successSentinel: Bool?
-        var failureSentinel: Bool?
-        var successValue: Int?
-        var cancelSentinel: Bool!
-        var resultRequest: Future<Int>!
         
         beforeEach {
-          cancelSentinel = false
-          successSentinel = nil
-          failureSentinel = nil
-          successValue = nil
-          
           cache1Request = Promise<Int>()
           cache1.cacheRequestToReturn = cache1Request.future
           
@@ -261,15 +250,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
             cache.numberOfTimesCalledSet = 0
           }
           
-          resultRequest = composedCache.get(key)
-          .onSuccess { result in
-            successSentinel = true
-            successValue = result
-          }.onFailure { _ in
-            failureSentinel = true
-          }.onCancel {
-            cancelSentinel = true
-          }
+          composedCache.get(key)
         }
         
         itBehavesLike("get without considering set calls") {
@@ -312,7 +293,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("first cache is a cache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("both caches are caches") { (sharedExampleContext: SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -323,12 +304,38 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
+      itBehavesLike("first cache is a cache") {
+        [
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+        ]
+      }
+      
+      itBehavesLike("second cache is a cache") {
+        [
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+        ]
+      }
+      
       context("when calling set") {
         let key = "this key"
         let value = 102
+        var succeeded: Bool!
+        var failed: ErrorType?
+        var canceled: Bool!
         
         beforeEach {
+          succeeded = false
+          failed = nil
+          canceled = false
+          
           composedCache.set(value, forKey: key)
+            .onSuccess { _ in succeeded = true }
+            .onFailure { failed = $0 }
+            .onCancel { canceled = true }
         }
         
         it("should call set on the first cache") {
@@ -341,6 +348,141 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         it("should pass the right value on the first cache") {
           expect(cache1.didSetValue).to(equal(value))
+        }
+        
+        context("when the set closure succeeds") {
+          beforeEach {
+            cache1.setPromisesReturned[0].succeed()
+          }
+          
+          it("should call set on the second cache") {
+            expect(cache2.numberOfTimesCalledSet).to(equal(1))
+          }
+          
+          it("should pass the right key on the second cache") {
+            expect(cache2.didSetKey).to(equal(key))
+          }
+          
+          it("should pass the right value on the second cache") {
+            expect(cache2.didSetValue).to(equal(value))
+          }
+          
+          context("when the set closure succeeds") {
+            beforeEach {
+              cache2.setPromisesReturned[0].succeed()
+            }
+            
+            it("should succeed the future") {
+              expect(succeeded).to(beTrue())
+            }
+          }
+          
+          context("when the set clousure is canceled") {
+            beforeEach {
+              cache2.setPromisesReturned[0].cancel()
+            }
+            
+            it("should cancel the future") {
+              expect(canceled).to(beTrue())
+            }
+          }
+          
+          context("when the set closure fails") {
+            let error = TestError.AnotherError
+            
+            beforeEach {
+              cache2.setPromisesReturned[0].fail(error)
+            }
+            
+            it("should fail the future") {
+              expect(failed as? TestError).to(equal(error))
+            }
+          }
+        }
+        
+        context("when the set clousure is canceled") {
+          beforeEach {
+            cache1.setPromisesReturned[0].cancel()
+          }
+          
+          it("should cancel the future") {
+            expect(canceled).to(beTrue())
+          }
+        }
+        
+        context("when the set closure fails") {
+          let error = TestError.AnotherError
+          
+          beforeEach {
+            cache1.setPromisesReturned[0].fail(error)
+          }
+          
+          it("should fail the future") {
+            expect(failed as? TestError).to(equal(error))
+          }
+        }
+      }
+    }
+    
+    sharedExamples("first cache is a cache") { (sharedExampleContext: SharedExampleContext) in
+      var cache1: CacheLevelFake<String, Int>!
+      var composedCache: BasicCache<String, Int>!
+      
+      beforeEach {
+        cache1 = sharedExampleContext()[ComposedCacheSharedExamplesContext.FirstComposedCache] as? CacheLevelFake<String, Int>
+        composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
+      }
+      
+      context("when calling set") {
+        let key = "this key"
+        let value = 102
+        var succeeded: Bool!
+        var failed: ErrorType?
+        var canceled: Bool!
+        
+        beforeEach {
+          succeeded = false
+          failed = nil
+          canceled = false
+          
+          composedCache.set(value, forKey: key)
+            .onSuccess { _ in succeeded = true }
+            .onFailure { failed = $0 }
+            .onCancel { canceled = true }
+        }
+        
+        it("should call set on the first cache") {
+          expect(cache1.numberOfTimesCalledSet).to(equal(1))
+        }
+        
+        it("should pass the right key on the first cache") {
+          expect(cache1.didSetKey).to(equal(key))
+        }
+        
+        it("should pass the right value on the first cache") {
+          expect(cache1.didSetValue).to(equal(value))
+        }
+        
+        context("when the set clousure is canceled") {
+          beforeEach {
+            cache1.setPromisesReturned[0].cancel()
+          }
+          
+          it("should cancel the future") {
+            expect(canceled).to(beTrue())
+          }
+        }
+        
+        context("when the set closure fails") {
+          let error = TestError.AnotherError
+          
+          beforeEach {
+            cache1.setPromisesReturned[0].fail(error)
+          }
+          
+          it("should fail the future") {
+            expect(failed as? TestError).to(equal(error))
+          }
         }
       }
       
@@ -366,8 +508,8 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
     }
     
     sharedExamples("second cache is a cache") { (sharedExampleContext: SharedExampleContext) in
-      var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
+      var cache1: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
       
       beforeEach {
@@ -379,9 +521,19 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       context("when calling set") {
         let key = "this key"
         let value = 102
+        var succeeded: Bool!
+        var failed: ErrorType?
+        var canceled: Bool!
         
         beforeEach {
+          succeeded = false
+          failed = nil
+          canceled = false
+          
           composedCache.set(value, forKey: key)
+            .onSuccess { _ in succeeded = true }
+            .onFailure { failed = $0 }
+            .onCancel { canceled = true }
         }
         
         it("should call set on the second cache") {
@@ -394,6 +546,41 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         it("should pass the right value on the second cache") {
           expect(cache2.didSetValue).to(equal(value))
+        }
+        
+        context("when the set closure succeeds") {
+          beforeEach {
+            cache1.setPromisesReturned.first?.succeed()
+            cache2.setPromisesReturned[0].succeed()
+          }
+          
+          it("should succeed the future") {
+            expect(succeeded).to(beTrue())
+          }
+        }
+        
+        context("when the set clousure is canceled") {
+          beforeEach {
+            cache1.setPromisesReturned.first?.cancel()
+            cache2.setPromisesReturned[0].cancel()
+          }
+          
+          it("should cancel the future") {
+            expect(canceled).to(beTrue())
+          }
+        }
+        
+        context("when the set closure fails") {
+          let error = TestError.AnotherError
+          
+          beforeEach {
+            cache1.setPromisesReturned.first?.fail(error)
+            cache2.setPromisesReturned[0].fail(error)
+          }
+          
+          it("should fail the future") {
+            expect(failed as? TestError).to(equal(error))
+          }
         }
       }
       
@@ -512,16 +699,8 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
-        
-      itBehavesLike("first cache is a cache") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
       
-      itBehavesLike("second cache is a cache") {
+      itBehavesLike("both caches are caches") {
         [
           ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
           ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,

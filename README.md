@@ -716,10 +716,15 @@ class MyLevel: CacheLevel {
     return request.future
   }
 
-  func set(value: OutputType, forKey key: KeyType) {
-    // Store the value (db, memory, file, etc)
+  func set(value: OutputType, forKey key: KeyType) -> Future<()> {  
+ 	let promise = Promise<OutputType>()
+ 
+    // Store the value (db, memory, file, etc) and call this on completion:
+    promise.succeed()
+ 
+    return promise.future
   }
-
+  
   func clear() {
     // Clear the stored values
   }
@@ -738,7 +743,7 @@ The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarn
 
 `get` has to return a `Future`, we can create a `Promise` in the beginning of the method body and return its associated `Future` by calling `future` on it. Then we inform the listeners by calling `succeed` or `fail` on it depending on the outcome of the fetch. These calls can (and most of the times will) be asynchronous.
 
-`set` has to store the given value for the given key.
+`set` has to return a `Future` signaling the result of the operation. It also has to store the given value for the given key.
 
 `clear` expresses the intent to wipe the cache level.
 
@@ -813,7 +818,7 @@ This cache level is thread-safe.
 
 **DiskCacheLevel** is a persistent cache that asynchronously stores its values on disk. The capacity can be specified through the initializer, so that the disk size will never get too big.
 It accepts keys of any given type that conforms to the `StringConvertible` protocol and can store values of any given type that conforms to the `NSCoding` protocol.
-This cache level is thread-safe.
+This cache level is thread-safe, and currently the only `CacheLevel` that can fail when calling `set`, with a `DiskCacheLevelError.DiskArchiveWriteFailed` error.
 
 **NetworkFetcher** is a cache level that asynchronously fetches values over the network.
 It accepts `NSURL` keys and returns `NSData` values.

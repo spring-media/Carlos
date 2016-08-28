@@ -43,8 +43,10 @@ extension CacheLevel {
         return request.future
       },
       setClosure: { (value, key) in
-        self.set(value, forKey: key)
-        cache.set(value, forKey: key)
+        let firstWrite = self.set(value, forKey: key)
+        let secondWrite = cache.set(value, forKey: key)
+        
+        return firstWrite.flatMap { secondWrite }
       },
       clearClosure: {
         self.clear()

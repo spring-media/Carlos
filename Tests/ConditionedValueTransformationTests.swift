@@ -202,12 +202,25 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
       }
       
       context("when calling set") {
+        var failed: ErrorType?
+        var succeeded: Bool!
+        var canceled: Bool!
+        
+        beforeEach {
+          canceled = false
+          succeeded = false
+          failed = nil
+        }
+        
         context("when the condition is met") {
           let key = "10"
           let value: Float = 222
           
           beforeEach {
             cache.set(value, forKey: key)
+              .onSuccess { _ in succeeded = true }
+              .onFailure { failed = $0 }
+              .onCancel { canceled = true }
           }
           
           it("should forward the call to the internal cache") {
@@ -221,6 +234,38 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
           it("should pass the right value") {
             expect(internalCache.didSetValue).to(equal(Int(value)))
           }
+          
+          context("when the set closure succeeds") {
+            beforeEach {
+              internalCache.setPromisesReturned[0].succeed()
+            }
+            
+            it("should succeed the future") {
+              expect(succeeded).to(beTrue())
+            }
+          }
+          
+          context("when the set clousure is canceled") {
+            beforeEach {
+              internalCache.setPromisesReturned[0].cancel()
+            }
+            
+            it("should cancel the future") {
+              expect(canceled).to(beTrue())
+            }
+          }
+          
+          context("when the set closure fails") {
+            let error = TestError.AnotherError
+            
+            beforeEach {
+              internalCache.setPromisesReturned[0].fail(error)
+            }
+            
+            it("should fail the future") {
+              expect(failed as? TestError).to(equal(error))
+            }
+          }
         }
         
         context("when the condition is not met") {
@@ -229,10 +274,17 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
           
           beforeEach {
             cache.set(value, forKey: key)
+              .onSuccess { _ in succeeded = true }
+              .onFailure { failed = $0 }
+              .onCancel { canceled = true }
           }
           
           it("should not forward the call to the internal cache") {
             expect(internalCache.numberOfTimesCalledSet).to(equal(0))
+          }
+          
+          it("should fail the future") {
+            expect(failed).notTo(beNil())
           }
         }
       }

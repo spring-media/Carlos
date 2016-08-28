@@ -90,9 +90,13 @@ class DiskCacheTests: QuickSpec {
         let value = "value".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
         var result: NSData?
         var failureSentinel: Bool?
+        var writeSucceeded: Bool!
         
         beforeEach {
-          cache.set(value, forKey: key)
+          writeSucceeded = false
+          cache.set(value, forKey: key).onSuccess {
+            writeSucceeded = true
+          }
         }
         
         it("should save the key on disk") {
@@ -101,6 +105,11 @@ class DiskCacheTests: QuickSpec {
         
         it("should save the data on disk") {
           expect(NSKeyedUnarchiver.unarchiveObjectWithFile((path as NSString).stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(value))
+        }
+        
+        // TODO: How to simulate failure during writing in order to test it?
+        it("should eventually succeed") {
+          expect(writeSucceeded).toEventually(beTrue())
         }
         
         context("when calling get") {

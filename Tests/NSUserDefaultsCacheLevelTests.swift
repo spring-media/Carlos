@@ -70,11 +70,19 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
         let value = "value"
         var result: NSString?
         var failureSentinel: Bool?
+        var didWrite: Bool!
         
         beforeEach {
-          cache.set(value, forKey: key)
+          didWrite = false
+          cache.set(value, forKey: key).onSuccess {
+            didWrite = true
+          }
           secondCache.set(value, forKey: key)
           standardCache.setObject(value, forKey: key)
+        }
+        
+        it("should eventually succeed the set future") {
+          expect(didWrite).toEventually(beTrue())
         }
         
         context("when calling get") {

@@ -181,9 +181,18 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
       context("when calling set") {
         let key = "test_key"
         let value = 30
+        var setSucceeded: Bool!
+        var setError: ErrorType?
         
         beforeEach {
-          cache.set(value, forKey: key)
+          setSucceeded = false
+          setError = nil
+        
+          cache.set(value, forKey: key).onSuccess {
+            setSucceeded = true
+          }.onFailure {
+            setError = $0
+          }
         }
         
         it("should forward it to the internal cache") {
@@ -196,6 +205,32 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         
         it("should set the right value") {
           expect(internalCache.didSetValue).to(equal(value))
+        }
+        
+        context("when set succeeds") {
+          beforeEach {
+            internalCache.setPromisesReturned.first?.succeed()
+          }
+          
+          it("should succeed") {
+            expect(setSucceeded).to(beTrue())
+          }
+        }
+        
+        context("when set fails") {
+          let setFailure = TestError.AnotherError
+          
+          beforeEach {
+            internalCache.setPromisesReturned.first?.fail(setFailure)
+          }
+          
+          it("should fail") {
+            expect(setError).notTo(beNil())
+          }
+          
+          it("should pass the error through") {
+            expect(setError as? TestError).to(equal(setFailure))
+          }
         }
         
         context("when calling it multiple times") {

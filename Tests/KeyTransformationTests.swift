@@ -167,12 +167,24 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       }
       
       context("when calling set") {
+        var setSucceeded: Bool!
+        var setError: ErrorType?
+        
+        beforeEach {
+          setSucceeded = false
+          setError = nil
+        }
+        
         context("when the transformation closure returns a value") {
           let key = 10
           let value = 222
           
           beforeEach {
-            cache.set(value, forKey: key)
+            cache.set(value, forKey: key).onSuccess {
+              setSucceeded = true
+            }.onFailure {
+              setError = $0
+            }
           }
           
           it("should forward the call to the internal cache") {
@@ -188,6 +200,30 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           it("should pass the right value") {
             expect(internalCache.didSetValue).to(equal(value))
           }
+          
+          context("when the set succeeds") {
+            beforeEach {
+              internalCache.setPromisesReturned.first?.succeed()
+            }
+            
+            it("should succeed") {
+              expect(setSucceeded).to(beTrue())
+            }
+          }
+          
+          context("when the set fails") {
+            beforeEach {
+              internalCache.setPromisesReturned.first?.fail(TestError.AnotherError)
+            }
+            
+            it("should fail") {
+              expect(setError).notTo(beNil())
+            }
+            
+            it("should pass the error through") {
+              expect(setError as? TestError).to(equal(TestError.AnotherError))
+            }
+          }
         }
         
         context("when the transformation closure fails") {
@@ -195,11 +231,23 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           let value = 222
           
           beforeEach {
-            cache.set(value, forKey: key)
+            cache.set(value, forKey: key).onSuccess {
+              setSucceeded = true
+            }.onFailure {
+              setError = $0
+            }
           }
           
           it("should not forward the call to the internal cache") {
             expect(internalCache.numberOfTimesCalledSet).to(equal(0))
+          }
+          
+          it("should fail") {
+            expect(setError).notTo(beNil())
+          }
+          
+          it("should pass the transformation error") {
+            expect(setError as? TestError).to(equal(TestError.SimpleError))
           }
         }
       }
