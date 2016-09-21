@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		523568041D72EA5A00AAB8C4 /* Future+All.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523568031D72EA5A00AAB8C4 /* Future+All.swift */; };
+		523568061D72EAD900AAB8C4 /* Future+AllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523568051D72EAD900AAB8C4 /* Future+AllTests.swift */; };
 		52B29CF71CEA236E00B5B277 /* PiedPiper-Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 52B29CF61CEA236E00B5B277 /* PiedPiper-Mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52B29CFC1CEA23A000B5B277 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2DC1CE8718D002C045A /* FunctionComposition.swift */; };
 		52B29CFD1CEA23A000B5B277 /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2DD1CE8718D002C045A /* Future.swift */; };
@@ -68,8 +70,7 @@
 		52BED32B1CE871BB002C045A /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED31B1CE871BB002C045A /* ResultTests.swift */; };
 		52BED32D1CE8731F002C045A /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52BED32C1CE8731F002C045A /* Nimble.framework */; };
 		52BED32F1CE8733C002C045A /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52BED32E1CE8733C002C045A /* Quick.framework */; };
-		52BED3331CE87396002C045A /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52BED3311CE87396002C045A /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		52BED3341CE87396002C045A /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52BED3321CE87396002C045A /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9710F1891CFE9C4400713D3B /* Future+MergeSome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9710F1881CFE9C4400713D3B /* Future+MergeSome.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,14 +108,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				52BED3331CE87396002C045A /* Nimble.framework in CopyFiles */,
-				52BED3341CE87396002C045A /* Quick.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		523568031D72EA5A00AAB8C4 /* Future+All.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+All.swift"; sourceTree = "<group>"; };
+		523568051D72EAD900AAB8C4 /* Future+AllTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+AllTests.swift"; sourceTree = "<group>"; };
 		52B29CF41CEA236E00B5B277 /* PiedPiper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PiedPiper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B29CF61CEA236E00B5B277 /* PiedPiper-Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PiedPiper-Mac.h"; sourceTree = "<group>"; };
 		52B29CF81CEA236E00B5B277 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -165,8 +166,7 @@
 		52BED31B1CE871BB002C045A /* ResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		52BED32C1CE8731F002C045A /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		52BED32E1CE8733C002C045A /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
-		52BED3311CE87396002C045A /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
-		52BED3321CE87396002C045A /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
+		9710F1881CFE9C4400713D3B /* Future+MergeSome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Future+MergeSome.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,8 +216,6 @@
 		52BED29B1CE870F2002C045A = {
 			isa = PBXGroup;
 			children = (
-				52BED3311CE87396002C045A /* Nimble.framework */,
-				52BED3321CE87396002C045A /* Quick.framework */,
 				52BED32E1CE8733C002C045A /* Quick.framework */,
 				52BED32C1CE8731F002C045A /* Nimble.framework */,
 				52BED2A61CE870F3002C045A /* PiedPiperSample */,
@@ -274,6 +272,8 @@
 				52BED2EA1CE8718D002C045A /* Result+Filter.swift */,
 				52BED2EB1CE8718D002C045A /* Result+flatMap.swift */,
 				52BED2EC1CE8718D002C045A /* Result+Map.swift */,
+				9710F1881CFE9C4400713D3B /* Future+MergeSome.swift */,
+				523568031D72EA5A00AAB8C4 /* Future+All.swift */,
 			);
 			path = PiedPiper;
 			sourceTree = "<group>";
@@ -298,6 +298,7 @@
 				52BED31A1CE871BB002C045A /* Result+MapTests.swift */,
 				52BED31B1CE871BB002C045A /* ResultTests.swift */,
 				52BED3061CE8719D002C045A /* Info.plist */,
+				523568051D72EAD900AAB8C4 /* Future+AllTests.swift */,
 			);
 			path = PiedPiperTests;
 			sourceTree = "<group>";
@@ -405,7 +406,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = WeltN24;
 				TargetAttributes = {
 					52B29CF31CEA236E00B5B277 = {
@@ -413,12 +414,15 @@
 					};
 					52BED2A31CE870F2002C045A = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					52BED2CF1CE87175002C045A = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					52BED3011CE8719D002C045A = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 52BED2A31CE870F2002C045A;
 					};
 				};
@@ -519,6 +523,7 @@
 				52BED2EF1CE8718D002C045A /* Future+Filter.swift in Sources */,
 				52BED2F51CE8718D002C045A /* Future+Traverse.swift in Sources */,
 				52BED2F21CE8718D002C045A /* Future+Merge.swift in Sources */,
+				523568041D72EA5A00AAB8C4 /* Future+All.swift in Sources */,
 				52BED2EE1CE8718D002C045A /* Future.swift in Sources */,
 				52BED2FA1CE8718D002C045A /* Result.swift in Sources */,
 				52BED2FB1CE8718D002C045A /* Result+Filter.swift in Sources */,
@@ -527,6 +532,7 @@
 				52BED2F41CE8718D002C045A /* Future+Reduce.swift in Sources */,
 				52BED2FD1CE8718D002C045A /* Result+Map.swift in Sources */,
 				52BED2F61CE8718D002C045A /* Future+Zip.swift in Sources */,
+				9710F1891CFE9C4400713D3B /* Future+MergeSome.swift in Sources */,
 				52BED2F71CE8718D002C045A /* GCD.swift in Sources */,
 				52BED2ED1CE8718D002C045A /* FunctionComposition.swift in Sources */,
 				52BED2F11CE8718D002C045A /* Future+Map.swift in Sources */,
@@ -542,6 +548,7 @@
 			files = (
 				52BED31C1CE871BB002C045A /* FunctionCompositionTests.swift in Sources */,
 				52BED32B1CE871BB002C045A /* ResultTests.swift in Sources */,
+				523568061D72EAD900AAB8C4 /* Future+AllTests.swift in Sources */,
 				52BED3251CE871BB002C045A /* FutureTests.swift in Sources */,
 				52BED3281CE871BB002C045A /* Result+FilterTests.swift in Sources */,
 				52BED3261CE871BB002C045A /* GCDTests.swift in Sources */,
@@ -597,7 +604,7 @@
 		52B29CF91CEA236E00B5B277 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -621,7 +628,7 @@
 		52B29CFA1CEA236E00B5B277 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -656,8 +663,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -701,8 +710,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -721,6 +732,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -728,24 +740,28 @@
 		52BED2B71CE870F3002C045A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PiedPiperSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
 		52BED2B81CE870F3002C045A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PiedPiperSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -754,6 +770,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -769,6 +786,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALID_ARCHS = "arm64 armv7 armv7s armv7k";
@@ -783,6 +801,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -797,6 +816,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALID_ARCHS = "arm64 armv7 armv7s armv7k";
@@ -818,6 +838,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PiedPiperSample.app/PiedPiperSample";
 			};
 			name = Debug;
@@ -834,6 +855,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PiedPiperSample.app/PiedPiperSample";
 			};
 			name = Release;
@@ -848,6 +870,7 @@
 				52B29CFA1CEA236E00B5B277 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		52BED29F1CE870F2002C045A /* Build configuration list for PBXProject "PiedPiperSample" */ = {
 			isa = XCConfigurationList;

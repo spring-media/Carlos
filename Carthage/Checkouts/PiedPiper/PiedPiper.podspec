@@ -17,11 +17,6 @@ Pod::Spec.new do |s|
   s.author           = { "Vittorio Monaco" => "vittorio.monaco1@gmail.com" }
   s.source           = { :git => "https://github.com/WeltN24/PiedPiper.git", :tag => s.version.to_s }
 
-  s.ios.platform = :ios, "9.0"
-  s.osx.platform = :osx, "10.10"
-  s.watchos.platform = :watchos, "2.0"
-  s.tvos.platform = :tvos, "9.0"
-
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
   s.watchos.deployment_target = '2.0'
