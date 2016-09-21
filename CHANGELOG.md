@@ -3,6 +3,7 @@
 ## 0.9
 
 **Breaking changes**
+- Swift 2.3 support
 - `batchGetAll` has been deprecated and replaced with a reified `allBatch` (see **New features**)
 - `set` method on `CacheLevel` now returns a `Future` enabling error-handling and progress-tracking of `set` calls.
 

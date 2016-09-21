@@ -2,16 +2,16 @@ import Foundation
 import PiedPiper
 import MapKit
 
+public enum NSDateFormatterError: ErrorType {
+  case InvalidInputString
+}
+
 /**
 NSDateFormatter extension to conform to the TwoWayTransformer protocol
 
 This class transforms from NSDate to String (transform) and viceversa (inverseTransform)
 */
 extension NSDateFormatter: TwoWayTransformer {
-  public enum Error: ErrorType {
-    case InvalidInputString
-  }
-  
   public typealias TypeIn = NSDate
   public typealias TypeOut = String
   
@@ -20,8 +20,13 @@ extension NSDateFormatter: TwoWayTransformer {
   }
   
   public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
-    return Future(value: dateFromString(val), error: Error.InvalidInputString)
+    return Future(value: dateFromString(val), error: NSDateFormatterError.InvalidInputString)
   }
+}
+
+public enum NSNumberFormatterError: ErrorType {
+  case CannotConvertToString
+  case InvalidString
 }
 
 /**
@@ -30,20 +35,15 @@ NSNumberFormatter extension to conform to the TwoWayTransformer protocol
 This class transforms from NSNumber to String (transform) and viceversa (inverseTransform)
 */
 extension NSNumberFormatter: TwoWayTransformer {
-  public enum Error: ErrorType {
-    case CannotConvertToString
-    case InvalidString
-  }
-  
   public typealias TypeIn = NSNumber
   public typealias TypeOut = String
   
   public func transform(val: TypeIn) -> Future<TypeOut> {
-    return Future(value: stringFromNumber(val), error: Error.CannotConvertToString)
+    return Future(value: stringFromNumber(val), error: NSNumberFormatterError.CannotConvertToString)
   }
   
   public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
-    return Future(value: numberFromString(val), error: Error.InvalidString)
+    return Future(value: numberFromString(val), error: NSNumberFormatterError.InvalidString)
   }
 }
 
