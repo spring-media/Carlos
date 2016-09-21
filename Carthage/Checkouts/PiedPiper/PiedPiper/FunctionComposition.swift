@@ -44,16 +44,7 @@ Composes two async (Future) closures
 */
 public func >>> <A, B, C>(f: A -> Future<B>, g: B -> Future<C>) -> A -> Future<C> {
   return { param in
-    let resultingRequest = Promise<C>()
-    
-    f(param)
-      .onSuccess { result in
-        resultingRequest.mimic(g(result))
-      }
-      .onCancel(resultingRequest.cancel)
-      .onFailure(resultingRequest.fail)
-    
-    return resultingRequest.future
+    return f(param).flatMap(g)
   }
 }
 
