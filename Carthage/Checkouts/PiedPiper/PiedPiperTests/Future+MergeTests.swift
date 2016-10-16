@@ -29,7 +29,7 @@ class FutureSequenceMergeTests: QuickSpec {
         
         mergedFuture = promises
           .map { $0.future }
-          .merge()
+          .mergeAll()
         
         mergedFuture.onCompletion { result in
           switch result {
@@ -165,7 +165,7 @@ class FutureSequenceMergeTests: QuickSpec {
         
         mergedFuture = promises
           .map { $0.future }
-          .merge()
+          .mergeAll()
         
         mergedFuture.onSuccess {
           successValue = $0

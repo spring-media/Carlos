@@ -226,7 +226,9 @@ queue.async { Void -> Int in
 
 ### Advanced usage with Futures
 
-Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `recover`, `zip`, `reduce` and `merge`. Moreover, `traverse` is available for all `SequenceType` values.
+Since `Pied Piper 0.8` many convenience functions are available on `Future` values, like `map`, `flatMap`, `filter`, `recover`, `retry`, `zip`, `reduce`, `mergeSome` and `mergeAll`. Moreover, `traverse` is available for all `SequenceType` values.
+
+Since `Pied Piper 0.9` some more functions are available like `snooze`, `timeout` and `firstCompleted` (the latter for a `SequenceType` of `Future` values).
 
 Keep in mind that some of these functions (`map`, `flatMap` and `filter`) are also available on `Result` values. They work just like their `Future` counterparts.
 
@@ -300,14 +302,14 @@ let sumOfServerResults = serverRequests.reduce(0, combine: +).onSuccess {
 }
 ```
 
-#### Merge
+#### MergeAll
 
 ```swift
 // Let's assume this value contains a list of server requests where each request obtains the number of items in a given category
 let serverRequests: [Future<Int>] = doFoo()
 
-// With this `merge` call we collapse the requests into one containing the result of all of them, if they all succeeded, or none if one fails
-let allServerResults = serverRequests.merge().onSuccess { results in
+// With this `mergeAll` call we collapse the requests into one containing the result of all of them, if they all succeeded, or none if one fails
+let allServerResults = serverRequests.mergeAll().onSuccess { results in
   // We get here only if all futures succeed
   // `results` is an [Int]
 }
@@ -315,14 +317,14 @@ let allServerResults = serverRequests.merge().onSuccess { results in
 
 #### All 
 
-`all` behaves exactly like `merge`, except that it doesn't bring the success values with it.
+`all` behaves exactly like `mergeAll`, except that it doesn't bring the success values with it.
 
 ```swift
 // Let's assume this value contains a list of server requests where each request obtains the number of items in a given category
 let serverRequests: [Future<Int>] = doFoo()
 
 // With this `all` call we collapse the requests into one that will succeed if all of the elements succeed, otherwise it will fail
-let allServerResults = serverRequests.all().onSuccess {
+let allServerResults = serverRequests.mergeAll().onSuccess {
   // We get here only if all futures succeed
 }
 ```
@@ -333,13 +335,25 @@ let allServerResults = serverRequests.all().onSuccess {
 // Let's assume this value contains a list of server requests where each request obtains the number of items in a given category
 let serverRequests: [Future<Int>] = doFoo()
 
-// With this `merge` call we collapse the requests into one containing the result of just the ones that succeed
+// With this `mergeSome` call we collapse the requests into one containing the result of just the ones that succeed
 let allServerResults = serverRequests.mergeSome().onSuccess { results in
   // We get here and results.count == the number of succeeded requests
   // `results` is an [Int]
 }
 
 // Note: `merge` succeeds only when _all_ requests succeed, while `mergeSome` always succeeds and filters out the failed requests from the results
+```
+
+#### FirstCompleted
+
+```swift
+// Let's assume this value contains a list of server requests where each request comes from a different server but all of them answer the same question
+let serverRequests: [Future<[Product]>] = gatherRequests()
+
+/// With this `firstCompleted` call we basically declare we are interested in only the first result and want to discard the remaining ones
+let firstResult = serverRequests.firstCompleted().onSuccess { products in
+  // We get here with the first completing request
+}
 ```
 
 #### Traverse
@@ -349,12 +363,57 @@ let allServerResults = serverRequests.mergeSome().onSuccess { results in
 let productIdentifiers: [Int] = basketProductsIds()
 
 // With this `traverse` call we create a Future for every identifier (for instance to retrieve details of each product), and we merge the results into one final Future
-let allProductDetails = productIdentifiers
-  .traverse(ProductManager.retrieveDetailsForProduct)
-  .onSuccess { products in
-    // We get here only if all futures succeed
-    // `products` is a [Product]
+let allProductDetails = productIdentifiers.traverse({ productId in
+  // Let's assume this call returns a Future<Product>
+  ProductManager.retrieveDetailsForProduct(productId)
+}).onSuccess { products in
+  // We get here only if all futures succeed
+  // `products` is a [Product]
+}
+```
+
+#### Snooze
+
+```swift
+// Sometimes we may be running multiple operations in parallel and we may want to have some time in between to gather multiple values
+let firstOperation = doFoo()
+let secondOperation = doBar()
+
+// With this call to `snooze` we declare we're not interested in immediate feedback from the second operation because we may want to process the result of the first, first.
+secondOperation.snooze(0.5).onSuccess { value in 
+}
+```
+
+#### Timeout
+
+```swift
+// Sometimes we may want to set an upper bound to the time an operation can run before moving on or showing something to the user
+let longRunningOperation = doFoo()
+
+longRunningOperation.timeout(after: 5).onFailure { err in
+  if let error = err as? FutureError where error = FutureError.Timeout {
+    // The operation timed out, but of course it's still running. We may keep adding observers to the original variable if we are still interested in the final result (see next lines)
+    showAlert()
   }
+}
+
+longRunningOperation.onSuccess { value in
+  showSuccessDialog()
+}
+
+```
+
+#### Retry 
+
+```swift
+// Sometimes we want to retry a given block of code for a certain number of times before failing
+retry(3, every: 0.5) {
+  return networkManager.fetchLatestMessages() // This returns a Future
+}.onSuccess { messages in
+  // The operation succeeded at least once
+}.onFailure { _ in
+  // The operation failed 4 times (1 + retry count of 3)
+}
 ```
 
 ### Function composition

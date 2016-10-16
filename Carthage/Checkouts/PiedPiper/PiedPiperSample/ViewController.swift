@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     }
     
     let reduced = futures.reduce(0, combine: +)
-    let collapsed = futures.merge()
+    let collapsed = futures.mergeAll()
     
     collapsed.onSuccess {
       print("Collapsed result: \($0)") // prints [-21, 9, 39]

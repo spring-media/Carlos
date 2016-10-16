@@ -116,7 +116,7 @@ class FutureSequenceAllTests: QuickSpec {
           }
           
           it("should cancel all the running promises") {
-            expect(originalPromisesCanceled).to(allPass({ $0 == true}))
+            expect(originalPromisesCanceled).to(allPass({ $0 == true }))
           }
         }
         

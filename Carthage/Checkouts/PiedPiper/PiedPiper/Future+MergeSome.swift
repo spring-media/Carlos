@@ -9,7 +9,7 @@ extension SequenceType where Generator.Element: Async {
       accumulator.flatMap { reduced in
         value.future.map { mapped in
           reduced + [mapped]
-        }.recover{ () in reduced }
+        }.recover(reduced)
       }
     })
 

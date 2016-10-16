@@ -33,7 +33,7 @@ class ImageCacheSampleViewController: BaseCacheViewController {
     UIRectFill(rect)
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    return image
+    return image!
   }
   
   override func titleForScreen() -> String {

@@ -38,6 +38,21 @@ public struct GCD: GCDQueue {
     return GCD(queue: dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL))
   }
   
+  static func delay(time: NSTimeInterval) -> Future<()> {
+    return delay(time) { () }
+  }
+  
+  static func delay<T>(time: NSTimeInterval, closure: Void -> T) -> Future<T> {
+    let result = Promise<T>()
+    
+    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC)))
+    dispatch_after(time, dispatch_get_main_queue(), {
+      result.succeed(closure())
+    })
+    
+    return result.future
+  }
+  
   /**
   Instantiates a new GCD value with a custom dispatch queue
    
