@@ -47,6 +47,8 @@
 
 `Carlos` is a small set of classes, functions and convenience operators to **realize custom, flexible and powerful cache layers** in your application.
 
+With a Functional Programming vocabulary, Carlos makes for a monoidal cache system. You can check the best explanation of how that is realized [here](https://bkase.github.io/slides/composable-caching-swift/) or in [this video](https://www.youtube.com/watch?v=8uqXuEZLyUU), thanks to [@bkase](https://github.com/bkase) for the slides.
+
 By default, **`Carlos` ships with an in-memory cache, a disk cache, a simple network fetcher and a `NSUserDefaults` cache** (the disk cache is inspired by [HanekeSwift](https://github.com/Haneke/HanekeSwift)).
 
 With `Carlos` you can:
