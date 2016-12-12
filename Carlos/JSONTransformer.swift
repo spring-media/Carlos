@@ -22,7 +22,7 @@ public final class JSONTransformer: TwoWayTransformer {
     let result = Promise<TypeOut>()
     
     do {
-      let transformed = try JSONSerialization.jsonObject(with: val, options: [.allowFragments])
+      let transformed = try JSONSerialization.jsonObject(with: val, options: [.allowFragments]) as AnyObject
       result.succeed(transformed)
     } catch {
       result.fail(error)

@@ -31,6 +31,6 @@ extension URL: StringConvertible {
   - returns: The absolute string or an empty string if the absolute string is nil
   */
   public func toString() -> String {
-    return absoluteString ?? ""
+    return absoluteString 
   }
 }
