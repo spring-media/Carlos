@@ -36,8 +36,8 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  fileprivate let transformClosure: (I) -> Future<O>
-  fileprivate let inverseTransformClosure: (O) -> Future<I>
+  private let transformClosure: (I) -> Future<O>
+  private let inverseTransformClosure: (O) -> Future<I>
   
   /**
   Initializes a new instance of a 2-way transformation box

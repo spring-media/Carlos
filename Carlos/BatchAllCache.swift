@@ -7,7 +7,7 @@ public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLeve
   /// An array of output elements
   public typealias OutputType = [Cache.OutputType]
 
-  fileprivate let cache: Cache
+  private let cache: Cache
   
   public init(cache: Cache) {
     self.cache = cache

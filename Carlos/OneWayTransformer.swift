@@ -27,7 +27,7 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  fileprivate let transformClosure: (I) -> Future<O>
+  private let transformClosure: (I) -> Future<O>
   
   /**
   Initializes a 1-way transformation box with the given closure

@@ -11,18 +11,18 @@ The behavior is not 100% certain and this possibility is discouraged.
 private let DefaultUserDefaultsDomainName = "CarlosPersistentDomain"
 
 /// This class is a NSUserDefaults cache level. It has a configurable domain name so that multiple levels can be included in the same sandboxed app.
-open class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
+public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   /// The key type of the cache, should be convertible to String values
   public typealias KeyType = K
   
   /// The output type of the cache, should conform to NSCoding
   public typealias OutputType = T
   
-  fileprivate let domainName: String
-  fileprivate let lock: ReadWriteLock
-  fileprivate let userDefaults: UserDefaults
-  fileprivate var internalDomain: [String: Data]? = nil
-  fileprivate var safeInternalDomain: [String: Data] {
+  private let domainName: String
+  private let lock: ReadWriteLock
+  private let userDefaults: UserDefaults
+  private var internalDomain: [String: Data]? = nil
+  private var safeInternalDomain: [String: Data] {
     if let internalDomain = internalDomain {
       return internalDomain
     } else {
@@ -55,7 +55,7 @@ open class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLev
    
   A soft-cache is used to avoid hitting the persistent domain everytime you are going to fetch values from this cache. The operation is thread-safe
   */
-  open func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     var softCache = safeInternalDomain
     let result = Promise<()>()
     
@@ -80,7 +80,7 @@ open class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLev
    
   A soft-cache is used to avoid hitting the persistent domain everytime. This operation is thread-safe
   */
-  open func get(_ key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     let result = Promise<OutputType>()
     
     if let cachedValue = lock.withReadLock({ safeInternalDomain[key.toString()] }) {
@@ -108,7 +108,7 @@ open class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLev
    
   The operation is thread-safe
   */
-  open func clear() {
+  public func clear() {
     lock.withWriteLock {
       userDefaults.removePersistentDomain(forName: domainName)
       internalDomain = [:]
@@ -122,7 +122,7 @@ open class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLev
    
   The operation is thread-safe
   */
-  open func onMemoryWarning() {
+  public func onMemoryWarning() {
     lock.withWriteLock {
       internalDomain = nil
     }

@@ -6,7 +6,7 @@ public final class BasicFetcher<A, B>: Fetcher {
   public typealias KeyType = A
   public typealias OutputType = B
   
-  fileprivate let getClosure: (_ key: A) -> Future<B>
+  private let getClosure: (_ key: A) -> Future<B>
   
   /**
    Initializes a new instance of a BasicFetcher specifying a get closure, thus determining the behavior of the fetcher as a whole

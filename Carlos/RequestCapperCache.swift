@@ -24,8 +24,8 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   public typealias KeyType = C.KeyType
   public typealias OutputType = C.OutputType
   
-  fileprivate let internalCache: C
-  fileprivate let requestsQueue: OperationQueue
+  private let internalCache: C
+  private let requestsQueue: OperationQueue
   
   /**
   Creates a new instance of this class

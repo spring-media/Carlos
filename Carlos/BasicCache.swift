@@ -6,10 +6,10 @@ public final class BasicCache<A, B>: CacheLevel {
   public typealias KeyType = A
   public typealias OutputType = B
   
-  fileprivate let getClosure: (_ key: A) -> Future<B>
-  fileprivate let setClosure: (_ value: B, _ key: A) -> Future<()>
-  fileprivate let clearClosure: () -> Void
-  fileprivate let memoryClosure: () -> Void
+  private let getClosure: (_ key: A) -> Future<B>
+  private let setClosure: (_ value: B, _ key: A) -> Future<()>
+  private let clearClosure: () -> Void
+  private let memoryClosure: () -> Void
   
   /**
   Initializes a new instance of a BasicCache specifying closures for get, set, clear and onMemoryWarning, thus determining the behavior of the cache level as a whole
@@ -19,7 +19,7 @@ public final class BasicCache<A, B>: CacheLevel {
   - parameter clearClosure: The closure to execute when you call clear() on this instance
   - parameter memoryClosure: The closure to execute when you call onMemoryWarning() on this instance, or when a memory warning is thrown by the system and the cache level is listening for memory pressure events
   */
-  public init(getClosure: (_ key: A) -> Future<B>, setClosure: (_ value: B, _ key: A) -> Future<()>, clearClosure: () -> Void, memoryClosure: () -> Void) {
+  public init(getClosure: @escaping (_ key: A) -> Future<B>, setClosure: @escaping (_ value: B, _ key: A) -> Future<()>, clearClosure: @escaping () -> Void, memoryClosure: @escaping () -> Void) {
     self.getClosure = getClosure
     self.setClosure = setClosure
     self.clearClosure = clearClosure

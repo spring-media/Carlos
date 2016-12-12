@@ -20,9 +20,9 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
   public typealias KeyType = C.KeyType
   public typealias OutputType = C.OutputType
   
-  fileprivate let internalCache: C
-  fileprivate let lock: ReadWriteLock = PThreadReadWriteLock()
-  fileprivate var requestsPool: [C.KeyType: Future<C.OutputType>] = [:]
+  private let internalCache: C
+  private let lock: ReadWriteLock = PThreadReadWriteLock()
+  private var requestsPool: [C.KeyType: Future<C.OutputType>] = [:]
   
   /**
   Creates a new instance of a pooled cache

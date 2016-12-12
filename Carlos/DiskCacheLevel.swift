@@ -6,19 +6,19 @@ public enum DiskCacheLevelError: Error {
 }
 
 /// This class is a disk cache level. It has a configurable total size that defaults to 100 MB.
-open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
+public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   /// At the moment the disk cache level only accepts keys that can be converted to string values
   public typealias KeyType = K
   
   /// The output type of the cache, should conform to NSCoding
   public typealias OutputType = T
   
-  fileprivate let path: String
-  fileprivate var size: UInt64 = 0
-  fileprivate let fileManager: FileManager
+  private let path: String
+  private var size: UInt64 = 0
+  private let fileManager: FileManager
   
   /// The capacity of the cache
-  open var capacity: UInt64 = 0 {
+  public var capacity: UInt64 = 0 {
     didSet {
       self.cacheQueue.async {
         self.controlCapacity()
@@ -26,14 +26,14 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     }
   }
   
-  fileprivate lazy var cacheQueue: GCDQueue = {
+  private lazy var cacheQueue: GCDQueue = {
     return GCD.serial("\(CarlosGlobals.QueueNamePrefix)\((self.path as NSString).lastPathComponent)")
   }()
   
   /**
   This method is a no-op since all the contents of the cache are stored on disk, so removing them would have no benefit for memory pressure
   */
-  open func onMemoryWarning() {}
+  public func onMemoryWarning() {}
   
   /**
   Initializes a new disk cache level
@@ -61,7 +61,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   - parameter value: The value to save on disk
   - parameter key: The key for the value
   */
-  open func set(_ value: T, forKey key: K) -> Future<()> {
+  public func set(_ value: T, forKey key: K) -> Future<()> {
     let result = Promise<()>()
     
     cacheQueue.async { Void -> Void in
@@ -79,7 +79,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   
   - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
-  open func get(_ key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     
     cacheQueue.async { Void -> Void in
@@ -110,7 +110,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   
   All the cached files will be removed from the disk storage
   */
-  open func clear() {
+  public func clear() {
     cacheQueue.async { Void -> Void in
       self.itemsInDirectory(self.path).forEach { filePath in
         _ = try? self.fileManager.removeItem(atPath: filePath)
@@ -121,17 +121,17 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   
   // MARK: Private
   
-  fileprivate func removeData(_ key: K) {
+  private func removeData(_ key: K) {
     cacheQueue.async {
       self.removeFileAtPath(self.pathForKey(key))
     }
   }
   
-  fileprivate func pathForKey(_ key: K) -> String {
+  private func pathForKey(_ key: K) -> String {
     return (path as NSString).appendingPathComponent(key.toString().MD5String())
   }
   
-  fileprivate func sizeForFileAtPath(_ filePath: String) -> UInt64 {
+  private func sizeForFileAtPath(_ filePath: String) -> UInt64 {
     var size: UInt64 = 0
     
     do {
@@ -142,13 +142,13 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     return size
   }
   
-  fileprivate func calculateSize() {
+  private func calculateSize() {
     size = itemsInDirectory(path).reduce(0, { (accumulator, filePath) in
       accumulator + sizeForFileAtPath(filePath)
     })
   }
   
-  fileprivate func controlCapacity() {
+  private func controlCapacity() {
     if size > capacity {
       enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path) { (URL, stop: inout Bool) in
         removeFileAtPath(URL.path)
@@ -157,7 +157,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     }
   }
   
-  fileprivate func setDataSync(_ data: T, key: K) -> Future<()> {
+  private func setDataSync(_ data: T, key: K) -> Future<()> {
     let result = Promise<()>()
     let path = pathForKey(key)
     let previousSize = sizeForFileAtPath(path)
@@ -182,7 +182,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     return result.future
   }
   
-  fileprivate func updateDiskAccessDateAtPath(_ path: String) -> Bool {
+  private func updateDiskAccessDateAtPath(_ path: String) -> Bool {
     var result = false
     
     do {
@@ -195,7 +195,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     return result
   }
   
-  fileprivate func removeFileAtPath(_ path: String) {
+  private func removeFileAtPath(_ path: String) {
     do {
       if let attributes: NSDictionary = try fileManager.attributesOfItem(atPath: path) as NSDictionary? {
         try fileManager.removeItem(atPath: path)
@@ -204,7 +204,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     } catch _ {}
   }
   
-  fileprivate func itemsInDirectory(_ directory: String) -> [String] {
+  private func itemsInDirectory(_ directory: String) -> [String] {
     var items: [String] = []
     
     do {
@@ -216,7 +216,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     return items
   }
   
-  fileprivate func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(_ path: String, usingBlock block: (URL, inout Bool) -> Void) {
+  private func enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(_ path: String, usingBlock block: (URL, inout Bool) -> Void) {
     let property = URLResourceKey.contentModificationDateKey
     
     do {

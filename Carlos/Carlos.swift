@@ -14,7 +14,7 @@ internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: @esca
   return OneWayTransformationBox(transform: transformerClosure)
 }
 
-infix operator =>> { associativity left }
+infix operator =>>: MultiplicationPrecedence
 
 /// An abstraction for a generic cache level
 public protocol CacheLevel {

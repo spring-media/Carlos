@@ -7,7 +7,7 @@ This class takes care of transforming NSData instances into UIImage objects.
 
 Keep in mind that at the moment this class always deserializes images through UIImagePNGRepresentation, so there may be a data usage bigger than actually required.
 */
-open class ImageTransformer: TwoWayTransformer {
+public final class ImageTransformer: TwoWayTransformer {
   public enum TransformationError: Error {
     case invalidData
     case cannotConvertImage
@@ -26,7 +26,7 @@ open class ImageTransformer: TwoWayTransformer {
   
   - returns: A Future<UIImage> object
   */
-  open func transform(_ val: TypeIn) -> Future<TypeOut> {
+  public func transform(_ val: TypeIn) -> Future<TypeOut> {
     let result = Promise<TypeOut>()
     
     GCD.background {
@@ -49,7 +49,7 @@ open class ImageTransformer: TwoWayTransformer {
   
   - returns: A Future<NSData> instance obtained with UIImagePNGRepresentation
   */
-  open func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
+  public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
     let result = Promise<TypeIn>()
     
     GCD.background {

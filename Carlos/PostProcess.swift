@@ -1,7 +1,7 @@
 import Foundation
 import PiedPiper
 
-infix operator ~>> { associativity left }
+infix operator ~>>: MultiplicationPrecedence
 
 extension CacheLevel {
   

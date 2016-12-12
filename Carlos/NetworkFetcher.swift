@@ -13,9 +13,9 @@ public enum NetworkFetcherError: Error {
 }
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
-open class NetworkFetcher: Fetcher {
-  fileprivate static let ValidStatusCodes = 200..<300
-  fileprivate let lock: ReadWriteLock = PThreadReadWriteLock()
+public final class NetworkFetcher: Fetcher {
+  private static let ValidStatusCodes = 200..<300
+  private let lock: ReadWriteLock = PThreadReadWriteLock()
   
   /// The network cache accepts only NSURL keys
   public typealias KeyType = URL
@@ -23,7 +23,7 @@ open class NetworkFetcher: Fetcher {
   /// The network cache returns only NSData values
   public typealias OutputType = Data
   
-  fileprivate func validate(_ response: HTTPURLResponse, withData data: Data) -> Bool {
+  private func validate(_ response: HTTPURLResponse, withData data: Data) -> Bool {
     var responseIsValid = true
     let expectedContentLength = response.expectedContentLength
     if expectedContentLength > -1 {
@@ -32,7 +32,7 @@ open class NetworkFetcher: Fetcher {
     return responseIsValid
   }
   
-  fileprivate func startRequest(_ URL: Foundation.URL) -> Future<Data> {
+  private func startRequest(_ URL: Foundation.URL) -> Future<Data> {
     let result = Promise<Data>()
     
     let task = URLSession.shared.dataTask(with: URL, completionHandler: { [weak self] (data, response, error) in
@@ -74,15 +74,15 @@ open class NetworkFetcher: Fetcher {
     return result.future
   }
 
-  fileprivate var pendingRequests: [Future<OutputType>] = []
+  private var pendingRequests: [Future<OutputType>] = []
 
-  fileprivate func addPendingRequest(_ request: Future<OutputType>) {
+  private func addPendingRequest(_ request: Future<OutputType>) {
     lock.withWriteLock {
       self.pendingRequests.append(request)
     }
   }
 
-  fileprivate func removePendingRequests(_ request: Future<OutputType>) {
+  private func removePendingRequests(_ request: Future<OutputType>) {
     if let idx = lock.withReadLock({ self.pendingRequests.index(where: { $0 === request }) }) {
       _ = lock.withWriteLock {
         self.pendingRequests.remove(at: idx)
@@ -102,7 +102,7 @@ open class NetworkFetcher: Fetcher {
   
   - returns: A Future that you can use to get the asynchronous results of the network fetch
   */
-  open func get(_ key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     let result = startRequest(key)
       
     result
