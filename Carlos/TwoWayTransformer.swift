@@ -10,7 +10,7 @@ public protocol TwoWayTransformer: OneWayTransformer {
   
   - returns: A Future that will contain the original value, or fail if the transformation failed
   */
-  func inverseTransform(val: TypeOut) -> Future<TypeIn>
+  func inverseTransform(_ val: TypeOut) -> Future<TypeIn>
 }
 
 extension TwoWayTransformer {
@@ -36,8 +36,8 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  private let transformClosure: I -> Future<O>
-  private let inverseTransformClosure: O -> Future<I>
+  fileprivate let transformClosure: (I) -> Future<O>
+  fileprivate let inverseTransformClosure: (O) -> Future<I>
   
   /**
   Initializes a new instance of a 2-way transformation box
@@ -45,7 +45,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   - parameter transform: The transformation closure to convert a value of type TypeIn to a value of type TypeOut
   - parameter inverseTransform: The transformation closure to convert a value of type TypeOut to a value of type TypeIn
   */
-  public init(transform: (I -> Future<O>), inverseTransform: (O -> Future<I>)) {
+  public init(transform: ((I) -> Future<O>), inverseTransform: ((O) -> Future<I>)) {
     self.transformClosure = transform
     self.inverseTransformClosure = inverseTransform
   }
@@ -57,7 +57,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   - returns: A Future that will contain the converted value, or fail if the transformation fails
   */
-  public func transform(val: I) -> Future<O> {
+  public func transform(_ val: I) -> Future<O> {
     return transformClosure(val)
   }
   
@@ -68,7 +68,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   - returns: A Future that will contain the converted value, or fail if the inverse transformation fails
   */
-  public func inverseTransform(val: O) -> Future<I> {
+  public func inverseTransform(_ val: O) -> Future<I> {
     return inverseTransformClosure(val)
   }
 }
@@ -80,7 +80,7 @@ Inverts a TwoWayTransformer
 
 - returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
 */
-@available(*, deprecated=0.6)
-public func invert<A: TwoWayTransformer, B, C where A.TypeIn == B, A.TypeOut == C>(transformer: A) -> TwoWayTransformationBox<C, B> {
+@available(*, deprecated: 0.6)
+public func invert<A: TwoWayTransformer, B, C>(_ transformer: A) -> TwoWayTransformationBox<C, B> where A.TypeIn == B, A.TypeOut == C {
   return transformer.invert()
 }

@@ -3,14 +3,14 @@ import PiedPiper
 
 internal struct CarlosGlobals {
   static let QueueNamePrefix = "com.carlos."
-  static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] 
+  static let Caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
 }
 
-internal func wrapClosureIntoFetcher<A, B>(closure: (key: A) -> Future<B>) -> BasicFetcher<A, B> {
+internal func wrapClosureIntoFetcher<A, B>(_ closure: (_ key: A) -> Future<B>) -> BasicFetcher<A, B> {
   return BasicFetcher(getClosure: closure)
 }
 
-internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> Future<B>) -> OneWayTransformationBox<A, B> {
+internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: (A) -> Future<B>) -> OneWayTransformationBox<A, B> {
   return OneWayTransformationBox(transform: transformerClosure)
 }
 
@@ -66,7 +66,7 @@ extension Fetcher {
   public func onMemoryWarning() {}
   
   /// No-op
-  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     return Future()
   }
 }

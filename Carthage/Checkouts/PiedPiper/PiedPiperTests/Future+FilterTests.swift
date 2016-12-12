@@ -8,7 +8,7 @@ class FutureFilterTests: QuickSpec {
       var promise: Promise<Int>!
       var filteredFuture: Future<Int>!
       var successValue: Int?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       
       beforeEach {
@@ -20,7 +20,7 @@ class FutureFilterTests: QuickSpec {
       }
       
       context("when done through a simple closure") {
-        let filteringClosure: Int -> Bool = { num in
+        let filteringClosure: (Int) -> Bool = { num in
           num > 0
         }
         
@@ -30,18 +30,18 @@ class FutureFilterTests: QuickSpec {
           
           filteredFuture.onCompletion { result in
             switch result {
-            case .Success(let value):
+            case .success(let value):
               successValue = value
-            case .Error(let error):
+            case .error(let error):
               failureValue = error
-            case .Cancelled:
+            case .cancelled:
               wasCanceled = true
             }
           }
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
@@ -123,7 +123,7 @@ class FutureFilterTests: QuickSpec {
             }
             
             it("should fail the filtered future with the right error") {
-              expect(failureValue as? FutureFilteringError).to(equal(FutureFilteringError.ConditionUnsatisfied))
+              expect(failureValue as? FutureFilteringError).to(equal(FutureFilteringError.conditionUnsatisfied))
             }
             
             it("should not cancel the filtered future") {
@@ -134,9 +134,9 @@ class FutureFilterTests: QuickSpec {
       }
       
       context("when done through a closure that returns a Future") {
-        let filteringClosure: Int -> Future<Bool> = { num in
+        let filteringClosure: (Int) -> Future<Bool> = { num in
           if num < 0 {
-            return Future(TestError.SimpleError)
+            return Future(TestError.simpleError)
           } else if num == 0 {
             let result = Promise<Bool>()
             result.cancel()
@@ -154,18 +154,18 @@ class FutureFilterTests: QuickSpec {
           
           filteredFuture.onCompletion { result in
             switch result {
-            case .Success(let value):
+            case .success(let value):
               successValue = value
-            case .Error(let error):
+            case .error(let error):
               failureValue = error
-            case .Cancelled:
+            case .cancelled:
               wasCanceled = true
             }
           }
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
@@ -247,7 +247,7 @@ class FutureFilterTests: QuickSpec {
             }
             
             it("should fail the filtered future with the right error") {
-              expect(failureValue as? FutureFilteringError).to(equal(FutureFilteringError.ConditionUnsatisfied))
+              expect(failureValue as? FutureFilteringError).to(equal(FutureFilteringError.conditionUnsatisfied))
             }
             
             it("should not cancel the filtered future") {
@@ -271,7 +271,7 @@ class FutureFilterTests: QuickSpec {
             }
             
             it("should fail the filtered future with the right error") {
-              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
+              expect(failureValue as? TestError).to(equal(TestError.simpleError))
             }
             
             it("should not cancel the filtered future") {

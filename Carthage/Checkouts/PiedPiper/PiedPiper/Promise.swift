@@ -1,13 +1,13 @@
 import Foundation
 
 /// This class is a Future computation, where you can attach failure and success callbacks.
-public class Promise<T>: Async {
+open class Promise<T>: Async {
   public typealias Value = T
   
-  private var failureListeners: [(ErrorType) -> Void] = []
+  private var failureListeners: [(Error) -> Void] = []
   private var successListeners: [(T) -> Void] = []
-  private var cancelListeners: [Void -> Void] = []
-  private var error: ErrorType?
+  private var cancelListeners: [(Void) -> Void] = []
+  private var error: Error?
   private var value: T?
   private var canceled = false
   private let successLock: ReadWriteLock = PThreadReadWriteLock()
@@ -37,7 +37,7 @@ public class Promise<T>: Async {
     succeed(value)
   }
   
-  convenience init(value: T?, error: ErrorType) {
+  convenience init(value: T?, error: Error) {
     self.init()
     
     if let value = value {
@@ -47,7 +47,7 @@ public class Promise<T>: Async {
     }
   }
   
-  convenience init(_ error: ErrorType) {
+  convenience init(_ error: Error) {
     self.init()
     
     fail(error)
@@ -61,14 +61,15 @@ public class Promise<T>: Async {
    
   - returns: The Promise itself
   */
-  public func mimic(stamp: Future<T>) -> Promise<T> {
+  @discardableResult
+  public func mimic(_ stamp: Future<T>) -> Promise<T> {
     stamp.onCompletion { result in
       switch result {
-      case .Success(let value):
+      case .success(let value):
         self.succeed(value)
-      case .Error(let error):
+      case .error(let error):
         self.fail(error)
-      case .Cancelled:
+      case .cancelled:
         self.cancel()
       }
     }
@@ -84,13 +85,14 @@ public class Promise<T>: Async {
    
   - returns: The Promise itself
   */
-  public func mimic(stamp: Result<T>) -> Promise<T> {
+  @discardableResult
+  public func mimic(_ stamp: Result<T>) -> Promise<T> {
     switch stamp {
-    case .Success(let value):
+    case .success(let value):
       self.succeed(value)
-    case .Error(let error):
+    case .error(let error):
       self.fail(error)
-    case .Cancelled:
+    case .cancelled:
       self.cancel()
     }
     
@@ -118,7 +120,7 @@ public class Promise<T>: Async {
   
   Calling this method makes all the listeners get the onSuccess callback
   */
-  public func succeed(value: T) {
+  public func succeed(_ value: T) {
     guard self.error == nil else { return }
     guard self.value == nil else { return }
     guard self.canceled == false else { return }
@@ -141,7 +143,7 @@ public class Promise<T>: Async {
   
   Calling this method makes all the listeners get the onFailure callback
   */
-  public func fail(error: ErrorType) {
+  public func fail(_ error: Error) {
     guard self.error == nil else { return }
     guard self.value == nil else { return }
     guard self.canceled == false else { return }
@@ -185,7 +187,8 @@ public class Promise<T>: Async {
    
   - returns: The updated Promise
   */
-  public func onCancel(callback: Void -> Void) -> Promise<T> {
+  @discardableResult
+  public func onCancel(_ callback: @escaping (Void) -> Void) -> Promise<T> {
     if canceled {
       callback()
     } else {
@@ -204,7 +207,8 @@ public class Promise<T>: Async {
   
   - returns: The updated Promise
   */
-  public func onSuccess(callback: (T) -> Void) -> Promise<T> {
+  @discardableResult
+  public func onSuccess(_ callback: @escaping (T) -> Void) -> Promise<T> {
     if let value = value {
       callback(value)
     } else {
@@ -223,7 +227,8 @@ public class Promise<T>: Async {
   
   - returns: The updated Promise
   */
-  public func onFailure(callback: (ErrorType) -> Void) -> Promise<T> {
+  @discardableResult
+  public func onFailure(_ callback: @escaping (Error) -> Void) -> Promise<T> {
     if let error = error {
       callback(error)
     } else {
@@ -238,21 +243,22 @@ public class Promise<T>: Async {
   /**
   Adds a listener for both success and failure events of this Promise
   
-  - parameter completion: The closure that should be called when the Promise completes (succeeds or fails), taking a result with value .Success in case the Promise succeeded and .Error in case the Promise failed as parameter. If the Promise is canceled, the result will be .Cancelled
+  - parameter completion: The closure that should be called when the Promise completes (succeeds or fails), taking a result with value .Success in case the Promise succeeded and .error in case the Promise failed as parameter. If the Promise is canceled, the result will be .Cancelled
   
   - returns: The updated Promise
   */
-  public func onCompletion(completion: (result: Result<T>) -> Void) -> Promise<T> {
+  @discardableResult
+  public func onCompletion(_ completion: @escaping (Result<T>) -> Void) -> Promise<T> {
     if let error = error {
-      completion(result: .Error(error))
+      completion(.error(error))
     } else if let value = value {
-      completion(result: .Success(value))
+      completion(.success(value))
     } else if canceled {
-      completion(result: .Cancelled)
+      completion(.cancelled)
     } else {
-      onSuccess { completion(result: .Success($0)) }
-      onFailure { completion(result: .Error($0)) }
-      onCancel { completion(result: .Cancelled) }
+      onSuccess { completion(.success($0)) }
+      onFailure { completion(.error($0)) }
+      onCancel { completion(.cancelled) }
     }
     
     return self

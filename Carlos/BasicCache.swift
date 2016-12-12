@@ -6,10 +6,10 @@ public final class BasicCache<A, B>: CacheLevel {
   public typealias KeyType = A
   public typealias OutputType = B
   
-  private let getClosure: (key: A) -> Future<B>
-  private let setClosure: (value: B, key: A) -> Future<()>
-  private let clearClosure: () -> Void
-  private let memoryClosure: () -> Void
+  fileprivate let getClosure: (_ key: A) -> Future<B>
+  fileprivate let setClosure: (_ value: B, _ key: A) -> Future<()>
+  fileprivate let clearClosure: () -> Void
+  fileprivate let memoryClosure: () -> Void
   
   /**
   Initializes a new instance of a BasicCache specifying closures for get, set, clear and onMemoryWarning, thus determining the behavior of the cache level as a whole
@@ -19,7 +19,7 @@ public final class BasicCache<A, B>: CacheLevel {
   - parameter clearClosure: The closure to execute when you call clear() on this instance
   - parameter memoryClosure: The closure to execute when you call onMemoryWarning() on this instance, or when a memory warning is thrown by the system and the cache level is listening for memory pressure events
   */
-  public init(getClosure: (key: A) -> Future<B>, setClosure: (value: B, key: A) -> Future<()>, clearClosure: () -> Void, memoryClosure: () -> Void) {
+  public init(getClosure: (_ key: A) -> Future<B>, setClosure: (_ value: B, _ key: A) -> Future<()>, clearClosure: () -> Void, memoryClosure: () -> Void) {
     self.getClosure = getClosure
     self.setClosure = setClosure
     self.clearClosure = clearClosure
@@ -33,7 +33,7 @@ public final class BasicCache<A, B>: CacheLevel {
   
   - returns: The result of the getClosure specified when initializing the instance
   */
-  public func get(key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     return getClosure(key: key)
   }
   
@@ -45,7 +45,7 @@ public final class BasicCache<A, B>: CacheLevel {
   
   This call executes the setClosure specified when initializing the instance
   */
-  public func set(value: B, forKey key: A) -> Future<()> {
+  public func set(_ value: B, forKey key: A) -> Future<()> {
     return setClosure(value: value, key: key)
   }
   

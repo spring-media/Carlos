@@ -8,14 +8,13 @@ class FutureRetryTests: QuickSpec {
     describe("Retrying a given future") {
       var lastPromise: Promise<Int>?
       var retryCount: Int!
-      let futureClosure: Void -> Future<Int> = {
+      let futureClosure: (Void) -> Future<Int> = {
         lastPromise = Promise()
         retryCount = retryCount + 1
         return lastPromise!.future
       }
-      var result: Future<Int>!
       var successSentinel: Int?
-      var failureSentinel: ErrorType?
+      var failureSentinel: Error?
       var cancelSentinel: Bool!
       
       beforeEach {
@@ -29,7 +28,7 @@ class FutureRetryTests: QuickSpec {
       
       context("when retrying less than 0 times") {
         beforeEach {
-          result = retry(-1, every: 0, futureClosure: futureClosure)
+          retry(-1, every: 0, futureClosure: futureClosure)
             .onSuccess {
               successSentinel = $0
             }
@@ -66,7 +65,7 @@ class FutureRetryTests: QuickSpec {
         }
         
         context("when the future fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             lastPromise?.fail(error)
@@ -102,7 +101,7 @@ class FutureRetryTests: QuickSpec {
       
       context("when retrying 0 times") {
         beforeEach {
-          result = retry(0, every: 0, futureClosure: futureClosure)
+          retry(0, every: 0, futureClosure: futureClosure)
             .onSuccess {
               successSentinel = $0
             }
@@ -139,7 +138,7 @@ class FutureRetryTests: QuickSpec {
         }
         
         context("when the future fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             lastPromise?.fail(error)
@@ -175,7 +174,7 @@ class FutureRetryTests: QuickSpec {
       
       context("when retrying 1 time") {
         beforeEach {
-          result = retry(1, every: 0.2, futureClosure: futureClosure)
+          retry(1, every: 0.2, futureClosure: futureClosure)
             .onSuccess {
               successSentinel = $0
             }
@@ -212,7 +211,7 @@ class FutureRetryTests: QuickSpec {
         }
         
         context("when the future fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             lastPromise?.fail(error)

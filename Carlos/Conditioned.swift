@@ -14,7 +14,7 @@ extension CacheLevel {
   
   The condition doesn't apply to the set, clear, onMemoryWarning calls
   */
-  public func conditioned(condition: (KeyType) -> Future<Bool>) -> BasicCache<KeyType, OutputType> {
+  public func conditioned(_ condition: (KeyType) -> Future<Bool>) -> BasicCache<KeyType, OutputType> {
     return BasicCache(
       getClosure: conditionedClosure(self.get, condition: condition),
       setClosure: self.set,
@@ -24,13 +24,13 @@ extension CacheLevel {
   }
 }
 
-private func conditionedClosure<A, B>(closure: A -> Future<B>, condition: A -> Future<Bool>) -> (A -> Future<B>) {
+private func conditionedClosure<A, B>(_ closure: (A) -> Future<B>, condition: (A) -> Future<Bool>) -> ((A) -> Future<B>) {
   return { input in
     return condition(input).flatMap { (passesCondition: Bool) -> Future<B> in
       if passesCondition {
         return closure(input)
       } else {
-        return Future(FetchError.ConditionNotSatisfied)
+        return Future(FetchError.conditionNotSatisfied)
       }
     }
   }
@@ -44,7 +44,7 @@ extension OneWayTransformer {
    
   - returns: A new OneWayTransformer that will check for the condition before every transformation is dispatched to the decorated transformer
   */
-  public func conditioned(condition: (TypeIn) -> Future<Bool>) -> OneWayTransformationBox<TypeIn, TypeOut> {
+  public func conditioned(_ condition: (TypeIn) -> Future<Bool>) -> OneWayTransformationBox<TypeIn, TypeOut> {
     return OneWayTransformationBox(transform: conditionedClosure(self.transform, condition: condition))
   }
 }
@@ -58,7 +58,7 @@ extension TwoWayTransformer {
    
   - returns: A new TwoWayTransformer that will check for the conditions before every transformation is dispatched to the decorated transformer
   */
-  public func conditioned(condition: (TypeIn) -> Future<Bool>, inverseCondition: (TypeOut) -> Future<Bool>) -> TwoWayTransformationBox<TypeIn, TypeOut> {
+  public func conditioned(_ condition: (TypeIn) -> Future<Bool>, inverseCondition: (TypeOut) -> Future<Bool>) -> TwoWayTransformationBox<TypeIn, TypeOut> {
     return TwoWayTransformationBox(
       transform: conditionedClosure(self.transform, condition: condition),
       inverseTransform: conditionedClosure(self.inverseTransform, condition: inverseCondition)
@@ -88,8 +88,8 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
  */
-@available(*, deprecated=0.7)
-public func <?><A, B>(condition: A -> Future<Bool>, fetchClosure: (key: A) -> Future<B>) -> BasicCache<A, B> {
+@available(*, deprecated: 0.7)
+public func <?><A, B>(condition: (A) -> Future<Bool>, fetchClosure: (_ key: A) -> Future<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 
@@ -101,8 +101,8 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 - returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
 */
-@available(*, deprecated=0.5)
-public func conditioned<A, B>(fetchClosure: (key: A) -> Future<B>, condition: A -> Future<Bool>) -> BasicCache<A, B> {
+@available(*, deprecated: 0.5)
+public func conditioned<A, B>(_ fetchClosure: (_ key: A) -> Future<B>, condition: (A) -> Future<Bool>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).conditioned(condition)
 }
 
@@ -116,7 +116,7 @@ Wraps a CacheLevel with a boolean condition on the key that controls when a get 
 
 The condition doesn't apply to the set, clear, onMemoryWarning calls
 */
-@available(*, deprecated=0.5)
-public func conditioned<A: CacheLevel>(cache: A, condition: (A.KeyType) -> Future<Bool>) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.5)
+public func conditioned<A: CacheLevel>(_ cache: A, condition: (A.KeyType) -> Future<Bool>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.conditioned(condition)
 }

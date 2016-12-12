@@ -14,7 +14,7 @@ extension CacheLevel {
   
   - returns: A transformed CacheLevel that incorporates the post-processing step
   */
-  public func postProcess<A: OneWayTransformer where OutputType == A.TypeIn, A.TypeIn == A.TypeOut>(transformer: A) -> BasicCache<KeyType, OutputType> {
+  public func postProcess<A: OneWayTransformer>(_ transformer: A) -> BasicCache<KeyType, OutputType> where OutputType == A.TypeIn, A.TypeIn == A.TypeOut {
     return BasicCache(
       getClosure: { key in
         self.get(key).mutate(transformer)
@@ -34,8 +34,8 @@ extension CacheLevel {
   
   - returns: A transformed CacheLevel that incorporates the post-processing step
    */
-  @available(*, deprecated=0.7)
-  public func postProcess(transformerClosure: OutputType -> Future<OutputType>) -> BasicCache<KeyType, OutputType> {
+  @available(*, deprecated: 0.7)
+  public func postProcess(_ transformerClosure: (OutputType) -> Future<OutputType>) -> BasicCache<KeyType, OutputType> {
     return self.postProcess(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }
@@ -50,8 +50,8 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A CacheLevel that incorporates the post-processing step
 */
-@available(*, deprecated=0.5)
-public func postProcess<A, B: OneWayTransformer where B.TypeIn == B.TypeOut>(fetchClosure: (key: A) -> Future<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
+@available(*, deprecated: 0.5)
+public func postProcess<A, B: OneWayTransformer>(_ fetchClosure: (_ key: A) -> Future<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> where B.TypeIn == B.TypeOut {
   return wrapClosureIntoFetcher(fetchClosure).postProcess(transformer)
 }
 
@@ -65,8 +65,8 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A CacheLevel that incorporates the post-processing step
 */
-@available(*, deprecated=0.5)
-public func postProcess<A, B>(fetchClosure: (key: A) -> Future<B>, transformerClosure: B -> Future<B>) -> BasicCache<A, B> {
+@available(*, deprecated: 0.5)
+public func postProcess<A, B>(_ fetchClosure: (_ key: A) -> Future<B>, transformerClosure: (B) -> Future<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).postProcess(wrapClosureIntoOneWayTransformer(transformerClosure))
 }
 
@@ -80,8 +80,8 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A transformed CacheLevel that incorporates the post-processing step
 */
-@available(*, deprecated=0.5)
-public func postProcess<A: CacheLevel, B: OneWayTransformer where A.OutputType == B.TypeIn, B.TypeIn == B.TypeOut>(cache: A, transformer: B) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.5)
+public func postProcess<A: CacheLevel, B: OneWayTransformer>(_ cache: A, transformer: B) -> BasicCache<A.KeyType, A.OutputType> where A.OutputType == B.TypeIn, B.TypeIn == B.TypeOut {
   return cache.postProcess(transformer)
 }
 
@@ -95,8 +95,8 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A transformed CacheLevel that incorporates the post-processing step
 */
-@available(*, deprecated=0.5)
-public func postProcess<A: CacheLevel>(cache: A, transformerClosure: A.OutputType -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.5)
+public func postProcess<A: CacheLevel>(_ cache: A, transformerClosure: (A.OutputType) -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.postProcess(wrapClosureIntoOneWayTransformer(transformerClosure))
 }
 
@@ -110,8 +110,8 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A CacheLevel that incorporates the post-processing step
  */
-@available(*, deprecated=0.7)
-public func ~>><A, B: OneWayTransformer where B.TypeIn == B.TypeOut>(fetchClosure: (key: A) -> Future<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> {
+@available(*, deprecated: 0.7)
+public func ~>><A, B: OneWayTransformer>(fetchClosure: (_ key: A) -> Future<B.TypeIn>, transformer: B) -> BasicCache<A, B.TypeOut> where B.TypeIn == B.TypeOut {
   return wrapClosureIntoFetcher(fetchClosure).postProcess(transformer)
 }
 
@@ -125,8 +125,8 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A CacheLevel that incorporates the post-processing step
  */
-@available(*, deprecated=0.7)
-public func ~>><A, B>(fetchClosure: (key: A) -> Future<B>, transformerClosure: B -> Future<B>) -> BasicCache<A, B> {
+@available(*, deprecated: 0.7)
+public func ~>><A, B>(fetchClosure: (_ key: A) -> Future<B>, transformerClosure: (B) -> Future<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(fetchClosure).postProcess(wrapClosureIntoOneWayTransformer(transformerClosure))
 }
 
@@ -140,7 +140,7 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A transformed CacheLevel that incorporates the post-processing step
 */
-public func ~>><A: CacheLevel, B: OneWayTransformer where A.OutputType == B.TypeIn, B.TypeIn == B.TypeOut>(cache: A, transformer: B) -> BasicCache<A.KeyType, A.OutputType> {
+public func ~>><A: CacheLevel, B: OneWayTransformer>(cache: A, transformer: B) -> BasicCache<A.KeyType, A.OutputType> where A.OutputType == B.TypeIn, B.TypeIn == B.TypeOut {
   return cache.postProcess(transformer)
 }
 
@@ -154,7 +154,7 @@ As usual, if the transformation fails, the get request will also fail
 
 - returns: A transformed CacheLevel that incorporates the post-processing step
  */
-@available(*, deprecated=0.7)
-public func ~>><A: CacheLevel>(cache: A, transformerClosure: A.OutputType -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.7)
+public func ~>><A: CacheLevel>(cache: A, transformerClosure: (A.OutputType) -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.postProcess(wrapClosureIntoOneWayTransformer(transformerClosure))
 }

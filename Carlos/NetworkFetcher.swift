@@ -1,57 +1,57 @@
 import Foundation
 import PiedPiper
 
-public enum NetworkFetcherError: ErrorType {
+public enum NetworkFetcherError: Error {
   /// Used when the status code of the network response is not included in the range 200..<300
-  case StatusCodeNotOk
+  case statusCodeNotOk
   
   /// Used when the network response had an invalid size
-  case InvalidNetworkResponse
+  case invalidNetworkResponse
   
   /// Used when the network request didn't manage to retrieve data
-  case NoDataRetrieved
+  case noDataRetrieved
 }
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
-public class NetworkFetcher: Fetcher {
-  private static let ValidStatusCodes = 200..<300
-  private let lock: ReadWriteLock = PThreadReadWriteLock()
+open class NetworkFetcher: Fetcher {
+  fileprivate static let ValidStatusCodes = 200..<300
+  fileprivate let lock: ReadWriteLock = PThreadReadWriteLock()
   
   /// The network cache accepts only NSURL keys
-  public typealias KeyType = NSURL
+  public typealias KeyType = URL
   
   /// The network cache returns only NSData values
-  public typealias OutputType = NSData
+  public typealias OutputType = Data
   
-  private func validate(response: NSHTTPURLResponse, withData data: NSData) -> Bool {
+  fileprivate func validate(_ response: HTTPURLResponse, withData data: Data) -> Bool {
     var responseIsValid = true
     let expectedContentLength = response.expectedContentLength
     if expectedContentLength > -1 {
-      responseIsValid = Int64(data.length) >= expectedContentLength
+      responseIsValid = Int64(data.count) >= expectedContentLength
     }
     return responseIsValid
   }
   
-  private func startRequest(URL: NSURL) -> Future<NSData> {
-    let result = Promise<NSData>()
+  fileprivate func startRequest(_ URL: Foundation.URL) -> Future<Data> {
+    let result = Promise<Data>()
     
-    let task = NSURLSession.sharedSession().dataTaskWithURL(URL) { [weak self] (data, response, error) in
+    let task = URLSession.shared.dataTask(with: URL, completionHandler: { [weak self] (data, response, error) in
       guard let strongSelf = self else { return }
       
-      if let error = error {
+      if let error = error as? NSError {
         if error.domain != NSURLErrorDomain || error.code != NSURLErrorCancelled {
           GCD.main {
             result.fail(error)
           }
         }
-      } else if let httpResponse = response as? NSHTTPURLResponse {
+      } else if let httpResponse = response as? HTTPURLResponse {
         if !NetworkFetcher.ValidStatusCodes.contains(httpResponse.statusCode) {
           GCD.main {
-            result.fail(NetworkFetcherError.StatusCodeNotOk)
+            result.fail(NetworkFetcherError.statusCodeNotOk)
           }
-        } else if let data = data where !strongSelf.validate(httpResponse, withData: data) {
+        } else if let data = data , !strongSelf.validate(httpResponse, withData: data) {
           GCD.main {
-            result.fail(NetworkFetcherError.InvalidNetworkResponse)
+            result.fail(NetworkFetcherError.invalidNetworkResponse)
           }
         } else if let data = data {
           GCD.main {
@@ -59,11 +59,11 @@ public class NetworkFetcher: Fetcher {
           }
         } else {
           GCD.main {
-            result.fail(NetworkFetcherError.NoDataRetrieved)
+            result.fail(NetworkFetcherError.noDataRetrieved)
           }
         }
       }
-    }
+    }) 
     
     result.onCancel {
       task.cancel()
@@ -74,18 +74,18 @@ public class NetworkFetcher: Fetcher {
     return result.future
   }
 
-  private var pendingRequests: [Future<OutputType>] = []
+  fileprivate var pendingRequests: [Future<OutputType>] = []
 
-  private func addPendingRequest(request: Future<OutputType>) {
+  fileprivate func addPendingRequest(_ request: Future<OutputType>) {
     lock.withWriteLock {
       self.pendingRequests.append(request)
     }
   }
 
-  private func removePendingRequests(request: Future<OutputType>) {
-    if let idx = lock.withReadLock({ self.pendingRequests.indexOf({ $0 === request }) }) {
-      lock.withWriteLock {
-        self.pendingRequests.removeAtIndex(idx)
+  fileprivate func removePendingRequests(_ request: Future<OutputType>) {
+    if let idx = lock.withReadLock({ self.pendingRequests.index(where: { $0 === request }) }) {
+      _ = lock.withWriteLock {
+        self.pendingRequests.remove(at: idx)
       }
     }
   }
@@ -102,7 +102,7 @@ public class NetworkFetcher: Fetcher {
   
   - returns: A Future that you can use to get the asynchronous results of the network fetch
   */
-  public func get(key: KeyType) -> Future<OutputType> {
+  open func get(_ key: KeyType) -> Future<OutputType> {
     let result = startRequest(key)
       
     result

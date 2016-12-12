@@ -4,9 +4,9 @@ import PiedPiper
 /// Convenience enumeration to specify which of two switched cache levels should be used for a get or set operation
 public enum CacheLevelSwitchResult {
   /// The first CacheLevel of the switch
-  case CacheA
+  case cacheA
   /// The second CacheLevel of the switch
-  case CacheB
+  case cacheB
 }
 
 /**
@@ -19,8 +19,8 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
  */
-@available(*, deprecated=0.7)
-public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: A, cacheB: (key: B) -> Future<C>, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.7)
+public func switchLevels<A: CacheLevel, B, C>(_ cacheA: A, cacheB: (_ key: B) -> Future<C>, switchClosure: (_ key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == B, A.OutputType == C {
   return switchLevels(cacheA, cacheB: wrapClosureIntoFetcher(cacheB), switchClosure: switchClosure)
 }
 
@@ -34,8 +34,8 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
  */
-@available(*, deprecated=0.7)
-public func switchLevels<A: CacheLevel, B, C where A.KeyType == B, A.OutputType == C>(cacheA: (key: B) -> Future<C>, cacheB: A, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.7)
+public func switchLevels<A: CacheLevel, B, C>(_ cacheA: (_ key: B) -> Future<C>, cacheB: A, switchClosure: (_ key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == B, A.OutputType == C {
   return switchLevels(wrapClosureIntoFetcher(cacheA), cacheB: cacheB, switchClosure: switchClosure)
 }
 
@@ -49,8 +49,8 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
  */
-@available(*, deprecated=0.7)
-public func switchLevels<A, B>(cacheA: (key: A) -> Future<B>, cacheB: (key: A) -> Future<B>, switchClosure: (key: A) -> CacheLevelSwitchResult) -> BasicCache<A, B> {
+@available(*, deprecated: 0.7)
+public func switchLevels<A, B>(_ cacheA: (_ key: A) -> Future<B>, cacheB: (_ key: A) -> Future<B>, switchClosure: (_ key: A) -> CacheLevelSwitchResult) -> BasicCache<A, B> {
   return switchLevels(wrapClosureIntoFetcher(cacheA), cacheB: wrapClosureIntoFetcher(cacheB), switchClosure: switchClosure)
 }
 
@@ -64,21 +64,21 @@ This enables you to have multiple cache "lanes" and switch between them dependin
 
 - returns: A new cache level that includes the specified switching logic. clear and onMemoryWarning calls are dispatched to both lanes.
 */
-public func switchLevels<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(cacheA: A, cacheB: B, switchClosure: (key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> {
+public func switchLevels<A: CacheLevel, B: CacheLevel>(_ cacheA: A, cacheB: B, switchClosure: @escaping (_ key: A.KeyType) -> CacheLevelSwitchResult) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == B.KeyType, A.OutputType == B.OutputType {
   return BasicCache(
     getClosure: { key in
       switch switchClosure(key: key) {
-      case .CacheA:
+      case .cacheA:
         return cacheA.get(key)
-      case .CacheB:
+      case .cacheB:
         return cacheB.get(key)
       }
     },
     setClosure: { (value, key) in
       switch switchClosure(key: key) {
-      case .CacheA:
+      case .cacheA:
         return cacheA.set(value, forKey: key)
-      case .CacheB:
+      case .cacheB:
         return cacheB.set(value, forKey: key)
       }
     },

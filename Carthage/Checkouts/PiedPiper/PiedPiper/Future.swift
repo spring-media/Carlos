@@ -9,12 +9,12 @@ public protocol Async {
   var future: Future<Value> { get }
 }
 
-public enum FutureInitializationError: ErrorType {
-  case ClosureReturnedNil
+public enum FutureInitializationError: Error {
+  case closureReturnedNil
 }
 
 /// This class is a read-only Promise.
-public class Future<T>: Async {
+open class Future<T>: Async {
   public typealias Value = T
   
   public var future: Future<T> {
@@ -43,7 +43,7 @@ public class Future<T>: Async {
    
    The initialized future will succeed if the result of the closure is .Some, and will fail with a FutureInitializationError.ClosureReturnedNil if it's .None. The future will report on the main queue
    */
-  public convenience init(closure: Void -> T?) {
+  public convenience init(closure: @escaping (Void) -> T?) {
     let promise = Promise<T>()
     
     self.init(promise: promise)
@@ -54,7 +54,7 @@ public class Future<T>: Async {
       if let result = result {
         promise.succeed(result)
       } else {
-        promise.fail(FutureInitializationError.ClosureReturnedNil)
+        promise.fail(FutureInitializationError.closureReturnedNil)
       }
     }
   }
@@ -65,7 +65,7 @@ public class Future<T>: Async {
    - parameter value: The success value of the Future, if not .None
    - parameter error: The error of the Future, if value is .None
    */
-  public convenience init(value: T?, error: ErrorType) {
+  public convenience init(value: T?, error: Error) {
     self.init(promise: Promise(value: value, error: error))
   }
   
@@ -74,7 +74,7 @@ public class Future<T>: Async {
    
    - parameter error: The error of the Future
    */
-  public convenience init(_ error: ErrorType) {
+  public convenience init(_ error: Error) {
     self.init(promise: Promise(error))
   }
   
@@ -94,7 +94,8 @@ public class Future<T>: Async {
    
    - returns: The updated Future
    */
-  public func onCancel(callback: Void -> Void) -> Future<T> {
+  @discardableResult
+  public func onCancel(_ callback: @escaping (Void) -> Void) -> Future<T> {
     promise.onCancel(callback)
     
     return self
@@ -107,7 +108,8 @@ public class Future<T>: Async {
    
    - returns: The updated Future
    */
-  public func onSuccess(callback: (T) -> Void) -> Future<T> {
+  @discardableResult
+  public func onSuccess(_ callback: @escaping (T) -> Void) -> Future<T> {
     promise.onSuccess(callback)
     
     return self
@@ -120,7 +122,8 @@ public class Future<T>: Async {
    
    - returns: The updated Future
    */
-  public func onFailure(callback: (ErrorType) -> Void) -> Future<T> {
+  @discardableResult
+  public func onFailure(_ callback: @escaping (Error) -> Void) -> Future<T> {
     promise.onFailure(callback)
     
     return self
@@ -129,11 +132,12 @@ public class Future<T>: Async {
   /**
    Adds a listener for both success and failure events of this Future
    
-   - parameter completion: The closure that should be called when the Future completes (succeeds or fails), taking a Result<T> with value .Success in case the Future succeeded and .Error in case the Future failed as parameter. If the Future is canceled, the result will be .Cancelled
+   - parameter completion: The closure that should be called when the Future completes (succeeds or fails), taking a Result<T> with value .Success in case the Future succeeded and .error in case the Future failed as parameter. If the Future is canceled, the result will be .Cancelled
    
    - returns: The updated Future
    */
-  public func onCompletion(completion: (result: Result<T>) -> Void) -> Future<T> {
+  @discardableResult
+  public func onCompletion(_ completion: @escaping (Result<T>) -> Void) -> Future<T> {
     promise.onCompletion(completion)
     
     return self

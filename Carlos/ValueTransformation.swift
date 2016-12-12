@@ -11,7 +11,7 @@ extension Future {
 
   - returns: A new Future<B>
   */
-  internal func mutate<A: OneWayTransformer where A.TypeIn == T>(transformer: A) -> Future<A.TypeOut> {
+  internal func mutate<A: OneWayTransformer>(_ transformer: A) -> Future<A.TypeOut> where A.TypeIn == T {
     return flatMap(transformer.transform)
   }
 
@@ -23,8 +23,8 @@ extension Future {
 
   - returns: A new Future<B>
    */
-  @available(*, deprecated=0.7)
-  internal func mutate<A>(transformerClosure: T -> Future<A>) -> Future<A> {
+  @available(*, deprecated: 0.7)
+  internal func mutate<A>(_ transformerClosure: (T) -> Future<A>) -> Future<A> {
     return self.mutate(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }
@@ -40,7 +40,7 @@ extension CacheLevel {
   
   - returns: A new cache result of the transformation of the original cache
   */
-  public func transformValues<A: TwoWayTransformer where OutputType == A.TypeIn>(transformer: A) -> BasicCache<KeyType, A.TypeOut> {
+  public func transformValues<A: TwoWayTransformer>(_ transformer: A) -> BasicCache<KeyType, A.TypeOut> where OutputType == A.TypeIn {
     return BasicCache(
       getClosure: { key in
         return self.get(key).mutate(transformer)
@@ -66,8 +66,8 @@ Use this transformation when you store a value type but want to mount the cache 
 
 - returns: A new cache result of the transformation of the original cache
 */
-@available(*, deprecated=0.5)
-public func transformValues<A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> {
+@available(*, deprecated: 0.5)
+public func transformValues<A: CacheLevel, B: TwoWayTransformer>(_ cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> where A.OutputType == B.TypeIn {
   return cache.transformValues(transformer)
 }
 
@@ -81,6 +81,6 @@ Use this transformation when you store a value type but want to mount the cache 
 
 - returns: A new cache result of the transformation of the original cache
 */
-public func =>><A: CacheLevel, B: TwoWayTransformer where A.OutputType == B.TypeIn>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> {
+public func =>><A: CacheLevel, B: TwoWayTransformer>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> where A.OutputType == B.TypeIn {
   return cache.transformValues(transformer)
 }

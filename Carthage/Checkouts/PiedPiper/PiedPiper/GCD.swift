@@ -2,8 +2,8 @@ import Foundation
 
 /// Internal struct for easy GCD usage
 public struct GCD: GCDQueue {
-  private static let mainQueue = GCD(queue: dispatch_get_main_queue())
-  private static let backgroundQueue = GCD(queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+  fileprivate static let mainQueue = GCD(queue: DispatchQueue.main)
+  fileprivate static let backgroundQueue = GCD(queue: DispatchQueue.global(qos: .default))
   
   /**
   Asynchronously dispatches a closure on the main queue
@@ -12,7 +12,8 @@ public struct GCD: GCDQueue {
    
   - returns: The result of the execution of the closure
   */
-  public static func main<T>(closure: (Void -> T)) -> AsyncDispatch<T> {
+  @discardableResult
+  public static func main<T>(_ closure: @escaping ((Void) -> T)) -> AsyncDispatch<T> {
     return mainQueue.async(closure)
   }
   
@@ -23,7 +24,8 @@ public struct GCD: GCDQueue {
    
   - returns: The result of the execution of the closure
   */
-  static public func background<T>(closure: (Void -> T)) -> AsyncDispatch<T> {
+  @discardableResult
+  static public func background<T>(_ closure: @escaping ((Void) -> T)) -> AsyncDispatch<T> {
     return backgroundQueue.async(closure)
   }
   
@@ -34,19 +36,20 @@ public struct GCD: GCDQueue {
    
   - returns: The newly created GCDQueue
   */
-  public static func serial(name: String) -> GCDQueue {
-    return GCD(queue: dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL))
+  public static func serial(_ name: String) -> GCDQueue {
+    return GCD(queue: DispatchQueue(label: name))
   }
   
-  static func delay(time: NSTimeInterval) -> Future<()> {
+  static func delay(_ time: TimeInterval) -> Future<()> {
     return delay(time) { () }
   }
   
-  static func delay<T>(time: NSTimeInterval, closure: Void -> T) -> Future<T> {
+  @discardableResult
+  static func delay<T>(_ time: TimeInterval, closure: @escaping (Void) -> T) -> Future<T> {
     let result = Promise<T>()
     
-    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC)))
-    dispatch_after(time, dispatch_get_main_queue(), {
+    let time = DispatchTime.now() + Double(Int64(time * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: time, execute: {
       result.succeed(closure())
     })
     
@@ -58,24 +61,24 @@ public struct GCD: GCDQueue {
    
   - parameter queue: The custom dispatch queue you want to use with this GCD value
   */
-  public init(queue: dispatch_queue_t) {
+  public init(queue: DispatchQueue) {
     self.queue = queue
   }
   
   /// The GCD queue associated to this GCD value
-  public let queue: dispatch_queue_t
+  public let queue: DispatchQueue
 }
 
 /// An async dispatch operation
-public class AsyncDispatch<T> {
+open class AsyncDispatch<T> {
   /// The inner async operation
-  private(set) public var future: Future<T>
+  private(set) open var future: Future<T>
   
   init(operation: Future<T>) {
     self.future = operation
   }
   
-  private func dispatchClosureAsync<O>(closure: T -> O, queue: GCDQueue) -> AsyncDispatch<O> {
+  private func dispatchClosureAsync<O>(_ closure: @escaping (T) -> O, queue: GCDQueue) -> AsyncDispatch<O> {
     let innerResult = Promise<O>()
     let result = AsyncDispatch<O>(operation: innerResult.future)
     
@@ -95,7 +98,8 @@ public class AsyncDispatch<T> {
    
   - returns: An AsyncDispatch object. You can keep chaining async calls on this object
   */
-  public func main<O>(closure: T -> O) -> AsyncDispatch<O> {
+  @discardableResult
+  public func main<O>(_ closure: @escaping (T) -> O) -> AsyncDispatch<O> {
     return dispatchClosureAsync(closure, queue: GCD.mainQueue)
   }
   
@@ -106,7 +110,8 @@ public class AsyncDispatch<T> {
    
   - returns: An AsyncDispatch object. You can keep chaining async calls on this object
   */
-  public func background<O>(closure: T -> O) -> AsyncDispatch<O> {
+  @discardableResult
+  public func background<O>(_ closure: @escaping (T) -> O) -> AsyncDispatch<O> {
     return dispatchClosureAsync(closure, queue: GCD.backgroundQueue)
   }
 }
@@ -114,7 +119,7 @@ public class AsyncDispatch<T> {
 /// Abstracts a GCD queue
 public protocol GCDQueue {
   /// The underlying dispatch_queue_t
-  var queue: dispatch_queue_t { get }
+  var queue: DispatchQueue { get }
 }
 
 extension GCDQueue {
@@ -126,11 +131,12 @@ extension GCDQueue {
    
   - returns: An AsyncDispatch object. You can keep chaining async calls on this object
   */
-  public func async<T>(closure: Void -> T) -> AsyncDispatch<T> {
+  @discardableResult
+  public func async<T>(_ closure: @escaping (Void) -> T) -> AsyncDispatch<T> {
     let innerResult = Promise<T>()
     let result = AsyncDispatch<T>(operation: innerResult.future)
     
-    dispatch_async(queue) {
+    queue.async {
       innerResult.succeed(closure())
     }
     

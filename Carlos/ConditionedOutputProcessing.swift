@@ -13,7 +13,7 @@ extension Future {
    
    - returns A new Future with the transformed value
    */
-  internal func mutate<K, O, Transformer: ConditionedOneWayTransformer where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O>(key: K, conditionedTransformer: Transformer) -> Future<O> {
+  internal func mutate<K, O, Transformer: ConditionedOneWayTransformer>(_ key: K, conditionedTransformer: Transformer) -> Future<O> where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O {
     return flatMap { result in
       conditionedTransformer.conditionalTransform(key, value: result)
     }
@@ -32,7 +32,7 @@ extension CacheLevel {
    
    - returns: A transformed CacheLevel that incorporates the post-processing step
    */
-  public func conditionedPostProcess<T: ConditionedOneWayTransformer where T.KeyType == KeyType, T.TypeIn == OutputType, T.TypeOut == OutputType>(conditionedTransformer: T) -> BasicCache<KeyType, OutputType> {
+  public func conditionedPostProcess<T: ConditionedOneWayTransformer>(_ conditionedTransformer: T) -> BasicCache<KeyType, OutputType> where T.KeyType == KeyType, T.TypeIn == OutputType, T.TypeOut == OutputType {
     return BasicCache(
       getClosure: { key in
         self.get(key).mutate(key, conditionedTransformer: conditionedTransformer)
@@ -55,7 +55,7 @@ extension CacheLevel {
  
  - returns: A CacheLevel that incorporates the post-processing step after the fetch
  */
-public func ?>><A, B, T: ConditionedOneWayTransformer where T.KeyType == A, T.TypeIn == B, T.TypeOut == B>(fetchClosure: (key: A) -> Future<B>, conditionedTransformer: T) -> BasicCache<A, B> {
+public func ?>><A, B, T: ConditionedOneWayTransformer>(fetchClosure: (_ key: A) -> Future<B>, conditionedTransformer: T) -> BasicCache<A, B> where T.KeyType == A, T.TypeIn == B, T.TypeOut == B {
   return wrapClosureIntoFetcher(fetchClosure).conditionedPostProcess(conditionedTransformer)
 }
 
@@ -70,6 +70,6 @@ public func ?>><A, B, T: ConditionedOneWayTransformer where T.KeyType == A, T.Ty
  
  - returns: A transformed CacheLevel that incorporates the post-processing step
  */
-public func ?>><A: CacheLevel, T: ConditionedOneWayTransformer where T.KeyType == A.KeyType, T.TypeIn == A.OutputType, T.TypeOut == A.OutputType>(cache: A, conditionedTransformer: T) -> BasicCache<A.KeyType, A.OutputType> {
+public func ?>><A: CacheLevel, T: ConditionedOneWayTransformer>(cache: A, conditionedTransformer: T) -> BasicCache<A.KeyType, A.OutputType> where T.KeyType == A.KeyType, T.TypeIn == A.OutputType, T.TypeOut == A.OutputType {
   return cache.conditionedPostProcess(conditionedTransformer)
 }

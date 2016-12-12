@@ -1,7 +1,7 @@
 import Foundation
 
-public enum FutureError: ErrorType {
-  case Timeout
+public enum FutureError: Error {
+  case timeout
 }
 
 extension Future {
@@ -12,10 +12,10 @@ extension Future {
    
    - returns: A new Future that will time out after the given number of seconds, or will behave as this Future
    */
-  public func timeout(after timeout: NSTimeInterval) -> Future<T> {
+  public func timeout(after timeout: TimeInterval) -> Future<T> {
     let timedOut = Promise<T>().mimic(self)
     
-    GCD.delay(timeout, closure: { FutureError.Timeout as ErrorType }).onSuccess(timedOut.fail)
+    GCD.delay(timeout, closure: { FutureError.timeout }).onSuccess(timedOut.fail)
     
     return timedOut.future
   }

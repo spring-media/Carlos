@@ -17,7 +17,7 @@ public protocol ReadWriteLock {
    
   - returns: The result of the given code
   */
-  func withReadLock<T>(@noescape body: () -> T) -> T
+  func withReadLock<T>( _ body: () -> T) -> T
   
   /**
   Executes a given closure with a write lock
@@ -26,7 +26,7 @@ public protocol ReadWriteLock {
    
   - returns: The result of the given code
   */
-  func withWriteLock<T>(@noescape body: () -> T) -> T
+  func withWriteLock<T>( _ body: () -> T) -> T
 }
 
 /// An implemenation of ReadWriteLock based on pthread, taken from https://github.com/bignerdranch/Deferred
@@ -35,7 +35,7 @@ public final class PThreadReadWriteLock: ReadWriteLock {
   
   /// Instantiates a new read/write lock
   public init() {
-    lock = UnsafeMutablePointer.alloc(1)
+    lock = UnsafeMutablePointer.allocate(capacity: 1)
     let status = pthread_rwlock_init(lock, nil)
     assert(status == 0)
   }
@@ -43,10 +43,10 @@ public final class PThreadReadWriteLock: ReadWriteLock {
   deinit {
     let status = pthread_rwlock_destroy(lock)
     assert(status == 0)
-    lock.dealloc(1)
+    lock.deallocate(capacity: 1)
   }
   
-  public func withReadLock<T>(@noescape body: () -> T) -> T {
+  public func withReadLock<T>( _ body: () -> T) -> T {
     pthread_rwlock_rdlock(lock)
     
     defer {
@@ -56,7 +56,7 @@ public final class PThreadReadWriteLock: ReadWriteLock {
     return body()
   }
   
-  public func withWriteLock<T>(@noescape body: () -> T) -> T {
+  public func withWriteLock<T>( _ body: () -> T) -> T {
     pthread_rwlock_wrlock(lock)
     
     defer {

@@ -4,8 +4,8 @@ import PiedPiper
 /**
 This class takes care of transforming NSData instances into JSON objects in the form of AnyObject instances. Depending on your usage, the AnyObject could contain an Array, a Dictionary, or nil if the NSData is not a valid JSON
 */
-public class JSONTransformer: TwoWayTransformer {
-  public typealias TypeIn = NSData
+open class JSONTransformer: TwoWayTransformer {
+  public typealias TypeIn = Data
   public typealias TypeOut = AnyObject
   
   /// Initializes a new instance of JSONTransformer
@@ -18,11 +18,11 @@ public class JSONTransformer: TwoWayTransformer {
   
   - returns: A Future<AnyObject> value, with the parsed JSON if the input data was valid
   */
-  public func transform(val: TypeIn) -> Future<TypeOut> {
+  open func transform(_ val: TypeIn) -> Future<TypeOut> {
     let result = Promise<TypeOut>()
     
     do {
-      let transformed = try NSJSONSerialization.JSONObjectWithData(val, options: [.AllowFragments])
+      let transformed = try JSONSerialization.jsonObject(with: val, options: [.allowFragments])
       result.succeed(transformed)
     } catch {
       result.fail(error)
@@ -38,11 +38,11 @@ public class JSONTransformer: TwoWayTransformer {
   
   - returns: A Future<NSData> value, with the deserialized JSON if the input was valid
   */
-  public func inverseTransform(val: TypeOut) -> Future<TypeIn> {
+  open func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
     let result = Promise<TypeIn>()
     
     do {
-      let transformed = try NSJSONSerialization.dataWithJSONObject(val, options: [])
+      let transformed = try JSONSerialization.data(withJSONObject: val, options: [])
       result.succeed(transformed)
     } catch {
       result.fail(error)

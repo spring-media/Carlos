@@ -26,7 +26,7 @@ extension NSString: StringConvertible {
   }
 }
 
-extension NSURL: StringConvertible {
+extension URL: StringConvertible {
   /**
   - returns: The absolute string or an empty string if the absolute string is nil
   */

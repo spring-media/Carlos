@@ -11,7 +11,7 @@ extension Future {
    
    - returns A new Future with the transformed value
    */
-  internal func mutate<K, O, Transformer: ConditionedTwoWayTransformer where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O>(key: K, conditionedTransformer: Transformer) -> Future<O> {
+  internal func mutate<K, O, Transformer: ConditionedTwoWayTransformer>(_ key: K, conditionedTransformer: Transformer) -> Future<O> where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O {
     return flatMap { result in
       conditionedTransformer.conditionalTransform(key, value: result)
     }
@@ -31,7 +31,7 @@ extension CacheLevel {
    
    - returns: A new cache result of the transformation of the original cache
    */
-  public func conditionedValueTransformation<A: ConditionedTwoWayTransformer where OutputType == A.TypeIn, A.KeyType == KeyType>(transformer: A) -> BasicCache<KeyType, A.TypeOut> {
+  public func conditionedValueTransformation<A: ConditionedTwoWayTransformer>(_ transformer: A) -> BasicCache<KeyType, A.TypeOut> where OutputType == A.TypeIn, A.KeyType == KeyType {
     return BasicCache(
       getClosure: { key in
         self.get(key).mutate(key, conditionedTransformer: transformer)
@@ -58,6 +58,6 @@ extension CacheLevel {
  
  - returns: A transformed CacheLevel that incorporates the value transformation step
  */
-public func ?>><A: CacheLevel, T: ConditionedTwoWayTransformer where T.KeyType == A.KeyType, T.TypeIn == A.OutputType>(cache: A, conditionedTransformer: T) -> BasicCache<A.KeyType, T.TypeOut> {
+public func ?>><A: CacheLevel, T: ConditionedTwoWayTransformer>(cache: A, conditionedTransformer: T) -> BasicCache<A.KeyType, T.TypeOut> where T.KeyType == A.KeyType, T.TypeIn == A.OutputType {
   return cache.conditionedValueTransformation(conditionedTransformer)
 }

@@ -9,22 +9,22 @@ class ResultMapTests: QuickSpec {
       var mappedResult: Result<Int>!
       
       context("when done through a simple closure") {
-        let mappingClosure: String -> Int = { str in
+        let mappingClosure: (String) -> Int = { str in
           return 1
         }
         
         context("when the original Result is an error") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
-            result = .Error(error)
+            result = .error(error)
             mappedResult = result.map(mappingClosure)
           }
           
           it("should also fail the mapped result") {
             var sentinel = false
             
-            if case .Some(.Error) = mappedResult {
+            if case .some(.error) = mappedResult {
               sentinel = true
             }
             
@@ -32,9 +32,9 @@ class ResultMapTests: QuickSpec {
           }
           
           it("should fail the mapped result with the same error") {
-            var failureValue: ErrorType?
+            var failureValue: Error?
             
-            if case .Some(.Error(let error)) = mappedResult {
+            if case .some(.error(let error)) = mappedResult {
               failureValue = error
             }
             
@@ -44,14 +44,14 @@ class ResultMapTests: QuickSpec {
         
         context("when the original Result is canceled") {
           beforeEach {
-            result = .Cancelled
+            result = .cancelled
             mappedResult = result.map(mappingClosure)
           }
           
           it("should also cancel the mapped Result") {
             var wasCanceled = false
             
-            if case .Some(.Cancelled) = mappedResult {
+            if case .some(.cancelled) = mappedResult {
               wasCanceled = true
             }
             
@@ -63,14 +63,14 @@ class ResultMapTests: QuickSpec {
           let value = "Eureka!"
           
           beforeEach {
-            result = .Success(value)
+            result = .success(value)
             mappedResult = result.map(mappingClosure)
           }
           
           it("should also succeed the mapped Result") {
             var successValue: Int?
             
-            if case .Some(.Success(let value)) = mappedResult {
+            if case .some(.success(let value)) = mappedResult {
               successValue = value
             }
             
@@ -80,7 +80,7 @@ class ResultMapTests: QuickSpec {
           it("should succeed the mapped future with the mapped value") {
             var successValue: Int?
             
-            if case .Some(.Success(let value)) = mappedResult {
+            if case .some(.success(let value)) = mappedResult {
               successValue = value
             }
             
@@ -90,26 +90,26 @@ class ResultMapTests: QuickSpec {
       }
       
       context("when done through a closure that can throw") {
-        let mappingClosure: String throws -> Int = { str in
+        let mappingClosure: (String) throws -> Int = { str in
           if str == "throw" {
-            throw TestError.AnotherError
+            throw TestError.anotherError
           } else {
             return 1
           }
         }
         
         context("when the original Result is an error") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
-            result = .Error(error)
+            result = .error(error)
             mappedResult = result.map(mappingClosure)
           }
           
           it("should also fail the mapped result") {
             var sentinel = false
             
-            if case .Some(.Error) = mappedResult {
+            if case .some(.error) = mappedResult {
               sentinel = true
             }
             
@@ -117,9 +117,9 @@ class ResultMapTests: QuickSpec {
           }
           
           it("should fail the mapped result with the same error") {
-            var failureValue: ErrorType?
+            var failureValue: Error?
             
-            if case .Some(.Error(let error)) = mappedResult {
+            if case .some(.error(let error)) = mappedResult {
               failureValue = error
             }
             
@@ -129,14 +129,14 @@ class ResultMapTests: QuickSpec {
         
         context("when the original Result is canceled") {
           beforeEach {
-            result = .Cancelled
+            result = .cancelled
             mappedResult = result.map(mappingClosure)
           }
           
           it("should also cancel the mapped Result") {
             var wasCanceled = false
             
-            if case .Some(.Cancelled) = mappedResult {
+            if case .some(.cancelled) = mappedResult {
               wasCanceled = true
             }
             
@@ -149,14 +149,14 @@ class ResultMapTests: QuickSpec {
             let value = "Eureka!"
             
             beforeEach {
-              result = .Success(value)
+              result = .success(value)
               mappedResult = result.map(mappingClosure)
             }
             
             it("should also succeed the mapped Result") {
               var successValue: Int?
               
-              if case .Some(.Success(let value)) = mappedResult {
+              if case .some(.success(let value)) = mappedResult {
                 successValue = value
               }
               
@@ -166,7 +166,7 @@ class ResultMapTests: QuickSpec {
             it("should succeed the mapped Result with the mapped value") {
               var successValue: Int?
               
-              if case .Some(.Success(let value)) = mappedResult {
+              if case .some(.success(let value)) = mappedResult {
                 successValue = value
               }
               
@@ -178,14 +178,14 @@ class ResultMapTests: QuickSpec {
             let value = "throw"
             
             beforeEach {
-              result = .Success(value)
+              result = .success(value)
               mappedResult = result.map(mappingClosure)
             }
             
             it("should fail the mapped Result") {
-              var failureValue: ErrorType?
+              var failureValue: Error?
               
-              if case .Some(.Error(let error)) = mappedResult {
+              if case .some(.error(let error)) = mappedResult {
                 failureValue = error
               }
               
@@ -193,13 +193,13 @@ class ResultMapTests: QuickSpec {
             }
             
             it("should fail the mapped future with the right error") {
-              var failureValue: ErrorType?
+              var failureValue: Error?
               
-              if case .Some(.Error(let error)) = mappedResult {
+              if case .some(.error(let error)) = mappedResult {
                 failureValue = error
               }
               
-              expect(failureValue as? TestError).to(equal(TestError.AnotherError))
+              expect(failureValue as? TestError).to(equal(TestError.anotherError))
             }
           }
         }

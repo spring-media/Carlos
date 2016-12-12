@@ -11,8 +11,8 @@ Composes two cache closures
 
 - returns: A new cache level that is the result of the composition of the two cache closures
 */
-@available(*, deprecated=0.5)
-public func compose<A, B>(firstFetcher: (key: A) -> Future<B>, secondFetcher: (key: A) -> Future<B>) -> BasicCache<A, B> {
+@available(*, deprecated: 0.5)
+public func compose<A, B>(_ firstFetcher: (_ key: A) -> Future<B>, secondFetcher: (_ key: A) -> Future<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(firstFetcher) >>> wrapClosureIntoFetcher(secondFetcher)
 }
 
@@ -25,7 +25,7 @@ extension CacheLevel {
   
   - returns: A new cache level that is the result of the composition of the two cache levels
   */
-  public func compose<A: CacheLevel where A.KeyType == KeyType, A.OutputType == OutputType>(cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+  public func compose<A: CacheLevel>(_ cache: A) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == KeyType, A.OutputType == OutputType {
     return BasicCache(
       getClosure: { key in
         let request = Promise<A.OutputType>()
@@ -66,8 +66,8 @@ extension CacheLevel {
   
   - returns: A new cache level that is the result of the composition of the cache level with the cache closure
    */
-  @available(*, deprecated=0.7)
-  public func compose(fetchClosure: (key: KeyType) -> Future<OutputType>) -> BasicCache<KeyType, OutputType> {
+  @available(*, deprecated: 0.7)
+  public func compose(_ fetchClosure: (_ key: KeyType) -> Future<OutputType>) -> BasicCache<KeyType, OutputType> {
     return self.compose(wrapClosureIntoFetcher(fetchClosure))
   }
 }
@@ -80,8 +80,8 @@ Composes two cache levels
 
 - returns: A new cache level that is the result of the composition of the two cache levels
 */
-@available(*, deprecated=0.5)
-public func compose<A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.5)
+public func compose<A: CacheLevel, B: CacheLevel>(_ firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == B.KeyType, A.OutputType == B.OutputType {
   return firstCache.compose(secondCache)
 }
 
@@ -93,8 +93,8 @@ Composes a cache level with a cache closure
 
 - returns: A new cache level that is the result of the composition of the cache level with the cache closure
 */
-@available(*, deprecated=0.5)
-public func compose<A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType) -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.5)
+public func compose<A: CacheLevel>(_ cache: A, fetchClosure: (_ key: A.KeyType) -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.compose(wrapClosureIntoFetcher(fetchClosure))
 }
 
@@ -106,8 +106,8 @@ Composes a cache closure with a cache level
 
 - returns: A new cache level that is the result of the composition of the cache closure with the cache level
 */
-@available(*, deprecated=0.5)
-public func compose<A: CacheLevel>(fetchClosure: (key: A.KeyType) -> Future<A.OutputType>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.5)
+public func compose<A: CacheLevel>(_ fetchClosure: (_ key: A.KeyType) -> Future<A.OutputType>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return wrapClosureIntoFetcher(fetchClosure).compose(cache)
 }
 
@@ -119,8 +119,8 @@ Composes two cache closures
 
 - returns: A new cache level that is the result of the composition of the two cache closures
  */
-@available(*, deprecated=0.7)
-public func >>><A, B>(firstFetcher: (key: A) -> Future<B>, secondFetcher: (key: A) -> Future<B>) -> BasicCache<A, B> {
+@available(*, deprecated: 0.7)
+public func >>><A, B>(firstFetcher: (_ key: A) -> Future<B>, secondFetcher: (_ key: A) -> Future<B>) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(firstFetcher).compose(wrapClosureIntoFetcher(secondFetcher))
 }
 
@@ -132,7 +132,7 @@ Composes two cache levels
 
 - returns: A new cache level that is the result of the composition of the two cache levels
 */
-public func >>><A: CacheLevel, B: CacheLevel where A.KeyType == B.KeyType, A.OutputType == B.OutputType>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> {
+public func >>><A: CacheLevel, B: CacheLevel>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == B.KeyType, A.OutputType == B.OutputType {
   return firstCache.compose(secondCache)
 }
 
@@ -144,8 +144,8 @@ Composes a cache level with a cache closure
 
 - returns: A new cache level that is the result of the composition of the cache level with the cache closure
  */
-@available(*, deprecated=0.7)
-public func >>><A: CacheLevel>(cache: A, fetchClosure: (key: A.KeyType) -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.7)
+public func >>><A: CacheLevel>(cache: A, fetchClosure: (_ key: A.KeyType) -> Future<A.OutputType>) -> BasicCache<A.KeyType, A.OutputType> {
   return cache.compose(wrapClosureIntoFetcher(fetchClosure))
 }
 
@@ -157,7 +157,7 @@ Composes a cache closure with a cache level
 
 - returns: A new cache level that is the result of the composition of the cache closure with the cache level
  */
-@available(*, deprecated=0.7)
-public func >>><A: CacheLevel>(fetchClosure: (key: A.KeyType) -> Future<A.OutputType>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
+@available(*, deprecated: 0.7)
+public func >>><A: CacheLevel>(fetchClosure: (_ key: A.KeyType) -> Future<A.OutputType>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
   return wrapClosureIntoFetcher(fetchClosure).compose(cache)
 }

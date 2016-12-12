@@ -9,11 +9,11 @@ class ResultTests: QuickSpec {
       var result: Result<String>!
       
       context("the error property") {
-        var error: ErrorType?
+        var error: Error?
         
         context("when the result is a success") {
           beforeEach {
-            result = .Success("Hi!")
+            result = .success("Hi!")
             error = result.error
           }
           
@@ -24,7 +24,7 @@ class ResultTests: QuickSpec {
         
         context("when the result is cancelled") {
           beforeEach {
-            result = .Cancelled
+            result = .cancelled
             error = result.error
           }
           
@@ -35,7 +35,7 @@ class ResultTests: QuickSpec {
         
         context("when the result is a failure") {
           beforeEach {
-            result = .Error(TestError.SimpleError)
+            result = .error(TestError.simpleError)
             error = result.error
           }
           
@@ -44,7 +44,7 @@ class ResultTests: QuickSpec {
           }
           
           it("should be the right error") {
-            expect(error as? TestError).to(equal(TestError.SimpleError))
+            expect(error as? TestError).to(equal(TestError.simpleError))
           }
         }
       }
@@ -56,7 +56,7 @@ class ResultTests: QuickSpec {
           let expected = "Hi!"
           
           beforeEach {
-            result = .Success(expected)
+            result = .success(expected)
             value = result.value
           }
           
@@ -71,7 +71,7 @@ class ResultTests: QuickSpec {
         
         context("when the result is cancelled") {
           beforeEach {
-            result = .Cancelled
+            result = .cancelled
             value = result.value
           }
           
@@ -82,7 +82,7 @@ class ResultTests: QuickSpec {
         
         context("when the result is a failure") {
           beforeEach {
-            result = .Error(TestError.AnotherError)
+            result = .error(TestError.anotherError)
             value = result.value
           }
           

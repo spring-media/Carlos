@@ -20,8 +20,8 @@ Wraps a CacheLevel with a requests pool
 
 - returns: A PoolCache that will pool requests coming to the decorated cache. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
 */
-@available(*, deprecated=0.5)
-public func pooled<A: CacheLevel where A.KeyType: Hashable>(cache: A) -> PoolCache<A> {
+@available(*, deprecated: 0.5)
+public func pooled<A: CacheLevel>(_ cache: A) -> PoolCache<A> where A.KeyType: Hashable {
   return cache.pooled()
 }
 
@@ -32,21 +32,21 @@ Wraps a fetcher closure with a requests pool
 
 - returns: A PoolCache that will pool requests coming to the closure. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
 */
-@available(*, deprecated=0.5)
-public func pooled<A, B>(fetcherClosure: (key: A) -> Future<B>) -> PoolCache<BasicFetcher<A, B>> {
+@available(*, deprecated: 0.5)
+public func pooled<A, B>(_ fetcherClosure: (_ key: A) -> Future<B>) -> PoolCache<BasicFetcher<A, B>> {
   return wrapClosureIntoFetcher(fetcherClosure).pooled()
 }
 
 /**
 A CacheLevel that pools incoming get requests. This means that multiple requests for the same key will be pooled and only one will be actually executed (so that expensive operations like network or file system fetches will only be done once).
 */
-public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLevel {
+public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashable {
   public typealias KeyType = C.KeyType
   public typealias OutputType = C.OutputType
   
-  private let internalCache: C
-  private let lock: ReadWriteLock = PThreadReadWriteLock()
-  private var requestsPool: [C.KeyType: Future<C.OutputType>] = [:]
+  fileprivate let internalCache: C
+  fileprivate let lock: ReadWriteLock = PThreadReadWriteLock()
+  fileprivate var requestsPool: [C.KeyType: Future<C.OutputType>] = [:]
   
   /**
   Creates a new instance of a pooled cache
@@ -64,7 +64,7 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   
   - returns: A Future that could either have been just created or it could have been reused from a pool of pending Futures if there is a Future for the same key going on at the moment.
   */
-  public func get(key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     let request: Future<OutputType>
     
     if let pooledRequest = lock.withReadLock ({ self.requestsPool[key] }) {
@@ -96,7 +96,7 @@ public final class PoolCache<C: CacheLevel where C.KeyType: Hashable>: CacheLeve
   - parameter value: The value to set
   - parameter key: The key for the value
   */
-  public func set(value: C.OutputType, forKey key: C.KeyType) -> Future<()> {
+  public func set(_ value: C.OutputType, forKey key: C.KeyType) -> Future<()> {
     return internalCache.set(value, forKey: key)
   }
   

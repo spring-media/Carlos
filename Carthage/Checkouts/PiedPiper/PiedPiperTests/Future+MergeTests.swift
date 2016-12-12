@@ -8,7 +8,7 @@ class FutureSequenceMergeTests: QuickSpec {
       var promises: [Promise<Int>]!
       var mergedFuture: Future<[Int]>!
       var successValue: [Int]?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       var originalPromisesCanceled: [Bool]!
       
@@ -33,18 +33,18 @@ class FutureSequenceMergeTests: QuickSpec {
         
         mergedFuture.onCompletion { result in
           switch result {
-          case .Success(let value):
+          case .success(let value):
             successValue = value
-          case .Error(let error):
+          case .error(let error):
             failureValue = error
-          case .Cancelled:
+          case .cancelled:
             wasCanceled = true
           }
         }
       }
       
       context("when one of the original futures fails") {
-        let expectedError = TestError.AnotherError
+        let expectedError = TestError.anotherError
         
         beforeEach {
           promises.first?.succeed(10)
@@ -92,8 +92,8 @@ class FutureSequenceMergeTests: QuickSpec {
         
         context("when they succeed in the same order") {
           beforeEach {
-            expectedResult = promises.enumerate().map { $0.index }
-            promises.enumerate().forEach { (iteration, promise) in
+            expectedResult = promises.enumerated().map { $0.offset }
+            promises.enumerated().forEach { (iteration, promise) in
               promise.succeed(iteration)
             }
           }
@@ -173,7 +173,7 @@ class FutureSequenceMergeTests: QuickSpec {
         
         expectedResult = Array(0..<promises.count).map { "\($0)" }
         
-        var arrayOfIndexes = Array(promises.enumerate())
+        var arrayOfIndexes = Array(promises.enumerated())
         
         repeat {
           arrayOfIndexes = arrayOfIndexes.shuffle()
@@ -197,7 +197,7 @@ class FutureSequenceMergeTests: QuickSpec {
       var promises: [Promise<Int>]!
       var mergedFuture: Future<[Int]>!
       var successValue: [Int]?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       var originalPromisesCanceled: [Bool]!
 
@@ -223,18 +223,18 @@ class FutureSequenceMergeTests: QuickSpec {
 
         mergedFuture.onCompletion { result in
           switch result {
-          case .Success(let value):
+          case .success(let value):
             successValue = value
-          case .Error(let error):
+          case .error(let error):
             failureValue = error
-          case .Cancelled:
+          case .cancelled:
             wasCanceled = true
           }
         }
       }
 
       context("when one of the original futures fails") {
-        let expectedError = TestError.AnotherError
+        let expectedError = TestError.anotherError
 
         beforeEach {
           promises.first?.succeed(10)
@@ -285,8 +285,8 @@ class FutureSequenceMergeTests: QuickSpec {
 
         context("when they succeed in the same order") {
           beforeEach {
-            expectedResult = promises.enumerate().map { $0.index }
-            promises.enumerate().forEach { (iteration, promise) in
+            expectedResult = promises.enumerated().map { $0.offset }
+            promises.enumerated().forEach { (iteration, promise) in
               promise.succeed(iteration)
             }
           }

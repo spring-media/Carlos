@@ -8,7 +8,7 @@ extension Future {
    
    - returns: A new Future that will return the result of this Future after the given snooze time
    */
-  public func snooze(time: NSTimeInterval) -> Future<T> {
+  public func snooze(_ time: TimeInterval) -> Future<T> {
     let snoozed = Promise<T>()
     
     onCompletion { _ in

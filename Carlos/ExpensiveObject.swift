@@ -6,10 +6,10 @@ public protocol ExpensiveObject {
   var cost: Int { get }
 }
 
-extension NSData: ExpensiveObject {
+extension Data: ExpensiveObject {
   /// The number of bytes of the data block
   public var cost: Int {
-    return self.length
+    return self.count
   }
 }
 
@@ -27,7 +27,7 @@ extension NSString: ExpensiveObject {
   }
 }
 
-extension NSURL: ExpensiveObject {
+extension URL: ExpensiveObject {
   /// The size of the URL
   public var cost: Int {
     return String(absoluteString).cost

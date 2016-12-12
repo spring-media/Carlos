@@ -9,15 +9,15 @@ class ResultFilterTests: QuickSpec {
       var filteredResult: Result<Int>!
      
       context("when done through a simple closure") {
-        let filteringClosure: Int -> Bool = { num in
+        let filteringClosure: (Int) -> Bool = { num in
           num > 0
         }
         
         context("when the original result is error") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
-            original = .Error(error)
+            original = .error(error)
             
             filteredResult = original.filter(filteringClosure)
           }
@@ -25,7 +25,7 @@ class ResultFilterTests: QuickSpec {
           it("should also fail the filtered result") {
             var didFail = false
             
-            if case .Some(.Error) = filteredResult {
+            if case .some(.error) = filteredResult {
               didFail = true
             }
             
@@ -33,9 +33,9 @@ class ResultFilterTests: QuickSpec {
           }
           
           it("should fail the filtered result with the same error") {
-            var actualError: ErrorType?
+            var actualError: Error?
             
-            if case .Some(.Error(let error)) = filteredResult {
+            if case .some(.error(let error)) = filteredResult {
               actualError = error
             }
             
@@ -45,7 +45,7 @@ class ResultFilterTests: QuickSpec {
         
         context("when the original result is canceled") {
           beforeEach {
-            original = .Cancelled
+            original = .cancelled
             
             filteredResult = original.filter(filteringClosure)
           }
@@ -53,7 +53,7 @@ class ResultFilterTests: QuickSpec {
           it("should also cancel the filtered result") {
             var wasCanceled = false
             
-            if case .Some(.Cancelled) = filteredResult {
+            if case .some(.cancelled) = filteredResult {
               wasCanceled = true
             }
             
@@ -66,14 +66,14 @@ class ResultFilterTests: QuickSpec {
             let result = 20
             
             beforeEach {
-              original = .Success(result)
+              original = .success(result)
               filteredResult = original.filter(filteringClosure)
             }
             
             it("should also succeed the filtered result") {
               var didSucceed = false
               
-              if case .Some(.Success) = filteredResult {
+              if case .some(.success) = filteredResult {
                 didSucceed = true
               }
               
@@ -83,7 +83,7 @@ class ResultFilterTests: QuickSpec {
             it("should succeed the filtered result with the original value") {
               var successValue: Int?
               
-              if case .Some(.Success(let value)) = filteredResult {
+              if case .some(.success(let value)) = filteredResult {
                 successValue = value
               }
               
@@ -95,14 +95,14 @@ class ResultFilterTests: QuickSpec {
             let result = -20
             
             beforeEach {
-              original = .Success(result)
+              original = .success(result)
               filteredResult = original.filter(filteringClosure)
             }
             
             it("should fail the filtered result") {
               var didFail = false
               
-              if case .Some(.Error) = filteredResult {
+              if case .some(.error) = filteredResult {
                 didFail = true
               }
               
@@ -110,13 +110,13 @@ class ResultFilterTests: QuickSpec {
             }
             
             it("should fail the filtered result with the right error") {
-              var error: ErrorType?
+              var error: Error?
               
-              if case .Some(.Error(let err)) = filteredResult {
+              if case .some(.error(let err)) = filteredResult {
                 error = err
               }
               
-              expect(error as? ResultFilteringError).to(equal(ResultFilteringError.ConditionUnsatisfied))
+              expect(error as? ResultFilteringError).to(equal(ResultFilteringError.conditionUnsatisfied))
             }
           }
         }

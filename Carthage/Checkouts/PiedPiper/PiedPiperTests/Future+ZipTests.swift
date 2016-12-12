@@ -8,7 +8,7 @@ class FutureZipTests: QuickSpec {
       var promise: Promise<String>!
       var zippedFuture: Future<(String, Int)>!
       var successValue: (String, Int)?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       
       beforeEach {
@@ -29,18 +29,18 @@ class FutureZipTests: QuickSpec {
           
           zippedFuture.onCompletion { result in
             switch result {
-            case .Success(let value):
+            case .success(let value):
               successValue = value
-            case .Error(let error):
+            case .error(let error):
               failureValue = error
-            case .Cancelled:
+            case .cancelled:
               wasCanceled = true
             }
           }
         }
         
         context("when the first future fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             promise.fail(error)
@@ -89,7 +89,7 @@ class FutureZipTests: QuickSpec {
           }
           
           context("when the second future fails") {
-            let error = TestError.SimpleError
+            let error = TestError.simpleError
             
             beforeEach {
               other.fail(error)
@@ -164,24 +164,24 @@ class FutureZipTests: QuickSpec {
           let otherResult = 10
           
           beforeEach {
-            other = Result.Success(otherResult)
+            other = Result.success(otherResult)
             
             zippedFuture = promise.future.zip(other)
             
             zippedFuture.onCompletion { result in
               switch result {
-              case .Success(let value):
+              case .success(let value):
                 successValue = value
-              case .Error(let error):
+              case .error(let error):
                 failureValue = error
-              case .Cancelled:
+              case .cancelled:
                 wasCanceled = true
               }
             }
           }
           
           context("when the future fails") {
-            let error = TestError.AnotherError
+            let error = TestError.anotherError
             
             beforeEach {
               promise.fail(error)
@@ -249,20 +249,20 @@ class FutureZipTests: QuickSpec {
         }
         
         context("when the result is error") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
-            other = Result.Error(error)
+            other = Result.error(error)
             
             zippedFuture = promise.future.zip(other)
             
             zippedFuture.onCompletion { result in
               switch result {
-              case .Success(let value):
+              case .success(let value):
                 successValue = value
-              case .Error(let error):
+              case .error(let error):
                 failureValue = error
-              case .Cancelled:
+              case .cancelled:
                 wasCanceled = true
               }
             }
@@ -285,7 +285,7 @@ class FutureZipTests: QuickSpec {
           }
           
           context("when the future fails") {
-            let anotherError = TestError.AnotherError
+            let anotherError = TestError.anotherError
             
             beforeEach {
               promise.fail(anotherError)
@@ -355,17 +355,17 @@ class FutureZipTests: QuickSpec {
         
         context("when the result is cancelled") {
           beforeEach {
-            other = Result.Cancelled
+            other = Result.cancelled
             
             zippedFuture = promise.future.zip(other)
             
             zippedFuture.onCompletion { result in
               switch result {
-              case .Success(let value):
+              case .success(let value):
                 successValue = value
-              case .Error(let error):
+              case .error(let error):
                 failureValue = error
-              case .Cancelled:
+              case .cancelled:
                 wasCanceled = true
               }
             }
@@ -384,7 +384,7 @@ class FutureZipTests: QuickSpec {
           }
           
           context("when the future fails") {
-            let error = TestError.AnotherError
+            let error = TestError.anotherError
             
             beforeEach {
               promise.fail(error)

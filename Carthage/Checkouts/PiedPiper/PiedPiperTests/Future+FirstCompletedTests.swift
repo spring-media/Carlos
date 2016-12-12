@@ -8,7 +8,7 @@ class FutureSequenceFirstCompletedTests: QuickSpec {
       var promises: [Promise<Int>]!
       var resultFuture: Future<Int>!
       var successValue: Int?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       var originalPromisesCanceled: [Bool]!
       
@@ -33,18 +33,18 @@ class FutureSequenceFirstCompletedTests: QuickSpec {
         
         resultFuture.onCompletion { result in
           switch result {
-          case .Success(let value):
+          case .success(let value):
             successValue = value
-          case .Error(let error):
+          case .error(let error):
             failureValue = error
-          case .Cancelled:
+          case .cancelled:
             wasCanceled = true
           }
         }
       }
       
       context("when one of the original futures fails") {
-        let expectedError = TestError.AnotherError
+        let expectedError = TestError.anotherError
         
         beforeEach {
           promises[2].fail(expectedError)

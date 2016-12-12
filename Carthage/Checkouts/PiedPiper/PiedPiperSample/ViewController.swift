@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         Future("Processed string result is \($0)")
       }
       .map {
-        "\($0)".uppercaseString
+        "\($0)".uppercased()
       }
     
     processed
@@ -90,19 +90,19 @@ class ViewController: UIViewController {
     }
   }
   
-  private func multiply(by: Int) -> Int -> Int {
+  private func multiply(_ by: Int) -> (Int) -> Int {
     return { input in
       input * by
     }
   }
   
-  private func add(input: Int) -> Int -> Int {
+  private func add(_ input: Int) -> (Int) -> Int {
     return { num in
       num + input
     }
   }
   
-  private func triple(input: Int) -> Int {
+  private func triple(_ input: Int) -> Int {
     return input * 3
   }
 }

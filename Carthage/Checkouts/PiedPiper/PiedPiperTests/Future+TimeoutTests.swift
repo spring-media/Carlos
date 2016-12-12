@@ -7,7 +7,7 @@ class FutureTimeoutTests: QuickSpec {
     describe("Timing out a Future") {
       var sut: Promise<Int>!
       var result: Future<Int>!
-      var failSentinel: ErrorType?
+      var failSentinel: Error?
       var successSentinel: Int?
       var cancelSentinel: Bool?
       
@@ -27,7 +27,7 @@ class FutureTimeoutTests: QuickSpec {
       }
       
       context("when the original promise fails") {
-        let error = TestError.AnotherError
+        let error = TestError.anotherError
         
         beforeEach {
           sut.fail(error)
@@ -74,7 +74,7 @@ class FutureTimeoutTests: QuickSpec {
         }
         
         it("should fail with the right error") {
-          expect(failSentinel as? FutureError).toEventually(equal(FutureError.Timeout), timeout: 0.6)
+          expect(failSentinel as? FutureError).toEventually(equal(FutureError.timeout), timeout: 0.6)
         }
       }
     }

@@ -1,4 +1,4 @@
-extension SequenceType {
+extension Sequence {
   /**
   Maps this sequence with the provided closure generating Futures, then merges the created Futures into a single one
    
@@ -6,7 +6,7 @@ extension SequenceType {
   
   - returns: A new Future containing the list of results of the single Futures generated through the closure. The resulting Future will fail or be canceled if one of the Futures generated through the closure fails or is canceled
   */
-  public func traverse<U>(generator: Generator.Element -> Future<U>) -> Future<[U]> {
+  public func traverse<U>(_ generator: (Iterator.Element) -> Future<U>) -> Future<[U]> {
     return map(generator).mergeAll()
   }
 }

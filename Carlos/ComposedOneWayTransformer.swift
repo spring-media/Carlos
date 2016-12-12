@@ -9,7 +9,7 @@ extension OneWayTransformer {
   
   - returns: A new OneWayTransformer that is the result of the composition of the two OneWayTransformers
   */
-  public func compose<A: OneWayTransformer where A.TypeIn == TypeOut>(transformer: A) -> OneWayTransformationBox<TypeIn, A.TypeOut> {
+  public func compose<A: OneWayTransformer>(_ transformer: A) -> OneWayTransformationBox<TypeIn, A.TypeOut> where A.TypeIn == TypeOut {
     return OneWayTransformationBox(transform: self.transform >>> transformer.transform)
   }
   
@@ -20,8 +20,8 @@ extension OneWayTransformer {
   
   - returns: A new OneWayTransformer that is the result of the composition of the transformer with the transformation closure
    */
-  @available(*, deprecated=0.7)
-  public func compose<A>(transformerClosure: TypeOut -> Future<A>) -> OneWayTransformationBox<TypeIn, A> {
+  @available(*, deprecated: 0.7)
+  public func compose<A>(_ transformerClosure: (TypeOut) -> Future<A>) -> OneWayTransformationBox<TypeIn, A> {
     return self.compose(wrapClosureIntoOneWayTransformer(transformerClosure))
   }
 }
@@ -34,8 +34,8 @@ Composes two OneWayTransformers
 
 - returns: A new OneWayTransformer that is the result of the composition of the two OneWayTransformers
 */
-@available(*, deprecated=0.5)
-public func compose<A: OneWayTransformer, B: OneWayTransformer where B.TypeIn == A.TypeOut>(firstTransformer: A, secondTransformer: B) -> OneWayTransformationBox<A.TypeIn, B.TypeOut> {
+@available(*, deprecated: 0.5)
+public func compose<A: OneWayTransformer, B: OneWayTransformer>(_ firstTransformer: A, secondTransformer: B) -> OneWayTransformationBox<A.TypeIn, B.TypeOut> where B.TypeIn == A.TypeOut {
   return firstTransformer.compose(secondTransformer)
 }
 
@@ -47,8 +47,8 @@ Composes a OneWayTransformer with a transformation closure
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformer with the transformation closure
 */
-@available(*, deprecated=0.5)
-public func compose<A: OneWayTransformer, B>(transformer: A, transformerClosure: A.TypeOut -> Future<B>) -> OneWayTransformationBox<A.TypeIn, B> {
+@available(*, deprecated: 0.5)
+public func compose<A: OneWayTransformer, B>(_ transformer: A, transformerClosure: (A.TypeOut) -> Future<B>) -> OneWayTransformationBox<A.TypeIn, B> {
   return transformer.compose(transformerClosure)
 }
 
@@ -60,8 +60,8 @@ Composes two transformation closures
 
 - returns: A new OneWayTransformer that is the result of the composition of the two transformation closures
 */
-@available(*, deprecated=0.5)
-public func compose<A, B, C>(firstTransformerClosure: A -> Future<B>, secondTransformerClosure: B -> Future<C>) -> OneWayTransformationBox<A, C> {
+@available(*, deprecated: 0.5)
+public func compose<A, B, C>(_ firstTransformerClosure: (A) -> Future<B>, secondTransformerClosure: (B) -> Future<C>) -> OneWayTransformationBox<A, C> {
   return wrapClosureIntoOneWayTransformer(firstTransformerClosure).compose(secondTransformerClosure)
 }
 
@@ -73,8 +73,8 @@ Composes a transformation closure with a OneWayTransformer
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformation closure with the transformer
 */
-@available(*, deprecated=0.5)
-public func compose<A: OneWayTransformer, B>(transformerClosure: B -> Future<A.TypeIn>, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
+@available(*, deprecated: 0.5)
+public func compose<A: OneWayTransformer, B>(_ transformerClosure: (B) -> Future<A.TypeIn>, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
   return wrapClosureIntoOneWayTransformer(transformerClosure).compose(transformer)
 }
 
@@ -86,7 +86,7 @@ Composes two OneWayTransformers
 
 - returns: A new OneWayTransformer that is the result of the composition of the two OneWayTransformers
 */
-public func >>><A: OneWayTransformer, B: OneWayTransformer where B.TypeIn == A.TypeOut>(firstTransformer: A, secondTransformer: B) -> OneWayTransformationBox<A.TypeIn, B.TypeOut> {
+public func >>><A: OneWayTransformer, B: OneWayTransformer>(firstTransformer: A, secondTransformer: B) -> OneWayTransformationBox<A.TypeIn, B.TypeOut> where B.TypeIn == A.TypeOut {
   return firstTransformer.compose(secondTransformer)
 }
 
@@ -98,8 +98,8 @@ Composes a OneWayTransformer with a transformation closure
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformer with the transformation closure
  */
-@available(*, deprecated=0.7)
-public func >>><A: OneWayTransformer, B>(transformer: A, transformerClosure: A.TypeOut -> Future<B>) -> OneWayTransformationBox<A.TypeIn, B> {
+@available(*, deprecated: 0.7)
+public func >>><A: OneWayTransformer, B>(transformer: A, transformerClosure: (A.TypeOut) -> Future<B>) -> OneWayTransformationBox<A.TypeIn, B> {
   return transformer.compose(transformerClosure)
 }
 
@@ -111,8 +111,8 @@ Composes two transformation closures
 
 - returns: A new OneWayTransformer that is the result of the composition of the two transformation closures
  */
-@available(*, deprecated=0.7)
-public func >>><A, B, C>(firstTransformerClosure: A -> Future<B>, secondTransformerClosure: B -> Future<C>) -> OneWayTransformationBox<A, C> {
+@available(*, deprecated: 0.7)
+public func >>><A, B, C>(firstTransformerClosure: (A) -> Future<B>, secondTransformerClosure: (B) -> Future<C>) -> OneWayTransformationBox<A, C> {
   return wrapClosureIntoOneWayTransformer(firstTransformerClosure).compose(secondTransformerClosure)
 }
 
@@ -124,7 +124,7 @@ Composes a transformation closure with a OneWayTransformer
 
 - returns: A new OneWayTransformer that is the result of the composition of the transformation closure with the transformer
  */
-@available(*, deprecated=0.7)
-public func >>><A: OneWayTransformer, B>(transformerClosure: B -> Future<A.TypeIn>, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
+@available(*, deprecated: 0.7)
+public func >>><A: OneWayTransformer, B>(transformerClosure: (B) -> Future<A.TypeIn>, transformer: A) -> OneWayTransformationBox<B, A.TypeOut> {
   return wrapClosureIntoOneWayTransformer(transformerClosure).compose(transformer)
 }

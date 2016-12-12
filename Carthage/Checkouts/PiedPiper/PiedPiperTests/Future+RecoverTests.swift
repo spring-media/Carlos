@@ -8,7 +8,7 @@ class FutureRecoverTests: QuickSpec {
       var promise: Promise<String>!
       var recoveredFuture: Future<String>!
       var successValue: String?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       
       beforeEach {
@@ -20,7 +20,7 @@ class FutureRecoverTests: QuickSpec {
       }
       
       context("when done through a closure") {
-        let rescueClosure: Void -> String = {
+        let rescueClosure: (Void) -> String = {
           "rescued!"
         }
         
@@ -40,7 +40,7 @@ class FutureRecoverTests: QuickSpec {
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
@@ -125,7 +125,7 @@ class FutureRecoverTests: QuickSpec {
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
@@ -212,14 +212,14 @@ class FutureRecoverTests: QuickSpec {
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
           }
           
           context("when the rescue future fails") {
-            let rescueError = TestError.AnotherError
+            let rescueError = TestError.anotherError
             
             beforeEach {
               rescueFuture.fail(rescueError)
@@ -347,13 +347,13 @@ class FutureRecoverTests: QuickSpec {
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           context("and the rescue result is an error") {
-            let rescueError = TestError.AnotherError
+            let rescueError = TestError.anotherError
             
             beforeEach {
-              rescueResult = Result.Error(rescueError)
+              rescueResult = Result.error(rescueError)
               promise.fail(error)
             }
             
@@ -376,7 +376,7 @@ class FutureRecoverTests: QuickSpec {
         
           context("and the rescue result is cancelled") {
             beforeEach {
-              rescueResult = Result.Cancelled
+              rescueResult = Result.cancelled
               promise.fail(error)
             }
             
@@ -397,7 +397,7 @@ class FutureRecoverTests: QuickSpec {
             let result = "Eureka!"
             
             beforeEach {
-              rescueResult = Result.Success(result)
+              rescueResult = Result.success(result)
               promise.fail(error)
             }
             

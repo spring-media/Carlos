@@ -9,10 +9,10 @@ import PiedPiper
 /**
 A subclass of NSOperation that wraps a cache request and executes it at a later point
 */
-public class DeferredResultOperation<C: CacheLevel>: GenericOperation {
-  private let key: C.KeyType
-  private let cache: C
-  private let decoy: Promise<C.OutputType>
+open class DeferredResultOperation<C: CacheLevel>: GenericOperation {
+  fileprivate let key: C.KeyType
+  fileprivate let cache: C
+  fileprivate let decoy: Promise<C.OutputType>
   
   /**
   Initializes a new instance of DeferredResultOperation
@@ -29,27 +29,27 @@ public class DeferredResultOperation<C: CacheLevel>: GenericOperation {
     super.init()
   }
   
-  public override func genericStart() {
-    state = .Executing
+  open override func genericStart() {
+    state = .executing
     
     cache.get(key)
       .onSuccess { result in
         GCD.main {
           self.decoy.succeed(result)
         }
-        self.state = .Finished
+        self.state = .finished
       }
       .onFailure { error in
         GCD.main {
           self.decoy.fail(error)
         }
-        self.state = .Finished
+        self.state = .finished
       }
       .onCancel {
         GCD.main {
           self.decoy.cancel()
         }
-        self.state = .Finished
+        self.state = .finished
       }
     }
 }

@@ -6,7 +6,7 @@ extension Result {
    
    - returns: A Future that will behave as this Result w.r.t. cancellation and failure, but will behave as the future obtained by calling the handler with the boxed value if this Result is .Success
    */
-  public func flatMap<U>(handler: T -> Future<U>) -> Future<U> {
+  public func flatMap<U>(_ handler: (T) -> Future<U>) -> Future<U> {
     return _map { value, flatMapped in
       flatMapped.mimic(handler(value))
     }
@@ -19,7 +19,7 @@ extension Result {
    
    - returns: A new Result that will behave as this Result w.r.t. cancellation and failure, but will behave as the Result obtained by calling the handler with the boxed value if this Result is .Success
    */
-  public func flatMap<U>(handler: T -> Result<U>) -> Result<U> {
+  public func flatMap<U>(_ handler: (T) -> Result<U>) -> Result<U> {
     return _map(handler)
   }
   
@@ -30,12 +30,12 @@ extension Result {
    
    - returns: A new Result that will behave as this Result w.r.t. cancellation and failure, but will succeed with a value of type U obtained by calling the handler with the boxed value if this Result is .Success, unless the value is nil, in which case it will fail with a ResultMappingError.CantMapValue error
    */
-  public func flatMap<U>(handler: T -> U?) -> Result<U> {
+  public func flatMap<U>(_ handler: (T) -> U?) -> Result<U> {
     return _map { value in
       if let mappedValue = handler(value) {
-        return .Success(mappedValue)
+        return .success(mappedValue)
       } else {
-        return .Error(ResultMappingError.CantMapValue)
+        return .error(ResultMappingError.cantMapValue)
       }
     }
   }

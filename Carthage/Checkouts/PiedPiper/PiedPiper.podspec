@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PiedPiper"
-  s.version          = "0.9"
+  s.version          = "0.10.1"
   s.summary          = "Asynchronous code made easy."
   s.description      = <<-DESC
 			Pied Piper is a small set of functions to write easy asynchronous code through Futures, Promises and some GCD love for your iOS, watchOS 2, tvOS and Mac OS X applications.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/WeltN24/PiedPiper.git", :tag => s.version.to_s }
 
   s.ios.deployment_target = '8.0'
-  s.osx.deployment_target = '10.9'
+  s.osx.deployment_target = '10.10'
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
 

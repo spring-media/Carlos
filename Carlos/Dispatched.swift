@@ -1,7 +1,7 @@
 import Foundation
 import PiedPiper
 
-infix operator ~>> { }
+infix operator ~>>
 
 extension CacheLevel {
   /**
@@ -11,7 +11,7 @@ extension CacheLevel {
    
   - returns: A new CacheLevel that dispatches all the operations on the given GCD queue
   */
-  public func dispatch(queue: dispatch_queue_t) -> BasicCache<KeyType, OutputType> {
+  public func dispatch(_ queue: DispatchQueue) -> BasicCache<KeyType, OutputType> {
     let gcd = GCD(queue: queue)
     
     return BasicCache(
@@ -51,7 +51,7 @@ Dispatches all the operations of a given CacheLevel on the given GCD queue
  
 - returns: A new CacheLevel that dispatches all the operations on the given GCD queue
 */
-public func ~>><A: CacheLevel>(lhs: A, rhs: dispatch_queue_t) -> BasicCache<A.KeyType, A.OutputType> {
+public func ~>><A: CacheLevel>(lhs: A, rhs: DispatchQueue) -> BasicCache<A.KeyType, A.OutputType> {
   return lhs.dispatch(rhs)
 }
 
@@ -63,7 +63,7 @@ Dispatches all the operations of a given fetch closure on the given GCD queue
  
 - returns: A new CacheLevel that dispatches the fetch closure on the given GCD queue
  */
-@available(*, deprecated=0.7)
-public func ~>><A, B>(lhs: A -> Future<B>, rhs: dispatch_queue_t) -> BasicCache<A, B> {
+@available(*, deprecated: 0.7)
+public func ~>><A, B>(lhs: (A) -> Future<B>, rhs: DispatchQueue) -> BasicCache<A, B> {
   return wrapClosureIntoFetcher(lhs).dispatch(rhs)
 }
