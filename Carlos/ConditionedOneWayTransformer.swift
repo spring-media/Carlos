@@ -20,11 +20,11 @@ public protocol ConditionedOneWayTransformer {
    
    - returns: A Future that will contain the transformed value, or fail if the transformation failed
    */
-  func conditionalTransform(_ key: KeyType, value: TypeIn) -> Future<TypeOut>
+  func conditionalTransform(key: KeyType, value: TypeIn) -> Future<TypeOut>
 }
 
 /// Simple implementation of the ConditionedOneWayTransformer protocol
-open class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: ConditionedOneWayTransformer {
+public final class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: ConditionedOneWayTransformer {
   /// The input type of the transformation box
   public typealias TypeIn = InputType
   
@@ -34,14 +34,14 @@ open class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: Condi
   /// The key type used by the transformation box
   public typealias KeyType = Key
   
-  fileprivate let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>
+  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>
   
   /**
    Initializes a conditioned 1-way transformation box with the given closure
    
    - parameter conditionalTransformClosure: The conditional transformation closure to convert a value of type TypeIn into a value of type TypeOut given a key of type KeyType
    */
-  public init(conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>) {
+  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> Future<OutputType>) {
     self.conditionalTransformClosure = conditionalTransformClosure
   }
   
@@ -66,7 +66,7 @@ open class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: Condi
    
    - returns: A Future that will contain the converted value or fail if the transformation fails
    */
-  open func conditionalTransform(_ key: KeyType, value: TypeIn) -> Future<TypeOut> {
-    return conditionalTransformClosure(key: key, value: value)
+  public func conditionalTransform(key: KeyType, value: TypeIn) -> Future<TypeOut> {
+    return conditionalTransformClosure(key, value)
   }
 }

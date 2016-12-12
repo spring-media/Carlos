@@ -37,8 +37,8 @@ public final class ConditionedTwoWayTransformationBox<Key, InputType, OutputType
   /// The key type to use for the condition
   public typealias KeyType = Key
   
-  private let conditionalTransformClosure: (key: Key, value: InputType) -> Future<OutputType>
-  private let conditionalInverseTransformClosure: (key: Key, value: OutputType) -> Future<InputType>
+  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>
+  private let conditionalInverseTransformClosure: (_ key: Key, _ value: OutputType) -> Future<InputType>
   
   /**
    Initializes a new instance of a conditioned 2-way transformation box
@@ -46,7 +46,7 @@ public final class ConditionedTwoWayTransformationBox<Key, InputType, OutputType
    - parameter conditionalTransformClosure: The conditional transformation closure to convert a value of type TypeIn to a value of type TypeOut
    - parameter conditionalInverseTransformClosure: The conditional transformation closure to convert a value of type TypeOut to a value of type TypeIn
    */
-  public init(conditionalTransformClosure: @escaping (Key, InputType) -> Future<OutputType>, conditionalInverseTransformClosure: @escaping (Key, OutputType) -> Future<InputType>) {
+  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> Future<OutputType>, conditionalInverseTransformClosure: @escaping (_ key: Key, _ value: OutputType) -> Future<InputType>) {
     self.conditionalTransformClosure = conditionalTransformClosure
     self.conditionalInverseTransformClosure = conditionalInverseTransformClosure
   }

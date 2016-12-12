@@ -15,7 +15,7 @@ extension Future {
    */
   internal func mutate<K, O, Transformer: ConditionedOneWayTransformer>(_ key: K, conditionedTransformer: Transformer) -> Future<O> where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O {
     return flatMap { result in
-      conditionedTransformer.conditionalTransform(key, value: result)
+      conditionedTransformer.conditionalTransform(key: key, value: result)
     }
   }
 }
@@ -55,7 +55,7 @@ extension CacheLevel {
  
  - returns: A CacheLevel that incorporates the post-processing step after the fetch
  */
-public func ?>><A, B, T: ConditionedOneWayTransformer>(fetchClosure: (_ key: A) -> Future<B>, conditionedTransformer: T) -> BasicCache<A, B> where T.KeyType == A, T.TypeIn == B, T.TypeOut == B {
+public func ?>><A, B, T: ConditionedOneWayTransformer>(fetchClosure: @escaping (_ key: A) -> Future<B>, conditionedTransformer: T) -> BasicCache<A, B> where T.KeyType == A, T.TypeIn == B, T.TypeOut == B {
   return wrapClosureIntoFetcher(fetchClosure).conditionedPostProcess(conditionedTransformer)
 }
 

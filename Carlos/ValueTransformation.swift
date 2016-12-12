@@ -14,19 +14,6 @@ extension Future {
   internal func mutate<A: OneWayTransformer>(_ transformer: A) -> Future<A.TypeOut> where A.TypeIn == T {
     return flatMap(transformer.transform)
   }
-
-  /**
-  Mutates a Future from a type A to a type B through a OneWayTransformer
-
-  - parameter origin: The original Future
-  - parameter transformerClosure: The transformation closure from A to B
-
-  - returns: A new Future<B>
-   */
-  @available(*, deprecated: 0.7)
-  internal func mutate<A>(_ transformerClosure: (T) -> Future<A>) -> Future<A> {
-    return self.mutate(wrapClosureIntoOneWayTransformer(transformerClosure))
-  }
 }
 
 extension CacheLevel {
@@ -54,21 +41,6 @@ extension CacheLevel {
       memoryClosure: self.onMemoryWarning
     )
   }
-}
-
-/**
-Applies a transformation to a cache level
-The transformation works by changing the type of the value the cache returns when succeeding
-Use this transformation when you store a value type but want to mount the cache in a pipeline that works with other value types
-
-- parameter cache: The cache level you want to transform
-- parameter transformer: The transformation you want to apply
-
-- returns: A new cache result of the transformation of the original cache
-*/
-@available(*, deprecated: 0.5)
-public func transformValues<A: CacheLevel, B: TwoWayTransformer>(_ cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> where A.OutputType == B.TypeIn {
-  return cache.transformValues(transformer)
 }
 
 /**

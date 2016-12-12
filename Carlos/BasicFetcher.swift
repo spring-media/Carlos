@@ -13,7 +13,7 @@ public final class BasicFetcher<A, B>: Fetcher {
    
    - parameter getClosure: The closure to execute when you call get(key) on this instance
    */
-  public init(getClosure: (_ key: A) -> Future<B>) {
+  public init(getClosure: @escaping (_ key: A) -> Future<B>) {
     self.getClosure = getClosure
   }
   
@@ -25,6 +25,6 @@ public final class BasicFetcher<A, B>: Fetcher {
    - returns: The result of the getClosure specified when initializing the instance
    */
   public func get(_ key: KeyType) -> Future<OutputType> {
-    return getClosure(key: key)
+    return getClosure(key)
   }
 }

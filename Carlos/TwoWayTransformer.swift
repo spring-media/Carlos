@@ -45,7 +45,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   - parameter transform: The transformation closure to convert a value of type TypeIn to a value of type TypeOut
   - parameter inverseTransform: The transformation closure to convert a value of type TypeOut to a value of type TypeIn
   */
-  public init(transform: ((I) -> Future<O>), inverseTransform: ((O) -> Future<I>)) {
+  public init(transform: @escaping ((I) -> Future<O>), inverseTransform: @escaping ((O) -> Future<I>)) {
     self.transformClosure = transform
     self.inverseTransformClosure = inverseTransform
   }
@@ -71,16 +71,4 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   public func inverseTransform(_ val: O) -> Future<I> {
     return inverseTransformClosure(val)
   }
-}
-
-/**
-Inverts a TwoWayTransformer
-
-- parameter transformer: The TwoWayTransformer you want to invert
-
-- returns: A TwoWayTransformationBox that takes the output type of the original transformer and returns the input type of the original transformer
-*/
-@available(*, deprecated: 0.6)
-public func invert<A: TwoWayTransformer, B, C>(_ transformer: A) -> TwoWayTransformationBox<C, B> where A.TypeIn == B, A.TypeOut == C {
-  return transformer.invert()
 }

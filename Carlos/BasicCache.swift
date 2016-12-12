@@ -34,7 +34,7 @@ public final class BasicCache<A, B>: CacheLevel {
   - returns: The result of the getClosure specified when initializing the instance
   */
   public func get(_ key: KeyType) -> Future<OutputType> {
-    return getClosure(key: key)
+    return getClosure(key)
   }
   
   /**
@@ -46,7 +46,7 @@ public final class BasicCache<A, B>: CacheLevel {
   This call executes the setClosure specified when initializing the instance
   */
   public func set(_ value: B, forKey key: A) -> Future<()> {
-    return setClosure(value: value, key: key)
+    return setClosure(value, key)
   }
   
   /**

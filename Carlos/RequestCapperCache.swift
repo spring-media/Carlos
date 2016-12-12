@@ -15,32 +15,6 @@ extension CacheLevel {
   }
 }
 
-/**
-Cap requests on a given cache
-
-- parameter cache: The cache you want to apply the cap to
-- parameter requestsCap: The number of maximum concurrent requests that should be passed to the cache
-
-- returns: An initialized RequestCapperCache (a CacheLevel itself)
-*/
-@available(*, deprecated: 0.5)
-public func capRequests<C: CacheLevel>(_ cache: C, requestsCap: Int) -> RequestCapperCache<C> {
-  return cache.capRequests(requestsCap)
-}
-
-/**
-Cap requests on a given fetcher closure
-
-- parameter fetcherClosure: The fetcher closure you want to apply the cap to
-- parameter requestsCap: The number of maximum concurrent requests that should be passed to the closure
-
-- returns: An initialized RequestCapperCache (a CacheLevel itself)
-*/
-@available(*, deprecated: 0.5)
-public func capRequests<A, B>(_ fetcherClosure: (_ key: A) -> Future<B>, requestsCap: Int) -> RequestCapperCache<BasicFetcher<A, B>> {
-  return wrapClosureIntoFetcher(fetcherClosure).capRequests(requestsCap)
-}
-
 /** 
 This class keeps track of how many ongoing requests there are for a given cache and takes care of having a cap of maximum concurrent requests in case parallel access can be expensive (e.g. database or network requests).
 

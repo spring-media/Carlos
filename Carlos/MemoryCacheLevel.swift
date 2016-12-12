@@ -26,7 +26,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
   
   - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
-  public func get(key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     let request = Promise<T>()
     
     if let result = internalCache.object(forKey: key.toString() as NSString) as? T {
@@ -53,7 +53,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
   - parameter value: The value to set
   - parameter key: The key for the value
   */
-  public func set(value: T, forKey key: K) -> Future<()> {
+  public func set(_ value: T, forKey key: K) -> Future<()> {
     Logger.log("Setting a value for the key \(key.toString()) on the memory cache \(self)")
     internalCache.setObject(value, forKey: key.toString() as NSString, cost: value.cost)
     

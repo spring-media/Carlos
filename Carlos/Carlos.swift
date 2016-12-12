@@ -6,11 +6,11 @@ internal struct CarlosGlobals {
   static let Caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
 }
 
-internal func wrapClosureIntoFetcher<A, B>(_ closure: (_ key: A) -> Future<B>) -> BasicFetcher<A, B> {
+internal func wrapClosureIntoFetcher<A, B>(_ closure: @escaping (_ key: A) -> Future<B>) -> BasicFetcher<A, B> {
   return BasicFetcher(getClosure: closure)
 }
 
-internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: (A) -> Future<B>) -> OneWayTransformationBox<A, B> {
+internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: @escaping (A) -> Future<B>) -> OneWayTransformationBox<A, B> {
   return OneWayTransformationBox(transform: transformerClosure)
 }
 
@@ -31,7 +31,7 @@ public protocol CacheLevel {
   
   - returns: a Future that you can attach success and failure closures to
   */
-  func get(key: KeyType) -> Future<OutputType>
+  func get(_ key: KeyType) -> Future<OutputType>
   
   /**
   Tries to set a value on the cache level
@@ -41,7 +41,7 @@ public protocol CacheLevel {
    
   - returns: A Future that will reflect the status of the set operation
   */
-  func set(value: OutputType, forKey key: KeyType) -> Future<()>
+  func set(_ value: OutputType, forKey key: KeyType) -> Future<()>
   
   /**
   Asks to clear the cache level

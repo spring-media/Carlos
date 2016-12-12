@@ -34,7 +34,7 @@ public final class OneWayTransformationBox<I, O>: OneWayTransformer {
   
   - parameter transform: The transformation closure to convert a value of type TypeIn into a value of type TypeOut
   */
-  public init(transform: ((I) -> Future<O>)) {
+  public init(transform: @escaping ((I) -> Future<O>)) {
     self.transformClosure = transform
   }
   

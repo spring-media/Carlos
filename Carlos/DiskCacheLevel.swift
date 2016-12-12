@@ -90,7 +90,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
         GCD.main {
           request.succeed(obj)
         }
-        self.updateDiskAccessDateAtPath(path)
+        _ = self.updateDiskAccessDateAtPath(path)
       } else {
         // Remove the file (maybe corrupted)
         _ = try? self.fileManager.removeItem(atPath: path)
@@ -151,10 +151,8 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   fileprivate func controlCapacity() {
     if size > capacity {
       enumerateContentsOfDirectorySortedByAscendingModificationDateAtPath(path) { (URL, stop: inout Bool) in
-        if let path = URL.path {
-          removeFileAtPath(path)
-          stop = size <= capacity
-        }
+        removeFileAtPath(URL.path)
+        stop = size <= capacity
       }
     }
   }
@@ -165,7 +163,7 @@ open class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
     let previousSize = sizeForFileAtPath(path)
     
     if NSKeyedArchiver.archiveRootObject(data, toFile: path) {
-      updateDiskAccessDateAtPath(path)
+      _ = updateDiskAccessDateAtPath(path)
       
       let newSize = sizeForFileAtPath(path)
       if newSize > previousSize {

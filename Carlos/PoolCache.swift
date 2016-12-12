@@ -14,30 +14,6 @@ extension CacheLevel where KeyType: Hashable {
 }
 
 /**
-Wraps a CacheLevel with a requests pool
-
-- parameter cache: The cache level you want to decorate
-
-- returns: A PoolCache that will pool requests coming to the decorated cache. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
-*/
-@available(*, deprecated: 0.5)
-public func pooled<A: CacheLevel>(_ cache: A) -> PoolCache<A> where A.KeyType: Hashable {
-  return cache.pooled()
-}
-
-/**
-Wraps a fetcher closure with a requests pool
-
-- parameter fetcherClosure: The fetcher closure you want to decorate
-
-- returns: A PoolCache that will pool requests coming to the closure. This means that multiple requests for the same key will be pooled and only one will be actually done (so that expensive operations like network or file system fetches will only be done once). All onSuccess and onFailure callbacks will be done on the pooled request.
-*/
-@available(*, deprecated: 0.5)
-public func pooled<A, B>(_ fetcherClosure: (_ key: A) -> Future<B>) -> PoolCache<BasicFetcher<A, B>> {
-  return wrapClosureIntoFetcher(fetcherClosure).pooled()
-}
-
-/**
 A CacheLevel that pools incoming get requests. This means that multiple requests for the same key will be pooled and only one will be actually executed (so that expensive operations like network or file system fetches will only be done once).
 */
 public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashable {

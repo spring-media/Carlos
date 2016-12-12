@@ -1,19 +1,7 @@
 import Foundation
 import PiedPiper
 
-extension CacheLevel {
-  /**
-   Performs a batch of get requests on this CacheLevel
-   
-   - parameter keys: The list of keys to batch
-   
-   - returns: A Future that will call the success callback when ALL the keys will be fetched successfully, and the failure callback as soon as JUST ONE of the keys cannot be fetched.
-   */
-  @available(*, deprecated: 0.9)
-  public func batchGetAll(_ keys: [KeyType]) -> Future<[OutputType]> {
-    return keys.traverse(get)
-  }
-  
+extension CacheLevel {  
   /**
    Performs a batch of get requests on this CacheLevel
    
