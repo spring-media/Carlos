@@ -1,9 +1,6 @@
 # Installing Quick
 
-> **If you're using Xcode 7.1,** use the latest version of Quick--`v0.9.0` at the time of writing.
-> New releases are developed on the `swift-2.0` branch.
-
-
+>Before starting, check [here](../../README.md#swift-version) which versions of Quick and Nimble are compatible with your version of Swift.
 
 Quick provides the syntax to define examples and example groups. Nimble
 provides the `expect(...).to` assertion syntax. You may use either one,
@@ -113,20 +110,6 @@ Finally, download and link Quick and Nimble to your tests:
 
 ```sh
 pod install
-```
-
-### Using Swift 1.2?
-
-The latest release of Quick (0.4.0) is for Swift 2 (Xcode 7), but the latest Nimble (1.0.0) is for Swift 1.2 (Xcode 6).
-
-If you want Xcode 6 do:
-
-```sh
-target 'MyTests' do
-  use_frameworks!
-  pod 'Quick', '~>0.3.0'
-  pod 'Nimble', '~>1.0.0'
-end
 ```
 
 ## [Carthage](https://github.com/Carthage/Carthage)
