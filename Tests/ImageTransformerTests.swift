@@ -7,7 +7,7 @@ class ImageTransformerTests: QuickSpec {
   override func spec() {
     describe("Image transformer") {
       var transformer: ImageTransformer!
-      var error: ErrorType!
+      var error: Error!
       
       beforeEach {
         error = nil
@@ -26,9 +26,9 @@ class ImageTransformerTests: QuickSpec {
           var imageSample: UIImage!
           
           beforeEach {
-            imageSample = UIImage(named: "swift-og", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+            imageSample = UIImage(named: "swift-og", in: Bundle(for: type(of: self)), compatibleWith: nil)
             
-            transformer.transform(UIImagePNGRepresentation(imageSample)!)
+            transformer.transform(UIImagePNGRepresentation(imageSample)! as NSData)
               .onSuccess({ result = $0 })
               .onFailure({ error = $0 })
           }
@@ -48,7 +48,7 @@ class ImageTransformerTests: QuickSpec {
         
         context("when the NSData is not a valid image") {
           beforeEach {
-            transformer.transform("test for an invalid image".dataUsingEncoding(NSUTF8StringEncoding)!)
+            transformer.transform(("test for an invalid image".data(using: .utf8) as NSData?)!)
               .onSuccess({ result = $0 })
               .onFailure({ error = $0 })
           }
@@ -68,7 +68,7 @@ class ImageTransformerTests: QuickSpec {
         var result: NSData!
         
         beforeEach {
-          imageSample = UIImage(named: "swift-og", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+          imageSample = UIImage(named: "swift-og", in: Bundle(for: type(of: self)), compatibleWith: nil)
           
           transformer.inverseTransform(imageSample)
             .onSuccess({ result = $0 })
@@ -84,7 +84,7 @@ class ImageTransformerTests: QuickSpec {
         }
         
         it("should return the expected data") {
-          expect(result).toEventually(equal(UIImagePNGRepresentation(imageSample)))
+          expect(result).toEventually(equal(UIImagePNGRepresentation(imageSample) as NSData?))
         }
       }
     }

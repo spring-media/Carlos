@@ -29,7 +29,7 @@ class BasicFetcherTests: QuickSpec {
       context("when calling get") {
         let key = "key to test"
         var succeeded: Int?
-        var failed: ErrorType?
+        var failed: Error?
         var canceled: Bool!
         
         beforeEach {
@@ -74,7 +74,7 @@ class BasicFetcherTests: QuickSpec {
         }
         
         context("when the get closure fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             getResult.fail(error)

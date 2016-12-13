@@ -6,9 +6,9 @@ import PiedPiper
 
 let switchClosure: (String) -> CacheLevelSwitchResult = { str in
   if str.characters.count > 5 {
-    return .CacheA
+    return .cacheA
   } else {
-    return .CacheB
+    return .cacheB
   }
 }
 
@@ -19,8 +19,8 @@ struct SwitchCacheSharedExamplesContext {
 }
 
 class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("should correctly get") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("should correctly get") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
@@ -35,7 +35,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         var fakeRequest: Promise<Int>!
         var result: Future<Int>!
         var successValue: Int?
-        var errorValue: ErrorType?
+        var errorValue: Error?
         
         beforeEach {
           fakeRequest = Promise<Int>()
@@ -88,7 +88,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when the request fails") {
-            let errorCode = TestError.SimpleError
+            let errorCode = TestError.simpleError
             
             beforeEach {
               fakeRequest.fail(errorCode)
@@ -146,7 +146,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when the request fails") {
-            let errorCode = TestError.AnotherError
+            let errorCode = TestError.anotherError
             
             beforeEach {
               fakeRequest.fail(errorCode)
@@ -164,7 +164,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a switched cache with 2 fetch closures") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a switched cache with 2 fetch closures") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
@@ -184,7 +184,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a switched cache with 2 cache levels") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a switched cache with 2 cache levels") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
@@ -206,7 +206,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       context("when calling set") {
         let value = 30
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -251,7 +251,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when set fails") {
-            let setFailure = TestError.AnotherError
+            let setFailure = TestError.anotherError
             
             beforeEach {
               cacheA.setPromisesReturned.first?.fail(setFailure)
@@ -305,7 +305,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when set fails") {
-            let setFailure = TestError.AnotherError
+            let setFailure = TestError.anotherError
             
             beforeEach {
               cacheB.setPromisesReturned.first?.fail(setFailure)
@@ -351,7 +351,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a switched cache with a cache level and a fetch closure") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a switched cache with a cache level and a fetch closure") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
@@ -373,7 +373,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       context("when calling set") {
         let value = 30
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -418,7 +418,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when set fails") {
-            let setFailure = TestError.AnotherError
+            let setFailure = TestError.anotherError
             
             beforeEach {
               cacheA.setPromisesReturned.first?.fail(setFailure)
@@ -438,7 +438,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            _ = finalCache.set(value, forKey: key)
           }
           
           it("should not dispatch the call to the first cache") {
@@ -480,7 +480,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a switched cache with a fetch closure and a cache level") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a switched cache with a fetch closure and a cache level") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
@@ -502,7 +502,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       context("when calling set") {
         let value = 30
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -513,7 +513,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "quite long key"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            _ = finalCache.set(value, forKey: key)
           }
           
           it("should not dispatch the call to the second cache") {
@@ -563,7 +563,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when set fails") {
-            let setFailure = TestError.AnotherError
+            let setFailure = TestError.anotherError
             
             beforeEach {
               cacheB.setPromisesReturned.first?.fail(setFailure)
@@ -621,58 +621,10 @@ class SwitchCacheTests: QuickSpec {
       beforeEach {
         cacheA = CacheLevelFake<String, Int>()
         cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA, cacheB: cacheB, switchClosure: switchClosure)
+        finalCache = switchLevels(cacheA: cacheA, cacheB: cacheB, switchClosure: switchClosure)
       }
       
       itBehavesLike("a switched cache with 2 cache levels") {
-        [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
-        ]
-      }
-    }
-    
-    describe("Switching two fetch closures") {
-      beforeEach {
-        cacheA = CacheLevelFake<String, Int>()
-        cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA.get, cacheB: cacheB.get, switchClosure: switchClosure)
-      }
-      
-      itBehavesLike("a switched cache with 2 fetch closures") {
-        [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
-        ]
-      }
-    }
-    
-    describe("Switching a cache level and a fetch closure") {
-      beforeEach {
-        cacheA = CacheLevelFake<String, Int>()
-        cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA, cacheB: cacheB.get, switchClosure: switchClosure)
-      }
-      
-      itBehavesLike("a switched cache with a cache level and a fetch closure") {
-        [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
-        ]
-      }
-    }
-
-    describe("Switching a fetch closure and a cache level") {
-      beforeEach {
-        cacheA = CacheLevelFake<String, Int>()
-        cacheB = CacheLevelFake<String, Int>()
-        finalCache = switchLevels(cacheA.get, cacheB: cacheB, switchClosure: switchClosure)
-      }
-      
-      itBehavesLike("a switched cache with a fetch closure and a cache level") {
         [
           SwitchCacheSharedExamplesContext.CacheA: cacheA,
           SwitchCacheSharedExamplesContext.CacheB: cacheB,

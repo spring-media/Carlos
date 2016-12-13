@@ -9,10 +9,10 @@ struct TwoWayTransformationBoxSharedExamplesContext {
 }
 
 class TwoWayTransformationBoxSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("an inverted two-way transformation box") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("an inverted two-way transformation box") { (sharedExampleContext: @escaping SharedExampleContext) in
       var invertedBox: TwoWayTransformationBox<String, NSURL>!
-      var error: ErrorType!
+      var error: Error!
       
       beforeEach {
         error = nil
@@ -65,7 +65,7 @@ class TwoWayTransformationBoxSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.AnotherError))
+            expect(error as? TestError).to(equal(TestError.anotherError))
           }
         }
       }
@@ -115,7 +115,7 @@ class TwoWayTransformationBoxSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.AnotherError))
+            expect(error as? TestError).to(equal(TestError.anotherError))
           }
         }
       }
@@ -127,7 +127,7 @@ class TwoWayTransformationBoxTests: QuickSpec {
   override func spec() {
     describe("TwoWayTransformationBox") {
       var box: TwoWayTransformationBox<NSURL, String>!
-      var error: ErrorType!
+      var error: Error!
       
       beforeEach {
         error = nil
@@ -135,9 +135,9 @@ class TwoWayTransformationBoxTests: QuickSpec {
         box = TwoWayTransformationBox<NSURL, String>(transform: {
           let possible = $0.scheme == "http"
           
-          return Future(value: possible ? $0.absoluteString : nil, error: TestError.AnotherError)
+          return Future(value: possible ? $0.absoluteString : nil, error: TestError.anotherError)
         }, inverseTransform: {
-          Future(value: NSURL(string: $0), error: TestError.AnotherError)
+          Future(value: NSURL(string: $0), error: TestError.anotherError)
         })
       }
       
@@ -186,7 +186,7 @@ class TwoWayTransformationBoxTests: QuickSpec {
           }
           
           it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.AnotherError))
+            expect(error as? TestError).to(equal(TestError.anotherError))
           }
         }
       }
@@ -236,7 +236,7 @@ class TwoWayTransformationBoxTests: QuickSpec {
           }
           
           it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.AnotherError))
+            expect(error as? TestError).to(equal(TestError.anotherError))
           }
         }
       }
@@ -244,28 +244,14 @@ class TwoWayTransformationBoxTests: QuickSpec {
       context("when inverting the transformer") {
         var invertedBox: TwoWayTransformationBox<String, NSURL>!
         
-        context("when using the global function") {
-          beforeEach {
-            invertedBox = invert(box)
-          }
-          
-          itBehavesLike("an inverted two-way transformation box") {
-            [
-              TwoWayTransformationBoxSharedExamplesContext.TransformerToTest: invertedBox
-            ]
-          }
+        beforeEach {
+          invertedBox = box.invert()
         }
         
-        context("when using the protocol extension") {
-          beforeEach {
-            invertedBox = box.invert()
-          }
-          
-          itBehavesLike("an inverted two-way transformation box") {
-            [
-              TwoWayTransformationBoxSharedExamplesContext.TransformerToTest: invertedBox
-            ]
-          }
+        itBehavesLike("an inverted two-way transformation box") {
+          [
+            TwoWayTransformationBoxSharedExamplesContext.TransformerToTest: invertedBox
+          ]
         }
       }
     }

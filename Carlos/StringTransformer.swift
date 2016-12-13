@@ -4,7 +4,7 @@ import PiedPiper
 /**
 This class takes care of transforming NSData instances into String values.
 */
-final class StringTransformer: TwoWayTransformer {
+final public class StringTransformer: TwoWayTransformer {
   public enum TransformationError: Error {
     case invalidData
     case dataConversionToStringFailed

@@ -14,7 +14,7 @@ class JSONTransformerTests: QuickSpec {
       
       context("when transforming NSData to JSON") {
         var result: AnyObject!
-        var error: ErrorType!
+        var error: Error!
         
         beforeEach {
           result = nil
@@ -29,8 +29,8 @@ class JSONTransformerTests: QuickSpec {
             ]
             
             beforeEach {
-              let data = try! NSJSONSerialization.dataWithJSONObject(testObject, options: [])
-              transformer.transform(data)
+              let data = try! JSONSerialization.data(withJSONObject: testObject, options: [])
+              transformer.transform(data as NSData)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -57,7 +57,7 @@ class JSONTransformerTests: QuickSpec {
           }
           
           context("when it's a dictionary") {
-            let testObject: [String: AnyObject] = [
+            let testObject: [String: Any] = [
               "id": 2,
               "value": "test",
               "anotherKey": [
@@ -68,8 +68,8 @@ class JSONTransformerTests: QuickSpec {
             ]
             
             beforeEach {
-              let data = try! NSJSONSerialization.dataWithJSONObject(testObject, options: [])
-              transformer.transform(data)
+              let data = try! JSONSerialization.data(withJSONObject: testObject, options: [])
+              transformer.transform(data as NSData)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -94,7 +94,7 @@ class JSONTransformerTests: QuickSpec {
         
         context("when the NSData is not a valid JSON") {
           beforeEach {
-            transformer.transform("test for an invalid JSON".dataUsingEncoding(NSUTF8StringEncoding)!)
+            transformer.transform(("test for an invalid JSON".data(using: .utf8) as NSData?)!)
               .onSuccess({ result = $0 })
               .onFailure({ error = $0 })
           }
@@ -111,7 +111,7 @@ class JSONTransformerTests: QuickSpec {
       
       context("when transforming JSON to NSData") {
         var result: NSData!
-        var error: ErrorType!
+        var error: Error!
         
         context("when the JSON is valid") {
           var expectedResult: NSData!
@@ -122,8 +122,8 @@ class JSONTransformerTests: QuickSpec {
             ]
             
             beforeEach {
-              expectedResult = try! NSJSONSerialization.dataWithJSONObject(testObject, options: [])
-              transformer.inverseTransform(testObject)
+              expectedResult = try! JSONSerialization.data(withJSONObject: testObject, options: []) as NSData
+              transformer.inverseTransform(testObject as AnyObject)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -142,7 +142,7 @@ class JSONTransformerTests: QuickSpec {
           }
           
           context("when it's a dictionary") {
-            let testObject: [String: AnyObject] = [
+            let testObject: [String: Any] = [
               "id": 1,
               "key": "value",
               "anotherKey": [
@@ -151,8 +151,8 @@ class JSONTransformerTests: QuickSpec {
             ]
             
             beforeEach {
-              expectedResult = try! NSJSONSerialization.dataWithJSONObject(testObject, options: [])
-              transformer.inverseTransform(testObject)
+              expectedResult = try! JSONSerialization.data(withJSONObject: testObject, options: []) as NSData
+              transformer.inverseTransform(testObject as AnyObject)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }

@@ -13,16 +13,16 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
         beforeEach {
           box = ConditionedOneWayTransformationBox(conditionalTransformClosure: { key, value in
             if let _ = key["value"] {
-              return Future(value: Int(value), error: TestError.SimpleError)
+              return Future(value: Int(value), error: TestError.simpleError)
             } else {
-              return Future(TestError.AnotherError)
+              return Future(TestError.anotherError)
             }
           })
         }
         
         context("when calling conditionalTransform") {
           var result: Int!
-          var error: ErrorType!
+          var error: Error!
           
           beforeEach {
             result = nil
@@ -33,7 +33,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "102"
             
             beforeEach {
-              box.conditionalTransform(["value": true], value: originString)
+              box.conditionalTransform(key: ["value": true], value: originString)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -55,7 +55,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "10asd2"
             
             beforeEach {
-              box.conditionalTransform(["value": true], value: originString)
+              box.conditionalTransform(key: ["value": true], value: originString)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -69,13 +69,13 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.SimpleError))
+              expect(error as? TestError).to(equal(TestError.simpleError))
             }
           }
           
           context("if the key doesn't satisfy the condition") {
             beforeEach {
-              box.conditionalTransform([:], value: "whatever")
+              box.conditionalTransform(key: [:], value: "whatever")
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -89,7 +89,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.AnotherError))
+              expect(error as? TestError).to(equal(TestError.anotherError))
             }
           }
         }
@@ -98,7 +98,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
       context("when created through a one way transformer") {
         beforeEach {
           let transformer = OneWayTransformationBox<String, Int>(transform: { value in
-            Future(value: Int(value), error: TestError.SimpleError)
+            Future(value: Int(value), error: TestError.simpleError)
           })
           
           box = ConditionedOneWayTransformationBox(transformer: transformer)
@@ -106,7 +106,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
         
         context("when calling conditionalTransform") {
           var result: Int!
-          var error: ErrorType!
+          var error: Error!
           
           beforeEach {
             result = nil
@@ -117,7 +117,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "102"
             
             beforeEach {
-              box.conditionalTransform(["value": true], value: originString)
+              box.conditionalTransform(key: ["value": true], value: originString)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -139,7 +139,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "10asd2"
             
             beforeEach {
-              box.conditionalTransform([:], value: originString)
+              box.conditionalTransform(key: [:], value: originString)
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -153,7 +153,7 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.SimpleError))
+              expect(error as? TestError).to(equal(TestError.simpleError))
             }
           }
         }

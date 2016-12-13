@@ -11,7 +11,7 @@ class MKDistanceFormatterTransformerTests: QuickSpec {
       
       beforeEach {
         formatter = MKDistanceFormatter()
-        formatter.units = .Metric
+        formatter.units = .metric
       }
       
       context("when used as a transformer") {

@@ -11,8 +11,8 @@ struct ValueTransformationsSharedExamplesContext {
 }
 
 class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a cache with transformed values") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a cache with transformed values") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, String>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: TwoWayTransformationBox<Int, String>!
@@ -26,7 +26,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get") {
         let key = "12"
         var successValue: String?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         var canceled: Bool!
         
@@ -93,13 +93,13 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should fail with the right code") {
-              expect(failureValue as? TestError).to(equal(TestError.AnotherError))
+              expect(failureValue as? TestError).to(equal(TestError.anotherError))
             }
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.AnotherError
+          let errorCode = TestError.anotherError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -143,7 +143,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling set") {
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -188,7 +188,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the set fails") {
             beforeEach {
-              internalCache.setPromisesReturned.first?.fail(TestError.AnotherError)
+              internalCache.setPromisesReturned.first?.fail(TestError.anotherError)
             }
             
             it("should fail") {
@@ -196,7 +196,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should pass the error through") {
-              expect(setError as? TestError).to(equal(TestError.AnotherError))
+              expect(setError as? TestError).to(equal(TestError.anotherError))
             }
           }
         }
@@ -222,7 +222,7 @@ class ValueTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should pass the transformation error") {
-            expect(setError as? TestError).to(equal(TestError.AnotherError))
+            expect(setError as? TestError).to(equal(TestError.anotherError))
           }
         }
       }
@@ -255,35 +255,19 @@ class ValueTransformationTests: QuickSpec {
     var cache: BasicCache<String, String>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: TwoWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: Int -> Future<String> = {
+    let forwardTransformationClosure: (Int) -> Future<String> = {
       let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {
-        result.fail(TestError.AnotherError)
+        result.fail(TestError.anotherError)
       }
       return result.future
     }
-    let inverseTransformationClosure: String -> Future<Int> = {
-      return Future(value: Int($0), error: TestError.AnotherError)
+    let inverseTransformationClosure: (String) -> Future<Int> = {
+      return Future(value: Int($0), error: TestError.anotherError)
     }
-    
-    describe("Value transformation using a transformer and a cache, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = TwoWayTransformationBox(transform: forwardTransformationClosure, inverseTransform: inverseTransformationClosure)
-        cache = transformValues(internalCache, transformer: transformer)
-      }
-      
-      itBehavesLike("a cache with transformed values") {
-        [
-          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
-          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
-          ValueTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
+        
     describe("Value transformation using a transformer and a cache, with the instance function") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()

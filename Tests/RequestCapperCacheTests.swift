@@ -11,8 +11,8 @@ struct RequestCapperCacheSharedExamplesContext {
 }
 
 class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a request capped cache") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a request capped cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: RequestCapperCache<CacheLevelFake<String, Int>>!
       var internalCache: CacheLevelFake<String, Int>!
       var requestCap: Int!
@@ -75,7 +75,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the request fails") {
           beforeEach {
-            requestToReturn.fail(TestError.SimpleError)
+            requestToReturn.fail(TestError.simpleError)
           }
           
           it("should call the original failure closure") {
@@ -93,11 +93,11 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
           beforeEach {
             morePendingRequests = []
             
-            for _ in (1..<requestCap).enumerate() {
+            for _ in (1..<requestCap).enumerated() {
               let fakeRequest = Promise<Int>()
               internalCache.cacheRequestToReturn = fakeRequest.future
               
-              cache.get(key)
+              _ = cache.get(key)
               
               morePendingRequests.append(fakeRequest)
             }
@@ -175,7 +175,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               
               context("when the pending call fails") {
                 beforeEach {
-                  exceedingRequest.fail(TestError.AnotherError)
+                  exceedingRequest.fail(TestError.anotherError)
                 }
                 
                 it("should call the original failure closure") {
@@ -192,7 +192,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               let ongoingRequestIndex = 0
               
               beforeEach {
-                morePendingRequests[ongoingRequestIndex].fail(TestError.SimpleError)
+                morePendingRequests[ongoingRequestIndex].fail(TestError.simpleError)
               }
               
               xit("should forward the pending call to the internal cache") {
@@ -221,7 +221,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
               
               context("when the pending call fails") {
                 beforeEach {
-                  exceedingRequest.fail(TestError.AnotherError)
+                  exceedingRequest.fail(TestError.anotherError)
                 }
                 
                 it("should call the original failure closure") {
@@ -241,7 +241,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
         let key = "test_key"
         let value = 1021
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -277,7 +277,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
         }
         
         context("when set fails") {
-          let setFailure = TestError.AnotherError
+          let setFailure = TestError.anotherError
           
           beforeEach {
             internalCache.setPromisesReturned.first?.fail(setFailure)
@@ -300,7 +300,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
             internalCache.numberOfTimesCalledSet = 0
             
             for _ in 0..<moreTimes {
-              cache.set(value, forKey: key)
+              _ = cache.set(value, forKey: key)
             }
           }
           
@@ -377,36 +377,6 @@ class RequestCapperCacheTests: QuickSpec {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = RequestCapperCache<CacheLevelFake<String, Int>>(internalCache: internalCache, requestCap: requestCap)
-      }
-      
-      itBehavesLike("a request capped cache") {
-        [
-          RequestCapperCacheSharedExamplesContext.CacheToTest: cache,
-          RequestCapperCacheSharedExamplesContext.InternalCache: internalCache,
-          RequestCapperCacheSharedExamplesContext.RequestCap: requestCap
-        ]
-      }
-    }
-    
-//    describe("The capRequests global function, when applied on a fetch closure") {
-//        beforeEach {
-//          internalCache = CacheLevelFake<String, Int>()
-//          cache = capRequests(internalCache.get, requestCap)
-//        }
-//        
-//        itBehavesLike("a request capped cache") {
-//          [
-//            RequestCapperCacheSharedExamplesContext.CacheToTest: cache,
-//            RequestCapperCacheSharedExamplesContext.InternalCache: internalCache,
-//            RequestCapperCacheSharedExamplesContext.RequestCap: requestCap
-//          ]
-//        }
-//    }
-    
-    describe("The capRequests global function, when applied on a cache level") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = capRequests(internalCache, requestsCap: requestCap)
       }
       
       itBehavesLike("a request capped cache") {

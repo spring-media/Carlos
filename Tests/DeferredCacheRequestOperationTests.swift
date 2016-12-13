@@ -4,9 +4,9 @@ import Nimble
 import Carlos
 import PiedPiper
 
-internal enum TestError: ErrorType {
-  case SimpleError
-  case AnotherError
+internal enum TestError: Error {
+  case simpleError
+  case anotherError
 }
 
 class DeferredResultOperationTests: QuickSpec {
@@ -44,7 +44,7 @@ class DeferredResultOperationTests: QuickSpec {
       }
       
       it("should be ready") {
-        expect(operation.ready).to(beTrue())
+        expect(operation.isReady).to(beTrue())
       }
       
       context("when the operation is not added to any queue") {
@@ -62,14 +62,14 @@ class DeferredResultOperationTests: QuickSpec {
       }
       
       context("when the operation is added to a queue") {
-        var queue: NSOperationQueue!
+        var queue: OperationQueue!
         var requestToReturn: Promise<String>!
         
         beforeEach {
           requestToReturn = Promise<String>()
           internalCache.cacheRequestToReturn = requestToReturn.future
           
-          queue = NSOperationQueue()
+          queue = OperationQueue()
           
           queue.addOperation(operation)
         }
@@ -114,7 +114,7 @@ class DeferredResultOperationTests: QuickSpec {
           }
           
           it("should finish the operation") {
-            expect(operation.finished).toEventually(beTrue())
+            expect(operation.isFinished).toEventually(beTrue())
           }
         }
         
@@ -136,13 +136,13 @@ class DeferredResultOperationTests: QuickSpec {
           }
           
           it("should finish the operation") {
-            expect(operation.finished).toEventually(beTrue())
+            expect(operation.isFinished).toEventually(beTrue())
           }
         }
         
         context("when the internal request fails") {
           beforeEach {
-            requestToReturn.fail(TestError.SimpleError)
+            requestToReturn.fail(TestError.simpleError)
           }
           
           it("should call the failure closure") {
@@ -158,7 +158,7 @@ class DeferredResultOperationTests: QuickSpec {
           }
           
           it("should finish the operation") {
-            expect(operation.finished).toEventually(beTrue())
+            expect(operation.isFinished).toEventually(beTrue())
           }
         }
       }

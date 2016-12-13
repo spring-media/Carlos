@@ -11,8 +11,8 @@ struct ComposedCacheSharedExamplesContext {
 }
 
 class CompositionSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("get without considering set calls") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("get without considering set calls") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -45,8 +45,8 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           cache2.cacheRequestToReturn = cache2Request.future
           
           for cache in [cache1, cache2] {
-            cache.numberOfTimesCalledGet = 0
-            cache.numberOfTimesCalledSet = 0
+            cache?.numberOfTimesCalledGet = 0
+            cache?.numberOfTimesCalledSet = 0
           }
           
           composedCache.get(key)
@@ -128,7 +128,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the first request fails") {
           beforeEach {
-            cache1Request.fail(TestError.SimpleError)
+            cache1Request.fail(TestError.simpleError)
           }
           
           it("should not call the success closure") {
@@ -195,7 +195,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the second request fails") {
             beforeEach {
-              cache2Request.fail(TestError.SimpleError)
+              cache2Request.fail(TestError.simpleError)
             }
             
             it("should not call the success closure") {
@@ -222,7 +222,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("get on caches") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("get on caches") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -246,11 +246,11 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           cache2.cacheRequestToReturn = cache2Request.future
           
           for cache in [cache1, cache2] {
-            cache.numberOfTimesCalledGet = 0
-            cache.numberOfTimesCalledSet = 0
+            cache?.numberOfTimesCalledGet = 0
+            cache?.numberOfTimesCalledSet = 0
           }
           
-          composedCache.get(key)
+          _ = composedCache.get(key)
         }
         
         itBehavesLike("get without considering set calls") {
@@ -263,7 +263,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the first request fails") {
           beforeEach {
-            cache1Request.fail(TestError.SimpleError)
+            cache1Request.fail(TestError.simpleError)
           }
           
           context("when the second request succeeds") {
@@ -293,7 +293,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("both caches are caches") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("both caches are caches") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -324,7 +324,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         let key = "this key"
         let value = 102
         var succeeded: Bool!
-        var failed: ErrorType?
+        var failed: Error?
         var canceled: Bool!
         
         beforeEach {
@@ -388,7 +388,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when the set closure fails") {
-            let error = TestError.AnotherError
+            let error = TestError.anotherError
             
             beforeEach {
               cache2.setPromisesReturned[0].fail(error)
@@ -411,7 +411,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         }
         
         context("when the set closure fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             cache1.setPromisesReturned[0].fail(error)
@@ -424,7 +424,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("first cache is a cache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("first cache is a cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
       
@@ -437,7 +437,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         let key = "this key"
         let value = 102
         var succeeded: Bool!
-        var failed: ErrorType?
+        var failed: Error?
         var canceled: Bool!
         
         beforeEach {
@@ -474,7 +474,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         }
         
         context("when the set closure fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             cache1.setPromisesReturned[0].fail(error)
@@ -507,7 +507,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("second cache is a cache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("second cache is a cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache2: CacheLevelFake<String, Int>!
       var cache1: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -522,7 +522,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         let key = "this key"
         let value = 102
         var succeeded: Bool!
-        var failed: ErrorType?
+        var failed: Error?
         var canceled: Bool!
         
         beforeEach {
@@ -571,7 +571,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         }
         
         context("when the set closure fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             cache1.setPromisesReturned.first?.fail(error)
@@ -605,7 +605,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a composition of two fetch closures") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a composition of two fetch closures") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -625,7 +625,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a composition of a fetch closure and a cache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a composition of a fetch closure and a cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -653,7 +653,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a composition of a cache and a fetch closure") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a composition of a cache and a fetch closure") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -681,7 +681,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a composed cache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a composed cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache1: CacheLevelFake<String, Int>!
       var cache2: CacheLevelFake<String, Int>!
       var composedCache: BasicCache<String, Int>!
@@ -717,23 +717,6 @@ class CacheLevelCompositionTests: QuickSpec {
     var cache2: CacheLevelFake<String, Int>!
     var composedCache: BasicCache<String, Int>!
     
-    describe("Cache composition using two cache levels with the global function") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = compose(cache1, secondCache: cache2)
-      }
-      
-      itBehavesLike("a composed cache") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
     describe("Cache composition using two cache levels with the instance function") {
       beforeEach {
         cache1 = CacheLevelFake<String, Int>()
@@ -760,125 +743,6 @@ class CacheLevelCompositionTests: QuickSpec {
       }
       
       itBehavesLike("a composed cache") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
-    describe("Cache composition using a cache level and a fetch closure, with the global function") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = compose(cache1, fetchClosure: cache2.get)
-      }
-      
-      itBehavesLike("a composition of a cache and a fetch closure") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
-    describe("Cache composition using a cache level and a fetch closure, with the instance function") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = cache1.compose(cache2.get)
-      }
-      
-      itBehavesLike("a composition of a cache and a fetch closure") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
-    describe("Cache composition using a cache level and a fetch closure, with the operator") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = cache1 >>> cache2.get
-      }
-      
-      itBehavesLike("a composition of a cache and a fetch closure") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
-    describe("Cache composition using a fetch closure and a cache level, with the global function") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = compose(cache1.get, cache: cache2)
-      }
-      
-      itBehavesLike("a composition of a fetch closure and a cache") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
-    describe("Cache composition using a fetch closure and a cache level, with the operator") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = cache1.get >>> cache2
-      }
-      
-      itBehavesLike("a composition of a fetch closure and a cache") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
-    describe("Cache composition using two fetch closures, with the global function") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = compose(cache1.get, secondFetcher: cache2.get)
-      }
-      
-      itBehavesLike("a composition of two fetch closures") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
-    
-    describe("Cache composition using two fetch closures, with the operator") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = cache1.get >>> cache2.get
-      }
-      
-      itBehavesLike("a composition of two fetch closures") {
         [
           ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
           ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,

@@ -35,7 +35,7 @@ class MemoryCacheLevelTests: QuickSpec {
           beforeEach {
             failureSentinel = nil
             
-            cache.set(value, forKey: key)
+            _ = cache.set(value as NSString, forKey: key)
           }
           
           context("when getting the value for another key") {
@@ -65,7 +65,7 @@ class MemoryCacheLevelTests: QuickSpec {
         
         beforeEach {
           didWrite = false
-          cache.set(value, forKey: key).onSuccess {
+          cache.set(value as NSString, forKey: key).onSuccess {
             didWrite = true
           }
         }
@@ -84,7 +84,7 @@ class MemoryCacheLevelTests: QuickSpec {
           }
           
           it("should return the right value") {
-            expect(result).to(equal(value))
+            expect(result).to(equal(value as NSString))
           }
           
           it("should not fail") {
@@ -96,7 +96,7 @@ class MemoryCacheLevelTests: QuickSpec {
           let newValue = "another value"
           
           beforeEach {
-            cache.set(newValue, forKey: key)
+            _ = cache.set(newValue as NSString, forKey: key)
           }
           
           context("when calling get") {
@@ -105,7 +105,7 @@ class MemoryCacheLevelTests: QuickSpec {
             }
             
             it("should succeed with the overwritten value") {
-              expect(result).to(equal(newValue))
+              expect(result).to(equal(newValue as NSString))
             }
           }
         }
@@ -120,7 +120,7 @@ class MemoryCacheLevelTests: QuickSpec {
           
           beforeEach {
             for (key, value) in zip(otherKeys, otherValues) {
-              cache.set(value, forKey: key)
+              _ = cache.set(value as NSString, forKey: key)
             }
           }
           

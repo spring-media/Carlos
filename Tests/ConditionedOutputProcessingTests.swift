@@ -11,8 +11,8 @@ struct ConditionedPostProcessSharedExamplesContext {
 }
 
 class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a fetch closure with conditioned post-processing") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a fetch closure with conditioned post-processing") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: ConditionedOneWayTransformationBox<String, Int, Int>!
@@ -26,7 +26,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get with a key that triggers some post-processing") {
         let key = "do"
         var successValue: Int?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         
         beforeEach {
@@ -55,13 +55,13 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
           
           it("should call the transformation closure with the right value") {
             var expected: Int!
-            transformer.conditionalTransform(key, value: value).onSuccess { expected = $0 }
+            transformer.conditionalTransform(key: key, value: value).onSuccess { expected = $0 }
             expect(successValue).to(equal(expected))
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.SimpleError
+          let errorCode = TestError.simpleError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -76,7 +76,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get with a key that triggers failure on the post-processing") {
         let key = "don't"
         var successValue: Int?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         
         beforeEach {
@@ -112,12 +112,12 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should pass the right error code") {
-            expect(failureValue as? TestError).to(equal(TestError.AnotherError))
+            expect(failureValue as? TestError).to(equal(TestError.anotherError))
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.SimpleError
+          let errorCode = TestError.simpleError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -132,7 +132,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get") {
         let key = "12"
         var successValue: Int?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         
         beforeEach {
@@ -162,7 +162,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
             
             it("should call the transformation closure with the success value") {
               var expected: Int!
-              transformer.conditionalTransform(key, value: value).onSuccess { expected = $0 }
+              transformer.conditionalTransform(key: key, value: value).onSuccess { expected = $0 }
               expect(successValue).to(equal(expected))
             }
           }
@@ -183,13 +183,13 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should pass the right error code") {
-              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
+              expect(failureValue as? TestError).to(equal(TestError.simpleError))
             }
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.AnotherError
+          let errorCode = TestError.anotherError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -202,7 +202,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a cache with conditioned post-processing") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a cache with conditioned post-processing") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: ConditionedOneWayTransformationBox<String, Int, Int>!
@@ -226,7 +226,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
         let value = 222
         
         beforeEach {
-          cache.set(value, forKey: key)
+          _ = cache.set(value, forKey: key)
         }
         
         it("should forward the call to the internal cache") {
@@ -275,12 +275,12 @@ class ConditionedOutputPostProcessingTests: QuickSpec {
       if key == "do" {
         result.succeed(value * 2)
       } else if key == "don't" {
-        result.fail(TestError.AnotherError)
+        result.fail(TestError.anotherError)
       } else {
         if value > 0 {
           result.succeed(value)
         } else {
-          result.fail(TestError.SimpleError)
+          result.fail(TestError.simpleError)
         }
       }
       

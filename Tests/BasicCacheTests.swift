@@ -53,7 +53,7 @@ class BasicCacheTests: QuickSpec {
       context("when calling get") {
         let key = "key to test"
         var succeeded: Int?
-        var failed: ErrorType?
+        var failed: Error?
         var canceled: Bool!
         
         beforeEach {
@@ -98,7 +98,7 @@ class BasicCacheTests: QuickSpec {
         }
         
         context("when the get closure fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             getResult.fail(error)
@@ -114,7 +114,7 @@ class BasicCacheTests: QuickSpec {
         let key = "test key"
         let value = 101
         var succeeded: Bool!
-        var failed: ErrorType?
+        var failed: Error?
         var canceled: Bool!
         
         beforeEach {
@@ -161,7 +161,7 @@ class BasicCacheTests: QuickSpec {
         }
         
         context("when the set closure fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             setResult.fail(error)

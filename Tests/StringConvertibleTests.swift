@@ -14,7 +14,7 @@ class StringConvertibleTests: QuickSpec {
     }
     
     describe("NSString values") {
-      let value: NSString = "this is the value"
+      let value = "this is the value"
       
       it("should return self") {
         expect(value.toString()).to(equal(value))

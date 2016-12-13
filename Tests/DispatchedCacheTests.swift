@@ -4,10 +4,10 @@ import Nimble
 import Carlos
 import PiedPiper
 
-var kCurrentQueue = 0
+var kCurrentQueue = DispatchSpecificKey<UnsafeMutableRawPointer>()
 
-func getMutablePointer (object: AnyObject) -> UnsafeMutablePointer<Void> {
-  return UnsafeMutablePointer<Void>(bitPattern: Int(ObjectIdentifier(object).uintValue))
+func getMutablePointer (object: AnyObject) -> UnsafeMutableRawPointer {
+  return UnsafeMutableRawPointer(bitPattern: UInt(bitPattern: ObjectIdentifier(object)))!
 }
 
 struct DispatchedShareExamplesContext {
@@ -17,16 +17,16 @@ struct DispatchedShareExamplesContext {
 }
 
 class DispatchedSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a dispatched cache") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a dispatched cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
-      var queue: dispatch_queue_t!
+      var queue: DispatchQueue!
       var internalCache: CacheLevelFake<String, Int>!
       
       beforeEach {
         cache = sharedExampleContext()[DispatchedShareExamplesContext.CacheToTest] as? BasicCache<String, Int>
         internalCache = sharedExampleContext()[DispatchedShareExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
-        queue = sharedExampleContext()[DispatchedShareExamplesContext.QueueToUse] as? dispatch_queue_t
+        queue = sharedExampleContext()[DispatchedShareExamplesContext.QueueToUse] as? DispatchQueue
       }
       
       context("when calling get") {
@@ -61,7 +61,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the calls on the right queue") {
-          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(queue)))
+          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(object: queue)))
         }
         
         context("when the request succeeds") {
@@ -82,7 +82,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the request fails") {
           beforeEach {
-            fakeRequest.fail(TestError.SimpleError)
+            fakeRequest.fail(TestError.simpleError)
           }
               
           it("should call the failure closure") {
@@ -95,7 +95,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         let key = "test_key"
         let value = 30
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -121,7 +121,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the calls on the right queue") {
-          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(queue)))
+          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(object: queue)))
         }
         
         //TODO: Find a way to call succeed() and fail(_) after some time to take into account the gcd.async call
@@ -136,7 +136,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         }
         
         pending("when set fails") {
-          let setFailure = TestError.AnotherError
+          let setFailure = TestError.anotherError
           
           beforeEach {
             internalCache.setPromisesReturned.first?.fail(setFailure)
@@ -162,7 +162,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the calls on the right queue") {
-          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(queue)))
+          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(object: queue)))
         }
       }
       
@@ -176,27 +176,27 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the calls on the right queue") {
-          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(queue)))
+          expect(internalCache.queueUsedForTheLastCall).toEventually(equal(getMutablePointer(object: queue)))
         }
       }
     }
   }
 }
 
-func currentQueueSpecific() -> UnsafeMutablePointer<Void> {
-  return dispatch_get_specific(&kCurrentQueue)
+func currentQueueSpecific() -> UnsafeMutableRawPointer! {
+  return DispatchQueue.getSpecific(key: kCurrentQueue)!
 }
 
 class DispatchedCacheTests: QuickSpec {
-  var queue: dispatch_queue_t!
+  var queue: DispatchQueue!
   
   override func spec() {
     var cache: CacheLevelFake<String, Int>!
     var composedCache: BasicCache<String, Int>!
     
     beforeSuite {
-      self.queue = dispatch_queue_create("Test queue", DISPATCH_QUEUE_CONCURRENT)
-      dispatch_queue_set_specific(self.queue, &kCurrentQueue, getMutablePointer(self.queue), nil)
+      self.queue = DispatchQueue(label: "Test queue", attributes: .concurrent)
+      self.queue.setSpecific(key: kCurrentQueue, value: getMutablePointer(object: self.queue))
     }
     
     describe("Dispatched cache obtained through the protocol extension") {
@@ -218,21 +218,6 @@ class DispatchedCacheTests: QuickSpec {
       beforeEach {
         cache = CacheLevelFake()
         composedCache = cache ~>> self.queue
-      }
-      
-      itBehavesLike("a dispatched cache") {
-        [
-          DispatchedShareExamplesContext.CacheToTest: composedCache,
-          DispatchedShareExamplesContext.InternalCache: cache,
-          DispatchedShareExamplesContext.QueueToUse: self.queue
-        ]
-      }
-    }
-    
-    xdescribe("Dispatched cache obtained through the operator on a fetch closure") { //FIX
-      beforeEach {
-        cache = CacheLevelFake()
-        composedCache = cache.get ~>> self.queue
       }
       
       itBehavesLike("a dispatched cache") {
