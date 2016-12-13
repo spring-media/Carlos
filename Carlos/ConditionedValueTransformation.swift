@@ -33,11 +33,11 @@ extension CacheLevel {
    */
   public func conditionedValueTransformation<A: ConditionedTwoWayTransformer>(transformer: A) -> BasicCache<KeyType, A.TypeOut> where OutputType == A.TypeIn, A.KeyType == KeyType {
     return BasicCache(
-      getClosure: { key in
+      getClosure: { key -> Future<A.TypeOut> in
         self.get(key).mutate(key, conditionedTransformer: transformer)
       },
       setClosure: { (value, key) in
-        return transformer.conditionalInverseTransform(key, value: value)
+        transformer.conditionalInverseTransform(key: key, value: value)
           .flatMap { transformedValue in
             self.set(transformedValue, forKey: key)
           }.future

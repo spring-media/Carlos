@@ -13,6 +13,13 @@ extension Data: ExpensiveObject {
   }
 }
 
+extension NSData: ExpensiveObject {
+  /// The number of bytes of the data block
+  public var cost: Int {
+    return self.length
+  }
+}
+
 extension String: ExpensiveObject {
   /// The number of characters of the string
   public var cost: Int {

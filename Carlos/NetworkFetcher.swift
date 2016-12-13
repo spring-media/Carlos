@@ -21,7 +21,7 @@ public final class NetworkFetcher: Fetcher {
   public typealias KeyType = URL
   
   /// The network cache returns only NSData values
-  public typealias OutputType = Data
+  public typealias OutputType = NSData
   
   private func validate(_ response: HTTPURLResponse, withData data: Data) -> Bool {
     var responseIsValid = true
@@ -32,8 +32,8 @@ public final class NetworkFetcher: Fetcher {
     return responseIsValid
   }
   
-  private func startRequest(_ URL: Foundation.URL) -> Future<Data> {
-    let result = Promise<Data>()
+  private func startRequest(_ URL: Foundation.URL) -> Future<NSData> {
+    let result = Promise<NSData>()
     
     let task = URLSession.shared.dataTask(with: URL, completionHandler: { [weak self] (data, response, error) in
       guard let strongSelf = self else { return }
@@ -55,7 +55,7 @@ public final class NetworkFetcher: Fetcher {
           }
         } else if let data = data {
           GCD.main {
-            result.succeed(data)
+            result.succeed(data as NSData)
           }
         } else {
           GCD.main {

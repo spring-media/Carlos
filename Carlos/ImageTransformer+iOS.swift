@@ -13,7 +13,7 @@ public final class ImageTransformer: TwoWayTransformer {
     case cannotConvertImage
   }
   
-  public typealias TypeIn = Data
+  public typealias TypeIn = NSData
   public typealias TypeOut = UIImage
   
   /// Initializes a new instance of ImageTransformer
@@ -30,7 +30,7 @@ public final class ImageTransformer: TwoWayTransformer {
     let result = Promise<TypeOut>()
     
     GCD.background {
-      UIImage(data: val)
+      UIImage(data: val as Data)
     }.main { image in
       if let image = image {
         result.succeed(image)
@@ -57,7 +57,7 @@ public final class ImageTransformer: TwoWayTransformer {
       UIImagePNGRepresentation(val)
     }.main { data in
       if let data = data {
-        result.succeed(data)
+        result.succeed(data as NSData)
       } else {
         result.fail(TransformationError.cannotConvertImage)
       }

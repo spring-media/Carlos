@@ -5,7 +5,7 @@ A simple class with the purpose of providing standard caches
 */
 public final class CacheProvider {
   /// A shared data cache instance
-  public static let sharedDataCache: BasicCache<URL, Data> = CacheProvider.dataCache()
+  public static let sharedDataCache: BasicCache<URL, NSData> = CacheProvider.dataCache()
   
   /// A shared JSON cache instance
   public static let sharedJSONCache: BasicCache<URL, AnyObject> = CacheProvider.JSONCache()
@@ -13,8 +13,8 @@ public final class CacheProvider {
   /**
   - returns: An initialized and configured CacheLevel that takes NSURL keys and stores NSData values. Network requests are pooled for efficiency. Keep in mind that calling this method twice returns two different instances. You should take care of retaining the result or use `sharedDataCache` instead
   */
-  public static func dataCache() -> BasicCache<URL, Data> {
-    return MemoryCacheLevel() >>> (DiskCacheLevel() >>> NetworkFetcher()).pooled()
+  public static func dataCache() -> BasicCache<URL, NSData> {
+    return MemoryCacheLevel<URL, NSData>() >>> (DiskCacheLevel<URL, NSData>() >>> NetworkFetcher()).pooled()
   }
   
   /**
