@@ -10,6 +10,7 @@ class NSNumberFormatterTransformerTests: QuickSpec {
       
       beforeEach {
         formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "us_US")
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 5
         formatter.minimumFractionDigits = 3
@@ -117,7 +118,8 @@ class NSNumberFormatterTransformerTests: QuickSpec {
             }
             
             it("should return the expected number") {
-              expect("\(result)").to(equal(originString))
+              let compare = result ?? NSNumber(value: 0)
+              expect("\(compare)").to(equal(originString))
             }
           }
           

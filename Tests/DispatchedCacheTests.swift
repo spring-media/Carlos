@@ -184,7 +184,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
 }
 
 func currentQueueSpecific() -> UnsafeMutableRawPointer! {
-  return DispatchQueue.getSpecific(key: kCurrentQueue)!
+  return DispatchQueue.getSpecific(key: kCurrentQueue)
 }
 
 class DispatchedCacheTests: QuickSpec {

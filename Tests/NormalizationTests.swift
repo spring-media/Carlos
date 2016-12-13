@@ -113,9 +113,11 @@ class NormalizationTests: QuickSpec {
     describe("Normalization through the protocol extension") {
       context("when normalizing a BasicCache") {
         var originalCache: BasicCache<String, Int>!
+        var keyTransformer: OneWayTransformationBox<String, String>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ Future($0) })
+          keyTransformer = OneWayTransformationBox(transform: Future.init)
+          originalCache = CacheLevelFake<String, Int>().transformKeys(keyTransformer)
           cacheToTest = originalCache.normalize()
         }
         
