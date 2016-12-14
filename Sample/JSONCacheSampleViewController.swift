@@ -11,7 +11,7 @@ class JSONCacheSampleViewController: BaseCacheViewController {
     super.fetchRequested()
     
     cache.get(URL(string: urlKeyField?.text ?? "")!).onSuccess { JSON in
-      self.eventsLogView.text = "\(self.eventsLogView.text)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
+      self.eventsLogView.text = "\(self.eventsLogView.text!)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
     }
     
     let progress = Progress.current()

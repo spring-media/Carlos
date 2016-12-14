@@ -37,6 +37,6 @@ class UserDefaultsCacheSampleViewController: BaseCacheViewController {
       "\(accumulator)\n\(value.0): \(value.1)"
     })
     
-    self.eventsLogView.text = "\(self.eventsLogView.text)Prepopulating the cache:\n\(prepopulatingMessage)\n"
+    self.eventsLogView.text = "\(self.eventsLogView.text!)Prepopulating the cache:\n\(prepopulatingMessage)\n"
   }
 }

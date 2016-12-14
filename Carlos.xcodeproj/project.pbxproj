@@ -165,7 +165,6 @@
 		52A99FBF1B56F2A500D1C361 /* RequestCapperCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A99FBE1B56F2A500D1C361 /* RequestCapperCache.swift */; };
 		52B29CE61CEA227A00B5B277 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE51CEA227A00B5B277 /* PiedPiper.framework */; };
 		52B29CE81CEA228000B5B277 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE71CEA228000B5B277 /* PiedPiper.framework */; };
-		52B29CEC1CEA228800B5B277 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CEB1CEA228800B5B277 /* PiedPiper.framework */; };
 		52B29CEE1CEA235600B5B277 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CED1CEA235600B5B277 /* PiedPiper.framework */; };
 		52B7620F1BB84EFF0087CD91 /* ImageTransformer+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B7620E1BB84EFF0087CD91 /* ImageTransformer+iOS.swift */; };
 		52B7621C1BB84F160087CD91 /* JSONTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B7621B1BB84F160087CD91 /* JSONTransformer.swift */; };
@@ -276,10 +275,14 @@
 		AD85580F1BA94FCA0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD8558101BA94FCB0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; };
-		ADB2D8CB1E0134D300E63ADF /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE51CEA227A00B5B277 /* PiedPiper.framework */; };
-		ADB2D8CC1E0135B600E63ADF /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE71CEA228000B5B277 /* PiedPiper.framework */; };
+		ADB2D8CE1E013CA100E63ADF /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ADB2D8CD1E013CA100E63ADF /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ADD139BA1DFFE70200DA8C48 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52BED34C1CE87C34002C045A /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ADD139BB1DFFE70200DA8C48 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52BED34D1CE87C34002C045A /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADEA04991E014041005BF920 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE71CEA228000B5B277 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADEA049A1E014048005BF920 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE71CEA228000B5B277 /* PiedPiper.framework */; };
+		ADEA049B1E0140B7005BF920 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CEB1CEA228800B5B277 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADEA049C1E0140BB005BF920 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CEB1CEA228800B5B277 /* PiedPiper.framework */; };
+		ADEA049D1E0140E9005BF920 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CEB1CEA228800B5B277 /* PiedPiper.framework */; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -329,6 +332,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5216CD261BC04BD9005B729F /* CarlosTv.framework in Embed Frameworks */,
+				ADEA049B1E0140B7005BF920 /* PiedPiper.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,6 +378,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				AD64D99D1B8DE69D00C783D3 /* CarlosWatch.framework in Embed Frameworks */,
+				ADEA04991E014041005BF920 /* PiedPiper.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,6 +390,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				52635A351B4F0F3E00F187EE /* Carlos.framework in Embed Frameworks */,
+				ADB2D8CE1E013CA100E63ADF /* PiedPiper.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -551,6 +557,7 @@
 		AD695CDF1B46CD65004E998D /* CarlosSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarlosSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedUnarchiver+SwiftUtilities.h"; sourceTree = "<group>"; };
 		AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedUnarchiver+SwiftUtilities.m"; sourceTree = "<group>"; };
+		ADB2D8CD1E013CA100E63ADF /* PiedPiper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PiedPiper.framework; path = Carthage/Build/iOS/PiedPiper.framework; sourceTree = "<group>"; };
 		C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkFetcherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -560,6 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5216CD251BC04BD9005B729F /* CarlosTv.framework in Frameworks */,
+				ADEA049C1E0140BB005BF920 /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,7 +609,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52B29CEC1CEA228800B5B277 /* PiedPiper.framework in Frameworks */,
+				ADEA049D1E0140E9005BF920 /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,7 +626,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD64D99C1B8DE69D00C783D3 /* CarlosWatch.framework in Frameworks */,
-				ADB2D8CC1E0135B600E63ADF /* PiedPiper.framework in Frameworks */,
+				ADEA049A1E014048005BF920 /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,7 +635,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */,
-				ADB2D8CB1E0134D300E63ADF /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,6 +858,7 @@
 		AD695CD61B46CD65004E998D = {
 			isa = PBXGroup;
 			children = (
+				ADB2D8CD1E013CA100E63ADF /* PiedPiper.framework */,
 				52B6D3541B79307900A403E2 /* Carlos.playground */,
 				AD695CE11B46CD65004E998D /* Sample */,
 				52635A1E1B4F0F3D00F187EE /* Carlos */,

@@ -8,10 +8,10 @@ class PooledCacheSampleViewController: BaseCacheViewController {
   override func fetchRequested() {
     super.fetchRequested()
     let timestamp = Date().timeIntervalSince1970
-    self.eventsLogView.text = "\(self.eventsLogView.text)Request timestamp: \(timestamp)\n"
+    self.eventsLogView.text = "\(self.eventsLogView.text!)Request timestamp: \(timestamp)\n"
     cache.get(URL(string: urlKeyField?.text ?? "")!)
       .onSuccess { value in
-        self.eventsLogView.text = "\(self.eventsLogView.text)Request with timestamp \(timestamp) succeeded\n"
+        self.eventsLogView.text = "\(self.eventsLogView.text!)Request with timestamp \(timestamp) succeeded\n"
       }
   }
   

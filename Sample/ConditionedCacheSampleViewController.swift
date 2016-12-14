@@ -26,7 +26,7 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
     
     cache.get(URL(string: urlKeyField?.text ?? "")!)
       .onFailure { errorThrowing in
-        self.eventsLogView.text = "\(self.eventsLogView.text)Failed because of condition\n"
+        self.eventsLogView.text = "\(self.eventsLogView.text!)Failed because of condition\n"
       }
   }
   
