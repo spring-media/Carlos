@@ -276,6 +276,8 @@
 		AD85580F1BA94FCA0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD8558101BA94FCB0054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = AD8557F31BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; };
+		ADB2D8CB1E0134D300E63ADF /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE51CEA227A00B5B277 /* PiedPiper.framework */; };
+		ADB2D8CC1E0135B600E63ADF /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CE71CEA228000B5B277 /* PiedPiper.framework */; };
 		ADD139BA1DFFE70200DA8C48 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52BED34C1CE87C34002C045A /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ADD139BB1DFFE70200DA8C48 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52BED34D1CE87C34002C045A /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
@@ -616,6 +618,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD64D99C1B8DE69D00C783D3 /* CarlosWatch.framework in Frameworks */,
+				ADB2D8CC1E0135B600E63ADF /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +627,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52635A341B4F0F3E00F187EE /* Carlos.framework in Frameworks */,
+				ADB2D8CB1E0134D300E63ADF /* PiedPiper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2033,7 +2037,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2065,7 +2069,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2080,13 +2084,17 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -2098,6 +2106,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosSample.watchkitapp.watchkitextension;
@@ -2105,7 +2117,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -2125,7 +2137,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -2144,7 +2156,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -2256,7 +2268,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -2275,7 +2287,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

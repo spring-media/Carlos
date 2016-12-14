@@ -44,7 +44,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           beforeEach {
             failureSentinel = nil
             
-            _ = cache.set(value as NSString, forKey: key)
+            cache.set(value as NSString, forKey: key)
           }
           
           context("when getting the value for another key") {
@@ -77,7 +77,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           cache.set(value as NSString, forKey: key).onSuccess {
             didWrite = true
           }
-          _ = secondCache.set(value as NSString, forKey: key)
+          secondCache.set(value as NSString, forKey: key)
           standardCache.set(value, forKey: key)
         }
         
@@ -107,7 +107,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           let newValue = "another value"
           
           beforeEach {
-            _ = cache.set(newValue as NSString, forKey: key)
+            cache.set(newValue as NSString, forKey: key)
           }
           
           context("when calling get") {

@@ -41,7 +41,7 @@ public protocol CacheLevel {
    
   - returns: A Future that will reflect the status of the set operation
   */
-  func set(_ value: OutputType, forKey key: KeyType) -> Future<()>
+  @discardableResult func set(_ value: OutputType, forKey key: KeyType) -> Future<()>
   
   /**
   Asks to clear the cache level

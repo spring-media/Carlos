@@ -31,7 +31,7 @@ class BaseCacheViewController: UIViewController {
     return "Carlos Sample"
   }
   
-  @IBAction func fetchButtonTapped(sender: AnyObject) {
+  @IBAction func fetchButtonTapped(_ sender: AnyObject) {
     fetchRequested()
     
     urlKeyField?.resignFirstResponder()
@@ -39,11 +39,11 @@ class BaseCacheViewController: UIViewController {
 }
 
 extension BaseCacheViewController: UITextFieldDelegate {
-  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     if let text = textField.text {
-      let newText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-      let textIsURL = NSURL(string: newText) != nil
-      fetchButton.enabled = textIsURL
+      let newText = (text as NSString).replacingCharacters(in: range, with: string)
+      let textIsURL = URL(string: newText) != nil
+      fetchButton.isEnabled = textIsURL
     }
     
     return true

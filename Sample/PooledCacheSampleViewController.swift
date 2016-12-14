@@ -3,13 +3,13 @@ import UIKit
 import Carlos
 
 class PooledCacheSampleViewController: BaseCacheViewController {
-  private var cache: PoolCache<BasicCache<NSURL, NSData>>!
+  private var cache: PoolCache<BasicCache<URL, NSData>>!
   
   override func fetchRequested() {
     super.fetchRequested()
-    let timestamp = NSDate().timeIntervalSince1970
+    let timestamp = Date().timeIntervalSince1970
     self.eventsLogView.text = "\(self.eventsLogView.text)Request timestamp: \(timestamp)\n"
-    cache.get(NSURL(string: urlKeyField?.text ?? "")!)
+    cache.get(URL(string: urlKeyField?.text ?? "")!)
       .onSuccess { value in
         self.eventsLogView.text = "\(self.eventsLogView.text)Request with timestamp \(timestamp) succeeded\n"
       }

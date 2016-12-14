@@ -438,7 +438,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            _ = finalCache.set(value, forKey: key)
+            finalCache.set(value, forKey: key)
           }
           
           it("should not dispatch the call to the first cache") {
@@ -513,7 +513,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "quite long key"
           
           beforeEach {
-            _ = finalCache.set(value, forKey: key)
+            finalCache.set(value, forKey: key)
           }
           
           it("should not dispatch the call to the second cache") {

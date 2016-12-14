@@ -3,12 +3,12 @@ import UIKit
 import Carlos
 
 class SwitchCacheSampleViewController: BaseCacheViewController {
-  private var cache: BasicCache<NSURL, NSData>!
+  private var cache: BasicCache<URL, NSData>!
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(NSURL(string: urlKeyField?.text ?? "")!)
+    _ = cache.get(URL(string: urlKeyField?.text ?? "")!)
   }
   
   override func titleForScreen() -> String {
@@ -18,17 +18,17 @@ class SwitchCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    let lane1 = MemoryCacheLevel<NSURL, NSData>()
-    lane1.set("Yes, this is hitting the memory cache now".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, forKey: NSURL(string: "test")!)
-    lane1.set("Carlos lets you create quite complex cache infrastructures".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, forKey: NSURL(string: "carlos")!)
+    let lane1 = MemoryCacheLevel<URL, NSData>()
+    lane1.set(("Yes, this is hitting the memory cache now".data(using: .utf8, allowLossyConversion: false) as NSData?)!, forKey: URL(string: "test")!)
+    lane1.set(("Carlos lets you create quite complex cache infrastructures".data(using: .utf8, allowLossyConversion: false) as NSData?)!, forKey: URL(string: "carlos")!)
     
     let lane2 = CacheProvider.dataCache()
     
-    cache = switchLevels(lane1, cacheB: lane2, switchClosure: { key in
+    cache = switchLevels(cacheA: lane1, cacheB: lane2, switchClosure: { key in
       if key.scheme == "http" {
-        return .CacheB
+        return .cacheB
       } else {
-        return .CacheA
+        return .cacheA
       }
     })
   }

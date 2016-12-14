@@ -235,8 +235,8 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         
         context("when calling it multiple times") {
           beforeEach {
-            _ = cache.set(value, forKey: key)
-            _ = cache.set(value, forKey: key)
+            cache.set(value, forKey: key)
+            cache.set(value, forKey: key)
           }
           
           it("should not pool these calls") {

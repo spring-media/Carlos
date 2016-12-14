@@ -22,7 +22,7 @@ extension CacheLevel {
           .onCancel(request.cancel)
           .onFailure { error in
             request.mimic(cache.get(key).map { result in
-              _ = self.set(result, forKey: key)
+              self.set(result, forKey: key)
               return result
             })
         }

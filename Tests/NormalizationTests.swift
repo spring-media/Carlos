@@ -67,7 +67,7 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
         let value = 101
         
         beforeEach {
-          _ = cacheToTest.set(value, forKey: key)
+          cacheToTest.set(value, forKey: key)
         }
         
         it("should call the closure") {

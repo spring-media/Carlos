@@ -3,30 +3,30 @@ import UIKit
 import Carlos
 
 class ImageCacheSampleViewController: BaseCacheViewController {
-  private var cache: BasicCache<NSURL, UIImage>!
+  private var cache: BasicCache<URL, UIImage>!
   @IBOutlet weak var imageView: UIImageView?
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(NSURL(string: urlKeyField?.text ?? "")!)
+    cache.get(URL(string: urlKeyField?.text ?? "")!)
       .onCompletion { result in
         guard let imageView = self.imageView else {
           return
         }
         
         switch result {
-        case .Success(let image):
+        case .success(let image):
           imageView.image = image
-        case .Error(_):
-          imageView.image = self.imageWithColor(.darkGrayColor(), size: imageView.frame.size)
+        case .error(_):
+          imageView.image = self.imageWithColor(.darkGray, size: imageView.frame.size)
         default:
           break
         }
       }
   }
   
-  private func imageWithColor(color: UIColor, size: CGSize) -> UIImage {
+  private func imageWithColor(_ color: UIColor, size: CGSize) -> UIImage {
     let rect = CGRect(origin: CGPoint.zero, size: size)
     UIGraphicsBeginImageContextWithOptions(size, false, 0)
     color.setFill()

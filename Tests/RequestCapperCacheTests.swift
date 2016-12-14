@@ -300,7 +300,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
             internalCache.numberOfTimesCalledSet = 0
             
             for _ in 0..<moreTimes {
-              _ = cache.set(value, forKey: key)
+              cache.set(value, forKey: key)
             }
           }
           

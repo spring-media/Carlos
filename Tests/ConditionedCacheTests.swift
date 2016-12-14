@@ -185,7 +185,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         let value = 201
         
         beforeEach {
-          _ = cache.set(value, forKey: key)
+          cache.set(value, forKey: key)
         }
         
         it("should forward the call to the internal cache") {

@@ -10,7 +10,7 @@ final public class StringTransformer: TwoWayTransformer {
     case dataConversionToStringFailed
   }
   
-  public typealias TypeIn = Data
+  public typealias TypeIn = NSData
   public typealias TypeOut = String
   
   private let encoding: String.Encoding
@@ -32,7 +32,7 @@ final public class StringTransformer: TwoWayTransformer {
   - returns: A Future containing the serialized String with the given encoding if the input is valid
   */
   public func transform(_ val: TypeIn) -> Future<TypeOut> {
-    return Future(value: String(data: val, encoding: encoding), error: TransformationError.invalidData)
+    return Future(value: String(data: val as Data, encoding: encoding), error: TransformationError.invalidData)
   }
   
   /**
@@ -43,6 +43,6 @@ final public class StringTransformer: TwoWayTransformer {
   - returns: A Future<NSData> instance containing the bytes representation of the given string
   */
   public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
-    return Future(value: val.data(using: encoding, allowLossyConversion: false), error: TransformationError.dataConversionToStringFailed)
+    return Future(value: val.data(using: encoding, allowLossyConversion: false) as NSData?, error: TransformationError.dataConversionToStringFailed)
   }
 }
