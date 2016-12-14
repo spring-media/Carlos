@@ -27,17 +27,3 @@ extension CacheLevel {
     )
   }
 }
-
-/**
-Applies a transformation to a cache level
-The transformation works by changing the type of the key the cache accepts
-Use this transformation when you use a domain specific key or a wrapper key that contains several values every cache level can choose from
-
-- parameter cache: The cache level you want to transform
-- parameter transformer: The transformation you want to apply
-
-- returns: A new cache level result of the transformation of the original cache level
-*/
-public func =>><A: CacheLevel, B: OneWayTransformer>(transformer: B, cache: A) -> BasicCache<B.TypeIn, A.OutputType> where A.KeyType == B.TypeOut {
-  return cache.transformKeys(transformer)
-}

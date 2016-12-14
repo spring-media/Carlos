@@ -1,3 +1,24 @@
+## Migrating from 0.8 to 0.9
+
+### Swift 3 support
+
+Please make sure to convert all usages of `Carlos` APIs to the Swift 3 counterparts. In most cases there won't be a big syntactic difference.
+
+### Deprecated functions
+
+All deprecated functions have been removed. This were of 2 types:
+
+- Global functions
+- Functions taking fetch closures or transformation closures
+
+For the first type, just use the corresponding protocol extension function.
+
+For the second type, please use `BasicFetcher` instead of fetch closures, and explicit `OneWayTransformationBox` instances instead of transformation closures.
+
+### Custom operators
+
+All custom operators have been removed. Please use the corresponding protocol extension functions instead. This may require some reordering of the objects.
+
 ## Migrating from 0.7 to 0.8
 
 ### `Promise` now has only an empty `init`. 

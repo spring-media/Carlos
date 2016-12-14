@@ -42,17 +42,3 @@ extension CacheLevel {
     )
   }
 }
-
-/**
-Applies a transformation to a cache level
-The transformation works by changing the type of the value the cache returns when succeeding
-Use this transformation when you store a value type but want to mount the cache in a pipeline that works with other value types
-
-- parameter cache: The cache level you want to transform
-- parameter transformer: The transformation you want to apply
-
-- returns: A new cache result of the transformation of the original cache
-*/
-public func =>><A: CacheLevel, B: TwoWayTransformer>(cache: A, transformer: B) -> BasicCache<A.KeyType, B.TypeOut> where A.OutputType == B.TypeIn {
-  return cache.transformValues(transformer)
-}

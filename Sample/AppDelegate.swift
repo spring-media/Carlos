@@ -16,5 +16,5 @@ func simpleCache() -> BasicCache<URL, NSData> {
 }
 
 func delayedNetworkCache() -> BasicCache<URL, NSData> {
-  return MemoryCacheLevel() >>> DiskCacheLevel() >>> DelayedNetworkFetcher()
+  return MemoryCacheLevel().compose(DiskCacheLevel()).compose(DelayedNetworkFetcher())
 }

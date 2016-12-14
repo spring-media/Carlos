@@ -305,21 +305,5 @@ class KeyTransformationTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Key transformation using a transformer and a cache, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformer =>> internalCache
-      }
-      
-      itBehavesLike("a cache with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
   }
 }

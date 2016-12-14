@@ -733,22 +733,5 @@ class CacheLevelCompositionTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Cache composition using two cache levels with the operator") {
-      beforeEach {
-        cache1 = CacheLevelFake<String, Int>()
-        cache2 = CacheLevelFake<String, Int>()
-        
-        composedCache = cache1 >>> cache2
-      }
-      
-      itBehavesLike("a composed cache") {
-        [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
-        ]
-      }
-    }
   }
 }

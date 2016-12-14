@@ -135,21 +135,5 @@ class FetcherValueTransformationTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Value transformation using a transformer and a fetcher, with the operator") {
-      beforeEach {
-        internalFetcher = FetcherFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: forwardTransformationClosure)
-        fetcher = internalFetcher =>> transformer
-      }
-      
-      itBehavesLike("a fetch closure with transformed values") {
-        [
-          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
-          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
-          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
   }
 }

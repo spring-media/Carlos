@@ -153,17 +153,5 @@ class TwoWayTransformerCompositionTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Transformer composition using the operator") {
-      beforeEach {
-        composedTransformer = transformer1 >>> transformer2
-      }
-      
-      itBehavesLike("a composed two-way transformer") {
-        [
-          ComposedTwoWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
   }
 }

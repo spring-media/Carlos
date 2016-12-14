@@ -20,7 +20,7 @@ class StringTransformerTests: QuickSpec {
           let stringSample = "this is a sample string"
           
           beforeEach {
-            transformer.transform(stringSample.data(using: .utf8)!)
+            transformer.transform((stringSample.data(using: .utf8) as NSData?)!)
               .onSuccess({ result = $0 })
               .onFailure({ error = $0 })
           }

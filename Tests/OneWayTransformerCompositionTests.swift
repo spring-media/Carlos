@@ -95,17 +95,5 @@ class OneWayTransformerCompositionTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Transformer composition using two transformers with the operator") {
-      beforeEach {
-        composedTransformer = transformer1 >>> transformer2
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
   }
 }

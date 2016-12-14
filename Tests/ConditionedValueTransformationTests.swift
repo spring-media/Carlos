@@ -364,20 +364,5 @@ class ConditionedValueTransformationTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Conditioned post processing on a CacheLevel with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache ?>> transformer
-      }
-      
-      itBehavesLike("a cache with conditioned value transformation") {
-        [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
   }
 }

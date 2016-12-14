@@ -254,19 +254,5 @@ class ConditionedCacheTests: QuickSpec {
         ]
       }
     }
-        
-    describe("The conditioned cache operator, applied to a cache level") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = closure <?> internalCache
-      }
-      
-      itBehavesLike("a conditioned cache") {
-        [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache
-        ]
-      }
-    }
   }
 }

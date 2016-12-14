@@ -1,8 +1,6 @@
 import Foundation
 import PiedPiper
 
-infix operator <?>: MultiplicationPrecedence
-
 extension CacheLevel {
   
   /**
@@ -64,18 +62,4 @@ extension TwoWayTransformer {
       inverseTransform: conditionedClosure(self.inverseTransform, condition: inverseCondition)
     )
   }
-}
-
-/**
-Wraps a CacheLevel with a boolean condition on the key that controls when a get call should fail unconditionally
-
-- parameter condition: The condition closure that takes a key and returns true if the key can be fetched, or false if the request should fail unconditionally. The closure can also pass a specific error in case it wants to explicitly communicate why it failed. The condition can be asynchronous and has to return a Future<Bool>
-- parameter cache: The cache level you want to decorate
-
-- returns: A new BasicCache that will check for the condition before every get is dispatched to the decorated cache level
-
-The condition doesn't apply to the set, clear, onMemoryWarning calls
-*/
-public func <?><A: CacheLevel>(condition: @escaping (A.KeyType) -> Future<Bool>, cache: A) -> BasicCache<A.KeyType, A.OutputType> {
-  return cache.conditioned(condition)
 }

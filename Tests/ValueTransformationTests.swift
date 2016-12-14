@@ -283,21 +283,5 @@ class ValueTransformationTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Value transformation using a transformer and a cache, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = TwoWayTransformationBox(transform: forwardTransformationClosure, inverseTransform: inverseTransformationClosure)
-        cache = internalCache =>> transformer
-      }
-      
-      itBehavesLike("a cache with transformed values") {
-        [
-          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
-          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
-          ValueTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
   }
 }

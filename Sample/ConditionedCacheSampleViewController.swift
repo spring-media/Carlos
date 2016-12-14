@@ -41,7 +41,7 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    cache = { key -> Future<Bool> in
+    cache = simpleCache().conditioned { key -> Future<Bool> in
       let result = Promise<Bool>()
       
       if self.globalKillSwitch {
@@ -53,6 +53,6 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
       }
       
       return result.future
-    } <?> simpleCache()
+    }
   }
 }

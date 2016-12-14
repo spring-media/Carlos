@@ -1,8 +1,6 @@
 import Foundation
 import PiedPiper
 
-infix operator >>>: AdditionPrecedence
-
 extension CacheLevel {
   
   /**
@@ -45,16 +43,4 @@ extension CacheLevel {
       }
     )
   }
-}
-
-/**
-Composes two cache levels
-
-- parameter firstCache: The first cache level
-- parameter secondCache: The second cache level
-
-- returns: A new cache level that is the result of the composition of the two cache levels
-*/
-public func >>><A: CacheLevel, B: CacheLevel>(firstCache: A, secondCache: B) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == B.KeyType, A.OutputType == B.OutputType {
-  return firstCache.compose(secondCache)
 }

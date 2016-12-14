@@ -213,20 +213,5 @@ class DispatchedCacheTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Dispatched cache obtained through the operator") {
-      beforeEach {
-        cache = CacheLevelFake()
-        composedCache = cache ~>> self.queue
-      }
-      
-      itBehavesLike("a dispatched cache") {
-        [
-          DispatchedShareExamplesContext.CacheToTest: composedCache,
-          DispatchedShareExamplesContext.InternalCache: cache,
-          DispatchedShareExamplesContext.QueueToUse: self.queue
-        ]
-      }
-    }
   }
 }

@@ -13,15 +13,3 @@ extension OneWayTransformer {
     return OneWayTransformationBox(transform: self.transform >>> transformer.transform)
   }
 }
-
-/**
-Composes two OneWayTransformers
-
-- parameter firstTransformer: The first transformer to apply
-- parameter secondTransformer: The second transformer to apply
-
-- returns: A new OneWayTransformer that is the result of the composition of the two OneWayTransformers
-*/
-public func >>><A: OneWayTransformer, B: OneWayTransformer>(firstTransformer: A, secondTransformer: B) -> OneWayTransformationBox<A.TypeIn, B.TypeOut> where B.TypeIn == A.TypeOut {
-  return firstTransformer.compose(secondTransformer)
-}

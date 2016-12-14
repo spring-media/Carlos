@@ -189,21 +189,5 @@ class PostProcessTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Post processing using a transformer and a cache, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = internalCache ~>> transformer
-      }
-      
-      itBehavesLike("a cache with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
   }
 }

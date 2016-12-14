@@ -48,16 +48,3 @@ extension CacheLevel {
   }
 }
 
-/**
- Adds a conditioned value transformation step to a given CacheLevel
- 
- As usual, if the transformation fails, the get (or set) request will also fail
- 
- - parameter cache: The CacheLevel you want to apply the value transformation step to
- - parameter conditionedTransformer: The transformer that will be applied to every get or set. The transformer gets the key used for the request (where it can apply its condition on) and the fetched value or the value to set, and returns a future with the transformed value.
- 
- - returns: A transformed CacheLevel that incorporates the value transformation step
- */
-public func ?>><A: CacheLevel, T: ConditionedTwoWayTransformer>(cache: A, conditionedTransformer: T) -> BasicCache<A.KeyType, T.TypeOut> where T.KeyType == A.KeyType, T.TypeIn == A.OutputType {
-  return cache.conditionedValueTransformation(transformer: conditionedTransformer)
-}

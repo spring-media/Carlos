@@ -301,35 +301,5 @@ class ConditionedOutputPostProcessingTests: QuickSpec {
         ]
       }
     }
-    
-    describe("Conditioned post processing on a CacheLevel with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache ?>> transformer
-      }
-      
-      itBehavesLike("a cache with conditioned post-processing") {
-        [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Conditioned post processing on a fetch closure with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache.get ?>> transformer
-      }
-      
-      itBehavesLike("a fetch closure with conditioned post-processing") {
-        [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
   }
 }
