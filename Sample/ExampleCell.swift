@@ -7,7 +7,7 @@ class ExampleCell: UITableViewCell {
   @IBOutlet var sampleTitleLabel: UILabel?
   @IBOutlet var sampleDescriptionLabel: UILabel?
   
-  func configureWithExample(example: Example) {
+  func configureWithExample(_ example: Example) {
     sampleTitleLabel?.text = example.name
     sampleDescriptionLabel?.text = example.shortDescription
   }

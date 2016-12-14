@@ -11,8 +11,8 @@ struct KeyTransformationsSharedExamplesContext {
 }
 
 class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a fetch closure with transformed keys") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a fetch closure with transformed keys") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<Int, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: OneWayTransformationBox<Int, String>!
@@ -25,7 +25,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         var successValue: Int?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         var canceled: Bool!
         
@@ -94,7 +94,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when the request fails") {
-            let errorCode = TestError.AnotherError
+            let errorCode = TestError.anotherError
             
             beforeEach {
               fakeRequest.fail(errorCode)
@@ -141,13 +141,13 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should pass the right error code") {
-            expect(failureValue as? TestError).to(equal(TestError.SimpleError))
+            expect(failureValue as? TestError).to(equal(TestError.simpleError))
           }
         }
       }
     }
     
-    sharedExamples("a cache with transformed keys") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a cache with transformed keys") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<Int, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: OneWayTransformationBox<Int, String>!
@@ -168,7 +168,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling set") {
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -213,7 +213,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the set fails") {
             beforeEach {
-              internalCache.setPromisesReturned.first?.fail(TestError.AnotherError)
+              internalCache.setPromisesReturned.first?.fail(TestError.anotherError)
             }
             
             it("should fail") {
@@ -221,7 +221,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should pass the error through") {
-              expect(setError as? TestError).to(equal(TestError.AnotherError))
+              expect(setError as? TestError).to(equal(TestError.anotherError))
             }
           }
         }
@@ -247,7 +247,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should pass the transformation error") {
-            expect(setError as? TestError).to(equal(TestError.SimpleError))
+            expect(setError as? TestError).to(equal(TestError.simpleError))
           }
         }
       }
@@ -280,30 +280,14 @@ class KeyTransformationTests: QuickSpec {
     var cache: BasicCache<Int, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let transformationClosure: Int -> Future<String> = {
+    let transformationClosure: (Int) -> Future<String> = {
       let result = Promise<String>()
       if $0 > 0 {
         result.succeed("\($0 + 1)")
       } else {
-        result.fail(TestError.SimpleError)
+        result.fail(TestError.simpleError)
       }
       return result.future
-    }
-    
-    describe("Key transformation using a transformer and a cache, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformKeys(transformer, cache: internalCache)
-      }
-      
-      itBehavesLike("a cache with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
     }
     
     describe("Key transformation using a transformer and a cache, with the instance function") {
@@ -314,139 +298,6 @@ class KeyTransformationTests: QuickSpec {
       }
       
       itBehavesLike("a cache with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformer and a cache, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformer =>> internalCache
-      }
-      
-      itBehavesLike("a cache with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformation closure and a cache, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformKeys(transformationClosure, cache: internalCache)
-      }
-      
-      itBehavesLike("a cache with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformation closure and a cache, with the instance function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = internalCache.transformKeys(transformationClosure)
-      }
-      
-      itBehavesLike("a cache with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformation closure and a cache, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformationClosure =>> internalCache
-      }
-      
-      itBehavesLike("a cache with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformation closure and a fetch closure, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformKeys(transformationClosure, fetchClosure: fetchClosure)
-      }
-      
-      itBehavesLike("a fetch closure with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformation closure and a fetch closure, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformationClosure =>> fetchClosure
-      }
-      
-      itBehavesLike("a fetch closure with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformer and a fetch closure, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformKeys(transformer, fetchClosure: fetchClosure)
-      }
-      
-      itBehavesLike("a fetch closure with transformed keys") {
-        [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Key transformation using a transformer and a fetch closure, with the operator") {
-      
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = transformer =>> fetchClosure
-      }
-      
-      itBehavesLike("a fetch closure with transformed keys") {
         [
           KeyTransformationsSharedExamplesContext.CacheToTest: cache,
           KeyTransformationsSharedExamplesContext.InternalCache: internalCache,

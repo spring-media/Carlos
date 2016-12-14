@@ -11,8 +11,8 @@ struct ConditionedValueTransformationSharedExamplesContext {
 }
 
 class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a cache with conditioned value transformation") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a cache with conditioned value transformation") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Float>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: ConditionedTwoWayTransformationBox<String, Int, Float>!
@@ -26,7 +26,7 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
       context("when calling get with a key that meets the condition") {
         let key = "do"
         var successValue: Float?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         
         beforeEach {
@@ -55,13 +55,13 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
           
           it("should call the transformation closure with the right value") {
             var expected: Float!
-            transformer.conditionalTransform(key, value: value).onSuccess { expected = $0 }
+            transformer.conditionalTransform(key: key, value: value).onSuccess { expected = $0 }
             expect(successValue).to(equal(expected))
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.SimpleError
+          let errorCode = TestError.simpleError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -76,7 +76,7 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
       context("when calling get with a key that doesn't meet the condition") {
         let key = "don't"
         var successValue: Float?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         
         beforeEach {
@@ -112,12 +112,12 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
           }
           
           it("should pass the right error code") {
-            expect(failureValue as? TestError).to(equal(TestError.AnotherError))
+            expect(failureValue as? TestError).to(equal(TestError.anotherError))
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.SimpleError
+          let errorCode = TestError.simpleError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -132,7 +132,7 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
       context("when calling get") {
         let key = "12"
         var successValue: Float?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         
         beforeEach {
@@ -162,7 +162,7 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
             
             it("should call the transformation closure with the success value") {
               var expected: Float!
-              transformer.conditionalTransform(key, value: value).onSuccess { expected = $0 }
+              transformer.conditionalTransform(key: key, value: value).onSuccess { expected = $0 }
               expect(successValue).to(equal(expected))
             }
           }
@@ -183,13 +183,13 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
             }
             
             it("should pass the right error code") {
-              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
+              expect(failureValue as? TestError).to(equal(TestError.simpleError))
             }
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.AnotherError
+          let errorCode = TestError.anotherError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -202,7 +202,7 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
       }
       
       context("when calling set") {
-        var failed: ErrorType?
+        var failed: Error?
         var succeeded: Bool!
         var canceled: Bool!
         
@@ -256,7 +256,7 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
           }
           
           context("when the set closure fails") {
-            let error = TestError.AnotherError
+            let error = TestError.anotherError
             
             beforeEach {
               internalCache.setPromisesReturned[0].fail(error)
@@ -322,12 +322,12 @@ class ConditionedValueTransformationTests: QuickSpec {
       if key == "do" {
         result.succeed(Float(value * 2))
       } else if key == "don't" {
-        result.fail(TestError.AnotherError)
+        result.fail(TestError.anotherError)
       } else {
         if value > 0 {
           result.succeed(Float(value))
         } else {
-          result.fail(TestError.SimpleError)
+          result.fail(TestError.simpleError)
         }
       }
       
@@ -338,12 +338,12 @@ class ConditionedValueTransformationTests: QuickSpec {
       if key == "do" {
         result.succeed(Int(value / 2))
       } else if key == "don't" {
-        result.fail(TestError.AnotherError)
+        result.fail(TestError.anotherError)
       } else {
         if value > 0 {
           result.succeed(Int(value))
         } else {
-          result.fail(TestError.SimpleError)
+          result.fail(TestError.simpleError)
         }
       }
       
@@ -353,22 +353,7 @@ class ConditionedValueTransformationTests: QuickSpec {
     describe("Conditioned post processing on a CacheLevel with the protocol extension") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache.conditionedValueTransformation(transformer)
-      }
-      
-      itBehavesLike("a cache with conditioned value transformation") {
-        [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Conditioned post processing on a CacheLevel with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = internalCache ?>> transformer
+        cache = internalCache.conditionedValueTransformation(transformer: transformer)
       }
       
       itBehavesLike("a cache with conditioned value transformation") {

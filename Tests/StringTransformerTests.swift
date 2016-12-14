@@ -7,10 +7,10 @@ class StringTransformerTests: QuickSpec {
   override func spec() {
     describe("String transformer") {
       var transformer: StringTransformer!
-      var error: ErrorType!
+      var error: Error!
       
       beforeEach {
-        transformer = StringTransformer(encoding: NSUTF8StringEncoding)
+        transformer = StringTransformer(encoding: .utf8)
       }
       
       context("when transforming NSData to String") {
@@ -20,7 +20,7 @@ class StringTransformerTests: QuickSpec {
           let stringSample = "this is a sample string"
           
           beforeEach {
-            transformer.transform(stringSample.dataUsingEncoding(NSUTF8StringEncoding)!)
+            transformer.transform((stringSample.data(using: .utf8) as NSData?)!)
               .onSuccess({ result = $0 })
               .onFailure({ error = $0 })
           }
@@ -45,7 +45,7 @@ class StringTransformerTests: QuickSpec {
         
         beforeEach {
           transformer.inverseTransform(expectedString)
-            .onSuccess({ result = $0 })
+            .onSuccess({ result = $0 as NSData? })
             .onFailure({ error = $0 })
         }
         
@@ -54,7 +54,7 @@ class StringTransformerTests: QuickSpec {
         }
         
         it("should return the expected data") {
-          expect(result).to(equal(expectedString.dataUsingEncoding(NSUTF8StringEncoding)))
+          expect(result).to(equal(expectedString.data(using: .utf8) as NSData?))
         }
       }
     }

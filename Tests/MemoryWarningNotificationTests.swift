@@ -20,7 +20,7 @@ class MemoryWarningNotificationTests: QuickSpec {
         
         context("when posting memory warnings") {
           beforeEach {
-            NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
           }
           
           it("should call onMemoryWarning on the cache") {
@@ -39,7 +39,7 @@ class MemoryWarningNotificationTests: QuickSpec {
           
           context("when posting memory warnings") {
             beforeEach {
-              NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+              NotificationCenter.default.post(name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
             }
             
             it("should not call onMemoryWarning on the cache") {
@@ -55,7 +55,7 @@ class MemoryWarningNotificationTests: QuickSpec {
       
       context("by default, posting memory warning notifications") {
         beforeEach {
-          NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+          NotificationCenter.default.post(name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
         it("should not call clear") {

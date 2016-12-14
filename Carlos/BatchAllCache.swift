@@ -1,7 +1,7 @@
 import PiedPiper
 
 /// A reified batchGetAll
-public final class BatchAllCache<KeySeq: SequenceType, Cache: CacheLevel where KeySeq.Generator.Element == Cache.KeyType>: CacheLevel {
+public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLevel where KeySeq.Iterator.Element == Cache.KeyType {
   /// A sequence of keys for the wrapped cache
   public typealias KeyType = KeySeq
   /// An array of output elements
@@ -17,17 +17,17 @@ public final class BatchAllCache<KeySeq: SequenceType, Cache: CacheLevel where K
    Dispatch each key in the sequence in parallel
    Merge the results -- if any key fails, it all fails
   */
-  public func get(key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     return key.traverse(cache.get)
   }
 
   /**
   Zip the keys with the values and set them all
   */
-  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     return zip(value, key)
       .map(cache.set)
-      .reduce(Future<()>(), combine: { previous, current in
+      .reduce(Future<()>(), { previous, current in
         previous.flatMap { current }
       })
   }
@@ -47,7 +47,7 @@ extension CacheLevel {
    each k in Sequence<K> is dispatched in parallel and if any K fails,
    it all fails
    */
-  public func allBatch<KeySeq: SequenceType where KeySeq.Generator.Element == Self.KeyType>() -> BatchAllCache<KeySeq, Self>  {
+  public func allBatch<KeySeq: Sequence>() -> BatchAllCache<KeySeq, Self> where KeySeq.Iterator.Element == Self.KeyType  {
     return BatchAllCache(cache: self)
   }
 }

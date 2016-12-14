@@ -8,7 +8,7 @@ class FutureFlatMapTests: QuickSpec {
       var promise: Promise<String>!
       var mappedFuture: Future<Int>!
       var successValue: Int?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       
       beforeEach {
@@ -20,7 +20,7 @@ class FutureFlatMapTests: QuickSpec {
       }
       
       context("when done through a closure that can return nil") {
-        let mappingClosure: String -> Int? = { str in
+        let mappingClosure: (String) -> Int? = { str in
           if str == "nil" {
             return nil
           } else {
@@ -34,18 +34,18 @@ class FutureFlatMapTests: QuickSpec {
           
           mappedFuture.onCompletion { result in
             switch result {
-            case .Success(let value):
+            case .success(let value):
               successValue = value
-            case .Error(let error):
+            case .error(let error):
               failureValue = error
-            case .Cancelled:
+            case .cancelled:
               wasCanceled = true
             }
           }
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
@@ -127,7 +127,7 @@ class FutureFlatMapTests: QuickSpec {
             }
             
             it("should fail the mapped future with the right error") {
-              expect(failureValue as? FutureMappingError).to(equal(FutureMappingError.CantMapValue))
+              expect(failureValue as? FutureMappingError).to(equal(FutureMappingError.cantMapValue))
             }
             
             it("should not cancel the mapped future") {
@@ -138,13 +138,13 @@ class FutureFlatMapTests: QuickSpec {
       }
       
       context("when done through a closure that returns a Result") {
-        let mappingClosure: String -> Result<Int> = { str in
+        let mappingClosure: (String) -> Result<Int> = { str in
           if str == "cancel" {
-            return Result.Cancelled
+            return Result.cancelled
           } else if str == "failure" {
-            return Result.Error(TestError.SimpleError)
+            return Result.error(TestError.simpleError)
           } else {
-            return Result.Success(1)
+            return Result.success(1)
           }
         }
         
@@ -154,18 +154,18 @@ class FutureFlatMapTests: QuickSpec {
           
           mappedFuture.onCompletion { result in
             switch result {
-            case .Success(let value):
+            case .success(let value):
               successValue = value
-            case .Error(let error):
+            case .error(let error):
               failureValue = error
-            case .Cancelled:
+            case .cancelled:
               wasCanceled = true
             }
           }
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
@@ -247,7 +247,7 @@ class FutureFlatMapTests: QuickSpec {
             }
             
             it("should fail the mapped future with the right error") {
-              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
+              expect(failureValue as? TestError).to(equal(TestError.simpleError))
             }
             
             it("should not cancel the mapped future") {
@@ -278,7 +278,7 @@ class FutureFlatMapTests: QuickSpec {
       }
       
       context("when done through a closure that returns a Future") {
-        let mappingClosure: String -> Future<Int> = { str in
+        let mappingClosure: (String) -> Future<Int> = { str in
           let result: Future<Int>
           
           if str == "cancel" {
@@ -286,7 +286,7 @@ class FutureFlatMapTests: QuickSpec {
             intermediate.cancel()
             result = intermediate.future
           } else if str == "failure" {
-            result = Future(TestError.SimpleError)
+            result = Future(TestError.simpleError)
           } else {
             result = Future(1)
           }
@@ -300,18 +300,18 @@ class FutureFlatMapTests: QuickSpec {
           
           mappedFuture.onCompletion { result in
             switch result {
-            case .Success(let value):
+            case .success(let value):
               successValue = value
-            case .Error(let error):
+            case .error(let error):
               failureValue = error
-            case .Cancelled:
+            case .cancelled:
               wasCanceled = true
             }
           }
         }
         
         context("when the original future fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             promise.fail(error)
@@ -393,7 +393,7 @@ class FutureFlatMapTests: QuickSpec {
             }
             
             it("should fail the mapped future with the right error") {
-              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
+              expect(failureValue as? TestError).to(equal(TestError.simpleError))
             }
             
             it("should not cancel the mapped future") {

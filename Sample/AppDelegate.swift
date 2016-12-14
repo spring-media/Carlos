@@ -6,15 +6,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
-  func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     return true
   }
 }
 
-func simpleCache() -> BasicCache<NSURL, NSData> {
+func simpleCache() -> BasicCache<URL, NSData> {
   return CacheProvider.dataCache()
 }
 
-func delayedNetworkCache() -> BasicCache<NSURL, NSData> {
-  return MemoryCacheLevel() >>> DiskCacheLevel() >>> DelayedNetworkFetcher()
+func delayedNetworkCache() -> BasicCache<URL, NSData> {
+  return MemoryCacheLevel().compose(DiskCacheLevel()).compose(DelayedNetworkFetcher())
 }

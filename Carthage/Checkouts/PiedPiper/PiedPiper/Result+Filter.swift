@@ -1,9 +1,9 @@
 import Foundation
 
 /// Errors that can arise when filtering Results
-public enum ResultFilteringError: ErrorType {
+public enum ResultFilteringError: Error {
   /// When the filter condition is not satisfied
-  case ConditionUnsatisfied
+  case conditionUnsatisfied
 }
 
 extension Result {
@@ -14,12 +14,12 @@ extension Result {
    
    - returns: A new Result that will behave as this Result w.r.t. cancellation and failure, but will succeed if the boxed value satisfies the given condition, and fail with ResultFilteringError.ConditionUnsatisfied if the condition is not satisfied
    */
-  public func filter(condition: T -> Bool) -> Result<T> {
+  public func filter(_ condition: (T) -> Bool) -> Result<T> {
     return _map { value in
       if condition(value) {
-        return .Success(value)
+        return .success(value)
       } else {
-        return .Error(ResultFilteringError.ConditionUnsatisfied)
+        return .error(ResultFilteringError.conditionUnsatisfied)
       }
     }
   }

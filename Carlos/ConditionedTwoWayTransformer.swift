@@ -27,7 +27,7 @@ extension ConditionedTwoWayTransformer {
 }
 
 /// Simple implementation of the ConditionedTwoWayTransformer protocol
-public class ConditionedTwoWayTransformationBox<Key, InputType, OutputType>: ConditionedTwoWayTransformer {
+public final class ConditionedTwoWayTransformationBox<Key, InputType, OutputType>: ConditionedTwoWayTransformer {
   /// The input type of the transformation box
   public typealias TypeIn = InputType
   
@@ -37,8 +37,8 @@ public class ConditionedTwoWayTransformationBox<Key, InputType, OutputType>: Con
   /// The key type to use for the condition
   public typealias KeyType = Key
   
-  private let conditionalTransformClosure: (key: Key, value: InputType) -> Future<OutputType>
-  private let conditionalInverseTransformClosure: (key: Key, value: OutputType) -> Future<InputType>
+  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>
+  private let conditionalInverseTransformClosure: (_ key: Key, _ value: OutputType) -> Future<InputType>
   
   /**
    Initializes a new instance of a conditioned 2-way transformation box
@@ -46,7 +46,7 @@ public class ConditionedTwoWayTransformationBox<Key, InputType, OutputType>: Con
    - parameter conditionalTransformClosure: The conditional transformation closure to convert a value of type TypeIn to a value of type TypeOut
    - parameter conditionalInverseTransformClosure: The conditional transformation closure to convert a value of type TypeOut to a value of type TypeIn
    */
-  public init(conditionalTransformClosure: (key: Key, value: InputType) -> Future<OutputType>, conditionalInverseTransformClosure: (key: Key, value: OutputType) -> Future<InputType>) {
+  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> Future<OutputType>, conditionalInverseTransformClosure: @escaping (_ key: Key, _ value: OutputType) -> Future<InputType>) {
     self.conditionalTransformClosure = conditionalTransformClosure
     self.conditionalInverseTransformClosure = conditionalInverseTransformClosure
   }
@@ -58,7 +58,7 @@ public class ConditionedTwoWayTransformationBox<Key, InputType, OutputType>: Con
    
    This initializer will basically ignore the key
    */
-  public convenience init<T: TwoWayTransformer where T.TypeIn == TypeIn, T.TypeOut == TypeOut>(transformer: T) {
+  public convenience init<T: TwoWayTransformer>(transformer: T) where T.TypeIn == TypeIn, T.TypeOut == TypeOut {
     self.init(conditionalTransformClosure: { _, value in
       transformer.transform(value)
     }, conditionalInverseTransformClosure: { _, value in
@@ -75,7 +75,7 @@ public class ConditionedTwoWayTransformationBox<Key, InputType, OutputType>: Con
    - returns: A Future that will contain the converted value, or fail if the transformation fails
    */
   public func conditionalTransform(key: KeyType, value: TypeIn) -> Future<TypeOut> {
-    return conditionalTransformClosure(key: key, value: value)
+    return conditionalTransformClosure(key, value)
   }
   
   /**
@@ -87,6 +87,6 @@ public class ConditionedTwoWayTransformationBox<Key, InputType, OutputType>: Con
    - returns: A Future that will contain the converted value, or fail if the inverse transformation fails
    */
   public func conditionalInverseTransform(key: KeyType, value: TypeOut) -> Future<TypeIn> {
-    return conditionalInverseTransformClosure(key: key, value: value)
+    return conditionalInverseTransformClosure(key, value)
   }
 }

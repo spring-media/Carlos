@@ -11,9 +11,9 @@ extension Future {
    
    - returns A new Future with the transformed value
    */
-  internal func mutate<K, O, Transformer: ConditionedTwoWayTransformer where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O>(key: K, conditionedTransformer: Transformer) -> Future<O> {
+  internal func mutate<K, O, Transformer: ConditionedTwoWayTransformer>(key: K, conditionedTransformer: Transformer) -> Future<O> where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O {
     return flatMap { result in
-      conditionedTransformer.conditionalTransform(key, value: result)
+      conditionedTransformer.conditionalTransform(key: key, value: result)
     }
   }
 }
@@ -31,13 +31,13 @@ extension CacheLevel {
    
    - returns: A new cache result of the transformation of the original cache
    */
-  public func conditionedValueTransformation<A: ConditionedTwoWayTransformer where OutputType == A.TypeIn, A.KeyType == KeyType>(transformer: A) -> BasicCache<KeyType, A.TypeOut> {
+  public func conditionedValueTransformation<A: ConditionedTwoWayTransformer>(transformer: A) -> BasicCache<KeyType, A.TypeOut> where OutputType == A.TypeIn, A.KeyType == KeyType {
     return BasicCache(
-      getClosure: { key in
+      getClosure: { key -> Future<A.TypeOut> in
         self.get(key).mutate(key, conditionedTransformer: transformer)
       },
       setClosure: { (value, key) in
-        return transformer.conditionalInverseTransform(key, value: value)
+        transformer.conditionalInverseTransform(key: key, value: value)
           .flatMap { transformedValue in
             self.set(transformedValue, forKey: key)
           }.future
@@ -48,16 +48,3 @@ extension CacheLevel {
   }
 }
 
-/**
- Adds a conditioned value transformation step to a given CacheLevel
- 
- As usual, if the transformation fails, the get (or set) request will also fail
- 
- - parameter cache: The CacheLevel you want to apply the value transformation step to
- - parameter conditionedTransformer: The transformer that will be applied to every get or set. The transformer gets the key used for the request (where it can apply its condition on) and the fetched value or the value to set, and returns a future with the transformed value.
- 
- - returns: A transformed CacheLevel that incorporates the value transformation step
- */
-public func ?>><A: CacheLevel, T: ConditionedTwoWayTransformer where T.KeyType == A.KeyType, T.TypeIn == A.OutputType>(cache: A, conditionedTransformer: T) -> BasicCache<A.KeyType, T.TypeOut> {
-  return cache.conditionedValueTransformation(conditionedTransformer)
-}

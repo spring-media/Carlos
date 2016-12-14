@@ -24,7 +24,7 @@ public protocol ConditionedOneWayTransformer {
 }
 
 /// Simple implementation of the ConditionedOneWayTransformer protocol
-public class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: ConditionedOneWayTransformer {
+public final class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: ConditionedOneWayTransformer {
   /// The input type of the transformation box
   public typealias TypeIn = InputType
   
@@ -34,14 +34,14 @@ public class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: Con
   /// The key type used by the transformation box
   public typealias KeyType = Key
   
-  private let conditionalTransformClosure: (key: Key, value: InputType) -> Future<OutputType>
+  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>
   
   /**
    Initializes a conditioned 1-way transformation box with the given closure
    
    - parameter conditionalTransformClosure: The conditional transformation closure to convert a value of type TypeIn into a value of type TypeOut given a key of type KeyType
    */
-  public init(conditionalTransformClosure: (key: Key, value: InputType) -> Future<OutputType>) {
+  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> Future<OutputType>) {
     self.conditionalTransformClosure = conditionalTransformClosure
   }
   
@@ -52,7 +52,7 @@ public class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: Con
    
    This initializer will basically ignore the key
    */
-  public convenience init<T: OneWayTransformer where T.TypeIn == TypeIn, T.TypeOut == TypeOut>(transformer: T) {
+  public convenience init<T: OneWayTransformer>(transformer: T) where T.TypeIn == TypeIn, T.TypeOut == TypeOut {
     self.init(conditionalTransformClosure: { _, value in
       transformer.transform(value)
     })
@@ -67,6 +67,6 @@ public class ConditionedOneWayTransformationBox<Key, InputType, OutputType>: Con
    - returns: A Future that will contain the converted value or fail if the transformation fails
    */
   public func conditionalTransform(key: KeyType, value: TypeIn) -> Future<TypeOut> {
-    return conditionalTransformClosure(key: key, value: value)
+    return conditionalTransformClosure(key, value)
   }
 }

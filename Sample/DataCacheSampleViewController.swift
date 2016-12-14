@@ -3,12 +3,12 @@ import UIKit
 import Carlos
 
 class DataCacheSampleViewController: BaseCacheViewController {
-  private var cache: BasicCache<NSURL, NSData>!
+  fileprivate var cache: BasicCache<URL, NSData>!
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(NSURL(string: urlKeyField?.text ?? "")!)
+    _ = cache.get(URL(string: urlKeyField?.text ?? "")!)
   }
   
   override func titleForScreen() -> String {

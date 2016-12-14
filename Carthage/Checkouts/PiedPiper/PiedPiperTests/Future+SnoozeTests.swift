@@ -7,7 +7,7 @@ class FutureSnoozeTests: QuickSpec {
     describe("Snoozing a Future") {
       var sut: Promise<Int>!
       var result: Future<Int>!
-      var failSentinel: ErrorType?
+      var failSentinel: Error?
       var successSentinel: Int?
       var cancelSentinel: Bool?
       
@@ -27,7 +27,7 @@ class FutureSnoozeTests: QuickSpec {
       }
       
       context("when the original promise fails") {
-        let error = TestError.AnotherError
+        let error = TestError.anotherError
         
         beforeEach {
           sut.fail(error)

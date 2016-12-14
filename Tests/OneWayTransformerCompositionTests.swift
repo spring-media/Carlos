@@ -9,9 +9,9 @@ struct ComposedOneWayTransformerSharedExamplesContext {
 }
 
 class OneWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
+  override class func configure(_ configuration: Configuration) {
     sharedExamples("a composed one-way transformer") {
-      (sharedExampleContext: SharedExampleContext) in
+      (sharedExampleContext: @escaping SharedExampleContext) in
       var composedTransformer: OneWayTransformationBox<String, Int>!
       
       beforeEach {
@@ -70,12 +70,12 @@ class OneWayTransformerCompositionTests: QuickSpec {
     var composedTransformer: OneWayTransformationBox<String, Int>!
     
     beforeEach {
-      transformer1 = OneWayTransformationBox(transform: { Future(value: Float($0), error: TestError.SimpleError) })
+      transformer1 = OneWayTransformationBox(transform: { Future(value: Float($0), error: TestError.simpleError) })
       transformer2 = OneWayTransformationBox(transform: {
         let result = Promise<Int>()
         
         if $0 < 0 {
-          result.fail(TestError.SimpleError)
+          result.fail(TestError.simpleError)
         } else {
           result.succeed(Int($0))
         }
@@ -84,117 +84,9 @@ class OneWayTransformerCompositionTests: QuickSpec {
       })
     }
     
-    describe("Transformer composition using two transformers with the global function") {
-      beforeEach {
-        composedTransformer = compose(transformer1, secondTransformer: transformer2)
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
     describe("Transformer composition using two transformers with the instance function") {
       beforeEach {
         composedTransformer = transformer1.compose(transformer2)
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using two transformers with the operator") {
-      beforeEach {
-        composedTransformer = transformer1 >>> transformer2
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using a transformer and a transformation closure with the global function") {
-      beforeEach {
-        composedTransformer = compose(transformer1, transformerClosure: transformer2.transform)
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using a transformer and a transformation closure with the instance function") {
-      beforeEach {
-        composedTransformer = transformer1.compose(transformer2.transform)
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using a transformer and a transformation closure with the operator") {
-      beforeEach {
-        composedTransformer = transformer1 >>> transformer2.transform
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using a transformation closure and a transformer with the global function") {
-      beforeEach {
-        composedTransformer = compose(transformer1.transform, transformer: transformer2)
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using a transformation closure and a transformer with the operator") {
-      beforeEach {
-        composedTransformer = transformer1.transform >>> transformer2
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using two transformation closures with the global function") {
-      beforeEach {
-        composedTransformer = compose(transformer1.transform, secondTransformerClosure: transformer2.transform)
-      }
-      
-      itBehavesLike("a composed one-way transformer") {
-        [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using two transformation closures with the operator") {
-      beforeEach {
-        composedTransformer = transformer1.transform >>> transformer2.transform
       }
       
       itBehavesLike("a composed one-way transformer") {

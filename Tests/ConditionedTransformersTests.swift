@@ -9,8 +9,8 @@ struct ConditionedTransformerSharedExamplesContext {
 }
 
 class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a conditioned one-way transformer") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a conditioned one-way transformer") { (sharedExampleContext: @escaping SharedExampleContext) in
       var transformer: OneWayTransformationBox<String, Int>!
       
       beforeEach {
@@ -19,7 +19,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling transform") {
         var result: Int?
-        var failure: ErrorType?
+        var failure: Error?
         
         beforeEach {
           result = nil
@@ -67,7 +67,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should return the right error") {
-              expect(failure as? TransformerError).to(equal(TransformerError.TransformationError))
+              expect(failure as? TransformerError).to(equal(TransformerError.transformationError))
             }
           }
         }
@@ -90,7 +90,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should return the right error") {
-            expect(failure as? FetchError).to(equal(FetchError.ConditionNotSatisfied))
+            expect(failure as? FetchError).to(equal(FetchError.conditionNotSatisfied))
           }
         }
         
@@ -112,13 +112,13 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should return the right error") {
-            expect(failure as? ConditionError).to(equal(ConditionError.CustomError))
+            expect(failure as? ConditionError).to(equal(ConditionError.customError))
           }
         }
       }
     }
     
-    sharedExamples("a conditioned two-way transformer") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a conditioned two-way transformer") { (sharedExampleContext: @escaping SharedExampleContext) in
       var transformer: TwoWayTransformationBox<String, Int>!
       
       beforeEach {
@@ -133,7 +133,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling inverseTransform") {
         var result: String?
-        var failure: ErrorType?
+        var failure: Error?
         
         beforeEach {
           result = nil
@@ -180,7 +180,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should return the right error") {
-            expect(failure as? FetchError).to(equal(FetchError.ConditionNotSatisfied))
+            expect(failure as? FetchError).to(equal(FetchError.conditionNotSatisfied))
           }
         }
         
@@ -202,7 +202,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should return the right error") {
-            expect(failure as? ConditionError).to(equal(ConditionError.CustomError))
+            expect(failure as? ConditionError).to(equal(ConditionError.customError))
           }
         }
       }
@@ -210,12 +210,12 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
   }
 }
 
-private enum ConditionError: ErrorType {
-  case CustomError
+private enum ConditionError: Error {
+  case customError
 }
 
-private enum TransformerError: ErrorType {
-  case TransformationError
+private enum TransformerError: Error {
+  case transformationError
 }
 
 class ConditionedTransformersTests: QuickSpec {
@@ -223,9 +223,9 @@ class ConditionedTransformersTests: QuickSpec {
     describe("Conditioned one way transformers") {
       var transformer: OneWayTransformationBox<String, Int>!
       let condition: (String) -> Future<Bool> = { input in
-        if input.rangeOfString("fail") != nil {
-          if input.rangeOfString("custom") != nil {
-            return Future(ConditionError.CustomError)
+        if (input as NSString).range(of: "fail").location != NSNotFound {
+          if (input as NSString).range(of: "custom").location != NSNotFound {
+            return Future(ConditionError.customError)
           } else {
             return Future(false)
           }
@@ -236,7 +236,7 @@ class ConditionedTransformersTests: QuickSpec {
       
       beforeEach {
         transformer = OneWayTransformationBox<String, Int>(transform: {
-          Future(value: Int($0), error: TransformerError.TransformationError)
+          Future(value: Int($0), error: TransformerError.transformationError)
         }).conditioned(condition)
       }
       
@@ -250,9 +250,9 @@ class ConditionedTransformersTests: QuickSpec {
     describe("Conditioned two way transformers") {
       var transformer: TwoWayTransformationBox<String, Int>!
       let condition: (String) -> Future<Bool> = { input in
-        if input.rangeOfString("fail") != nil {
-          if input.rangeOfString("custom") != nil {
-            return Future(ConditionError.CustomError)
+        if (input as NSString).range(of: "fail").location != NSNotFound {
+          if (input as NSString).range(of: "custom").location != NSNotFound {
+            return Future(ConditionError.customError)
           } else {
             return Future(false)
           }
@@ -263,7 +263,7 @@ class ConditionedTransformersTests: QuickSpec {
       let inverseCondition: (Int) -> Future<Bool> = { input in
         if input >= 0 {
           if input == 0 {
-            return Future(ConditionError.CustomError)
+            return Future(ConditionError.customError)
           } else {
             return Future(true)
           }
@@ -274,7 +274,7 @@ class ConditionedTransformersTests: QuickSpec {
       
       beforeEach {
         transformer = TwoWayTransformationBox<String, Int>(transform: {
-          Future(value: Int($0), error: TransformerError.TransformationError)
+          Future(value: Int($0), error: TransformerError.transformationError)
         }, inverseTransform: {
           Future("\($0)")
         }).conditioned(condition, inverseCondition: inverseCondition)

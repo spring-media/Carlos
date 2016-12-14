@@ -10,7 +10,7 @@ class PromiseTests: QuickSpec {
     weak var weakVarCancel: MemorySentinel?
     weak var referencedPromise: Promise<String>?
     
-    func setupWithPromise(promise: Promise<String>) {
+    func setupWithPromise(_ promise: Promise<String>) {
       referencedPromise = promise
       
       promise.onSuccess { _ in
@@ -40,19 +40,19 @@ class PromiseTests: QuickSpec {
       var request: Promise<String>!
       let sentinelsCount = 3
       var successSentinels: [String?]!
-      var failureSentinels: [ErrorType?]!
+      var failureSentinels: [Error?]!
       var cancelSentinels: [Bool?]!
       var successCompletedSentinels: [String?]!
-      var failureCompletedSentinels: [ErrorType?]!
+      var failureCompletedSentinels: [Error?]!
       var cancelCompletedSentinels: [Bool?]!
       
-      let resetSentinels: Void -> Void = {
-        successSentinels = [String?](count: sentinelsCount, repeatedValue: nil)
-        failureSentinels = [ErrorType?](count: sentinelsCount, repeatedValue: nil)
-        cancelSentinels = [Bool?](count: sentinelsCount, repeatedValue: nil)
-        successCompletedSentinels = [String?](count: sentinelsCount, repeatedValue: nil)
-        failureCompletedSentinels = [ErrorType?](count: sentinelsCount, repeatedValue: nil)
-        cancelCompletedSentinels = [Bool?](count: sentinelsCount, repeatedValue: nil)
+      let resetSentinels: (Void) -> Void = {
+        successSentinels = [String?](repeating: nil, count: sentinelsCount)
+        failureSentinels = [Error?](repeating: nil, count: sentinelsCount)
+        cancelSentinels = [Bool?](repeating: nil, count: sentinelsCount)
+        successCompletedSentinels = [String?](repeating: nil, count: sentinelsCount)
+        failureCompletedSentinels = [Error?](repeating: nil, count: sentinelsCount)
+        cancelCompletedSentinels = [Bool?](repeating: nil, count: sentinelsCount)
       }
       
       context("when managing its listeners") {
@@ -123,7 +123,7 @@ class PromiseTests: QuickSpec {
         
         context("when the promise fails") {
           beforeEach {
-            promise.fail(TestError.SimpleError)
+            promise.fail(TestError.simpleError)
           }
           
           it("should call doFoo on the weak sentinel") {
@@ -144,7 +144,7 @@ class PromiseTests: QuickSpec {
       context("when mimicing another future") {
         var mimiced: Promise<String>!
         var successValue: String!
-        var errorValue: ErrorType!
+        var errorValue: Error!
         var canceled: Bool!
         
         beforeEach {
@@ -185,7 +185,7 @@ class PromiseTests: QuickSpec {
         }
         
         context("when the other future fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
             mimiced.fail(error)
@@ -251,7 +251,7 @@ class PromiseTests: QuickSpec {
         }
         
         context("when the promise itself fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             request.fail(error)
@@ -321,7 +321,7 @@ class PromiseTests: QuickSpec {
           }
           
           context("when the other future fails") {
-            let error = TestError.AnotherError
+            let error = TestError.anotherError
             
             beforeEach {
               mimiced2.fail(error)
@@ -363,7 +363,7 @@ class PromiseTests: QuickSpec {
       context("when mimicing a result") {
         var mimiced: Result<String>!
         var successValue: String!
-        var errorValue: ErrorType!
+        var errorValue: Error!
         var canceled: Bool!
         
         beforeEach {
@@ -381,7 +381,7 @@ class PromiseTests: QuickSpec {
           let value = "success value"
           
           beforeEach {
-            mimiced = Result.Success(value)
+            mimiced = Result.success(value)
             request.mimic(mimiced)
           }
           
@@ -403,10 +403,10 @@ class PromiseTests: QuickSpec {
         }
         
         context("when the other future fails") {
-          let error = TestError.AnotherError
+          let error = TestError.anotherError
           
           beforeEach {
-            mimiced = Result.Error(error)
+            mimiced = Result.error(error)
             request.mimic(mimiced)
           }
           
@@ -429,7 +429,7 @@ class PromiseTests: QuickSpec {
         
         context("when the other future is canceled") {
           beforeEach {
-            mimiced = Result.Cancelled
+            mimiced = Result.cancelled
             request.mimic(mimiced)
           }
           
@@ -471,7 +471,7 @@ class PromiseTests: QuickSpec {
         }
         
         context("when the promise itself fails") {
-          let error = TestError.SimpleError
+          let error = TestError.simpleError
           
           beforeEach {
             request.fail(error)
@@ -519,7 +519,7 @@ class PromiseTests: QuickSpec {
             let value = "still a success value"
             
             beforeEach {
-              mimiced2 = Result.Success(value)
+              mimiced2 = Result.success(value)
               request.mimic(mimiced2)
             }
             
@@ -537,10 +537,10 @@ class PromiseTests: QuickSpec {
           }
           
           context("when the other future fails") {
-            let error = TestError.AnotherError
+            let error = TestError.anotherError
             
             beforeEach {
-              mimiced2 = Result.Error(error)
+              mimiced2 = Result.error(error)
               request.mimic(mimiced2)
             }
             
@@ -559,7 +559,7 @@ class PromiseTests: QuickSpec {
           
           context("when the other future is canceled") {
             beforeEach {
-              mimiced2 = Result.Cancelled
+              mimiced2 = Result.cancelled
               request.mimic(mimiced2)
             }
             
@@ -617,11 +617,11 @@ class PromiseTests: QuickSpec {
               }
               .onCompletion { result in
                 switch result {
-                case .Success(let value):
+                case .success(let value):
                   successCompletedSentinels[idx] = value
-                case .Error(let error):
+                case .error(let error):
                   failureCompletedSentinels[idx] = error
-                case .Cancelled:
+                case .cancelled:
                   cancelCompletedSentinels[idx] = true
                 }
               }
@@ -749,7 +749,7 @@ class PromiseTests: QuickSpec {
             beforeEach {
               resetSentinels()
           
-              request.fail(TestError.SimpleError)
+              request.fail(TestError.simpleError)
             }
             
             it("should not call any success closure") {
@@ -811,7 +811,7 @@ class PromiseTests: QuickSpec {
         }
         
         context("when calling fail") {
-          let errorCode = TestError.AnotherError
+          let errorCode = TestError.anotherError
           
           beforeEach {
             request.fail(errorCode)
@@ -842,7 +842,7 @@ class PromiseTests: QuickSpec {
           }
           
           context("when calling onFailure again") {
-            var subsequentFailureSentinel: ErrorType?
+            var subsequentFailureSentinel: Error?
             
             beforeEach {
               request.onFailure { error in
@@ -856,11 +856,11 @@ class PromiseTests: QuickSpec {
           }
               
           context("when calling onCompletion again") {
-            var subsequentFailureSentinel: ErrorType?
+            var subsequentFailureSentinel: Error?
               
             beforeEach {
               request.onCompletion { result in
-                if case .Error(let error) = result {
+                if case .error(let error) = result {
                   subsequentFailureSentinel = error
                 }
               }
@@ -909,7 +909,7 @@ class PromiseTests: QuickSpec {
             beforeEach {
               resetSentinels()
               
-              request.fail(TestError.SimpleError)
+              request.fail(TestError.simpleError)
             }
                 
             it("should not call any success closure") {
@@ -1014,7 +1014,7 @@ class PromiseTests: QuickSpec {
                 
             beforeEach {
               request.onCompletion { result in
-                if case .Cancelled = result {
+                if case .cancelled = result {
                   subsequentCancelSentinel = true
                 } else {
                   subsequentCancelSentinel = false
@@ -1065,7 +1065,7 @@ class PromiseTests: QuickSpec {
             beforeEach {
               resetSentinels()
               
-              request.fail(TestError.SimpleError)
+              request.fail(TestError.simpleError)
             }
             
             it("should not call any success closure") {

@@ -17,14 +17,14 @@ extension BitcoinResult: ExpensiveObject {
 }
 
 class ViewController: UIViewController {
-  enum Error: ErrorType {
-    case InvalidJSON
+  enum SampleError: Error {
+    case invalidJSON
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let JSONFetcher: BasicFetcher<NSURL, AnyObject> = NetworkFetcher() =>> JSONTransformer()
+    let JSONFetcher: BasicFetcher<URL, AnyObject> = NetworkFetcher() =>> JSONTransformer()
     let cache = JSONFetcher =>> { (JSONResult: AnyObject) -> Future<BitcoinResult> in
       let result = Promise<BitcoinResult>()
       
@@ -35,13 +35,13 @@ class ViewController: UIViewController {
       {
         result.succeed(BitcoinResult(USDValue: USDFloatValue))
       } else {
-        result.fail(Error.InvalidJSON)
+        result.fail(SampleError.invalidJSON)
       }
       
       return result.future
     }
     
-    cache.get(NSURL(string: "http://coinabul.com/api.php")!).onSuccess { result in
+    cache.get(URL(string: "http://coinabul.com/api.php")!).onSuccess { result in
       print("Bitcoin value is \(result.USDValue) USD")
     }
   }

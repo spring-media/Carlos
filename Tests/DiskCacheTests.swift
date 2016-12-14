@@ -1,42 +1,24 @@
 import Foundation
 import Quick
 import Nimble
-import Carlos
+@testable import Carlos
 
 private func filesInDirectory(directory: String) -> [String] {
-  let result = (try? NSFileManager.defaultManager().contentsOfDirectoryAtPath(directory)) ?? []
+  let result = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []
   
   return result
-}
-
-extension String {
-  private func MD5String() -> String {
-    if let data = self.dataUsingEncoding(NSUTF8StringEncoding) {
-      let MD5Calculator = MD5(data)
-      let MD5Data = MD5Calculator.calculate()
-      let resultBytes = UnsafeMutablePointer<CUnsignedChar>(MD5Data.bytes)
-      let resultEnumerator = UnsafeBufferPointer<CUnsignedChar>(start: resultBytes, count: MD5Data.length)
-      let MD5String = NSMutableString()
-      for c in resultEnumerator {
-        MD5String.appendFormat("%02x", c)
-      }
-      return MD5String as String
-    } else {
-      return self
-    }
-  }
 }
 
 class DiskCacheTests: QuickSpec {
   override func spec() {
     describe("DiskCacheLevel") {
       var cache: DiskCacheLevel<String, NSData>!
-      let path = (NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as NSString).stringByAppendingPathComponent("com.carlos.default")
-      var fileManager: NSFileManager!
+      let path = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as NSString).appendingPathComponent("com.carlos.default")
+      var fileManager: FileManager!
       
       beforeEach {
-        fileManager = NSFileManager.defaultManager()
-        _ = try? fileManager.removeItemAtPath(path)
+        fileManager = FileManager.default
+        _ = try? fileManager.removeItem(atPath: path)
         
         cache = DiskCacheLevel(path: path, capacity: 400)
       }
@@ -59,12 +41,12 @@ class DiskCacheTests: QuickSpec {
         }
         
         context("when setting a value for that key") {
-          let value = "value to set".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+          let value = "value to set".data(using: .utf8, allowLossyConversion: false)!
           
           beforeEach {
             failureSentinel = nil
             
-            cache.set(value, forKey: key)
+            cache.set(value as NSData, forKey: key)
           }
           
           context("when getting the value for another key") {
@@ -87,24 +69,24 @@ class DiskCacheTests: QuickSpec {
       
       context("when calling set") {
         let key = "key"
-        let value = "value".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+        let value = "value".data(using: .utf8, allowLossyConversion: false)!
         var result: NSData?
         var failureSentinel: Bool?
         var writeSucceeded: Bool!
         
         beforeEach {
           writeSucceeded = false
-          cache.set(value, forKey: key).onSuccess {
+          cache.set(value as NSData, forKey: key).onSuccess {
             writeSucceeded = true
           }
         }
         
         it("should save the key on disk") {
-          expect(fileManager.fileExistsAtPath((path as NSString).stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
+          expect(fileManager.fileExists(atPath: (path as NSString).appendingPathComponent(key.MD5String()))).toEventually(beTrue())
         }
         
         it("should save the data on disk") {
-          expect(NSKeyedUnarchiver.unarchiveObjectWithFile((path as NSString).stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(value))
+          expect(NSKeyedUnarchiver.unarchiveObject(withFile: (path as NSString).appendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(value as NSData))
         }
         
         // TODO: How to simulate failure during writing in order to test it?
@@ -118,7 +100,7 @@ class DiskCacheTests: QuickSpec {
           }
           
           it("should succeed") {
-            expect(result).toEventually(equal(value))
+            expect(result).toEventually(equal(value as NSData))
           }
           
           it("should not fail") {
@@ -127,18 +109,18 @@ class DiskCacheTests: QuickSpec {
         }
         
         context("when setting a different value for the same key") {
-          let newValue = "another value".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+          let newValue = "another value".data(using: .utf8, allowLossyConversion: false)!
           
           beforeEach {
-            cache.set(newValue, forKey: key)
+            cache.set(newValue as NSData, forKey: key)
           }
           
           it("should keep the key on disk") {
-            expect(fileManager.fileExistsAtPath((path as NSString).stringByAppendingPathComponent(key.MD5String()))).toEventually(beTrue())
+            expect(fileManager.fileExists(atPath: (path as NSString).appendingPathComponent(key.MD5String()))).toEventually(beTrue())
           }
           
           it("should overwrite the data on disk") {
-            expect(NSKeyedUnarchiver.unarchiveObjectWithFile((path as NSString).stringByAppendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(newValue))
+            expect(NSKeyedUnarchiver.unarchiveObject(withFile: (path as NSString).appendingPathComponent(key.MD5String())) as? NSData).toEventually(equal(newValue as NSData))
           }
           
           context("when calling get") {
@@ -147,7 +129,7 @@ class DiskCacheTests: QuickSpec {
             }
             
             it("should succeed with the overwritten value") {
-              expect(result).toEventually(equal(newValue))
+              expect(result).toEventually(equal(newValue as NSData))
             }
           }
         }
@@ -162,7 +144,7 @@ class DiskCacheTests: QuickSpec {
           
           beforeEach {
             for (key, value) in zip(otherKeys, otherValues) {
-              cache.set(value.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, forKey: key)
+              cache.set(value.data(using: .utf8, allowLossyConversion: false)! as NSData, forKey: key)
             }
           }
           
@@ -185,7 +167,7 @@ class DiskCacheTests: QuickSpec {
           }
           
           it("should remove all the files on disk") {
-            expect(filesInDirectory(path)).toEventually(beEmpty())
+            expect(filesInDirectory(directory: path)).toEventually(beEmpty())
           }
           
           context("when calling get") {
@@ -221,7 +203,7 @@ class DiskCacheTests: QuickSpec {
               }
               
               it("should succeed") {
-                expect(result).toEventually(equal(value))
+                expect(result).toEventually(equal(value as NSData))
               }
             }
           }

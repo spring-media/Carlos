@@ -11,8 +11,8 @@ struct PostProcessSharedExamplesContext {
 }
 
 class PostProcessSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a fetch closure with post-processing step") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a fetch closure with post-processing step") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: OneWayTransformationBox<Int, Int>!
@@ -26,7 +26,7 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get") {
         let key = "12"
         var successValue: Int?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var fakeRequest: Promise<Int>!
         
         beforeEach {
@@ -77,13 +77,13 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
             }
             
             it("should pass the right error code") {
-              expect(failureValue as? TestError).to(equal(TestError.SimpleError))
+              expect(failureValue as? TestError).to(equal(TestError.simpleError))
             }
           }
         }
         
         context("when the request fails") {
-          let errorCode = TestError.AnotherError
+          let errorCode = TestError.anotherError
           
           beforeEach {
             fakeRequest.fail(errorCode)
@@ -96,7 +96,7 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a cache with post-processing step") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a cache with post-processing step") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: OneWayTransformationBox<Int, Int>!
@@ -164,30 +164,14 @@ class PostProcessTests: QuickSpec {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, Int>!
-    let transformationClosure: Int -> Future<Int> = {
+    let transformationClosure: (Int) -> Future<Int> = {
       let result = Promise<Int>()
       if $0 > 0 {
         result.succeed($0 + 1)
       } else {
-        result.fail(TestError.SimpleError)
+        result.fail(TestError.simpleError)
       }
       return result.future
-    }
-    
-    describe("Post processing using a transformer and a cache, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = postProcess(internalCache, transformer: transformer)
-      }
-      
-      itBehavesLike("a cache with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
     }
     
     describe("Post processing using a transformer and a cache, with the instance function") {
@@ -198,139 +182,6 @@ class PostProcessTests: QuickSpec {
       }
       
       itBehavesLike("a cache with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformer and a cache, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = internalCache ~>> transformer
-      }
-      
-      itBehavesLike("a cache with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformation closure and a cache, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = postProcess(internalCache, transformerClosure: transformationClosure)
-      }
-      
-      itBehavesLike("a cache with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformation closure and a cache, with the instance function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = internalCache.postProcess(transformationClosure)
-      }
-      
-      itBehavesLike("a cache with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformation closure and a cache, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = internalCache ~>> transformationClosure
-      }
-      
-      itBehavesLike("a cache with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformation closure and a fetch closure, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = postProcess(fetchClosure, transformerClosure: transformationClosure)
-      }
-      
-      itBehavesLike("a fetch closure with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformation closure and a fetch closure, with the operator") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = fetchClosure ~>> transformationClosure
-      }
-      
-      itBehavesLike("a fetch closure with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformer and a fetch closure, with the global function") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = postProcess(fetchClosure, transformer: transformer)
-      }
-      
-      itBehavesLike("a fetch closure with post-processing step") {
-        [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
-        ]
-      }
-    }
-    
-    describe("Post processing using a transformer and a fetch closure, with the operator") {
-      
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        let fetchClosure = internalCache.get
-        transformer = OneWayTransformationBox(transform: transformationClosure)
-        cache = fetchClosure ~>> transformer
-      }
-      
-      itBehavesLike("a fetch closure with post-processing step") {
         [
           PostProcessSharedExamplesContext.CacheToTest: cache,
           PostProcessSharedExamplesContext.InternalCache: internalCache,

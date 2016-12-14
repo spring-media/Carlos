@@ -1,14 +1,14 @@
 extension Future {
-  func _map<U>(handler: (T, Promise<U>) -> Void) -> Future<U> {
+  func _map<U>(_ handler: @escaping (T, Promise<U>) -> Void) -> Future<U> {
     let mapped = Promise<U>()
     
     self.onCompletion { result in
       switch result {
-      case .Success(let value):
+      case .success(let value):
         handler(value, mapped)
-      case .Error(let error):
+      case .error(let error):
         mapped.fail(error)
-      case .Cancelled:
+      case .cancelled:
         mapped.cancel()
       }
     }
@@ -25,7 +25,7 @@ extension Future {
   
   - returns: A new Future<U> that will behave as the original one w.r.t. cancelation and failure, but will succeed with a value of type U obtained through the given closure
   */
-  public func map<U>(f: T -> U) -> Future<U> {
+  public func map<U>(_ f: @escaping (T) -> U) -> Future<U> {
     return _map { value, mapped in
       mapped.succeed(f(value))
     }
@@ -38,7 +38,7 @@ extension Future {
    
    - returns: A new Future<U> that will behave as the original one w.r.t. cancelation and failure, but will succeed with a value of type U obtained through the given closure, unless the latter throws. In this case, the new Future will fail
    */
-  public func map<U>(f: T throws -> U) -> Future<U> {
+  public func map<U>(_ f: @escaping (T) throws -> U) -> Future<U> {
     return _map { value, mapped in
       do {
         mapped.succeed(try f(value))

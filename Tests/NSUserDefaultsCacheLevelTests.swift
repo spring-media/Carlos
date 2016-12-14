@@ -8,10 +8,10 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
     describe("User defaults cache level") {
       var cache: NSUserDefaultsCacheLevel<String, NSString>!
       var secondCache: NSUserDefaultsCacheLevel<String, NSString>!
-      var standardCache: NSUserDefaults!
+      var standardCache: UserDefaults!
       
       beforeEach {
-        standardCache = NSUserDefaults.standardUserDefaults()
+        standardCache = UserDefaults.standard
         cache = NSUserDefaultsCacheLevel(name: "tests")
         secondCache = NSUserDefaultsCacheLevel(name: "fallback")
       }
@@ -44,7 +44,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           beforeEach {
             failureSentinel = nil
             
-            cache.set(value, forKey: key)
+            cache.set(value as NSString, forKey: key)
           }
           
           context("when getting the value for another key") {
@@ -74,11 +74,11 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
         
         beforeEach {
           didWrite = false
-          cache.set(value, forKey: key).onSuccess {
+          cache.set(value as NSString, forKey: key).onSuccess {
             didWrite = true
           }
-          secondCache.set(value, forKey: key)
-          standardCache.setObject(value, forKey: key)
+          secondCache.set(value as NSString, forKey: key)
+          standardCache.set(value, forKey: key)
         }
         
         it("should eventually succeed the set future") {
@@ -95,7 +95,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           }
           
           it("should return the right value") {
-            expect(result).to(equal(value))
+            expect(result).to(equal(value as NSString))
           }
           
           it("should not fail") {
@@ -107,7 +107,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           let newValue = "another value"
           
           beforeEach {
-            cache.set(newValue, forKey: key)
+            cache.set(newValue as NSString, forKey: key)
           }
           
           context("when calling get") {
@@ -116,7 +116,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
             
             it("should succeed with the overwritten value") {
-              expect(result).to(equal(newValue))
+              expect(result).to(equal(newValue as NSString))
             }
           }
         }
@@ -157,13 +157,13 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value))
+              expect(result).to(equal(value as NSString))
             }
           }
           
           context("when calling get on the standard user defaults") {
             beforeEach {
-              result = standardCache.objectForKey(key) as? String
+              result = standardCache.object(forKey: key) as? NSString
             }
             
             it("should succeed") {
@@ -171,7 +171,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value))
+              expect(result).to(equal(value as NSString))
             }
           }
         }
@@ -198,7 +198,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
               }
               
               it("should return the right value") {
-                expect(result).to(equal(value))
+                expect(result).to(equal(value as NSString))
               }
             }
           }
@@ -217,13 +217,13 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value))
+              expect(result).to(equal(value as NSString))
             }
           }
           
           context("when calling get on the standard user defaults") {
             beforeEach {
-              result = standardCache.objectForKey(key) as? String
+              result = standardCache.object(forKey: key) as? NSString
             }
             
             it("should succeed") {
@@ -231,7 +231,7 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value))
+              expect(result).to(equal(value as NSString))
             }
           }
         }

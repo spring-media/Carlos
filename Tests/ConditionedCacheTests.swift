@@ -10,8 +10,8 @@ struct ConditionedCacheSharedExamplesContext {
 }
 
 class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a conditioned fetch closure") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a conditioned fetch closure") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       
@@ -26,7 +26,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         var successSentinel: Bool?
         var successValue: Int?
         var failureSentinel: Bool?
-        var failureValue: ErrorType?
+        var failureValue: Error?
         var cancelSentinel: Bool?
         
         beforeEach {
@@ -104,7 +104,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           context("when the request fails") {
-            let errorCode = TestError.SimpleError
+            let errorCode = TestError.simpleError
             
             beforeEach {
               fakeRequest.fail(errorCode)
@@ -164,7 +164,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("a conditioned cache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("a conditioned cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       
@@ -224,7 +224,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
   }
 }
 
-private enum ConditionError: ErrorType {
+private enum ConditionError: Error {
   case MyError
   case AnotherError
 }
@@ -233,7 +233,7 @@ class ConditionedCacheTests: QuickSpec {
   override func spec() {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
-    let closure: (String -> Future<Bool>) = { key in
+    let closure: ((String) -> Future<Bool>) = { key in
       if key.characters.count >= 5 {
         return Future(true)
       } else {
@@ -248,62 +248,6 @@ class ConditionedCacheTests: QuickSpec {
       }
       
       itBehavesLike("a conditioned cache") {
-        [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache
-        ]
-      }
-    }
-    
-    describe("The conditioned function, applied to a cache level") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = conditioned(internalCache, condition: closure)
-      }
-      
-      itBehavesLike("a conditioned cache") {
-        [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache
-        ]
-      }
-    }
-    
-    describe("The conditioned cache operator, applied to a cache level") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = closure <?> internalCache
-      }
-      
-      itBehavesLike("a conditioned cache") {
-        [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache
-        ]
-      }
-    }
-    
-    describe("The conditioned function, applied to a fetch closure") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = conditioned(internalCache.get, condition: closure)
-      }
-      
-      itBehavesLike("a conditioned fetch closure") {
-        [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache
-        ]
-      }
-    }
-    
-    describe("The conditioned cache operator, applied to a fetch closure") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = closure <?> internalCache.get
-      }
-      
-      itBehavesLike("a conditioned fetch closure") {
         [
           ConditionedCacheSharedExamplesContext.CacheToTest: cache,
           ConditionedCacheSharedExamplesContext.InternalCache: internalCache

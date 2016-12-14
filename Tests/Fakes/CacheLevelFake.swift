@@ -8,13 +8,13 @@ class CacheLevelFake<A, B>: CacheLevel {
   
   init() {}
   
-  var queueUsedForTheLastCall: UnsafeMutablePointer<Void>!
+  var queueUsedForTheLastCall: UnsafeMutableRawPointer!
   
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
   var cacheRequestToReturn: Future<OutputType>?
   var promisesReturned: [Promise<OutputType>] = []
-  func get(key: KeyType) -> Future<OutputType> {
+  func get(_ key: KeyType) -> Future<OutputType> {
     numberOfTimesCalledGet += 1
     
     didGetKey = key
@@ -42,7 +42,7 @@ class CacheLevelFake<A, B>: CacheLevel {
   var didSetKey: KeyType?
   var setFutureToReturn: Future<()>?
   var setPromisesReturned: [Promise<()>] = []
-  func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+  func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     numberOfTimesCalledSet += 1
     
     didSetKey = key
@@ -85,14 +85,14 @@ class FetcherFake<A, B>: Fetcher {
   typealias KeyType = A
   typealias OutputType = B
   
-  var queueUsedForTheLastCall: UnsafeMutablePointer<Void>!
+  var queueUsedForTheLastCall: UnsafeMutableRawPointer!
   
   init() {}
   
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
   var cacheRequestToReturn: Future<OutputType>?
-  func get(key: KeyType) -> Future<OutputType> {
+  func get(_ key: KeyType) -> Future<OutputType> {
     numberOfTimesCalledGet += 1
     
     didGetKey = key

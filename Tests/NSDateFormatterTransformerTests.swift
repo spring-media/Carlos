@@ -5,23 +5,23 @@ import Carlos
 
 class NSDateFormatterTransformerTests: QuickSpec {
   override func spec() {
-    describe("NSDateFormatter") {
-      var formatter: NSDateFormatter!
+    describe("DateFormatter") {
+      var formatter: DateFormatter!
       
       beforeEach {
-        formatter = NSDateFormatter()
+        formatter = DateFormatter()
         formatter.dateFormat = "YYYY-MM-dd"
       }
       
       context("when used as a transformer") {
-        var error: ErrorType!
+        var error: Error!
         
         beforeEach {
           error = nil
         }
         
         context("when transforming") {
-          let originDate = NSDate(timeIntervalSince1970: 1436644623)
+          let originDate = Date(timeIntervalSince1970: 1436644623)
           var result: String!
           
           beforeEach {
@@ -46,7 +46,7 @@ class NSDateFormatterTransformerTests: QuickSpec {
         }
         
         context("when inverse transforming") {
-          var result: NSDate!
+          var result: Date!
           
           beforeEach {
             result = nil
@@ -70,7 +70,7 @@ class NSDateFormatterTransformerTests: QuickSpec {
             }
             
             it("should return the expected date") {
-              expect(formatter.stringFromDate(result)).to(equal(originString))
+              expect(formatter.string(from: result)).to(equal(originString))
             }
           }
           

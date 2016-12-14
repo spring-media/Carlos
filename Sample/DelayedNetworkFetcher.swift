@@ -3,20 +3,19 @@ import Carlos
 import PiedPiper
 
 class DelayedNetworkFetcher: NetworkFetcher {
-  private static let delay = dispatch_time(DISPATCH_TIME_NOW,
-    Int64(2 * Double(NSEC_PER_SEC))) // 2 seconds
+  private static let delay = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC) // 2 seconds
   
-  override func get(key: KeyType) -> Future<OutputType> {
+  override func get(_ key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     
     super.get(key)
       .onSuccess({ value in
-        dispatch_after(DelayedNetworkFetcher.delay, dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: DelayedNetworkFetcher.delay) {
           request.succeed(value)
         }
       })
       .onFailure({ error in
-        dispatch_after(DelayedNetworkFetcher.delay, dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: DelayedNetworkFetcher.delay) {
           request.fail(error)
         }
       })

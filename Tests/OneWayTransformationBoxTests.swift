@@ -11,13 +11,13 @@ class OneWayTransformationBoxTests: QuickSpec {
       
       beforeEach {
         box = OneWayTransformationBox(transform: {
-          Future(value: Int($0), error: TestError.SimpleError)
+          Future(value: Int($0), error: TestError.simpleError)
         })
       }
       
       context("when using the transformation") {
         var result: Int!
-        var error: ErrorType!
+        var error: Error!
         
         beforeEach {
           result = nil
@@ -64,7 +64,7 @@ class OneWayTransformationBoxTests: QuickSpec {
           }
           
           it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.SimpleError))
+            expect(error as? TestError).to(equal(TestError.simpleError))
           }
         }
       }

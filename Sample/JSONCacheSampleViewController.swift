@@ -5,27 +5,26 @@ import Carlos
 private var myContext = 0
 
 class JSONCacheSampleViewController: BaseCacheViewController {
-  private var cache: BasicCache<NSURL, AnyObject>!
+  private var cache: BasicCache<URL, AnyObject>!
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(NSURL(string: urlKeyField?.text ?? "")!).onSuccess { JSON in
-      self.eventsLogView.text = "\(self.eventsLogView.text)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
+    cache.get(URL(string: urlKeyField?.text ?? "")!).onSuccess { JSON in
+      self.eventsLogView.text = "\(self.eventsLogView.text!)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
     }
     
-    let progrss = NSProgress.currentProgress()
-    
-    progrss?.addObserver(self, forKeyPath: "fractionCompleted", options: .Initial, context: &myContext)
+    let progress = Progress.current()
+    progress?.addObserver(self, forKeyPath: "fractionCompleted", options: .initial, context: &myContext)
   }
   
-  override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     if context == &myContext {
-      if let newValue = change?[NSKeyValueChangeNewKey] {
+      if let newValue = change?[NSKeyValueChangeKey.newKey] {
         print("Progress changed: \(newValue)")
       }
     } else {
-      super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+      super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
     }
   }
   

@@ -3,8 +3,11 @@
 ## 0.9
 
 **Breaking changes**
-- Swift 2.3 support
-- `batchGetAll` has been deprecated and replaced with a reified `allBatch` (see **New features**)
+- Swift 3.0 support (for Swift 2.3 use specific commit `5d354c829d766568f164c386c59de21357b5ccff` instead)
+- `batchGetAll` has been removed and replaced with a reified `allBatch` (see **New features**)
+- All deprecated functions have been removed
+- All custom operators have been removed in favor of their function counterparts
+- macOS and tvOS support has been temporarily dropped and will be probably re-added in the future 
 - `set` method on `CacheLevel` now returns a `Future` enabling error-handling and progress-tracking of `set` calls.
 
 **New Features**

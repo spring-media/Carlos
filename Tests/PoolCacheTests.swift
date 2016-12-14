@@ -10,8 +10,8 @@ struct PoolCacheSharedExamplesContext {
 }
 
 class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("a pooled cache") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("a pooled cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: PoolCache<CacheLevelFake<String, Int>>!
       var internalCache: CacheLevelFake<String, Int>!
       
@@ -59,7 +59,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
             fakeRequest2 = Promise<Int>()
             internalCache.cacheRequestToReturn = fakeRequest2.future
             
-            cache.get(otherKey)
+            _ = cache.get(otherKey)
           }
           
           it("should forward the call to the internal cache") {
@@ -72,7 +72,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           
           context("as long as the request doesn't succeed or fail, when other requests with the same key are made") {
             beforeEach {
-              cache.get(otherKey)
+              _ = cache.get(otherKey)
             }
             
             it("should not forward the call to the internal cache") {
@@ -139,7 +139,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
             
             context("when other requests are done") {
               beforeEach {
-                cache.get(key)
+                _ = cache.get(key)
               }
               
               it("should forward the call to the internal cache") {
@@ -150,7 +150,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the first request fails") {
             beforeEach {
-              fakeRequest.fail(TestError.SimpleError)
+              fakeRequest.fail(TestError.simpleError)
             }
             
             it("should call the closure on the first request") {
@@ -167,7 +167,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
             
             context("when other requests are done") {
               beforeEach {
-                cache.get(key)
+                _ = cache.get(key)
               }
               
               it("should forward the call to the internal cache") {
@@ -182,7 +182,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         let key = "test_key"
         let value = 30
         var setSucceeded: Bool!
-        var setError: ErrorType?
+        var setError: Error?
         
         beforeEach {
           setSucceeded = false
@@ -218,7 +218,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         context("when set fails") {
-          let setFailure = TestError.AnotherError
+          let setFailure = TestError.anotherError
           
           beforeEach {
             internalCache.setPromisesReturned.first?.fail(setFailure)
@@ -308,39 +308,11 @@ class PoolCacheTests: QuickSpec {
         ]
       }
     }
-    
-//    describe("The pooled function, applied to a fetcher closure") {
-//      beforeEach {
-//        internalCache = CacheLevelFake<String, Int>()
-//        cache = pooled(internalCache.get)
-//      }
-//      
-//      itBehavesLike("a pooled cache") {
-//        [
-//          PoolCacheSharedExamplesContext.CacheToTest: cache,
-//          PoolCacheSharedExamplesContext.InternalCache: internalCache
-//        ]
-//      }
-//    }
-    
+        
     describe("The pooled instance function, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
         cache = internalCache.pooled()
-      }
-      
-      itBehavesLike("a pooled cache") {
-        [
-          PoolCacheSharedExamplesContext.CacheToTest: cache,
-          PoolCacheSharedExamplesContext.InternalCache: internalCache
-        ]
-      }
-    }
-    
-    describe("The pooled function, applied to a cache level") {
-      beforeEach {
-        internalCache = CacheLevelFake<String, Int>()
-        cache = pooled(internalCache)
       }
       
       itBehavesLike("a pooled cache") {

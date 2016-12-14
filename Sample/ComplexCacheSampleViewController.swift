@@ -6,18 +6,24 @@ import PiedPiper
 struct ModelDomain {
   let name: String
   let identifier: Int
-  let URL: NSURL
+  let URL: Foundation.URL
 }
 
-enum IgnoreError: ErrorType {
-  case Ignore
+extension ModelDomain: StringConvertible {
+  func toString() -> String {
+    return "\(identifier)"
+  }
+}
+
+enum IgnoreError: Error {
+  case ignore
 }
 
 class CustomCacheLevel: Fetcher {
   typealias KeyType = Int
   typealias OutputType = String
   
-  func get(key: KeyType) -> Future<OutputType> {
+  func get(_ key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     
     if key > 0 {
@@ -25,7 +31,7 @@ class CustomCacheLevel: Fetcher {
       request.succeed("\(key)")
     } else {
       Logger.log("Failed fetching \(key) on the custom cache", .Info)
-      request.fail(IgnoreError.Ignore)
+      request.fail(IgnoreError.ignore)
     }
     
     return request.future
@@ -56,28 +62,41 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     })
     
     let stringToData = StringTransformer().invert()
-    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Future($0.uppercaseString) })
+    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Future($0.uppercased()) })
     
-    cache = ((modelDomainToString =>> (MemoryCacheLevel() >>> DiskCacheLevel())) >>> (modelDomainToInt =>> (CustomCacheLevel() ~>> uppercaseTransformer) =>> stringToData) >>> BasicFetcher(getClosure: { (key: ModelDomain) in
-      let request = Promise<NSData>()
-      
-      Logger.log("Fetched \(key.name) on the fetcher closure", .Info)
-      
-      request.succeed("Last level was hit!".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
-      
-      return request.future
-    })).dispatch(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0))
+    let memoryAndDisk = MemoryCacheLevel()
+      .compose(DiskCacheLevel<String, NSData>())
+      .transformKeys(modelDomainToString)
+    let customCache = CustomCacheLevel()
+      .postProcess(uppercaseTransformer)
+      .transformKeys(modelDomainToInt)
+      .transformValues(stringToData)
+
+    cache = memoryAndDisk
+      .compose(customCache)
+      .compose(
+        BasicFetcher(getClosure: { (key: ModelDomain) in
+          let request = Promise<NSData>()
+          
+          Logger.log("Fetched \(key.name) on the fetcher closure", .Info)
+          
+          request.succeed(("Last level was hit!".data(using: .utf8, allowLossyConversion: false) as NSData?)!)
+          
+          return request.future
+        })
+      )
+      .dispatch(DispatchQueue.global(qos: .userInitiated))
   }
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    let key = ModelDomain(name: nameField.text ?? "", identifier: Int(identifierField.text ?? "") ?? 0, URL: NSURL(string: urlField.text ?? "")!)
+    let key = ModelDomain(name: nameField.text ?? "", identifier: Int(identifierField.text ?? "") ?? 0, URL: URL(string: urlField.text ?? "")!)
     
-    cache.get(key)
+    _ = cache.get(key)
     
     for field in [nameField, identifierField, urlField] {
-      field.resignFirstResponder()
+      field?.resignFirstResponder()
     }
   }
 }

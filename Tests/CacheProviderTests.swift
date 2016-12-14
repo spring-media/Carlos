@@ -7,7 +7,7 @@ class CacheProviderTests: QuickSpec {
   override func spec() {
     describe("Cache provider") {
       context("when calling imageCache") {
-        var cache: BasicCache<NSURL, UIImage>!
+        var cache: BasicCache<URL, UIImage>!
         
         beforeEach {
           cache = CacheProvider.imageCache()
@@ -19,7 +19,7 @@ class CacheProviderTests: QuickSpec {
       }
       
       context("when calling dataCache") {
-        var cache: BasicCache<NSURL, NSData>!
+        var cache: BasicCache<URL, NSData>!
         
         beforeEach {
           cache = CacheProvider.dataCache()
@@ -31,7 +31,7 @@ class CacheProviderTests: QuickSpec {
       }
       
       context("when calling JSONCache") {
-        var cache: BasicCache<NSURL, AnyObject>!
+        var cache: BasicCache<URL, AnyObject>!
         
         beforeEach {
           cache = CacheProvider.JSONCache()
@@ -43,7 +43,7 @@ class CacheProviderTests: QuickSpec {
       }
       
       context("when calling sharedImageCache") {
-        var cache: BasicCache<NSURL, UIImage>!
+        var cache: BasicCache<URL, UIImage>!
         
         beforeEach {
           cache = CacheProvider.sharedImageCache
@@ -55,7 +55,7 @@ class CacheProviderTests: QuickSpec {
       }
       
       context("when calling sharedDataCache") {
-        var cache: BasicCache<NSURL, NSData>!
+        var cache: BasicCache<URL, NSData>!
         
         beforeEach {
           cache = CacheProvider.sharedDataCache
@@ -67,7 +67,7 @@ class CacheProviderTests: QuickSpec {
       }
       
       context("when calling sharedJSONCache") {
-        var cache: BasicCache<NSURL, AnyObject>!
+        var cache: BasicCache<URL, AnyObject>!
         
         beforeEach {
           cache = CacheProvider.sharedJSONCache

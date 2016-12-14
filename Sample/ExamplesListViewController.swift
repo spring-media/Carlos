@@ -13,7 +13,7 @@ struct Example {
 }
 
 class ExamplesListViewController: UIViewController {
-  private let sections = [
+  fileprivate let sections = [
     ExamplesListSection(name: "Simple", samples: [
       Example(name: "Image cache", shortDescription: "Out-of-the-box image cache", segueIdentifier: "imageCache"),
       Example(name: "Data cache", shortDescription: "Out-of-the-box data cache", segueIdentifier: "dataCache"),
@@ -38,31 +38,31 @@ class ExamplesListViewController: UIViewController {
 }
 
 extension ExamplesListViewController: UITableViewDataSource {
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return sections.count
   }
   
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return sections[section].samples.count
   }
   
-  func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return sections[section].name
   }
   
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(ExampleCell.Identifier, forIndexPath: indexPath) as! ExampleCell
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: ExampleCell.Identifier, for: indexPath) as! ExampleCell
     
-    cell.configureWithExample(sections[indexPath.section].samples[indexPath.row])
+    cell.configureWithExample(sections[(indexPath as NSIndexPath).section].samples[(indexPath as NSIndexPath).row])
     
     return cell
   }
 }
 
 extension ExamplesListViewController: UITableViewDelegate {
-  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    let example = sections[indexPath.section].samples[indexPath.row]
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let example = sections[(indexPath as NSIndexPath).section].samples[(indexPath as NSIndexPath).row]
     
-    performSegueWithIdentifier(example.segueIdentifier, sender: self)
+    performSegue(withIdentifier: example.segueIdentifier, sender: self)
   }
 }

@@ -2,7 +2,7 @@ import Foundation
 import PiedPiper
 
 /// A simple logger to use instead of println with configurable output closure
-public class Logger {
+public final class Logger {
   /// The level of the logged message
   public enum Level : String {
     case Debug = "Debug"
@@ -29,7 +29,7 @@ public class Logger {
   
   This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
   */
-  public static func log(message: String, _ level: Level = Level.Debug) {
+  public static func log(_ message: String, _ level: Level = Level.Debug) {
     GCD.main {
       self.output(message, level)
     }

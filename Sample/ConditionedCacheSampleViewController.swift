@@ -3,30 +3,30 @@ import UIKit
 import Carlos
 import PiedPiper
 
-enum ConditionError: ErrorType {
-  case GlobalKillSwitch
-  case URLScheme
+enum ConditionError: Error {
+  case globalKillSwitch
+  case urlScheme
   
   func toString() -> String {
     switch self {
-    case .GlobalKillSwitch:
+    case .globalKillSwitch:
       return "Global kill switch is on"
-    case .URLScheme:
+    case .urlScheme:
       return "URL Scheme is not HTTP"
     }
   }
 }
 
 class ConditionedCacheSampleViewController: BaseCacheViewController {
-  private var cache: BasicCache<NSURL, NSData>!
+  private var cache: BasicCache<URL, NSData>!
   private var globalKillSwitch = false
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(NSURL(string: urlKeyField?.text ?? "")!)
+    cache.get(URL(string: urlKeyField?.text ?? "")!)
       .onFailure { errorThrowing in
-        self.eventsLogView.text = "\(self.eventsLogView.text)Failed because of condition\n"
+        self.eventsLogView.text = "\(self.eventsLogView.text!)Failed because of condition\n"
       }
   }
   
@@ -34,25 +34,25 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
     return "Conditioned cache"
   }
   
-  @IBAction func killSwitchValueChanged(sender: UISwitch) {
-    globalKillSwitch = sender.on
+  @IBAction func killSwitchValueChanged(_ sender: UISwitch) {
+    globalKillSwitch = sender.isOn
   }
   
   override func setupCache() {
     super.setupCache()
     
-    cache = { key -> Future<Bool> in
+    cache = simpleCache().conditioned { key -> Future<Bool> in
       let result = Promise<Bool>()
       
       if self.globalKillSwitch {
-        result.fail(ConditionError.GlobalKillSwitch)
+        result.fail(ConditionError.globalKillSwitch)
       } else if key.scheme != "http" {
-        result.fail(ConditionError.URLScheme)
+        result.fail(ConditionError.urlScheme)
       } else {
         result.succeed(true)
       }
       
       return result.future
-    } <?> simpleCache()
+    }
   }
 }

@@ -8,7 +8,7 @@ class FutureSequenceAllTests: QuickSpec {
       var promises: [Promise<Int>]!
       var resultFuture: Future<()>!
       var didSucceed: Bool?
-      var failureValue: ErrorType?
+      var failureValue: Error?
       var wasCanceled: Bool!
       var originalPromisesCanceled: [Bool]!
       
@@ -33,18 +33,18 @@ class FutureSequenceAllTests: QuickSpec {
         
         resultFuture.onCompletion { result in
           switch result {
-          case .Success(_):
+          case .success(_):
             didSucceed = true
-          case .Error(let error):
+          case .error(let error):
             failureValue = error
-          case .Cancelled:
+          case .cancelled:
             wasCanceled = true
           }
         }
       }
       
       context("when one of the original futures fails") {
-        let expectedError = TestError.AnotherError
+        let expectedError = TestError.anotherError
         
         beforeEach {
           promises.first?.succeed(10)
@@ -90,7 +90,7 @@ class FutureSequenceAllTests: QuickSpec {
       context("when all the original futures succeed") {
         context("when they succeed in the same order") {
           beforeEach {
-            promises.enumerate().forEach { (iteration, promise) in
+            promises.enumerated().forEach { (iteration, promise) in
               promise.succeed(iteration)
             }
           }
@@ -163,7 +163,7 @@ class FutureSequenceAllTests: QuickSpec {
           didSucceed = true
         }
                
-        var arrayOfIndexes = Array(promises.enumerate())
+        var arrayOfIndexes = Array(promises.enumerated())
         
         repeat {
           arrayOfIndexes = arrayOfIndexes.shuffle()

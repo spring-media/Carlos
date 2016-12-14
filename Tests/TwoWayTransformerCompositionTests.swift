@@ -9,9 +9,9 @@ struct ComposedTwoWayTransformerSharedExamplesContext {
 }
 
 class TwoWayTransformerCompositionSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
+  override class func configure(_ configuration: Configuration) {
     sharedExamples("a composed two-way transformer") {
-      (sharedExampleContext: SharedExampleContext) in
+      (sharedExampleContext: @escaping SharedExampleContext) in
       var composedTransformer: TwoWayTransformationBox<String, Int>!
       
       beforeEach {
@@ -113,11 +113,11 @@ class TwoWayTransformerCompositionTests: QuickSpec {
     
     beforeEach {
       transformer1 = TwoWayTransformationBox(transform: {
-        Future(value: Float($0), error: TestError.SimpleError)
+        Future(value: Float($0), error: TestError.simpleError)
       }, inverseTransform: {
         let result = Promise<String>()
         if $0 > 100 {
-          result.fail(TestError.SimpleError)
+          result.fail(TestError.simpleError)
         } else {
           result.succeed("\($0)")
         }
@@ -126,49 +126,25 @@ class TwoWayTransformerCompositionTests: QuickSpec {
       transformer2 = TwoWayTransformationBox(transform: {
         let result = Promise<Int>()
         if $0 < 0 {
-          result.fail(TestError.SimpleError)
+          result.fail(TestError.simpleError)
         } else {
-          result.mimic(Future(value: Int($0), error: TestError.SimpleError))
+          result.mimic(Future(value: Int($0), error: TestError.simpleError))
         }
         return result.future
       }, inverseTransform: {
         let result = Promise<Float>()
         if $0 < 0 {
-          result.fail(TestError.SimpleError)
+          result.fail(TestError.simpleError)
         } else {
-          result.mimic(Future(value: Float($0), error: TestError.SimpleError))
+          result.mimic(Future(value: Float($0), error: TestError.simpleError))
         }
         return result.future
       })
     }
-    
-    describe("Transformer composition using the global function") {
-      beforeEach {
-        composedTransformer = compose(transformer1, secondTransformer: transformer2)
-      }
-      
-      itBehavesLike("a composed two-way transformer") {
-        [
-          ComposedTwoWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
+        
     describe("Transformer composition using the instance function") {
       beforeEach {
         composedTransformer = transformer1.compose(transformer2)
-      }
-      
-      itBehavesLike("a composed two-way transformer") {
-        [
-          ComposedTwoWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
-        ]
-      }
-    }
-    
-    describe("Transformer composition using the operator") {
-      beforeEach {
-        composedTransformer = transformer1 >>> transformer2
       }
       
       itBehavesLike("a composed two-way transformer") {

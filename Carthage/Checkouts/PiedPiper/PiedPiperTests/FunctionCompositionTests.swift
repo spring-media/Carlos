@@ -7,15 +7,15 @@ class FunctionCompositionTests: QuickSpec {
   override func spec() {
     describe("Composing functions") {
       context("when the first function takes no parameter, and the second does") {
-        let first: Void -> Int = {
+        let first: (Void) -> Int = {
           5
         }
         
-        let second: Int -> String = {
+        let second: (Int) -> String = {
           "\($0)"
         }
         
-        var composed: (Void -> String)!
+        var composed: ((Void) -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -27,15 +27,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when the first function takes no parameter, and the second does but returns void") {
-        let first: Void -> Int = {
+        let first: (Void) -> Int = {
           5
         }
         
-        let second: Int -> Void = {
+        let second: (Int) -> Void = {
           print("\($0)")
         }
         
-        var composed: (Void -> Void)!
+        var composed: ((Void) -> Void)!
         
         beforeEach {
           composed = first >>> second
@@ -48,15 +48,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when the first function takes a parameter, and the second doesn't") {
-        let first: Int -> Void = { input in
+        let first: (Int) -> Void = { input in
           print(input)
         }
         
-        let second: Void -> String = {
+        let second: (Void) -> String = {
           "hello!"
         }
         
-        var composed: (Int -> String)!
+        var composed: ((Int) -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -68,15 +68,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when the first function takes a parameter, and the second doesn't and returns void") {
-        let first: Int -> Void = { input in
+        let first: (Int) -> Void = { input in
           print(input)
         }
         
-        let second: Void -> Void = {
+        let second: (Void) -> Void = {
           print("hello!")
         }
         
-        var composed: (Int -> Void)!
+        var composed: ((Int) -> Void)!
         
         beforeEach {
           composed = first >>> second
@@ -89,15 +89,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when both functions take no parameter") {
-        let first: Void -> Void = {
+        let first: (Void) -> Void = {
           print("hello...")
         }
         
-        let second: Void -> String = {
+        let second: (Void) -> String = {
           "...world!"
         }
         
-        var composed: (Void -> String)!
+        var composed: ((Void) -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -109,15 +109,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when both functions take no parameter and the second returns void") {
-        let first: Void -> Void = {
+        let first: (Void) -> Void = {
           print("hello...")
         }
         
-        let second: Void -> Void = {
+        let second: (Void) -> Void = {
           print("...world!")
         }
         
-        var composed: (Void -> Void)!
+        var composed: ((Void) -> Void)!
         
         beforeEach {
           composed = first >>> second
@@ -130,15 +130,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when both functions take parameters") {
-        let first: String -> String = { input in
+        let first: (String) -> String = { input in
           "hello, \(input)!"
         }
         
-        let second: String -> String = { input in
-          input.uppercaseString
+        let second: (String) -> String = { input in
+          input.uppercased()
         }
         
-        var composed: (String -> String)!
+        var composed: ((String) -> String)!
         
         beforeEach {
           composed = first >>> second
@@ -150,15 +150,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when both functions take parameters and the second returns void") {
-        let first: Int -> String = { input in
+        let first: (Int) -> String = { input in
           "\(input)"
         }
         
-        let second: String -> Void = { input in
+        let second: (String) -> Void = { input in
           print(input)
         }
         
-        var composed: (Int -> Void)!
+        var composed: ((Int) -> Void)!
         
         beforeEach {
           composed = first >>> second
@@ -171,15 +171,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when the first function returns nil") {
-        let first: String -> Int? = {
+        let first: (String) -> Int? = {
           Int($0)
         }
         
-        let second: Int -> String = {
+        let second: (Int) -> String = {
           "\($0)"
         }
         
-        var composed: (String -> String?)!
+        var composed: ((String) -> String?)!
         
         beforeEach {
           composed = first >>> second
@@ -195,15 +195,15 @@ class FunctionCompositionTests: QuickSpec {
       }
       
       context("when the second function returns nil") {
-        let first: Float -> Int? = {
+        let first: (Float) -> Int? = {
           Int($0)
         }
         
-        let second: Int -> String? = {
+        let second: (Int) -> String? = {
           $0 > 0 ? "\($0)" : nil
         }
         
-        var composed: (Float -> String?)!
+        var composed: ((Float) -> String?)!
         
         beforeEach {
           composed = first >>> second
@@ -224,9 +224,9 @@ class FunctionCompositionTests: QuickSpec {
       var promise2: Promise<Int>!
       var input1: Int!
       var input2: String!
-      var composed: (Int -> Future<Int>)!
+      var composed: ((Int) -> Future<Int>)!
       var result: Int!
-      var error: ErrorType!
+      var error: Error!
       var canceled: Bool!
       let input = 1
       
@@ -238,12 +238,12 @@ class FunctionCompositionTests: QuickSpec {
         promise1 = Promise()
         promise2 = Promise()
         
-        let first: Int -> Future<String> = { input in
+        let first: (Int) -> Future<String> = { input in
           input1 = input
           return promise1.future
         }
         
-        let second: String -> Future<Int> = { input in
+        let second: (String) -> Future<Int> = { input in
           input2 = input
           return promise2.future
         }
@@ -276,7 +276,7 @@ class FunctionCompositionTests: QuickSpec {
         
         context("when the second promise fails") {
           beforeEach {
-            promise2.fail(TestError.AnotherError)
+            promise2.fail(TestError.anotherError)
           }
           
           it("should fail the composition") {
@@ -284,7 +284,7 @@ class FunctionCompositionTests: QuickSpec {
           }
           
           it("should pass the right error") {
-            expect(error as? TestError).to(equal(TestError.AnotherError))
+            expect(error as? TestError).to(equal(TestError.anotherError))
           }
         }
         
@@ -313,7 +313,7 @@ class FunctionCompositionTests: QuickSpec {
       
       context("when the first promise fails") {
         beforeEach {
-          promise1.fail(TestError.SimpleError)
+          promise1.fail(TestError.simpleError)
         }
         
         it("should fail the composition") {
@@ -321,7 +321,7 @@ class FunctionCompositionTests: QuickSpec {
         }
         
         it("should pass the right error") {
-          expect(error as? TestError).to(equal(TestError.SimpleError))
+          expect(error as? TestError).to(equal(TestError.simpleError))
         }
       }
       

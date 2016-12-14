@@ -1,33 +1,33 @@
 /// Errors that can arise when mapping Results
-public enum ResultMappingError: ErrorType {
+public enum ResultMappingError: Error {
   /// When the boxed value can't be mapped
-  case CantMapValue
+  case cantMapValue
 }
 
 extension Result {
-  func _map<U>(handler: (T, Promise<U>) -> Void) -> Future<U> {
+  func _map<U>(_ handler: (T, Promise<U>) -> Void) -> Future<U> {
     let mapped = Promise<U>()
     
     switch self {
-    case .Success(let value):
+    case .success(let value):
       handler(value, mapped)
-    case .Error(let error):
+    case .error(let error):
       mapped.fail(error)
-    case .Cancelled:
+    case .cancelled:
       mapped.cancel()
     }
     
     return mapped.future
   }
   
-  func _map<U>(handler: T -> Result<U>) -> Result<U> {
+  func _map<U>(_ handler: (T) -> Result<U>) -> Result<U> {
     switch self {
-    case .Success(let value):
+    case .success(let value):
       return handler(value)
-    case .Error(let error):
-      return .Error(error)
-    case .Cancelled:
-      return .Cancelled
+    case .error(let error):
+      return .error(error)
+    case .cancelled:
+      return .cancelled
     }
   }
   
@@ -38,9 +38,9 @@ extension Result {
    
    - returns: A new Result that will behave as this Result w.r.t. cancellation and failure, but will succeed with a value of type U obtained through the given closure
    */
-  public func map<U>(handler: T -> U) -> Result<U> {
+  public func map<U>(_ handler: (T) -> U) -> Result<U> {
     return _map {
-      .Success(handler($0))
+      .success(handler($0))
     }
   }
   
@@ -51,13 +51,13 @@ extension Result {
    
    - returns: A new Result that will behave as this Result w.r.t. cancellation and failure, but will succeed with a value of type U obtained through the given closure, unless the latter throws. In this case, the new Result will fail
    */
-  public func map<U>(handler: T throws -> U) -> Result<U> {
+  public func map<U>(_ handler: (T) throws -> U) -> Result<U> {
     return _map { value in
       do {
         let mappedValue = try handler(value)
-        return .Success(mappedValue)
+        return .success(mappedValue)
       } catch {
-        return .Error(error)
+        return .error(error)
       }
     }
   }

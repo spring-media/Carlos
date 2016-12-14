@@ -11,7 +11,7 @@ The behavior is not 100% certain and this possibility is discouraged.
 private let DefaultUserDefaultsDomainName = "CarlosPersistentDomain"
 
 /// This class is a NSUserDefaults cache level. It has a configurable domain name so that multiple levels can be included in the same sandboxed app.
-public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
+public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
   /// The key type of the cache, should be convertible to String values
   public typealias KeyType = K
   
@@ -20,13 +20,13 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
   
   private let domainName: String
   private let lock: ReadWriteLock
-  private let userDefaults: NSUserDefaults
-  private var internalDomain: [String: NSData]? = nil
-  private var safeInternalDomain: [String: NSData] {
+  private let userDefaults: UserDefaults
+  private var internalDomain: [String: Data]? = nil
+  private var safeInternalDomain: [String: Data] {
     if let internalDomain = internalDomain {
       return internalDomain
     } else {
-      let fetchedDomain = (userDefaults.persistentDomainForName(domainName) as? [String: NSData]) ?? [:]
+      let fetchedDomain = (userDefaults.persistentDomain(forName: domainName) as? [String: Data]) ?? [:]
       internalDomain = fetchedDomain
       return fetchedDomain
     }
@@ -41,7 +41,7 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
     self.domainName = name
     
     lock = PThreadReadWriteLock()
-    userDefaults = NSUserDefaults.standardUserDefaults()
+    userDefaults = UserDefaults.standard
     internalDomain = safeInternalDomain
   }
   
@@ -55,13 +55,13 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
    
   A soft-cache is used to avoid hitting the persistent domain everytime you are going to fetch values from this cache. The operation is thread-safe
   */
-  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     var softCache = safeInternalDomain
     let result = Promise<()>()
     
     Logger.log("Setting a value for the key \(key.toString()) on the user defaults cache \(self)")
     lock.withWriteLock {
-      softCache[key.toString()] = NSKeyedArchiver.archivedDataWithRootObject(value)
+      softCache[key.toString()] = NSKeyedArchiver.archivedData(withRootObject: value)
       internalDomain = softCache
       userDefaults.setPersistentDomain(softCache, forName: domainName)
       
@@ -80,20 +80,20 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
    
   A soft-cache is used to avoid hitting the persistent domain everytime. This operation is thread-safe
   */
-  public func get(key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     let result = Promise<OutputType>()
     
     if let cachedValue = lock.withReadLock({ safeInternalDomain[key.toString()] }) {
-      if let unencodedObject = NSKeyedUnarchiver.su_unarchiveObjectWithData(cachedValue) as? T {
+      if let unencodedObject = NSKeyedUnarchiver.su_unarchiveObject(with: cachedValue) as? T {
         Logger.log("Fetched \(key.toString()) on user defaults level (domain \(domainName)")
         result.succeed(unencodedObject)
       } else {
         Logger.log("Failed fetching \(key.toString()) on the user defaults cache (domain \(domainName), corrupted data")
-        result.fail(FetchError.InvalidCachedData)
+        result.fail(FetchError.invalidCachedData)
       }
     } else {
       Logger.log("Failed fetching \(key.toString()) on the user defaults cache (domain \(domainName), no data")
-      result.fail(FetchError.ValueNotInCache)
+      result.fail(FetchError.valueNotInCache)
     }
     
     return result.future
@@ -110,7 +110,7 @@ public class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheL
   */
   public func clear() {
     lock.withWriteLock {
-      userDefaults.removePersistentDomainForName(domainName)
+      userDefaults.removePersistentDomain(forName: domainName)
       internalDomain = [:]
     }
   }

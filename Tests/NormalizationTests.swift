@@ -10,8 +10,8 @@ struct NormalizedCacheSharedExamplesContext {
 }
 
 class NormalizationSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(configuration: Configuration) {
-    sharedExamples("no-op if the original cache is a BasicCache") { (sharedExampleContext: SharedExampleContext) in
+  override class func configure(_ configuration: Configuration) {
+    sharedExamples("no-op if the original cache is a BasicCache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheToTest: BasicCache<String, Int>!
       var originalCache: BasicCache<String, Int>!
       
@@ -29,7 +29,7 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
       }
     }
     
-    sharedExamples("wrap the original cache into a BasicCache") { (sharedExampleContext: SharedExampleContext) in
+    sharedExamples("wrap the original cache into a BasicCache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheToTest: BasicCache<String, Int>!
       var originalCache: CacheLevelFake<String, Int>!
       
@@ -110,46 +110,14 @@ class NormalizationTests: QuickSpec {
   override func spec() {
     var cacheToTest: BasicCache<String, Int>!
     
-    describe("Normalization through the global function") {
-      context("when normalizing a BasicCache") {
-        var originalCache: BasicCache<String, Int>!
-        
-        beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ Future($0) })
-          cacheToTest = normalize(originalCache)
-        }
-        
-        itBehavesLike("no-op if the original cache is a BasicCache") {
-          [
-            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache,
-            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest
-          ]
-        }
-      }
-      
-      context("when normalizing another type of cache") {
-        var originalCache: CacheLevelFake<String, Int>!
-        
-        beforeEach {
-          originalCache = CacheLevelFake()
-          cacheToTest = normalize(originalCache)
-        }
-        
-        itBehavesLike("wrap the original cache into a BasicCache") {
-          [
-            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache,
-            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest
-          ]
-        }
-      }
-    }
-    
     describe("Normalization through the protocol extension") {
       context("when normalizing a BasicCache") {
         var originalCache: BasicCache<String, Int>!
+        var keyTransformer: OneWayTransformationBox<String, String>!
         
         beforeEach {
-          originalCache = CacheLevelFake().transformKeys({ Future($0) })
+          keyTransformer = OneWayTransformationBox(transform: Future.init)
+          originalCache = CacheLevelFake<String, Int>().transformKeys(keyTransformer)
           cacheToTest = originalCache.normalize()
         }
         

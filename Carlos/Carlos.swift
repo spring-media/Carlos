@@ -3,18 +3,16 @@ import PiedPiper
 
 internal struct CarlosGlobals {
   static let QueueNamePrefix = "com.carlos."
-  static let Caches = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] 
+  static let Caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
 }
 
-internal func wrapClosureIntoFetcher<A, B>(closure: (key: A) -> Future<B>) -> BasicFetcher<A, B> {
+internal func wrapClosureIntoFetcher<A, B>(_ closure: @escaping (_ key: A) -> Future<B>) -> BasicFetcher<A, B> {
   return BasicFetcher(getClosure: closure)
 }
 
-internal func wrapClosureIntoOneWayTransformer<A, B>(transformerClosure: A -> Future<B>) -> OneWayTransformationBox<A, B> {
+internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: @escaping (A) -> Future<B>) -> OneWayTransformationBox<A, B> {
   return OneWayTransformationBox(transform: transformerClosure)
 }
-
-infix operator =>> { associativity left }
 
 /// An abstraction for a generic cache level
 public protocol CacheLevel {
@@ -31,7 +29,7 @@ public protocol CacheLevel {
   
   - returns: a Future that you can attach success and failure closures to
   */
-  func get(key: KeyType) -> Future<OutputType>
+  func get(_ key: KeyType) -> Future<OutputType>
   
   /**
   Tries to set a value on the cache level
@@ -41,7 +39,7 @@ public protocol CacheLevel {
    
   - returns: A Future that will reflect the status of the set operation
   */
-  func set(value: OutputType, forKey key: KeyType) -> Future<()>
+  @discardableResult func set(_ value: OutputType, forKey key: KeyType) -> Future<()>
   
   /**
   Asks to clear the cache level
@@ -66,7 +64,7 @@ extension Fetcher {
   public func onMemoryWarning() {}
   
   /// No-op
-  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     return Future()
   }
 }

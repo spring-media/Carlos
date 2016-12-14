@@ -5,18 +5,19 @@ import Carlos
 
 class NSNumberFormatterTransformerTests: QuickSpec {
   override func spec() {
-    describe("NSNumberFormatter") {
-      var formatter: NSNumberFormatter!
+    describe("NumberFormatter") {
+      var formatter: NumberFormatter!
       
       beforeEach {
-        formatter = NSNumberFormatter()
-        formatter.numberStyle = .DecimalStyle
+        formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "us_US")
+        formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 5
         formatter.minimumFractionDigits = 3
       }
       
       context("when used as a transformer") {
-        var error: ErrorType!
+        var error: Error!
         
         context("when transforming") {
           var result: String!
@@ -29,7 +30,7 @@ class NSNumberFormatterTransformerTests: QuickSpec {
             let originNumber = 10.1203
             
             beforeEach {
-              formatter.transform(originNumber)
+              formatter.transform(NSNumber(value: originNumber))
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -51,7 +52,7 @@ class NSNumberFormatterTransformerTests: QuickSpec {
             let originNumber = 10.12
             
             beforeEach {
-              formatter.transform(originNumber)
+              formatter.transform(NSNumber(value: originNumber))
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -73,7 +74,7 @@ class NSNumberFormatterTransformerTests: QuickSpec {
             let originNumber = 10.120312
             
             beforeEach {
-              formatter.transform(originNumber)
+              formatter.transform(NSNumber(value: originNumber))
                 .onSuccess({ result = $0 })
                 .onFailure({ error = $0 })
             }
@@ -117,7 +118,8 @@ class NSNumberFormatterTransformerTests: QuickSpec {
             }
             
             it("should return the expected number") {
-              expect("\(result)").to(equal(originString))
+              let compare = result ?? NSNumber(value: 0)
+              expect("\(compare)").to(equal(originString))
             }
           }
           

@@ -10,35 +10,9 @@ extension CacheLevel {
   
   - returns: An initialized RequestCapperCache (a CacheLevel itself)
   */
-  public func capRequests(requestsCap: Int) -> RequestCapperCache<Self> {
+  public func capRequests(_ requestsCap: Int) -> RequestCapperCache<Self> {
     return RequestCapperCache(internalCache: self, requestCap: requestsCap)
   }
-}
-
-/**
-Cap requests on a given cache
-
-- parameter cache: The cache you want to apply the cap to
-- parameter requestsCap: The number of maximum concurrent requests that should be passed to the cache
-
-- returns: An initialized RequestCapperCache (a CacheLevel itself)
-*/
-@available(*, deprecated=0.5)
-public func capRequests<C: CacheLevel>(cache: C, requestsCap: Int) -> RequestCapperCache<C> {
-  return cache.capRequests(requestsCap)
-}
-
-/**
-Cap requests on a given fetcher closure
-
-- parameter fetcherClosure: The fetcher closure you want to apply the cap to
-- parameter requestsCap: The number of maximum concurrent requests that should be passed to the closure
-
-- returns: An initialized RequestCapperCache (a CacheLevel itself)
-*/
-@available(*, deprecated=0.5)
-public func capRequests<A, B>(fetcherClosure: (key: A) -> Future<B>, requestsCap: Int) -> RequestCapperCache<BasicFetcher<A, B>> {
-  return wrapClosureIntoFetcher(fetcherClosure).capRequests(requestsCap)
 }
 
 /** 
@@ -51,7 +25,7 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   public typealias OutputType = C.OutputType
   
   private let internalCache: C
-  private let requestsQueue: NSOperationQueue
+  private let requestsQueue: OperationQueue
   
   /**
   Creates a new instance of this class
@@ -63,7 +37,7 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
     self.internalCache = internalCache
     
     self.requestsQueue = {
-      let queue = NSOperationQueue()
+      let queue = OperationQueue()
       queue.name = "Deferred cache requests"
       queue.maxConcurrentOperationCount = requestCap
       return queue
@@ -77,7 +51,7 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   
   - returns: A Future that could either be immediately executed or deferred depending on how many requests are currently pending.
   */
-  public func get(key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     let deferredRequestOperation = DeferredResultOperation(decoyRequest: request, key: key, cache: internalCache)
     
@@ -97,7 +71,7 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   
   Calls to this method are not capped
   */
-  public func set(value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     return internalCache.set(value, forKey: key)
   }
   
