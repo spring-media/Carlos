@@ -19,7 +19,6 @@
 		52B29CFE1CEA23A000B5B277 /* Future+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2DE1CE8718D002C045A /* Future+Filter.swift */; };
 		52B29CFF1CEA23A000B5B277 /* Future+FlatMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2DF1CE8718D002C045A /* Future+FlatMap.swift */; };
 		52B29D001CEA23A000B5B277 /* Future+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2E01CE8718D002C045A /* Future+Map.swift */; };
-		52B29D011CEA23A000B5B277 /* Future+MergeAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2E11CE8718D002C045A /* Future+MergeAll.swift */; };
 		52B29D021CEA23A000B5B277 /* Future+Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2E21CE8718D002C045A /* Future+Recover.swift */; };
 		52B29D031CEA23A000B5B277 /* Future+Reduce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2E31CE8718D002C045A /* Future+Reduce.swift */; };
 		52B29D041CEA23A000B5B277 /* Future+Traverse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2E41CE8718D002C045A /* Future+Traverse.swift */; };
@@ -85,6 +84,7 @@
 		52D3675F1D85E82700466A8A /* Future+FirstCompletedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D3675E1D85E82700466A8A /* Future+FirstCompletedTests.swift */; };
 		52F9281F1D734B4700E6D010 /* Future+Snooze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9281E1D734B4700E6D010 /* Future+Snooze.swift */; };
 		9710F1891CFE9C4400713D3B /* Future+MergeSome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9710F1881CFE9C4400713D3B /* Future+MergeSome.swift */; };
+		C4A297CE1E5353300015B9C7 /* Future+MergeAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BED2E11CE8718D002C045A /* Future+MergeAll.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -520,8 +520,6 @@
 			files = (
 				52B29CFE1CEA23A000B5B277 /* Future+Filter.swift in Sources */,
 				52B29D041CEA23A000B5B277 /* Future+Traverse.swift in Sources */,
-				52B29D011CEA23A000B5B277 /* Future+MergeAll.swift in Sources */,
-				52B29D011CEA23A000B5B277 /* Future+MergeAll.swift in Sources */,
 				52D367581D85E1C400466A8A /* Future+Timeout.swift in Sources */,
 				52D367561D85E1C000466A8A /* Future+All.swift in Sources */,
 				52B29CFD1CEA23A000B5B277 /* Future.swift in Sources */,
@@ -541,6 +539,7 @@
 				52D367571D85E1C300466A8A /* Future+Snooze.swift in Sources */,
 				52B29D071CEA23A000B5B277 /* Promise.swift in Sources */,
 				52D367591D85E1C600466A8A /* Future+FirstCompleted.swift in Sources */,
+				C4A297CE1E5353300015B9C7 /* Future+MergeAll.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,11 +658,12 @@
 				INFOPLIST_FILE = "PiedPiper-Mac/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiper;
 				PRODUCT_NAME = PiedPiper;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -683,12 +683,13 @@
 				INFOPLIST_FILE = "PiedPiper-Mac/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.PiedPiper;
 				PRODUCT_NAME = PiedPiper;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};

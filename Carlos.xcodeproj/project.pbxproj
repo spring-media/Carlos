@@ -283,6 +283,8 @@
 		ADEA049E1E014326005BF920 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CEB1CEA228800B5B277 /* PiedPiper.framework */; };
 		ADEA04A11E0143C9005BF920 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CEB1CEA228800B5B277 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ADEA04A21E0143CC005BF920 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B29CEB1CEA228800B5B277 /* PiedPiper.framework */; };
+		C4A297CD1E534EEF0015B9C7 /* ImageTransformer+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B7620E1BB84EFF0087CD91 /* ImageTransformer+iOS.swift */; };
+		C4A297CF1E5355E60015B9C7 /* MemoryWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A471B4F0F6F00F187EE /* MemoryWarning.swift */; };
 		C71C59751B6A722800AE5294 /* NetworkFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C59731B6A721C00AE5294 /* NetworkFetcherTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -1160,7 +1162,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = WeltN24;
 				TargetAttributes = {
 					5216CD0B1BC04B43005B729F = {
@@ -1434,6 +1436,7 @@
 				52CF0AA91B9203B30061022D /* Composed.swift in Sources */,
 				52CF0AAA1B9203B30061022D /* Conditioned.swift in Sources */,
 				52CF0AAC1B9203B30061022D /* DiskCacheLevel.swift in Sources */,
+				C4A297CD1E534EEF0015B9C7 /* ImageTransformer+iOS.swift in Sources */,
 				52CF0AAD1B9203B30061022D /* Errors.swift in Sources */,
 				52CF0AAE1B9203B30061022D /* Extensions.swift in Sources */,
 				52CF0AAF1B9203B30061022D /* Logger.swift in Sources */,
@@ -1449,6 +1452,7 @@
 				52CF0AB81B9203B30061022D /* KeyTransformation.swift in Sources */,
 				520DBB601CF6322E00F9ABE3 /* BatchAllCache.swift in Sources */,
 				52CF0AB91B9203B30061022D /* RequestCapperCache.swift in Sources */,
+				C4A297CF1E5355E60015B9C7 /* MemoryWarning.swift in Sources */,
 				AD8558111BA94FF10054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */,
 				52CF0AC11B9204730061022D /* ExpensiveObject+Mac.swift in Sources */,
 				5222108D1C501F2100E682D1 /* ConditionedTwoWayTransformer.swift in Sources */,
@@ -1785,7 +1789,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "de.weltn24.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1857,13 +1861,13 @@
 				INFOPLIST_FILE = CarlosMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1890,13 +1894,13 @@
 				INFOPLIST_FILE = CarlosMac/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = de.weltn24.CarlosMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 2.3;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1996,7 +2000,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
@@ -2061,7 +2065,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
