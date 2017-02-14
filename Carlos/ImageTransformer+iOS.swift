@@ -1,9 +1,14 @@
 import Foundation
 import PiedPiper
-import UIKit
-
+#if os(macOS)
+    import Cocoa
+    public typealias CarlosImage = NSImage
+#else
+    import UIKit
+    public typealias CarlosImage = UIImage
+#endif
 /**
-This class takes care of transforming NSData instances into UIImage objects.
+This class takes care of transforming NSData instances into UIImage (or NSImage objects on macOS).
 
 Keep in mind that at the moment this class always deserializes images through UIImagePNGRepresentation, so there may be a data usage bigger than actually required.
 */
@@ -14,7 +19,7 @@ public final class ImageTransformer: TwoWayTransformer {
   }
   
   public typealias TypeIn = NSData
-  public typealias TypeOut = UIImage
+  public typealias TypeOut = CarlosImage
   
   /// Initializes a new instance of ImageTransformer
   public init() {}
@@ -30,7 +35,7 @@ public final class ImageTransformer: TwoWayTransformer {
     let result = Promise<TypeOut>()
     
     GCD.background {
-      UIImage(data: val as Data)
+      CarlosImage(data: val as Data)
     }.main { image in
       if let image = image {
         result.succeed(image)
@@ -52,9 +57,16 @@ public final class ImageTransformer: TwoWayTransformer {
   public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
     let result = Promise<TypeIn>()
     
-    GCD.background {
+    GCD.background { () -> Data? in
+      #if os(macOS)
+        if let rep = val.tiffRepresentation, let bitmapImageRep = NSBitmapImageRep(data: rep) {
+            return bitmapImageRep.representation(using: .PNG, properties: [:])
+        }
+        return nil
+      #else
       /* This is a waste of bytes, we should probably use a lower-level framework */
-      UIImagePNGRepresentation(val)
+        return UIImagePNGRepresentation(val)
+      #endif
     }.main { data in
       if let data = data {
         result.succeed(data as NSData)
