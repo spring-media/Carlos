@@ -34,7 +34,7 @@ class MemoryWarningNotificationTests: QuickSpec {
         
         context("when unsubscribing later") {
           beforeEach {
-            unsubscribeToMemoryWarnings(token)
+            cache.unsubscribeToMemoryWarnings(token)
           }
           
           context("when posting memory warnings") {

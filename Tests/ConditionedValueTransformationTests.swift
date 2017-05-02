@@ -316,7 +316,7 @@ class ConditionedValueTransformationTests: QuickSpec {
   override func spec() {
     var cache: BasicCache<String, Float>!
     var internalCache: CacheLevelFake<String, Int>!
-    let transformer: ConditionedTwoWayTransformationBox<String, Int, Float>= ConditionedTwoWayTransformationBox(conditionalTransformClosure: { (key, value) in
+    let transformer: ConditionedTwoWayTransformationBox<String, Int, Float> = ConditionedTwoWayTransformationBox(conditionalTransformClosure: { (key, value) in
       let result = Promise<Float>()
       
       if key == "do" {
