@@ -19,19 +19,19 @@ extension CacheLevel where Self: AnyObject {
         })
     #endif
   }
+}
 
-  /**
-  Removes the memory warning listener
-
-  - parameter token: The token you got from the call to listenToMemoryWarning: previously
-  */
-  public func unsubscribeToMemoryWarnings(_ token: NSObjectProtocol) {
-  #if os(macOS)
-    if let source = token as? DispatchSource {
-        source.cancel()
-    }
-  #else
-    NotificationCenter.default.removeObserver(token, name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
-  #endif
-  }
+/**
+ Removes the memory warning listener
+ 
+ - parameter token: The token you got from the call to listenToMemoryWarning: previously
+ */
+public func unsubscribeToMemoryWarnings(_ token: NSObjectProtocol) {
+    #if os(macOS)
+        if let source = token as? DispatchSource {
+            source.cancel()
+        }
+    #else
+        NotificationCenter.default.removeObserver(token, name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+    #endif
 }
