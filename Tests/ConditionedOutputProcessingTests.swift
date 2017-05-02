@@ -269,7 +269,7 @@ class ConditionedOutputPostProcessingTests: QuickSpec {
   override func spec() {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
-    let transformer: ConditionedOneWayTransformationBox<String, Int, Int>= ConditionedOneWayTransformationBox(conditionalTransformClosure: { (key, value) in
+    let transformer: ConditionedOneWayTransformationBox<String, Int, Int> = ConditionedOneWayTransformationBox(conditionalTransformClosure: { (key, value) in
       let result = Promise<Int>()
       
       if key == "do" {
