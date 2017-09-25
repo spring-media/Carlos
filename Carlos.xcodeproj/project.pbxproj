@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F70CF861F79266D00078C82 /* NimbleTweaks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F70CF841F79260400078C82 /* NimbleTweaks.swift */; };
 		52051DC11C79D9B4005F861A /* Dispatched.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051DC01C79D9B4005F861A /* Dispatched.swift */; };
 		52051DC51C79DD51005F861A /* Dispatched.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52051DC01C79D9B4005F861A /* Dispatched.swift */; };
 		52051DC61C79DD51005F861A /* NSKeyedUnarchiver+SwiftUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8557F41BA94B690054FB5F /* NSKeyedUnarchiver+SwiftUtilities.m */; };
@@ -411,6 +412,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F70CF841F79260400078C82 /* NimbleTweaks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NimbleTweaks.swift; sourceTree = "<group>"; };
 		52051DC01C79D9B4005F861A /* Dispatched.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatched.swift; sourceTree = "<group>"; };
 		5205729A1BB8716E0098DD09 /* StringTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformer.swift; sourceTree = "<group>"; };
 		520572A81BB8752B0098DD09 /* StringTransformerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTransformerTests.swift; sourceTree = "<group>"; };
@@ -772,6 +774,7 @@
 				52D5F3471C503C6700BA3452 /* ConditionedTwoWayTransformationBoxTests.swift */,
 				52D5F3531C52C32000BA3452 /* ConditionedValueTransformationTests.swift */,
 				52D7DDBB1C552854007E5328 /* BatchTests.swift */,
+				3F70CF841F79260400078C82 /* NimbleTweaks.swift */,
 			);
 			name = CarlosTests;
 			path = Tests;
@@ -1401,6 +1404,7 @@
 				527C65531B7A89440005023B /* SwitchCacheTests.swift in Sources */,
 				5253F3D91B57D7DD0035B1FB /* RequestCapperCacheTests.swift in Sources */,
 				52BBFD561B51BA140000084A /* CacheLevelFake.swift in Sources */,
+				3F70CF861F79266D00078C82 /* NimbleTweaks.swift in Sources */,
 				52D7DDBC1C552854007E5328 /* BatchTests.swift in Sources */,
 				52F0644F1B51AC0D00145C98 /* NSDateFormatterTransformerTests.swift in Sources */,
 				5274A9D91BC069E7006962E8 /* FetcherValueTransformationTests.swift in Sources */,
