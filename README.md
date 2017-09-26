@@ -1,6 +1,5 @@
 # Carlos
 
-[![Build Status](https://www.bitrise.io/app/9062dbe9a1abb81c/status.svg?token=XHpBTW_h9xUPHShSv5S4Lg)](https://www.bitrise.io/app/9062dbe9a1abb81c)
 [![Build Status](https://travis-ci.org/WeltN24/Carlos.svg?branch=master)](https://travis-ci.org/WeltN24/Carlos)
 [![Version](https://img.shields.io/cocoapods/v/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
