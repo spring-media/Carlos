@@ -1,7 +1,7 @@
 # Carlos
 
-[![Build Status](https://www.bitrise.io/app/15d84dbcea6e8eaa.svg?token=xrhXybdly56q5EbX-vD8Nw&branch=master)](https://www.bitrise.io/app/15d84dbcea6e8eaa)
-[![CI Status](https://travis-ci.org/WeltN24/PiedPiper.svg?branch=master)](https://travis-ci.org/WeltN24/PiedPiper)
+[![Build Status](https://www.bitrise.io/app/9062dbe9a1abb81c/status.svg?token=XHpBTW_h9xUPHShSv5S4Lg)](https://www.bitrise.io/app/9062dbe9a1abb81c)
+[![Build Status](https://travis-ci.org/WeltN24/Carlos.svg?branch=master)](https://travis-ci.org/WeltN24/Carlos)
 [![Version](https://img.shields.io/cocoapods/v/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
@@ -262,7 +262,7 @@ let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> Future<U
 let memoryLevel = MemoryCacheLevel<String, NSData>().transformKeys(imageToString)
 let diskLevel = DiskCacheLevel<String, NSData>().transformKeys(imageToString)
 let networkLevel = NetworkFetcher().transformKeys(imageToURL)
-    
+
 let cache = memoryLevel.compose(diskLevel).compose(networkLevel)
 ```
 
@@ -346,10 +346,10 @@ The `postProcess` function takes a `CacheLevel` and a `OneWayTransformer` with `
 ```swift
 // Let's create a simple "to uppercase" transformer
 let transformer = OneWayTransformationBox<NSString, String>(transform: { Future($0.uppercased() as String) })
-    
+
 // Our memory cache
 let memoryCache = MemoryCacheLevel<String, NSString>()
-    
+
 // Our decorated cache
 let transformedCache = memoryCache.postProcess(transformer)
 
@@ -375,7 +375,7 @@ let processer = OneWayTransformationBox<NSData, NSData>(transform: { value in
     }).conditioned { value in
       Future(value.length < 1000)
     }
-    
+
 let cache = CacheProvider.dataCache().postProcess(processer)
 ```
 
@@ -681,13 +681,13 @@ class MyLevel: CacheLevel {
 
   func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {  
  	let promise = Promise<OutputType>()
- 
+
     // Store the value (db, memory, file, etc) and call this on completion:
     promise.succeed()
- 
+
     return promise.future
   }
-  
+
   func clear() {
     // Clear the stored values
   }
