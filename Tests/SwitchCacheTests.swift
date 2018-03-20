@@ -5,7 +5,7 @@ import Carlos
 import PiedPiper
 
 let switchClosure: (String) -> CacheLevelSwitchResult = { str in
-  if str.characters.count > 5 {
+  if str.count > 5 {
     return .cacheA
   } else {
     return .cacheB
@@ -33,7 +33,6 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         var fakeRequest: Promise<Int>!
-        var result: Future<Int>!
         var successValue: Int?
         var errorValue: Error?
         
@@ -50,7 +49,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "quite long key"
           
           beforeEach {
-            result = finalCache.get(key)
+            _ = finalCache.get(key)
               .onSuccess { value in
                 successValue = value
               }
@@ -108,7 +107,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            result = finalCache.get(key)
+            _ = finalCache.get(key)
               .onSuccess { value in
                 successValue = value
               }
@@ -242,7 +241,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           
           context("when set succeeds") {
             beforeEach {
-              cacheA.setPromisesReturned.first?.succeed()
+              cacheA.setPromisesReturned.first?.succeed(())
             }
             
             it("should succeed") {
@@ -296,7 +295,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           
           context("when set succeeds") {
             beforeEach {
-              cacheB.setPromisesReturned.first?.succeed()
+              cacheB.setPromisesReturned.first?.succeed(())
             }
             
             it("should succeed") {
@@ -409,7 +408,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           
           context("when set succeeds") {
             beforeEach {
-              cacheA.setPromisesReturned.first?.succeed()
+              cacheA.setPromisesReturned.first?.succeed(())
             }
             
             it("should succeed") {
@@ -438,7 +437,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            _ = finalCache.set(value, forKey: key)
           }
           
           it("should not dispatch the call to the first cache") {
@@ -513,7 +512,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "quite long key"
           
           beforeEach {
-            finalCache.set(value, forKey: key)
+            _ = finalCache.set(value, forKey: key)
           }
           
           it("should not dispatch the call to the second cache") {
@@ -554,7 +553,7 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           
           context("when set succeeds") {
             beforeEach {
-              cacheB.setPromisesReturned.first?.succeed()
+              cacheB.setPromisesReturned.first?.succeed(())
             }
             
             it("should succeed") {

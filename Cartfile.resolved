@@ -1,3 +1,3 @@
-github "Quick/Nimble" "v5.1.1"
-github "Quick/Quick" "v1.0.0"
-github "WeltN24/PiedPiper" "0.10.1"
+github "Quick/Nimble" "v7.0.3"
+github "Quick/Quick" "v1.2.0"
+github "WeltN24/PiedPiper" "b8bdd81c0a75955dae71654eaf65972b99c87ba8"

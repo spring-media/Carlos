@@ -38,7 +38,7 @@ open class NetworkFetcher: Fetcher {
     let task = URLSession.shared.dataTask(with: URL, completionHandler: { [weak self] (data, response, error) in
       guard let strongSelf = self else { return }
       
-      if let error = error as? NSError {
+      if let error = error as NSError? {
         if error.domain != NSURLErrorDomain || error.code != NSURLErrorCancelled {
           GCD.main {
             result.fail(error)

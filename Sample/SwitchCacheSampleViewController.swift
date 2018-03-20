@@ -19,8 +19,8 @@ class SwitchCacheSampleViewController: BaseCacheViewController {
     super.setupCache()
     
     let lane1 = MemoryCacheLevel<URL, NSData>()
-    lane1.set(("Yes, this is hitting the memory cache now".data(using: .utf8, allowLossyConversion: false) as NSData?)!, forKey: URL(string: "test")!)
-    lane1.set(("Carlos lets you create quite complex cache infrastructures".data(using: .utf8, allowLossyConversion: false) as NSData?)!, forKey: URL(string: "carlos")!)
+    _ = lane1.set(("Yes, this is hitting the memory cache now".data(using: .utf8, allowLossyConversion: false) as NSData?)!, forKey: URL(string: "test")!)
+    _ = lane1.set(("Carlos lets you create quite complex cache infrastructures".data(using: .utf8, allowLossyConversion: false) as NSData?)!, forKey: URL(string: "carlos")!)
     
     let lane2 = CacheProvider.dataCache()
     

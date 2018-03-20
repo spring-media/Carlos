@@ -120,7 +120,7 @@ class PostProcessSharedExamplesConfiguration: QuickConfiguration {
         let value = 222
         
         beforeEach {
-          cache.set(value, forKey: key)
+          _ = cache.set(value, forKey: key)
         }
         
         it("should forward the call to the internal cache") {

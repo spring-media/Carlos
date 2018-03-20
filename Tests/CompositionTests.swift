@@ -352,7 +352,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the set closure succeeds") {
           beforeEach {
-            cache1.setPromisesReturned[0].succeed()
+            cache1.setPromisesReturned[0].succeed(())
           }
           
           it("should call set on the second cache") {
@@ -369,7 +369,7 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the set closure succeeds") {
             beforeEach {
-              cache2.setPromisesReturned[0].succeed()
+              cache2.setPromisesReturned[0].succeed(())
             }
             
             it("should succeed the future") {
@@ -436,17 +436,15 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
       context("when calling set") {
         let key = "this key"
         let value = 102
-        var succeeded: Bool!
         var failed: Error?
         var canceled: Bool!
         
         beforeEach {
-          succeeded = false
           failed = nil
           canceled = false
           
           composedCache.set(value, forKey: key)
-            .onSuccess { _ in succeeded = true }
+            .onSuccess { _ in }
             .onFailure { failed = $0 }
             .onCancel { canceled = true }
         }
@@ -550,8 +548,8 @@ class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         context("when the set closure succeeds") {
           beforeEach {
-            cache1.setPromisesReturned.first?.succeed()
-            cache2.setPromisesReturned[0].succeed()
+            cache1.setPromisesReturned.first?.succeed(())
+            cache2.setPromisesReturned[0].succeed(())
           }
           
           it("should succeed the future") {

@@ -203,7 +203,7 @@ class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
           
           context("when the set succeeds") {
             beforeEach {
-              internalCache.setPromisesReturned.first?.succeed()
+              internalCache.setPromisesReturned.first?.succeed(())
             }
             
             it("should succeed") {

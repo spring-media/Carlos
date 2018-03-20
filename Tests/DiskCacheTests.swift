@@ -46,7 +46,7 @@ class DiskCacheTests: QuickSpec {
           beforeEach {
             failureSentinel = nil
             
-            cache.set(value as NSData, forKey: key)
+            _ = cache.set(value as NSData, forKey: key)
           }
           
           context("when getting the value for another key") {
@@ -112,7 +112,7 @@ class DiskCacheTests: QuickSpec {
           let newValue = "another value".data(using: .utf8, allowLossyConversion: false)!
           
           beforeEach {
-            cache.set(newValue as NSData, forKey: key)
+            _ = cache.set(newValue as NSData, forKey: key)
           }
           
           it("should keep the key on disk") {
@@ -144,7 +144,7 @@ class DiskCacheTests: QuickSpec {
           
           beforeEach {
             for (key, value) in zip(otherKeys, otherValues) {
-              cache.set(value.data(using: .utf8, allowLossyConversion: false)! as NSData, forKey: key)
+              _ = cache.set(value.data(using: .utf8, allowLossyConversion: false)! as NSData, forKey: key)
             }
           }
           

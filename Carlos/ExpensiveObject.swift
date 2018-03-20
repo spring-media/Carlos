@@ -23,7 +23,7 @@ extension NSData: ExpensiveObject {
 extension String: ExpensiveObject {
   /// The number of characters of the string
   public var cost: Int {
-    return self.characters.count
+    return self.count
   }
 }
 

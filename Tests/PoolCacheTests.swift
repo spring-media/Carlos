@@ -209,7 +209,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         
         context("when set succeeds") {
           beforeEach {
-            internalCache.setPromisesReturned.first?.succeed()
+            internalCache.setPromisesReturned.first?.succeed(())
           }
           
           it("should succeed") {
@@ -235,8 +235,8 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         
         context("when calling it multiple times") {
           beforeEach {
-            cache.set(value, forKey: key)
-            cache.set(value, forKey: key)
+            _ = cache.set(value, forKey: key)
+            _ = cache.set(value, forKey: key)
           }
           
           it("should not pool these calls") {

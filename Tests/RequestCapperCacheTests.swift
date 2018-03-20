@@ -26,7 +26,6 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
       context("when calling get") {
         let key = "test-key"
         let value = 10211
-        var pendingRequest: Future<Int>!
         var successSentinel: Bool?
         var failureSentinel: Bool?
         var successValue: Int?
@@ -39,7 +38,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
           requestToReturn = Promise<Int>()
           internalCache.cacheRequestToReturn = requestToReturn.future
           
-          pendingRequest = cache.get(key).onSuccess({ value in
+          cache.get(key).onSuccess({ value in
             successSentinel = true
             successValue = value
           }).onFailure({ _ in
@@ -268,7 +267,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
         
         context("when set succeeds") {
           beforeEach {
-            internalCache.setPromisesReturned.first?.succeed()
+            internalCache.setPromisesReturned.first?.succeed(())
           }
           
           it("should succeed") {
@@ -300,7 +299,7 @@ class RequestCappingSharedExamplesConfiguration: QuickConfiguration {
             internalCache.numberOfTimesCalledSet = 0
             
             for _ in 0..<moreTimes {
-              cache.set(value, forKey: key)
+              _ = cache.set(value, forKey: key)
             }
           }
           

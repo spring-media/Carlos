@@ -30,7 +30,7 @@ class UserDefaultsCacheSampleViewController: BaseCacheViewController {
     ]
     
     for (key, value) in values {
-      cache.set(value as NSData, forKey: key)
+      _ = cache.set(value as NSData, forKey: key)
     }
     
     let prepopulatingMessage = values.reduce("", { accumulator, value in
