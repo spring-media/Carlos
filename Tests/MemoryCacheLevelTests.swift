@@ -35,7 +35,7 @@ class MemoryCacheLevelTests: QuickSpec {
           beforeEach {
             failureSentinel = nil
             
-            cache.set(value as NSString, forKey: key)
+            _ = cache.set(value as NSString, forKey: key)
           }
           
           context("when getting the value for another key") {
@@ -96,7 +96,7 @@ class MemoryCacheLevelTests: QuickSpec {
           let newValue = "another value"
           
           beforeEach {
-            cache.set(newValue as NSString, forKey: key)
+            _ = cache.set(newValue as NSString, forKey: key)
           }
           
           context("when calling get") {
@@ -120,7 +120,7 @@ class MemoryCacheLevelTests: QuickSpec {
           
           beforeEach {
             for (key, value) in zip(otherKeys, otherValues) {
-              cache.set(value as NSString, forKey: key)
+              _ = cache.set(value as NSString, forKey: key)
             }
           }
           

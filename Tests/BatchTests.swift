@@ -61,7 +61,7 @@ class BatchAllCacheTests: QuickSpec {
           let error = TestError.anotherError
           
           beforeEach {
-            internalCache.setPromisesReturned[0].succeed()
+            internalCache.setPromisesReturned[0].succeed(())
             internalCache.setPromisesReturned[1].fail(error)
           }
           
@@ -72,7 +72,7 @@ class BatchAllCacheTests: QuickSpec {
         
         context("when one of the set calls is canceled") {
           beforeEach {
-            internalCache.setPromisesReturned[0].succeed()
+            internalCache.setPromisesReturned[0].succeed(())
             internalCache.setPromisesReturned[1].cancel()
           }
           
@@ -83,9 +83,9 @@ class BatchAllCacheTests: QuickSpec {
         
         context("when all the set calls succeed") {
           beforeEach {
-            internalCache.setPromisesReturned[0].succeed()
-            internalCache.setPromisesReturned[1].succeed()
-            internalCache.setPromisesReturned[2].succeed()
+            internalCache.setPromisesReturned[0].succeed(())
+            internalCache.setPromisesReturned[1].succeed(())
+            internalCache.setPromisesReturned[2].succeed(())
           }
           
           it("should succeed the whole future") {

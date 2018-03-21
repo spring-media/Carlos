@@ -1,9 +1,9 @@
 import Foundation
 import PiedPiper
 
-internal struct CarlosGlobals {
-  static let QueueNamePrefix = "com.carlos."
-  static let Caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
+public struct CarlosGlobals {
+  public static let QueueNamePrefix = "com.carlos."
+  public static let Caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
 }
 
 internal func wrapClosureIntoFetcher<A, B>(_ closure: @escaping (_ key: A) -> Future<B>) -> BasicFetcher<A, B> {
@@ -65,6 +65,6 @@ extension Fetcher {
   
   /// No-op
   public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
-    return Future()
+    return Future(())
   }
 }

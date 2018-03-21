@@ -49,7 +49,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     
     _ = try? fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: [:])
     
-    cacheQueue.async { Void -> Void in
+    cacheQueue.async { () -> Void in
       self.calculateSize()
       self.controlCapacity()
     }
@@ -64,7 +64,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   public func set(_ value: T, forKey key: K) -> Future<()> {
     let result = Promise<()>()
     
-    cacheQueue.async { Void -> Void in
+    cacheQueue.async { () -> Void in
       Logger.log("Setting a value for the key \(key.toString()) on the disk cache \(self)")
       result.mimic(self.setDataSync(value, key: key))
     }
@@ -82,7 +82,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   public func get(_ key: KeyType) -> Future<OutputType> {
     let request = Promise<OutputType>()
     
-    cacheQueue.async { Void -> Void in
+    cacheQueue.async { () -> Void in
       let path = self.pathForKey(key)
       
       if let obj = NSKeyedUnarchiver.su_unarchiveObject(withFilePath: path) as? T {
@@ -111,7 +111,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   All the cached files will be removed from the disk storage
   */
   public func clear() {
-    cacheQueue.async { Void -> Void in
+    cacheQueue.async { () -> Void in
       self.itemsInDirectory(self.path).forEach { filePath in
         _ = try? self.fileManager.removeItem(atPath: filePath)
       }
@@ -173,7 +173,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         size -= previousSize - newSize
       }
       
-      result.succeed()
+      result.succeed(())
     } else {
       Logger.log("Failed to write key \(key.toString()) on the disk cache", .Error)
       result.fail(DiskCacheLevelError.diskArchiveWriteFailed)

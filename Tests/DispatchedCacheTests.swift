@@ -127,7 +127,7 @@ class DispatchedSharedExamplesConfiguration: QuickConfiguration {
         //TODO: Find a way to call succeed() and fail(_) after some time to take into account the gcd.async call
         pending("when set succeeds") {
           beforeEach {
-            internalCache.setPromisesReturned.first?.succeed()
+            internalCache.setPromisesReturned.first?.succeed(())
           }
           
           it("should succeed") {

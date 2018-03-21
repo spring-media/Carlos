@@ -185,7 +185,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         let value = 201
         
         beforeEach {
-          cache.set(value, forKey: key)
+          _ = cache.set(value, forKey: key)
         }
         
         it("should forward the call to the internal cache") {
@@ -234,7 +234,7 @@ class ConditionedCacheTests: QuickSpec {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     let closure: ((String) -> Future<Bool>) = { key in
-      if key.characters.count >= 5 {
+      if key.count >= 5 {
         return Future(true)
       } else {
         return Future(ConditionError.MyError)

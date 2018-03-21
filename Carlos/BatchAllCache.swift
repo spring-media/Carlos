@@ -27,7 +27,7 @@ public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLeve
   public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
     return zip(value, key)
       .map(cache.set)
-      .reduce(Future<()>(), { previous, current in
+      .reduce(Future<()>(()), { previous, current in
         previous.flatMap { current }
       })
   }
@@ -47,7 +47,7 @@ extension CacheLevel {
    each k in Sequence<K> is dispatched in parallel and if any K fails,
    it all fails
    */
-  public func allBatch<KeySeq: Sequence>() -> BatchAllCache<KeySeq, Self> where KeySeq.Iterator.Element == Self.KeyType  {
+  public func allBatch<KeySeq: Sequence>() -> BatchAllCache<KeySeq, Self> {
     return BatchAllCache(cache: self)
   }
 }

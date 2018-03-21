@@ -8,7 +8,7 @@ Keep in mind that using this domain for multiple cache levels at the same time c
 For example, if one of the cache levels get cleared, also the other will be affected unless they save something before leaving the app.
 The behavior is not 100% certain and this possibility is discouraged.
 */
-private let DefaultUserDefaultsDomainName = "CarlosPersistentDomain"
+public let DefaultUserDefaultsDomainName = "CarlosPersistentDomain"
 
 /// This class is a NSUserDefaults cache level. It has a configurable domain name so that multiple levels can be included in the same sandboxed app.
 public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel {
@@ -65,7 +65,7 @@ public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: 
       internalDomain = softCache
       userDefaults.setPersistentDomain(softCache, forName: domainName)
       
-      result.succeed()
+      result.succeed(())
     }
     
     return result.future

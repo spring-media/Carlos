@@ -57,7 +57,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
     Logger.log("Setting a value for the key \(key.toString()) on the memory cache \(self)")
     internalCache.setObject(value, forKey: key.toString() as NSString, cost: value.cost)
     
-    return Future()
+    return Future(())
   }
   
   /**

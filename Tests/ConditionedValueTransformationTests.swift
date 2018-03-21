@@ -237,7 +237,7 @@ class ConditionedValueTransformationSharedExamplesConfiguration: QuickConfigurat
           
           context("when the set closure succeeds") {
             beforeEach {
-              internalCache.setPromisesReturned[0].succeed()
+              internalCache.setPromisesReturned[0].succeed(())
             }
             
             it("should succeed the future") {

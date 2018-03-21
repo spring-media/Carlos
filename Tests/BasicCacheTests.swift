@@ -142,7 +142,7 @@ class BasicCacheTests: QuickSpec {
         
         context("when the set closure succeeds") {
           beforeEach {
-            setResult.succeed()
+            setResult.succeed(())
           }
           
           it("should succeed the future") {
