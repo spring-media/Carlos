@@ -8,6 +8,12 @@ public protocol StringConvertible {
   func toString() -> String
 }
 
+extension StringConvertible {
+  public func toString() -> String {
+    return "Nan"
+  }
+}
+
 extension String: StringConvertible {
   /**
   - returns: The value itself
