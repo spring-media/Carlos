@@ -30,10 +30,10 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
     let request = Promise<T>()
     
     if let result = internalCache.object(forKey: key.toString() as NSString) as? T {
-      Logger.log("Fetched \(key.toString()) on memory level. Queue - \(OperationQueue.current.debugDescription)")
+      Logger.log("MemoryCacheLevel| Fetched \(key.toString()) on memory level. Queue - \(OperationQueue.current.debugDescription)")
       request.succeed(result)
     } else {
-      Logger.log("Failed fetching \(key.toString()) on the memory cache. Queue - \(OperationQueue.current.debugDescription)")
+      Logger.log("MemoryCacheLevel| Failed fetching \(key.toString()) on the memory cache. Queue - \(OperationQueue.current.debugDescription)")
       request.fail(FetchError.valueNotInCache)
     }
     
@@ -54,7 +54,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
   - parameter key: The key for the value
   */
   public func set(_ value: T, forKey key: K) -> Future<()> {
-    Logger.log("Setting a value for the key \(key.toString()) on the memory cache \(self). Queue - \(OperationQueue.current.debugDescription)")
+    Logger.log("MemoryCacheLevel| Setting a value for the key \(key.toString()) on the memory cache \(self). Queue - \(OperationQueue.current.debugDescription)")
     internalCache.setObject(value, forKey: key.toString() as NSString, cost: value.cost)
     
     return Future(())
