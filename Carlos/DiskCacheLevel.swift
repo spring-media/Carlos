@@ -65,7 +65,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     let result = Promise<()>()
     
     cacheQueue.async { () -> Void in
-      Logger.log("Setting a value for the key \(key.toString()) on the disk cache \(self)")
+      Logger.log("DiskCacheLevel| Setting a value for the key \(key.toString()) on the disk cache \(self)", .Info)
       result.mimic(self.setDataSync(value, key: key))
     }
     
@@ -86,7 +86,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
       let path = self.pathForKey(key)
       
       if let obj = NSKeyedUnarchiver.su_unarchiveObject(withFilePath: path) as? T {
-        Logger.log("Fetched \(key.toString()) on disk level")
+        Logger.log("DiskCacheLevel| Fetched \(key.toString()) on disk level", .Info)
         GCD.main {
           request.succeed(obj)
         }
@@ -95,7 +95,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         // Remove the file (maybe corrupted)
         _ = try? self.fileManager.removeItem(atPath: path)
         
-        Logger.log("Failed fetching \(key.toString()) on the disk cache")
+        Logger.log("DiskCacheLevel| Failed fetching \(key.toString()) on the disk cache", .Info)
         GCD.main {
           request.fail(FetchError.valueNotInCache)
         }
@@ -175,7 +175,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
       
       result.succeed(())
     } else {
-      Logger.log("Failed to write key \(key.toString()) on the disk cache", .Error)
+      Logger.log("DiskCacheLevel| Failed to write key \(key.toString()) on the disk cache", .Error)
       result.fail(DiskCacheLevelError.diskArchiveWriteFailed)
     }
     
