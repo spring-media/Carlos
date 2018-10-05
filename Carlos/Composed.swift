@@ -12,15 +12,26 @@ extension CacheLevel {
   */
   public func compose<A: CacheLevel>(_ cache: A) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == KeyType, A.OutputType == OutputType {
     return BasicCache(
-      getClosure: { key in
+      getClosure: {[weak self] key in
         let request = Promise<A.OutputType>()
+        guard let strongSelf = self else {
+          return request.future
+        }
         
-        self.get(key)
+        Logger.log("Composed| trying to get value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .Info)
+        strongSelf.get(key)
           .onSuccess(request.succeed)
           .onCancel(request.cancel)
           .onFailure { error in
-            request.mimic(cache.get(key).map { result in
-              self.set(result, forKey: key)
+            Logger.log("Composed| error on getting value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .Info)
+            
+            request.mimic(cache.get(key).map {[weak self] result in
+              guard let strongSelf = self else {
+                return result
+              }
+              
+              Logger.log("Composed| trying to set value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .Info)
+              strongSelf.set(result, forKey: key)
               return result
             })
         }

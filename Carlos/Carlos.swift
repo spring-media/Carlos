@@ -15,7 +15,7 @@ internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: @esca
 }
 
 /// An abstraction for a generic cache level
-public protocol CacheLevel {
+public protocol CacheLevel: class {
   /// A typealias for the key the cache level accepts
   associatedtype KeyType
   
