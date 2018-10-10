@@ -30,7 +30,7 @@ extension CacheLevel {
             completedRequests += 1
             
             if completedRequests == keys.count {
-              resultPromise.succeed(intermediateResults.flatMap { $0 })
+              resultPromise.succeed(intermediateResults.compactMap { $0 })
             }
           }
         }
