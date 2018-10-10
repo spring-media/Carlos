@@ -28,7 +28,7 @@ class ImageTransformerTests: QuickSpec {
           beforeEach {
             imageSample = UIImage(named: "swift-og", in: Bundle(for: type(of: self)), compatibleWith: nil)
             
-            transformer.transform(UIImagePNGRepresentation(imageSample)! as NSData)
+            transformer.transform(imageSample.pngData()! as NSData)
               .onSuccess({ result = $0 })
               .onFailure({ error = $0 })
           }
@@ -42,7 +42,7 @@ class ImageTransformerTests: QuickSpec {
           }
           
           it("should return the expected data") {
-            expect(UIImagePNGRepresentation(result!)).toEventually(equal(UIImagePNGRepresentation(imageSample)))
+            expect(result!.pngData()).toEventually(equal(imageSample.pngData()))
           }
         }
         
@@ -84,7 +84,7 @@ class ImageTransformerTests: QuickSpec {
         }
         
         it("should return the expected data") {
-          expect(result).toEventually(equal(UIImagePNGRepresentation(imageSample) as NSData?))
+          expect(result).toEventually(equal(imageSample.pngData() as NSData?))
         }
       }
     }

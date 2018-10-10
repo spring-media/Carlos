@@ -14,7 +14,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
       var transformer: OneWayTransformationBox<String, Int>!
       
       beforeEach {
-        transformer = sharedExampleContext()[ConditionedTransformerSharedExamplesContext.TransformerToTest] as? OneWayTransformationBox<String, Int>!
+        transformer = sharedExampleContext()[ConditionedTransformerSharedExamplesContext.TransformerToTest] as? OneWayTransformationBox<String, Int>
       }
       
       context("when calling transform") {
@@ -122,7 +122,7 @@ class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
       var transformer: TwoWayTransformationBox<String, Int>!
       
       beforeEach {
-        transformer = sharedExampleContext()[ConditionedTransformerSharedExamplesContext.TransformerToTest] as? TwoWayTransformationBox<String, Int>!
+        transformer = sharedExampleContext()[ConditionedTransformerSharedExamplesContext.TransformerToTest] as? TwoWayTransformationBox<String, Int>
       }
       
       itBehavesLike("a conditioned one-way transformer") {

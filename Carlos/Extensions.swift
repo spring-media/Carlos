@@ -6,8 +6,8 @@ extension String {
     guard let messageData = self.data(using:.utf8) else {
       return nil
     }
-    var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
     
+    var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
     _ = digestData.withUnsafeMutableBytes { digestBytes in
       messageData.withUnsafeBytes { messageBytes in
         CC_MD5(messageBytes, CC_LONG(messageData.count), digestBytes)
