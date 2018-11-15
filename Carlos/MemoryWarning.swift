@@ -9,12 +9,13 @@ extension CacheLevel where Self: AnyObject {
   public func listenToMemoryWarnings() -> NSObjectProtocol {
     #if os(macOS)
         let source = DispatchSource.makeMemoryPressureSource(eventMask: [.warning, .critical])
-        source.setEventHandler { [weak self] _ in
-            self?.onMemoryWarning()
-        }
+        let workItem = DispatchWorkItem(block:{ [weak self] in
+          self?.onMemoryWarning()
+        })
+        source.setEventHandler(handler: workItem)
         return source
     #else
-        return NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil, queue: OperationQueue.main, using: { [weak self] _ in
+    return NotificationCenter.default.addObserver(forName: UIApplication.didReceiveMemoryWarningNotification, object: nil, queue: OperationQueue.main, using: { [weak self] _ in
             self?.onMemoryWarning()
         })
     #endif
@@ -32,6 +33,6 @@ public func unsubscribeToMemoryWarnings(_ token: NSObjectProtocol) {
             source.cancel()
         }
     #else
-        NotificationCenter.default.removeObserver(token, name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+  NotificationCenter.default.removeObserver(token, name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
     #endif
 }

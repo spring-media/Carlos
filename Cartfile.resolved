@@ -1,3 +1,3 @@
-github "Quick/Nimble" "v7.0.3"
-github "Quick/Quick" "v1.2.0"
-github "WeltN24/PiedPiper" "b8bdd81c0a75955dae71654eaf65972b99c87ba8"
+github "Quick/Nimble" "v7.3.1"
+github "Quick/Quick" "v1.3.2"
+github "spring-media/PiedPiper" "de0a7ba6284bd7a45e1c543de548c7440f8cc98f"

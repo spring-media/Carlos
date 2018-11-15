@@ -32,6 +32,6 @@ class MemoryWarningSampleViewController: BaseCacheViewController {
   }
   
   @IBAction func simulateMemoryWarning(_ sender: AnyObject) {
-    NotificationCenter.default.post(name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+    NotificationCenter.default.post(name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
   }
 }

@@ -14,12 +14,15 @@ extension CacheLevel {
     return BasicCache(
       getClosure: { key in
         let request = Promise<A.OutputType>()
-        
+        Logger.log("Composed| trying to get value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .Info)
         self.get(key)
           .onSuccess(request.succeed)
           .onCancel(request.cancel)
           .onFailure { error in
+            Logger.log("Composed| error on getting value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .Info)
+            
             request.mimic(cache.get(key).map { result in
+              Logger.log("Composed| trying to set value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .Info)
               self.set(result, forKey: key)
               return result
             })

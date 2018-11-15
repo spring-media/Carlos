@@ -60,12 +60,12 @@ public final class ImageTransformer: TwoWayTransformer {
     GCD.background { () -> Data? in
       #if os(macOS)
         if let rep = val.tiffRepresentation, let bitmapImageRep = NSBitmapImageRep(data: rep) {
-            return bitmapImageRep.representation(using: .PNG, properties: [:])
+          return bitmapImageRep.representation(using: .png, properties: [:])
         }
         return nil
       #else
       /* This is a waste of bytes, we should probably use a lower-level framework */
-        return UIImagePNGRepresentation(val)
+      return val.pngData()
       #endif
     }.main { data in
       if let data = data {
