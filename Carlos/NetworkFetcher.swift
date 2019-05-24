@@ -83,7 +83,7 @@ open class NetworkFetcher: Fetcher {
   }
 
   private func removePendingRequests(_ request: Future<OutputType>) {
-    if let idx = lock.withReadLock({ self.pendingRequests.index(where: { $0 === request }) }) {
+    if let idx = lock.withReadLock({ self.pendingRequests.firstIndex(where: { $0 === request }) }) {
       _ = lock.withWriteLock {
         self.pendingRequests.remove(at: idx)
       }
