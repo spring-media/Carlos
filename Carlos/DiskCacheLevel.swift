@@ -93,9 +93,10 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         _ = self.updateDiskAccessDateAtPath(path)
       } else {
         // Remove the file (maybe corrupted)
+        Logger.log("DiskCacheLevel| Failed fetching \(key.toString()) in path: \(path) on the disk cache", .Info)
+        
         _ = try? self.fileManager.removeItem(atPath: path)
         
-        Logger.log("DiskCacheLevel| Failed fetching \(key.toString()) on the disk cache", .Info)
         GCD.main {
           request.fail(FetchError.valueNotInCache)
         }
