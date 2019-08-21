@@ -128,7 +128,15 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   }
   
   private func pathForKey(_ key: K) -> String {
-    return (path as NSString).appendingPathComponent(key.toString().MD5String())
+    let md5PathComponent = key.toString().MD5String()
+    let strippedMd5PathComponent = stripSpecialCharactersForPath(from: md5PathComponent)
+    
+    return (path as NSString).appendingPathComponent(strippedMd5PathComponent)
+  }
+  
+  private func stripSpecialCharactersForPath(from string: String) -> String {
+    let okayChars = Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890")
+    return string.filter {okayChars.contains($0) }
   }
   
   private func sizeForFileAtPath(_ filePath: String) -> UInt64 {
