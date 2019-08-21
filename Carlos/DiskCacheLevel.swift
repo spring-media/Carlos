@@ -136,7 +136,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   
   private func stripSpecialCharactersForPath(from string: String) -> String {
     let okayChars = Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890")
-    return string.filter {okayChars.contains($0) }
+    return string.filter { okayChars.contains($0) }
   }
   
   private func sizeForFileAtPath(_ filePath: String) -> UInt64 {
