@@ -3,18 +3,14 @@ import CommonCrypto
 
 extension String {
   func MD5Data() -> Data? {
-    guard let messageData = self.data(using:.utf8) else {
-      return nil
+    let data = Data(self.utf8)
+    let hash = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> [UInt8] in
+      var hash = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
+      CC_MD5(bytes.baseAddress, CC_LONG(data.count), &hash)
+      return hash
     }
     
-    var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
-    _ = digestData.withUnsafeMutableBytes { digestBytes in
-      messageData.withUnsafeBytes { messageBytes in
-        CC_MD5(messageBytes, CC_LONG(messageData.count), digestBytes)
-      }
-    }
-    
-    return digestData
+    return Data(bytes: hash, count: hash.count)
   }
   
   func MD5String() -> String {
