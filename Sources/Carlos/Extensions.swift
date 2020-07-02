@@ -1,7 +1,7 @@
 import Foundation
 import CommonCrypto
 
-extension String {
+public extension String {
   func MD5Data() -> Data? {
     let data = Data(self.utf8)
     let hash = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> [UInt8] in

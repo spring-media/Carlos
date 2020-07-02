@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-@testable import Carlos
+import Carlos
 
 class StringTransformerTests: QuickSpec {
   override func spec() {

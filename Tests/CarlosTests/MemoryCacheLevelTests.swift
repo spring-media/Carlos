@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-@testable import Carlos
+import Carlos
 
 class MemoryCacheLevelTests: QuickSpec {
   override func spec() {

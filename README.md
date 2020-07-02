@@ -1,12 +1,12 @@
 # Carlos
 
-[![Build Status](https://travis-ci.org/WeltN24/Carlos.svg?branch=master)](https://travis-ci.org/WeltN24/Carlos)
+[![Build Status](https://travis-ci.org/spring-media/Carlos.svg?branch=master)](https://travis-ci.org/spring-media/Carlos)
 [![Version](https://img.shields.io/cocoapods/v/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Platform](https://img.shields.io/cocoapods/p/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 
-> A simple but flexible cache, written in Swift for `iOS 8+` and `WatchOS 2` apps.
+> A simple but flexible cache, written in Swift for `iOS 10+` and `WatchOS 3` apps.
 
 # Contents of this Readme
 
@@ -87,7 +87,7 @@ If you don't use CocoaPods, you can still add `Carlos` as a submodule, drag and 
 - Drag `Carlos.xcodeproj` to your project
 - Select your app target
 - Click the `+` button on the `Embedded binaries` section
-- Add `Carlos.framework` (for `WatchOS 2` apps, use `CarlosWatch.framework`)
+- Add `Carlos.framework`
 
 ### Carthage
 
@@ -99,7 +99,7 @@ You can directly drag and drop the needed files into your project, but keep in m
 
 The files are contained in the `Carlos` folder.
 
-If you want to integrate `Carlos` in a WatchOS 2 app, please don't include the file `MemoryWarning.swift`.
+If you want to integrate `Carlos` in a WatchOS 3 app, please don't include the file `MemoryWarning.swift`.
 
 ## Playground
 
@@ -115,9 +115,9 @@ To use our Playground, please follow these steps:
 
 ## Requirements
 
-- iOS 8.0+
-- WatchOS 2+
-- Xcode 8.0+
+- iOS 10.0+
+- WatchOS 3+
+- Xcode 11.5+
 
 ## Usage
 

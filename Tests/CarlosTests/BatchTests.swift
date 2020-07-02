@@ -1,5 +1,5 @@
 import Foundation
-@testable import Carlos
+import Carlos
 import Quick
 import Nimble
 import PiedPiper

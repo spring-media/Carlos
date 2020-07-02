@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-@testable import Carlos
+import Carlos
 
 private func filesInDirectory(directory: String) -> [String] {
   let result = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []

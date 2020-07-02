@@ -1,7 +1,7 @@
 import Foundation
 import Quick
 import Nimble
-@testable import Carlos
+import Carlos
 
 class NSUserDefaultsCacheLevelTests: QuickSpec {
   override func spec() {

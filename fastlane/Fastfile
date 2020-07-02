@@ -1,11 +1,11 @@
 # https://github.com/KrauseFx/fastlane/tree/master/docs
 # All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
 
-fastlane_version "1.68.0"
+fastlane_version "2.140"
 
 desc "Runs all the tests"
 lane :test do
   ENV["FASTLANE_XCODE_LIST_TIMEOUT"] = "30"
   clear_derived_data
-  scan(scheme: 'Carlos')
+  spm(command: "test", configuration: "release")
 end
