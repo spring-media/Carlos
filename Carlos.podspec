@@ -16,14 +16,15 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { "Vittorio Monaco" => "vittorio.monaco1@gmail.com" }
   s.source           = { :git => "https://github.com/spring-media/Carlos.git", :tag => s.version.to_s }
+  s.swift_version    = '5.0'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target     = '10.0'
   s.watchos.deployment_target = '3.0'
 
-  s.dependency 'PiedPiper', '~> 0.11.0'
-
-  s.source_files = 'Carlos/*.swift'
+  s.source_files          = 'Carlos/*.swift'
   s.watchos.exclude_files = 'Carlos/MemoryWarning.swift'
+
+  s.dependency 'PiedPiper', '~> 0.11.0'
 
   s.requires_arc = true
 end
