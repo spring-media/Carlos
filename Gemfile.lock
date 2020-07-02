@@ -127,6 +127,7 @@ GEM
     os (1.1.0)
     plist (3.5.0)
     public_suffix (4.0.5)
+    rake (13.0.1)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -173,6 +174,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane (~> 2.140)
+  rake
 
 BUNDLED WITH
    1.16.2
