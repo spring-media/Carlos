@@ -14,9 +14,9 @@
         "package": "PiedPiper",
         "repositoryURL": "https://github.com/spring-media/PiedPiper.git",
         "state": {
-          "branch": "feature/swift-package-manager-support",
-          "revision": "a9c3d5fe505724ad6ea88e97dde1e49818a374da",
-          "version": null
+          "branch": null,
+          "revision": "c131cda647d2e4db222db0b49ad38eb7555edc8f",
+          "version": "0.11.0"
         }
       },
       {

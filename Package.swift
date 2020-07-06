@@ -16,7 +16,7 @@ let package = Package(
       targets: ["Carlos"]),
   ],
   dependencies: [
-    .package(url:  "https://github.com/spring-media/PiedPiper.git", .branch("feature/swift-package-manager-support")),
+    .package(url:  "https://github.com/spring-media/PiedPiper.git", .upToNextMajor(from: "0.11.0")),
     .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.0.1"))
   ],
