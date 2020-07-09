@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0
+- Swift Package Manager Support 
+- Xcode 11.5 Migration
+
 ## 0.9
 
 **Breaking changes**
