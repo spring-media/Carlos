@@ -12,11 +12,11 @@
       },
       {
         "package": "PiedPiper",
-        "repositoryURL": "https://github.com/spring-media/PiedPiper.git",
+        "repositoryURL": "https://github.com/spring-media/PiedPiper",
         "state": {
-          "branch": null,
-          "revision": "c131cda647d2e4db222db0b49ad38eb7555edc8f",
-          "version": "0.11.0"
+          "branch": "feature/update-quick-and-nimble",
+          "revision": "930b838d3177c7b89bb9ab65e1345c93cafd359e",
+          "version": null
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/Quick/Quick.git",
         "state": {
           "branch": null,
-          "revision": "09b3becb37cb2163919a3842a4c5fa6ec7130792",
-          "version": "2.2.1"
+          "revision": "0038bcbab4292f3b028632556507c124e5ba69f3",
+          "version": "3.0.0"
         }
       }
     ]

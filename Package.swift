@@ -16,9 +16,9 @@ let package = Package(
       targets: ["Carlos"]),
   ],
   dependencies: [
-    .package(url:  "https://github.com/spring-media/PiedPiper.git", .upToNextMajor(from: "0.11.0")),
-    .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "2.0.0")),
-    .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.0.1"))
+    .package(url: "https://github.com/spring-media/PiedPiper", .branch("feature/update-quick-and-nimble")),
+    .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
+    .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.1.0")),
   ],
   targets: [
     .target(
