@@ -14,8 +14,8 @@
         "package": "PiedPiper",
         "repositoryURL": "https://github.com/spring-media/PiedPiper",
         "state": {
-          "branch": "feature/update-quick-and-nimble",
-          "revision": "930b838d3177c7b89bb9ab65e1345c93cafd359e",
+          "branch": "master",
+          "revision": "f242a4ab4ca5279062046cd00e15c991305366e2",
           "version": null
         }
       },
