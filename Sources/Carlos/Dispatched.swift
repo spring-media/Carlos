@@ -1,5 +1,7 @@
 import Foundation
-import PiedPiper
+
+import OpenCombine
+import OpenCombineDispatch
 
 extension CacheLevel {
   /**
@@ -10,32 +12,22 @@ extension CacheLevel {
   - returns: A new CacheLevel that dispatches all the operations on the given GCD queue
   */
   public func dispatch(_ queue: DispatchQueue) -> BasicCache<KeyType, OutputType> {
-    let gcd = GCD(queue: queue)
-    
     return BasicCache(
       getClosure: { key in
-        let result = Promise<OutputType>()
-        
-        gcd.async {
-          result.mimic(self.get(key))
-        }
-        
-        return result.future
+        self.get(key)
+          .receive(on: queue.ocombine)
+          .eraseToAnyPublisher()
       },
       setClosure: { (value, key) in
-        let result = Promise<()>()
-        
-        gcd.async {
-          result.mimic(self.set(value, forKey: key))
-        }
-        
-        return result.future
+        self.set(value, forKey: key)
+          .receive(on: queue.ocombine)
+          .eraseToAnyPublisher()
       },
       clearClosure: {
-        gcd.async(self.clear)
+        queue.async { self.clear() }
       },
       memoryClosure: {
-        gcd.async(self.onMemoryWarning)
+        queue.async { self.onMemoryWarning() }
       }
     )
   }

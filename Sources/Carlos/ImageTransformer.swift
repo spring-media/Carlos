@@ -1,5 +1,8 @@
 import Foundation
-import PiedPiper
+
+import OpenCombine
+import OpenCombineDispatch
+
 #if os(macOS)
     import Cocoa
     public typealias CarlosImage = NSImage
@@ -31,20 +34,16 @@ public final class ImageTransformer: TwoWayTransformer {
   
   - returns: A Future<UIImage> object
   */
-  public func transform(_ val: TypeIn) -> Future<TypeOut> {
-    let result = Promise<TypeOut>()
-    
-    GCD.background {
-      CarlosImage(data: val as Data)
-    }.main { image in
-      if let image = image {
-        result.succeed(image)
+  public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
+    DispatchQueue.global().publisher { promise in
+      if let image = CarlosImage(data: val as Data) {
+        promise(.success(image))
       } else {
-        result.fail(TransformationError.invalidData)
+        promise(.failure(TransformationError.invalidData))
       }
     }
-    
-    return result.future
+    .receive(on: DispatchQueue.main.ocombine)
+    .eraseToAnyPublisher()
   }
   
   /**
@@ -54,27 +53,27 @@ public final class ImageTransformer: TwoWayTransformer {
   
   - returns: A Future<NSData> instance obtained with UIImagePNGRepresentation
   */
-  public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
-    let result = Promise<TypeIn>()
-    
-    GCD.background { () -> Data? in
+  public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
+    DispatchQueue.global().publisher { promise in
       #if os(macOS)
         if let rep = val.tiffRepresentation, let bitmapImageRep = NSBitmapImageRep(data: rep) {
-          return bitmapImageRep.representation(using: .png, properties: [:])
+          promise(.success(bitmapImageRep.representation(using: .png, properties: [:])))
         }
-        return nil
+        promise(.success(nil))
       #else
       /* This is a waste of bytes, we should probably use a lower-level framework */
-      return val.pngData()
+      promise(.success(val.pngData()))
       #endif
-    }.main { data in
-      if let data = data {
-        result.succeed(data as NSData)
-      } else {
-        result.fail(TransformationError.cannotConvertImage)
+    }.flatMap { (data: Data?) -> AnyPublisher<TypeIn, Error> in
+      guard let data = data else {
+        return Fail(error: TransformationError.cannotConvertImage).eraseToAnyPublisher()
       }
+      
+      return Just(data as NSData)
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
     }
-    
-    return result.future
+    .receive(on: DispatchQueue.main.ocombine)
+    .eraseToAnyPublisher()
   }
 }

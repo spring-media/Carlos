@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import OpenCombine
 import MapKit
 
 public enum NSDateFormatterError: Error {
@@ -15,12 +15,21 @@ extension DateFormatter: TwoWayTransformer {
   public typealias TypeIn = Date
   public typealias TypeOut = String
   
-  public func transform(_ val: TypeIn) -> Future<TypeOut> {
-    return Future(string(from: val))
+  public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
+    DispatchQueue.global().publisher { promise in
+      promise(.success(self.string(from: val)))
+    }
   }
   
-  public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
-    return Future(value: date(from: val), error: NSDateFormatterError.invalidInputString)
+  public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
+    DispatchQueue.global().publisher { promise in
+      guard let date = self.date(from: val) else {
+        promise(.failure(NSDateFormatterError.invalidInputString))
+        return
+      }
+      
+      promise(.success(date))
+    }
   }
 }
 
@@ -38,12 +47,26 @@ extension NumberFormatter: TwoWayTransformer {
   public typealias TypeIn = NSNumber
   public typealias TypeOut = String
   
-  public func transform(_ val: TypeIn) -> Future<TypeOut> {
-    return Future(value: string(from: val), error: NSNumberFormatterError.cannotConvertToString)
+  public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
+    DispatchQueue.global().publisher { promise in
+      guard let string = self.string(from: val) else {
+        promise(.failure(NSNumberFormatterError.cannotConvertToString))
+        return
+      }
+      
+      promise(.success(string))
+    }.eraseToAnyPublisher()
   }
   
-  public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
-    return Future(value: number(from: val), error: NSNumberFormatterError.invalidString)
+  public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
+    DispatchQueue.global().publisher { promise in
+      guard let number = self.number(from: val) else {
+        promise(.failure(NSNumberFormatterError.invalidString))
+        return
+      }
+      
+      promise(.success(number))
+    }
   }
 }
 
@@ -56,11 +79,11 @@ extension MKDistanceFormatter: TwoWayTransformer {
   public typealias TypeIn = CLLocationDistance
   public typealias TypeOut = String
   
-  public func transform(_ val: TypeIn) -> Future<TypeOut> {
-    return Future(string(fromDistance: val))
+  public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
+    DispatchQueue.global().publisher { $0(.success(self.string(fromDistance: val))) }
   }
   
-  public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
-    return Future(distance(from: val))
+  public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
+    DispatchQueue.global().publisher { $0(.success(self.distance(from: val))) }
   }
 }

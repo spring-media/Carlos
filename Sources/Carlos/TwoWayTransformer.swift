@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import OpenCombine
 
 /// Abstract an object that can transform values to another type and back to the original one
 public protocol TwoWayTransformer: OneWayTransformer {
@@ -10,7 +10,7 @@ public protocol TwoWayTransformer: OneWayTransformer {
   
   - returns: A Future that will contain the original value, or fail if the transformation failed
   */
-  func inverseTransform(_ val: TypeOut) -> Future<TypeIn>
+  func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error>
 }
 
 extension TwoWayTransformer {
@@ -36,8 +36,8 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   /// The output type of the transformation box
   public typealias TypeOut = O
   
-  private let transformClosure: (I) -> Future<O>
-  private let inverseTransformClosure: (O) -> Future<I>
+  private let transformClosure: (I) -> AnyPublisher<O, Error>
+  private let inverseTransformClosure: (O) -> AnyPublisher<I, Error>
   
   /**
   Initializes a new instance of a 2-way transformation box
@@ -45,7 +45,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   - parameter transform: The transformation closure to convert a value of type TypeIn to a value of type TypeOut
   - parameter inverseTransform: The transformation closure to convert a value of type TypeOut to a value of type TypeIn
   */
-  public init(transform: @escaping ((I) -> Future<O>), inverseTransform: @escaping ((O) -> Future<I>)) {
+  public init(transform: @escaping ((I) -> AnyPublisher<O, Error>), inverseTransform: @escaping ((O) -> AnyPublisher<I, Error>)) {
     self.transformClosure = transform
     self.inverseTransformClosure = inverseTransform
   }
@@ -57,7 +57,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   - returns: A Future that will contain the converted value, or fail if the transformation fails
   */
-  public func transform(_ val: I) -> Future<O> {
+  public func transform(_ val: I) -> AnyPublisher<O, Error> {
     return transformClosure(val)
   }
   
@@ -68,7 +68,7 @@ public final class TwoWayTransformationBox<I, O>: TwoWayTransformer {
   
   - returns: A Future that will contain the converted value, or fail if the inverse transformation fails
   */
-  public func inverseTransform(_ val: O) -> Future<I> {
+  public func inverseTransform(_ val: O) -> AnyPublisher<I, Error> {
     return inverseTransformClosure(val)
   }
 }

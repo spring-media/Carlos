@@ -1,5 +1,6 @@
 import Foundation
 import CommonCrypto
+import OpenCombine
 
 public extension String {
   func MD5Data() -> Data? {
@@ -18,5 +19,15 @@ public extension String {
       return self
     }
     return String(data: md5Data, encoding: .utf8) ?? self
+  }
+}
+
+extension DispatchQueue {
+  func publisher<Output, Failure: Error>(_ block: @escaping (Future<Output, Failure>.Promise) -> Void) -> AnyPublisher<Output, Failure> {
+      Future<Output, Failure> { promise in
+          self.async { block(promise) }
+      }
+      .receive(on: DispatchQueue.main.ocombine)
+      .eraseToAnyPublisher()
   }
 }

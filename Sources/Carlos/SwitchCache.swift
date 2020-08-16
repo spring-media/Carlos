@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+
 
 /// Convenience enumeration to specify which of two switched cache levels should be used for a get or set operation
 public enum CacheLevelSwitchResult {

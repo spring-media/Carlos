@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import OpenCombine
 
 extension CacheLevel where KeyType: Hashable {
   
@@ -21,8 +21,8 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
   public typealias OutputType = C.OutputType
   
   private let internalCache: C
-  private let lock: ReadWriteLock = PThreadReadWriteLock()
-  private var requestsPool: [C.KeyType: Future<C.OutputType>] = [:]
+  private let lock: UnfairLock
+  private var requestsPool: [C.KeyType: AnyPublisher<C.OutputType, Error>] = [:]
   
   /**
   Creates a new instance of a pooled cache
@@ -31,6 +31,7 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
   */
   public init(internalCache: C) {
     self.internalCache = internalCache
+    self.lock = UnfairLock()
   }
   
   /**
@@ -40,30 +41,27 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
   
   - returns: A Future that could either have been just created or it could have been reused from a pool of pending Futures if there is a Future for the same key going on at the moment.
   */
-  public func get(_ key: KeyType) -> Future<OutputType> {
-    let request: Future<OutputType>
-    
-    if let pooledRequest = lock.withReadLock ({ self.requestsPool[key] }) {
+  public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
+    if let pooledRequest = lock.locked({ self.requestsPool[key] }) {
       Logger.log("Using pooled request \(pooledRequest) for key \(key)")
-      request = pooledRequest
-    } else {
-      request = internalCache.get(key)
-      
-      lock.withWriteLock {
-        self.requestsPool[key] = request
-      }
-      
-      Logger.log("Creating a new request \(request) for key \(key)")
-      
-      request
-        .onCompletion { _ in
-          self.lock.withWriteLock {
-            self.requestsPool[key] = nil
-          }
-        }
+      return pooledRequest
     }
     
+    let request = internalCache.get(key)
+    
+    lock.locked {
+      self.requestsPool[key] = request
+    }
+    
+    Logger.log("Creating a new request \(request) for key \(key)")
+    
     return request
+      .handleEvents(receiveCompletion: { _ in
+        self.lock.locked {
+          self.requestsPool[key] = nil
+        }
+      })
+      .eraseToAnyPublisher()
   }
   
   /**
@@ -72,8 +70,8 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
   - parameter value: The value to set
   - parameter key: The key for the value
   */
-  public func set(_ value: C.OutputType, forKey key: C.KeyType) -> Future<()> {
-    return internalCache.set(value, forKey: key)
+  public func set(_ value: C.OutputType, forKey key: C.KeyType) -> AnyPublisher<Void, Error> {
+    internalCache.set(value, forKey: key)
   }
   
   /**

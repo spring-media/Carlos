@@ -1,5 +1,7 @@
 import Foundation
-import PiedPiper
+
+import OpenCombine
+import OpenCombineDispatch
 
 public enum DiskCacheLevelError: Error {
   case diskArchiveWriteFailed
@@ -26,8 +28,8 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     }
   }
   
-  private lazy var cacheQueue: GCDQueue = {
-    return GCD.serial("\(CarlosGlobals.QueueNamePrefix)\((self.path as NSString).lastPathComponent)")
+  private lazy var cacheQueue: DispatchQueue = {
+    return DispatchQueue(label: "\(CarlosGlobals.QueueNamePrefix)\((self.path as NSString).lastPathComponent)")
   }()
   
   /**
@@ -61,15 +63,12 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   - parameter value: The value to save on disk
   - parameter key: The key for the value
   */
-  public func set(_ value: T, forKey key: K) -> Future<()> {
-    let result = Promise<()>()
+  public func set(_ value: T, forKey key: K) -> AnyPublisher<Void, Error> {
+    Logger.log("DiskCacheLevel| Setting a value for the key \(key.toString()) on the disk cache \(self)", .Info)
     
-    cacheQueue.async { () -> Void in
-      Logger.log("DiskCacheLevel| Setting a value for the key \(key.toString()) on the disk cache \(self)", .Info)
-      result.mimic(self.setDataSync(value, key: key))
-    }
-    
-    return result.future
+    return setDataSync(value, key: key)
+      .subscribe(on: cacheQueue.ocombine)
+      .eraseToAnyPublisher()
   }
   
   /**
@@ -79,17 +78,15 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   
   - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
-  public func get(_ key: KeyType) -> Future<OutputType> {
-    let request = Promise<OutputType>()
-    
-    cacheQueue.async { () -> Void in
+  public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
+    cacheQueue.publisher { promise in
       let path = self.pathForKey(key)
       
       if let obj = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? T {
         Logger.log("DiskCacheLevel| Fetched \(key.toString()) on disk level", .Info)
-        GCD.main {
-          request.succeed(obj)
-        }
+        
+        promise(.success(obj))
+        
         _ = self.updateDiskAccessDateAtPath(path)
       } else {
         // Remove the file (maybe corrupted)
@@ -97,13 +94,12 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         
         _ = try? self.fileManager.removeItem(atPath: path)
         
-        GCD.main {
-          request.fail(FetchError.valueNotInCache)
-        }
+        promise(.failure(FetchError.valueNotInCache))
       }
     }
-    
-    return request.future
+    .subscribe(on: cacheQueue.ocombine)
+    .receive(on: DispatchQueue.main.ocombine)
+    .eraseToAnyPublisher()
   }
   
   /**
@@ -166,8 +162,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     }
   }
   
-  private func setDataSync(_ data: T, key: K) -> Future<()> {
-    let result = Promise<()>()
+  private func setDataSync(_ data: T, key: K) -> AnyPublisher<Void, Error> {
     let path = pathForKey(key)
     let previousSize = sizeForFileAtPath(path)
     
@@ -182,13 +177,13 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         size -= previousSize - newSize
       }
       
-      result.succeed(())
-    } else {
-      Logger.log("DiskCacheLevel| Failed to write key \(key.toString()) on the disk cache", .Error)
-      result.fail(DiskCacheLevelError.diskArchiveWriteFailed)
+      return Just(())
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
     }
     
-    return result.future
+    Logger.log("DiskCacheLevel| Failed to write key \(key.toString()) on the disk cache", .Error)
+    return Fail(error: DiskCacheLevelError.diskArchiveWriteFailed).eraseToAnyPublisher()
   }
   
   private func updateDiskAccessDateAtPath(_ path: String) -> Bool {

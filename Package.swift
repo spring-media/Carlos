@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.2
 
 import PackageDescription
 
@@ -16,7 +16,7 @@ let package = Package(
       targets: ["Carlos"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/spring-media/PiedPiper", .branch("master")),
+    .package(url: "https://github.com/OpenCombine/OpenCombine.git", from: "0.10.0"),
     .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
     .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.1.0")),
   ],
@@ -24,7 +24,9 @@ let package = Package(
     .target(
       name: "Carlos",
       dependencies: [
-        "PiedPiper"
+        "OpenCombine",
+        .product(name: "OpenCombineDispatch", package: "OpenCombine"),
+        .product(name: "OpenCombineFoundation", package: "OpenCombine")
       ]
     ),
     .testTarget(
@@ -33,7 +35,6 @@ let package = Package(
         "Carlos",
         "Quick",
         "Nimble",
-        "PiedPiper"
       ]
     ),
   ],

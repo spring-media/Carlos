@@ -1,5 +1,8 @@
 import Foundation
-import PiedPiper
+
+import OpenCombine
+import OpenCombineDispatch
+import OpenCombineFoundation
 
 extension CacheLevel {
   
@@ -51,17 +54,11 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   
   - returns: A Future that could either be immediately executed or deferred depending on how many requests are currently pending.
   */
-  public func get(_ key: KeyType) -> Future<OutputType> {
-    let request = Promise<OutputType>()
-    let deferredRequestOperation = DeferredResultOperation(decoyRequest: request, key: key, cache: internalCache)
-    
-    if requestsQueue.operationCount >= requestsQueue.maxConcurrentOperationCount {
-      Logger.log("Reached request cap, enqueueing request", .Info)
-    }
-    
-    requestsQueue.addOperation(deferredRequestOperation)
-    
-    return request.future
+  public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
+    internalCache
+      .get(key)
+      .receive(on: requestsQueue.ocombine)
+      .eraseToAnyPublisher()
   }
   
   /**
@@ -71,7 +68,7 @@ public final class RequestCapperCache<C: CacheLevel>: CacheLevel {
   
   Calls to this method are not capped
   */
-  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error> {
     return internalCache.set(value, forKey: key)
   }
   

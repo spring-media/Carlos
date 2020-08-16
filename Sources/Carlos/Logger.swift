@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+
 
 /// A simple logger to use instead of println with configurable output closure
 public final class Logger {
@@ -11,7 +11,7 @@ public final class Logger {
     case Error = "Error"
   }
 
-  private static let queue = GCD.serial(CarlosGlobals.QueueNamePrefix + "logger")
+  private static let queue = DispatchQueue(label: CarlosGlobals.QueueNamePrefix + "logger")
 
   /**
   Called to output the log message. Override for custom logging.
@@ -30,7 +30,7 @@ public final class Logger {
   This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
   */
   public static func log(_ message: String, _ level: Level = Level.Debug) {
-    GCD.main {
+    DispatchQueue.main.async {
       self.output(message, level)
     }
   }

@@ -1,22 +1,5 @@
 import Foundation
-import PiedPiper
-
-extension Future {
-  
-  /**
-   Mutates a future from a type A to a type B through a ConditionedOneWayTransformer
-   
-   - parameter key The key to use for the condition
-   - parameter conditionedTransformer A ConditionedOneWayTransformer used to conditionally transform the values of the given Future
-   
-   - returns A new Future with the transformed value
-   */
-  internal func mutate<K, O, Transformer: ConditionedOneWayTransformer>(_ key: K, conditionedTransformer: Transformer) -> Future<O> where Transformer.KeyType == K, Transformer.TypeIn == T, Transformer.TypeOut == O {
-    return flatMap { result in
-      conditionedTransformer.conditionalTransform(key: key, value: result)
-    }
-  }
-}
+import OpenCombine
 
 extension CacheLevel {
   
@@ -33,7 +16,9 @@ extension CacheLevel {
   public func conditionedPostProcess<T: ConditionedOneWayTransformer>(_ conditionedTransformer: T) -> BasicCache<KeyType, OutputType> where T.KeyType == KeyType, T.TypeIn == OutputType, T.TypeOut == OutputType {
     return BasicCache(
       getClosure: { key in
-        self.get(key).mutate(key, conditionedTransformer: conditionedTransformer)
+        self.get(key)
+          .flatMap { conditionedTransformer.conditionalTransform(key: key, value: $0) }
+          .eraseToAnyPublisher()
       },
       setClosure: self.set,
       clearClosure: self.clear,

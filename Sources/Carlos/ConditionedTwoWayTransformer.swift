@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import OpenCombine
 
 /// Abstract an object that can conditionally transform values to another type and back to the original one, based on a given key
 public protocol ConditionedTwoWayTransformer: ConditionedOneWayTransformer {
@@ -11,7 +11,7 @@ public protocol ConditionedTwoWayTransformer: ConditionedOneWayTransformer {
    
    - returns: A Future that will contain the original value, or fail if the transformation failed
    */
-  func conditionalInverseTransform(key: KeyType, value: TypeOut) -> Future<TypeIn>
+  func conditionalInverseTransform(key: KeyType, value: TypeOut) -> AnyPublisher<TypeIn, Error>
 }
 
 extension ConditionedTwoWayTransformer {
@@ -37,8 +37,8 @@ public final class ConditionedTwoWayTransformationBox<Key, InputType, OutputType
   /// The key type to use for the condition
   public typealias KeyType = Key
   
-  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>
-  private let conditionalInverseTransformClosure: (_ key: Key, _ value: OutputType) -> Future<InputType>
+  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> AnyPublisher<OutputType, Error>
+  private let conditionalInverseTransformClosure: (_ key: Key, _ value: OutputType) -> AnyPublisher<InputType, Error>
   
   /**
    Initializes a new instance of a conditioned 2-way transformation box
@@ -46,7 +46,7 @@ public final class ConditionedTwoWayTransformationBox<Key, InputType, OutputType
    - parameter conditionalTransformClosure: The conditional transformation closure to convert a value of type TypeIn to a value of type TypeOut
    - parameter conditionalInverseTransformClosure: The conditional transformation closure to convert a value of type TypeOut to a value of type TypeIn
    */
-  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> Future<OutputType>, conditionalInverseTransformClosure: @escaping (_ key: Key, _ value: OutputType) -> Future<InputType>) {
+  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> AnyPublisher<OutputType, Error>, conditionalInverseTransformClosure: @escaping (_ key: Key, _ value: OutputType) -> AnyPublisher<InputType, Error>) {
     self.conditionalTransformClosure = conditionalTransformClosure
     self.conditionalInverseTransformClosure = conditionalInverseTransformClosure
   }
@@ -74,7 +74,7 @@ public final class ConditionedTwoWayTransformationBox<Key, InputType, OutputType
    
    - returns: A Future that will contain the converted value, or fail if the transformation fails
    */
-  public func conditionalTransform(key: KeyType, value: TypeIn) -> Future<TypeOut> {
+  public func conditionalTransform(key: KeyType, value: TypeIn) -> AnyPublisher<TypeOut, Error> {
     return conditionalTransformClosure(key, value)
   }
   
@@ -86,7 +86,7 @@ public final class ConditionedTwoWayTransformationBox<Key, InputType, OutputType
    
    - returns: A Future that will contain the converted value, or fail if the inverse transformation fails
    */
-  public func conditionalInverseTransform(key: KeyType, value: TypeOut) -> Future<TypeIn> {
+  public func conditionalInverseTransform(key: KeyType, value: TypeOut) -> AnyPublisher<TypeIn, Error> {
     return conditionalInverseTransformClosure(key, value)
   }
 }

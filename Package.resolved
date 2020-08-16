@@ -11,12 +11,12 @@
         }
       },
       {
-        "package": "PiedPiper",
-        "repositoryURL": "https://github.com/spring-media/PiedPiper",
+        "package": "OpenCombine",
+        "repositoryURL": "https://github.com/OpenCombine/OpenCombine.git",
         "state": {
-          "branch": "master",
-          "revision": "f242a4ab4ca5279062046cd00e15c991305366e2",
-          "version": null
+          "branch": null,
+          "revision": "f3d068d6f2090d2913c9e1b75cc36cef962a530c",
+          "version": "0.10.0"
         }
       },
       {

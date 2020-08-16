@@ -1,16 +1,16 @@
 import Foundation
-import PiedPiper
+import OpenCombine
 
 public struct CarlosGlobals {
   public static let QueueNamePrefix = "com.carlos."
   public static let Caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
 }
 
-internal func wrapClosureIntoFetcher<A, B>(_ closure: @escaping (_ key: A) -> Future<B>) -> BasicFetcher<A, B> {
+internal func wrapClosureIntoFetcher<A, B>(_ closure: @escaping (_ key: A) -> AnyPublisher<B, Error>) -> BasicFetcher<A, B> {
   return BasicFetcher(getClosure: closure)
 }
 
-internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: @escaping (A) -> Future<B>) -> OneWayTransformationBox<A, B> {
+internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: @escaping (A) -> AnyPublisher<B, Error>) -> OneWayTransformationBox<A, B> {
   return OneWayTransformationBox(transform: transformerClosure)
 }
 
@@ -29,7 +29,7 @@ public protocol CacheLevel: class {
   
   - returns: a Future that you can attach success and failure closures to
   */
-  func get(_ key: KeyType) -> Future<OutputType>
+  func get(_ key: KeyType) -> AnyPublisher<OutputType, Error>
   
   /**
   Tries to set a value on the cache level
@@ -39,7 +39,7 @@ public protocol CacheLevel: class {
    
   - returns: A Future that will reflect the status of the set operation
   */
-  @discardableResult func set(_ value: OutputType, forKey key: KeyType) -> Future<()>
+  @discardableResult func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error>
   
   /**
   Asks to clear the cache level
@@ -64,7 +64,9 @@ extension Fetcher {
   public func onMemoryWarning() {}
   
   /// No-op
-  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
-    return Future(())
+  public func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error> {
+    return Just(())
+      .setFailureType(to: Error.self)
+      .eraseToAnyPublisher()
   }
 }

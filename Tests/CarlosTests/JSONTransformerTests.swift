@@ -2,22 +2,31 @@ import Foundation
 import Quick
 import Nimble
 import Carlos
+import OpenCombine
 
 class JSONTransformerTests: QuickSpec {
   override func spec() {
     describe("JSONTransformer") {
       var transformer: JSONTransformer!
+      
+      var cancellable: AnyCancellable?
     
       beforeEach {
         transformer = JSONTransformer()
+      }
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
       }
       
       context("when transforming NSData to JSON") {
         var result: AnyObject!
         var error: Error!
         
-        beforeEach {
+        afterEach {
           result = nil
+          error = nil
         }
         
         context("when the NSData is a valid JSON") {
@@ -30,29 +39,32 @@ class JSONTransformerTests: QuickSpec {
             
             beforeEach {
               let data = try! JSONSerialization.data(withJSONObject: testObject, options: [])
-              transformer.transform(data as NSData)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = transformer.transform(data as NSData)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return an array") {
-              expect(result as? [String]).notTo(beNil())
+              expect(result as? [String]).toEventuallyNot(beNil())
             }
             
             it("should contain the right number of items") {
-              expect((result as? [String])?.count).to(equal(testObject.count))
+              expect((result as? [String])?.count).toEventually(equal(testObject.count))
             }
             
             it("should contain the right objects") {
-              expect(result as? [String]).to(equal(testObject))
+              expect(result as? [String]).toEventually(equal(testObject))
             }
           }
           
@@ -69,42 +81,50 @@ class JSONTransformerTests: QuickSpec {
             
             beforeEach {
               let data = try! JSONSerialization.data(withJSONObject: testObject, options: [])
-              transformer.transform(data as NSData)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = transformer.transform(data as NSData)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: {
+                  result = $0
+                })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return a dictionary") {
-              expect(result as? [String: AnyObject]).notTo(beNil())
+              expect(result as? [String: AnyObject]).toEventuallyNot(beNil())
             }
             
             it("should contain the right number of items") {
-              expect((result as? [String: AnyObject])?.keys.count).to(equal(testObject.keys.count))
+              expect((result as? [String: AnyObject])?.keys.count).toEventually(equal(testObject.keys.count))
             }
           }
         }
         
         context("when the NSData is not a valid JSON") {
           beforeEach {
-            transformer.transform(("test for an invalid JSON".data(using: .utf8) as NSData?)!)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
+            cancellable = transformer.transform(("test for an invalid JSON".data(using: .utf8) as NSData?)!)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(e) = completion {
+                  error = e
+                }
+              }, receiveValue: { result = $0 })
           }
           
           it("should not call the success closure") {
-            expect(result).to(beNil())
+            expect(result).toEventually(beNil())
           }
           
           it("should call the failure closure") {
-            expect(error).notTo(beNil())
+            expect(error).toEventuallyNot(beNil())
           }
         }
       }
@@ -123,21 +143,24 @@ class JSONTransformerTests: QuickSpec {
             
             beforeEach {
               expectedResult = try! JSONSerialization.data(withJSONObject: testObject, options: []) as NSData
-              transformer.inverseTransform(testObject as AnyObject)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = transformer.inverseTransform(testObject as AnyObject)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
           
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should pass the expected result") {
-              expect(result).to(equal(expectedResult))
+              expect(result).toEventually(equal(expectedResult))
             }
           }
           
@@ -152,38 +175,25 @@ class JSONTransformerTests: QuickSpec {
             
             beforeEach {
               expectedResult = try! JSONSerialization.data(withJSONObject: testObject, options: []) as NSData
-              transformer.inverseTransform(testObject as AnyObject)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = transformer.inverseTransform(testObject as AnyObject)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
                 
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should pass the expected result") {
-              expect(result).to(equal(expectedResult))
+              expect(result).toEventually(equal(expectedResult))
             }
-          }
-        }
-        
-        xcontext("when the JSON is invalid") { //FIX: :(
-          beforeEach {
-            transformer.inverseTransform("Test for an invalid JSON object" as NSString)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
-          }
-          
-          it("should not call the success closure") {
-            expect(result).to(beNil())
-          }
-          
-          it("should call the failure closure") {
-            expect(error).notTo(beNil())
           }
         }
       }
