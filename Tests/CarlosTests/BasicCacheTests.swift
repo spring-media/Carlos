@@ -6,6 +6,7 @@ import OpenCombine
 
 enum TestError: Error {
   case anotherError
+  case simpleError
 }
 
 final class BasicCacheTests: QuickSpec {

@@ -51,7 +51,8 @@ open class NetworkFetcher: Fetcher {
         }
 
         throw NetworkFetcherError.invalidNetworkResponse
-      }.eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
   }
 
   /**
@@ -68,5 +69,7 @@ open class NetworkFetcher: Fetcher {
   */
   open func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
     startRequest(key)
+      .receive(on: DispatchQueue.main.ocombine)
+      .eraseToAnyPublisher()
   }
 }
