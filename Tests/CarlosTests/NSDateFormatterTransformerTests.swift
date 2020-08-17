@@ -1,11 +1,12 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
 
+import Carlos
 import OpenCombine
 
-class NSDateFormatterTransformerTests: QuickSpec {
+final class NSDateFormatterTransformerTests: QuickSpec {
   override func spec() {
     describe("DateFormatter") {
       var formatter: DateFormatter!
@@ -23,7 +24,7 @@ class NSDateFormatterTransformerTests: QuickSpec {
       
       context("when used as a transformer") {
         var error: Error?
-      
+        
         afterEach {
           error = nil
         }
@@ -108,7 +109,7 @@ class NSDateFormatterTransformerTests: QuickSpec {
             it("should not call the success closure") {
               expect(result).toEventually(beNil())
             }
-                
+            
             it("should call the error closure") {
               expect(error).toEventuallyNot(beNil())
             }

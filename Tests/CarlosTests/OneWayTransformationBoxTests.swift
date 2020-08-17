@@ -1,10 +1,12 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
 import OpenCombine
 
-class OneWayTransformationBoxTests: QuickSpec {
+final class OneWayTransformationBoxTests: QuickSpec {
   override func spec() {
     describe("OneWayTransformationBox") {
       var box: OneWayTransformationBox<String, Int>!

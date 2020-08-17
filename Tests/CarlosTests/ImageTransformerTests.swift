@@ -1,13 +1,15 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
 import OpenCombine
 
 #if !os(macOS)
 import UIKit
 
-class ImageTransformerTests: QuickSpec {
+final class ImageTransformerTests: QuickSpec {
   override func spec() {
     describe("Image transformer") {
       var transformer: ImageTransformer!

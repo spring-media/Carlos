@@ -1,104 +1,82 @@
-//import Foundation
-//import Carlos
-//import OpenCombine
-//
-//class CacheLevelFake<A, B>: CacheLevel {
-//  typealias KeyType = A
-//  typealias OutputType = B
-//  
-//  init() {}
-//  
-//  var queueUsedForTheLastCall: UnsafeMutableRawPointer!
-//  
-//  var numberOfTimesCalledGet = 0
-//  var didGetKey: KeyType?
-//  var cacheRequestToReturn: AnyPublisher<OutputType, Error>?
-//  var promisesReturned: [AnyPublisher<OutputType, Error>] = []
-//  func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-//    numberOfTimesCalledGet += 1
-//    
-//    didGetKey = key
-//    
-//    queueUsedForTheLastCall = currentQueueSpecific()
-//    
-//    let returningPromise: Promise<OutputType>
-//    let returningFuture: Future<OutputType>
-//    
-//    if let requestToReturn = cacheRequestToReturn {
-//      returningFuture = requestToReturn
-//      returningPromise = Promise<OutputType>().mimic(requestToReturn)
-//    } else {
-//      returningPromise = Promise<OutputType>()
-//      returningFuture = returningPromise.future
-//    }
-//    
-//    promisesReturned.append(returningPromise)
-//    
-//    return returningFuture
-//  }
-//  
-//  var numberOfTimesCalledSet = 0
-//  var didSetValue: OutputType?
-//  var didSetKey: KeyType?
-//  var setFutureToReturn: Future<()>?
-//  var setPromisesReturned: [Promise<()>] = []
-//  func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
-//    numberOfTimesCalledSet += 1
-//    
-//    didSetKey = key
-//    didSetValue = value
-//    
-//    queueUsedForTheLastCall = currentQueueSpecific()
-//    
-//    let returningPromise: Promise<()>
-//    let returningFuture: Future<()>
-//    
-//    if let requestToReturn = setFutureToReturn {
-//      returningFuture = requestToReturn
-//      returningPromise = Promise<()>().mimic(requestToReturn)
-//    } else {
-//      returningPromise = Promise<()>()
-//      returningFuture = returningPromise.future
-//    }
-//    
-//    setPromisesReturned.append(returningPromise)
-//    
-//    return returningFuture
-//  }
-//  
-//  var numberOfTimesCalledClear = 0
-//  func clear() {
-//    numberOfTimesCalledClear += 1
-//    
-//    queueUsedForTheLastCall = currentQueueSpecific()
-//  }
-//  
-//  var numberOfTimesCalledOnMemoryWarning = 0
-//  func onMemoryWarning() {
-//    numberOfTimesCalledOnMemoryWarning += 1
-//    
-//    queueUsedForTheLastCall = currentQueueSpecific()
-//  }
-//}
-//
-//class FetcherFake<A, B>: Fetcher {
-//  typealias KeyType = A
-//  typealias OutputType = B
-//  
-//  var queueUsedForTheLastCall: UnsafeMutableRawPointer!
-//  
-//  init() {}
-//  
-//  var numberOfTimesCalledGet = 0
-//  var didGetKey: KeyType?
-//  var cacheRequestToReturn: Future<OutputType>?
-//  func get(_ key: KeyType) -> Future<OutputType> {
-//    numberOfTimesCalledGet += 1
-//    
-//    didGetKey = key
-//    
-//    queueUsedForTheLastCall = currentQueueSpecific()
-//    
-//    return cacheRequestToReturn ?? Promise<OutputType>().future
-//  }
-//}
+import Foundation
+
+import Carlos
+import OpenCombine
+
+class CacheLevelFake<A, B>: CacheLevel {
+  typealias KeyType = A
+  typealias OutputType = B
+  
+  init() {}
+  
+  // MARK: Get
+  
+  var queueUsedForTheLastCall: UnsafeMutableRawPointer!
+  var numberOfTimesCalledGet = 0
+  var didGetKey: KeyType?
+  var getSubject: PassthroughSubject<OutputType, Error>?
+  var getPublishers: [AnyPublisher<OutputType, Error>] = []
+  func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
+    numberOfTimesCalledGet += 1
+    
+    didGetKey = key
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
+    
+    let publisher: AnyPublisher<OutputType, Error>
+    
+    if let subject = getSubject {
+      publisher = subject.eraseToAnyPublisher()
+    } else {
+      getSubject = PassthroughSubject()
+      publisher = getSubject!.eraseToAnyPublisher()
+    }
+    
+    getPublishers.append(publisher)
+    
+    return publisher
+  }
+  
+  // MARK: Set
+  
+  var numberOfTimesCalledSet = 0
+  var didSetValue: OutputType?
+  var didSetKey: KeyType?
+  var setSubject: PassthroughSubject<Void, Error>?
+  var setPublishers: [AnyPublisher<Void, Error>] = []
+  func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error> {
+    numberOfTimesCalledSet += 1
+    
+    didSetKey = key
+    didSetValue = value
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
+    
+    let publisher: AnyPublisher<Void, Error>
+    
+    if let subject = setSubject {
+      publisher = subject.eraseToAnyPublisher()
+    } else {
+      setSubject = PassthroughSubject()
+      publisher = setSubject!.eraseToAnyPublisher()
+    }
+    
+    setPublishers.append(publisher)
+    
+    return publisher
+  }
+  
+  var numberOfTimesCalledClear = 0
+  func clear() {
+    numberOfTimesCalledClear += 1
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
+  }
+  
+  var numberOfTimesCalledOnMemoryWarning = 0
+  func onMemoryWarning() {
+    numberOfTimesCalledOnMemoryWarning += 1
+    
+    queueUsedForTheLastCall = currentQueueSpecific()
+  }
+}

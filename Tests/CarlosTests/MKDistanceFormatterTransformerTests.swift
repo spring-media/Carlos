@@ -1,11 +1,13 @@
 import Foundation
+import MapKit
+
 import Quick
 import Nimble
+
 import Carlos
-import MapKit
 import OpenCombine
 
-class MKDistanceFormatterTransformerTests: QuickSpec {
+final class MKDistanceFormatterTransformerTests: QuickSpec {
   override func spec() {
     describe("MKDistanceFormatter") {
       var formatter: MKDistanceFormatter!

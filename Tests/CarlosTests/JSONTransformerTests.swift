@@ -1,16 +1,18 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
 import OpenCombine
 
-class JSONTransformerTests: QuickSpec {
+final class JSONTransformerTests: QuickSpec {
   override func spec() {
     describe("JSONTransformer") {
       var transformer: JSONTransformer!
       
       var cancellable: AnyCancellable?
-    
+      
       beforeEach {
         transformer = JSONTransformer()
       }
@@ -154,7 +156,7 @@ class JSONTransformerTests: QuickSpec {
             it("should call the success closure") {
               expect(result).toEventuallyNot(beNil())
             }
-          
+            
             it("should not call the failure closure") {
               expect(error).toEventually(beNil())
             }
@@ -186,7 +188,7 @@ class JSONTransformerTests: QuickSpec {
             it("should call the success closure") {
               expect(result).toEventuallyNot(beNil())
             }
-                
+            
             it("should not call the failure closure") {
               expect(error).toEventually(beNil())
             }

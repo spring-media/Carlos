@@ -86,7 +86,7 @@ final class TwoWayTransformationBoxSharedExamplesConfiguration: QuickConfigurati
       
       context("when using the inverse transformation") {
         var result: String!
-            
+        
         beforeEach {
           result = nil
         }
@@ -129,7 +129,7 @@ final class TwoWayTransformationBoxSharedExamplesConfiguration: QuickConfigurati
           it("should call the error closure") {
             expect(error).notTo(beNil())
           }
-            
+          
           it("should not call the success closure") {
             expect(result).to(beNil())
           }
@@ -152,7 +152,7 @@ final class TwoWayTransformationBoxTests: QuickSpec {
       
       beforeEach {
         error = nil
-  
+        
         box = TwoWayTransformationBox<NSURL, String>(transform: {
           guard $0.scheme == "http", let stringValue = $0.absoluteString else {
             return Fail(error: TestError.anotherError).eraseToAnyPublisher()
@@ -175,7 +175,7 @@ final class TwoWayTransformationBoxTests: QuickSpec {
       
       context("when using the transformation") {
         var result: String!
-            
+        
         beforeEach {
           result = nil
         }
@@ -232,7 +232,7 @@ final class TwoWayTransformationBoxTests: QuickSpec {
       
       context("when using the inverse transformation") {
         var result: NSURL!
-            
+        
         beforeEach {
           result = nil
         }
@@ -248,13 +248,13 @@ final class TwoWayTransformationBoxTests: QuickSpec {
                 }
               }, receiveValue: { result = $0 })
           }
-        
+          
           it("should call the success closure") {
             expect(result).toEventuallyNot(beNil())
           }
           
           it("should not call the failure closure") {
-                expect(error).toEventually(beNil())
+            expect(error).toEventually(beNil())
           }
           
           it("should return the expected result") {
@@ -271,7 +271,7 @@ final class TwoWayTransformationBoxTests: QuickSpec {
                 }
               }, receiveValue: { result = $0 })
           }
-            
+          
           it("should not call the success closure") {
             expect(result).toEventually(beNil())
           }

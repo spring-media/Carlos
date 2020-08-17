@@ -1,10 +1,12 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
 import OpenCombine
 
-class NSNumberFormatterTransformerTests: QuickSpec {
+final class NSNumberFormatterTransformerTests: QuickSpec {
   override func spec() {
     describe("NumberFormatter") {
       var formatter: NumberFormatter!
@@ -95,11 +97,11 @@ class NSNumberFormatterTransformerTests: QuickSpec {
                   }
                 }, receiveValue: { result = $0 })
             }
-                
+            
             it("should call the success closure") {
               expect(result).toEventuallyNot(beNil())
             }
-                
+            
             it("should not call the failure closure") {
               expect(error).toEventually(beNil())
             }
@@ -112,7 +114,7 @@ class NSNumberFormatterTransformerTests: QuickSpec {
         
         context("when inverse transforming") {
           var result: NSNumber!
-                      
+          
           context("when the string is valid") {
             let originString = "10.1203"
             
@@ -159,7 +161,7 @@ class NSNumberFormatterTransformerTests: QuickSpec {
               result = nil
               error = nil
             }
-                
+            
             it("should not call the success closure") {
               expect(result).toEventually(beNil())
             }

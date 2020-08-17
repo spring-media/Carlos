@@ -7,10 +7,11 @@
 //
 
 import Foundation
+
 import Quick
 import Nimble
 
-class NimbleTweaks: QuickSpec {
+final class NimbleTweaks: QuickSpec {
   override func spec() {
     beforeSuite {
       // Suggested on Nimble forum to prevent timeouts https://github.com/Quick/Nimble/issues/346#issuecomment-315955856

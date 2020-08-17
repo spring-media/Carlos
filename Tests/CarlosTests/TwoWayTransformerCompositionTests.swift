@@ -143,17 +143,17 @@ final class TwoWayTransformerCompositionTests: QuickSpec {
         guard $0 > 0 else {
           return Fail(error: TestError.simpleError).eraseToAnyPublisher()
         }
-    
+        
         return Just(Int($0)).setFailureType(to: Error.self).eraseToAnyPublisher()
       }, inverseTransform: {
         guard $0 > 0 else {
           return Fail(error: TestError.simpleError).eraseToAnyPublisher()
         }
-    
+        
         return Just(Float($0)).setFailureType(to: Error.self).eraseToAnyPublisher()
       })
     }
-        
+    
     describe("Transformer composition using the instance function") {
       beforeEach {
         composedTransformer = transformer1.compose(transformer2)

@@ -1,9 +1,11 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
 
-class CacheProviderTests: QuickSpec {
+final class CacheProviderTests: QuickSpec {
   override func spec() {
     describe("Cache provider") {
       context("when calling imageCache") {

@@ -1,10 +1,10 @@
-//import Foundation
+import Foundation
 //import Quick
 //import Nimble
 //import Carlos
 //import PiedPiper
 //
-//var kCurrentQueue = DispatchSpecificKey<UnsafeMutableRawPointer>()
+var kCurrentQueue = DispatchSpecificKey<UnsafeMutableRawPointer>()
 //
 //func getMutablePointer (object: AnyObject) -> UnsafeMutableRawPointer {
 //  return UnsafeMutableRawPointer(bitPattern: UInt(bitPattern: ObjectIdentifier(object)))!
@@ -183,9 +183,9 @@
 //  }
 //}
 //
-//func currentQueueSpecific() -> UnsafeMutableRawPointer! {
-//  return DispatchQueue.getSpecific(key: kCurrentQueue)
-//}
+func currentQueueSpecific() -> UnsafeMutableRawPointer! {
+  return DispatchQueue.getSpecific(key: kCurrentQueue)
+}
 //
 //class DispatchedCacheTests: QuickSpec {
 //  var queue: DispatchQueue!

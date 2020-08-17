@@ -1,10 +1,12 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
 import OpenCombine
 
-class MemoryCacheLevelTests: QuickSpec {
+final class MemoryCacheLevelTests: QuickSpec {
   override func spec() {
     describe("Memory cache level") {
       var cache: MemoryCacheLevel<String, NSString>!
