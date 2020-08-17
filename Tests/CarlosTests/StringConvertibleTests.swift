@@ -1,9 +1,11 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
 
-class StringConvertibleTests: QuickSpec {
+final class StringConvertibleTests: QuickSpec {
   override func spec() {
     describe("String values") {
       let value = "this is the value"
