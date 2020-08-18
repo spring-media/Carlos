@@ -5,7 +5,7 @@
 language: objective-c
 cache:
   bundler: true
-osx_image: xcode12
+osx_image: xcode11.6
 
 script:
 - bundle exec fastlane test
