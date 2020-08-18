@@ -5,10 +5,10 @@ import Foundation
 public final class Logger {
   /// The level of the logged message
   public enum Level : String {
-    case Debug = "Debug"
-    case Info = "Info"
-    case Warning = "Warning"
-    case Error = "Error"
+    case debug = "Debug"
+    case info = "Info"
+    case warning = "Warning"
+    case error = "Error"
   }
 
   private static let queue = DispatchQueue(label: CarlosGlobals.QueueNamePrefix + "logger")
@@ -29,7 +29,7 @@ public final class Logger {
   
   This method uses the output closure internally to output the message. The closure is always dispatched on the main queue
   */
-  public static func log(_ message: String, _ level: Level = Level.Debug) {
+  public static func log(_ message: String, _ level: Level = Level.debug) {
     DispatchQueue.main.async {
       self.output(message, level)
     }

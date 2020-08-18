@@ -64,7 +64,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   - parameter key: The key for the value
   */
   public func set(_ value: T, forKey key: K) -> AnyPublisher<Void, Error> {
-    Logger.log("DiskCacheLevel| Setting a value for the key \(key.toString()) on the disk cache \(self)", .Info)
+    Logger.log("DiskCacheLevel| Setting a value for the key \(key.toString()) on the disk cache \(self)", .info)
     
     return Just((value, key))
       .setFailureType(to: Error.self)
@@ -85,14 +85,14 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
       let path = self.pathForKey(key)
       
       if let obj = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? T {
-        Logger.log("DiskCacheLevel| Fetched \(key.toString()) on disk level", .Info)
+        Logger.log("DiskCacheLevel| Fetched \(key.toString()) on disk level", .info)
         
         promise(.success(obj))
         
         _ = self.updateDiskAccessDateAtPath(path)
       } else {
         // Remove the file (maybe corrupted)
-        Logger.log("DiskCacheLevel| Failed fetching \(key.toString()) in path: \(path) on the disk cache", .Info)
+        Logger.log("DiskCacheLevel| Failed fetching \(key.toString()) in path: \(path) on the disk cache", .info)
         
         _ = try? self.fileManager.removeItem(atPath: path)
         
@@ -182,7 +182,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         .eraseToAnyPublisher()
     }
     
-    Logger.log("DiskCacheLevel| Failed to write key \(key.toString()) on the disk cache", .Error)
+    Logger.log("DiskCacheLevel| Failed to write key \(key.toString()) on the disk cache", .error)
     return Fail(error: DiskCacheLevelError.diskArchiveWriteFailed).eraseToAnyPublisher()
   }
   
