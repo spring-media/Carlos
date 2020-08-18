@@ -14,13 +14,19 @@ extension CacheLevel {
   public func dispatch(_ queue: DispatchQueue) -> BasicCache<KeyType, OutputType> {
     return BasicCache(
       getClosure: { key in
-        self.get(key)
-          .receive(on: queue.ocombine)
+        Just(key)
+          .subscribe(on: queue.ocombine)
+          .setFailureType(to: Error.self)
+          .flatMap(self.get)
+          .receive(on: DispatchQueue.main.ocombine)
           .eraseToAnyPublisher()
       },
       setClosure: { (value, key) in
-        self.set(value, forKey: key)
-          .receive(on: queue.ocombine)
+        Just((value, key))
+          .subscribe(on: queue.ocombine)
+          .setFailureType(to: Error.self)
+          .flatMap(self.set)
+          .receive(on: DispatchQueue.main.ocombine)
           .eraseToAnyPublisher()
       },
       clearClosure: {

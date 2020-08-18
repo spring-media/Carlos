@@ -171,7 +171,7 @@ final class MemoryCacheLevelTests: QuickSpec {
               }, receiveValue: { _ in })
             }
             
-            expect(evictedAtLeastOne).toEventually(beTrue())
+            expect(evictedAtLeastOne).toEventually(beTrue(), timeout: 5)
           }
         }
         

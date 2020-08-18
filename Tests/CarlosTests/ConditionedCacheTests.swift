@@ -242,7 +242,7 @@ private enum ConditionError: Error {
   case AnotherError
 }
 
-class ConditionedCacheTests: QuickSpec {
+final class ConditionedCacheTests: QuickSpec {
   override func spec() {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!

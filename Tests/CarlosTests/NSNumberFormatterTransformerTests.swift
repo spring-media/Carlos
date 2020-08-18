@@ -153,6 +153,7 @@ final class NSNumberFormatterTransformerTests: QuickSpec {
                 .sink(receiveCompletion: { completion in
                   if case let .failure(e) = completion {
                     error = e
+                    result = nil
                   }
                 }, receiveValue: { result = $0 })
             }
