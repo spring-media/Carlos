@@ -95,7 +95,7 @@ final class ConditionedValueTransformationSharedExamplesConfiguration: QuickConf
         var successValue: Float?
         var failureValue: Error?
         var getSubject: PassthroughSubject<Int, Error>!
-
+        
         beforeEach {
           getSubject = PassthroughSubject()
           internalCache.getSubject = getSubject
@@ -157,7 +157,7 @@ final class ConditionedValueTransformationSharedExamplesConfiguration: QuickConf
         var successValue: Float?
         var failureValue: Error?
         var getSubject: PassthroughSubject<Int, Error>!
-
+        
         beforeEach {
           getSubject = PassthroughSubject()
           internalCache.getSubject = getSubject

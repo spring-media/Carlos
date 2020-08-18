@@ -95,7 +95,7 @@ final class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguratio
         var successValue: Int?
         var failureValue: Error?
         var getSubject: PassthroughSubject<Int, Error>!
-
+        
         beforeEach {
           getSubject = PassthroughSubject()
           internalCache.getSubject = getSubject
@@ -157,7 +157,7 @@ final class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguratio
         var successValue: Int?
         var failureValue: Error?
         var getSubject: PassthroughSubject<Int, Error>!
-
+        
         beforeEach {
           getSubject = PassthroughSubject()
           internalCache.getSubject = getSubject

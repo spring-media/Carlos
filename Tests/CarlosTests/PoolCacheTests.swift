@@ -192,11 +192,11 @@ final class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         let value = 30
         var setSucceeded: Bool!
         var setError: Error?
-
+        
         beforeEach {
           setSucceeded = false
           setError = nil
-
+          
           cache.set(value, forKey: key)
             .sink(receiveCompletion: { completion in
               if case let .failure(error) = completion {
@@ -205,45 +205,45 @@ final class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
             }, receiveValue: { setSucceeded = true })
             .store(in: &cancellables)
         }
-
+        
         it("should forward it to the internal cache") {
           expect(internalCache.numberOfTimesCalledSet).toEventually(equal(1))
         }
-
+        
         it("should set the right key") {
           expect(internalCache.didSetKey).toEventually(equal(key))
         }
-
+        
         it("should set the right value") {
           expect(internalCache.didSetValue).toEventually(equal(value))
         }
-
+        
         context("when set succeeds") {
           beforeEach {
             internalCache.setPublishers[key]?.send()
           }
-
+          
           it("should succeed") {
             expect(setSucceeded).toEventually(beTrue())
           }
         }
-
+        
         context("when set fails") {
           let setFailure = TestError.anotherError
-
+          
           beforeEach {
             internalCache.setPublishers[key]?.send(completion: .failure(setFailure))
           }
-
+          
           it("should fail") {
             expect(setError).toEventuallyNot(beNil())
           }
-
+          
           it("should pass the error through") {
             expect(setError as? TestError).toEventually(equal(setFailure))
           }
         }
-
+        
         context("when calling it multiple times") {
           beforeEach {
             cache.set(value, forKey: key)
@@ -253,49 +253,49 @@ final class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
               .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
               .store(in: &cancellables)
           }
-
+          
           it("should not pool these calls") {
             expect(internalCache.numberOfTimesCalledSet).toEventually(equal(3))
           }
         }
       }
-
+      
       context("when calling clear") {
         beforeEach {
           cache.clear()
         }
-
+        
         it("should forward it to the internal cache") {
           expect(internalCache.numberOfTimesCalledClear).toEventually(equal(1))
         }
-
+        
         context("when calling it multiple times") {
           beforeEach {
             cache.clear()
             cache.clear()
           }
-
+          
           it("should not pool these calls") {
             expect(internalCache.numberOfTimesCalledClear).toEventually(equal(3))
           }
         }
       }
-
+      
       context("when calling onMemoryWarning") {
         beforeEach {
           cache.onMemoryWarning()
         }
-
+        
         it("should forward it to the internal cache") {
           expect(internalCache.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
-
+        
         context("when calling it multiple times") {
           beforeEach {
             cache.onMemoryWarning()
             cache.onMemoryWarning()
           }
-
+          
           it("should not pool these calls") {
             expect(internalCache.numberOfTimesCalledOnMemoryWarning).toEventually(equal(3))
           }
@@ -323,7 +323,7 @@ final class PoolCacheTests: QuickSpec {
         ]
       }
     }
-        
+    
     describe("The pooled instance function, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()

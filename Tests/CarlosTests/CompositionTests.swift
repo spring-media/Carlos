@@ -386,7 +386,7 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
               expect(succeeded).toEventually(beTrue())
             }
           }
-        
+          
           context("when the set closure fails") {
             let error = TestError.anotherError
             
@@ -524,7 +524,7 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
         cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
         composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
-          
+      
       context("when calling set") {
         let key = "this key"
         let value = 102
@@ -653,9 +653,9 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("get without considering set calls") {
         [
-        ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-        ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-        ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
       
@@ -678,7 +678,7 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
         cache2 = sharedExampleContext()[ComposedCacheSharedExamplesContext.SecondComposedCache] as? CacheLevelFake<String, Int>
         composedCache = sharedExampleContext()[ComposedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
-
+      
       itBehavesLike("get on caches") {
         [
           ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
@@ -686,7 +686,7 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
           ComposedCacheSharedExamplesContext.CacheToTest: composedCache
         ]
       }
-
+      
       itBehavesLike("first cache is a cache") {
         [
           ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
