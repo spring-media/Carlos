@@ -26,8 +26,6 @@ class FetcherFake<A, B>: Fetcher {
     
     didGetKey = key
     
-    queueUsedForTheLastCall = currentQueueSpecific()
-    
     return getSubject.eraseToAnyPublisher()
   }
 }

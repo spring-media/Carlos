@@ -151,7 +151,7 @@ final class MemoryCacheLevelTests: QuickSpec {
           let otherValues = [
             "long string value",
             "even longer string value but should still fit the cache",
-            "longest string value that should fill the cache capacity and force it to evict some values"
+            "longest string value that should fill the cache capacity and force it to evict some values and we will hope it happends"
           ]
           
           beforeEach {

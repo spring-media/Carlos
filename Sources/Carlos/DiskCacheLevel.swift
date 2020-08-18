@@ -66,8 +66,10 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   public func set(_ value: T, forKey key: K) -> AnyPublisher<Void, Error> {
     Logger.log("DiskCacheLevel| Setting a value for the key \(key.toString()) on the disk cache \(self)", .Info)
     
-    return setDataSync(value, key: key)
-      .subscribe(on: cacheQueue.ocombine)
+    return Just((value, key))
+      .setFailureType(to: Error.self)
+      .receive(on: cacheQueue.ocombine)
+      .flatMap(setDataSync)
       .eraseToAnyPublisher()
   }
   
@@ -97,8 +99,6 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         promise(.failure(FetchError.valueNotInCache))
       }
     }
-    .subscribe(on: cacheQueue.ocombine)
-    .receive(on: DispatchQueue.main.ocombine)
     .eraseToAnyPublisher()
   }
   

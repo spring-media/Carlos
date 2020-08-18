@@ -16,9 +16,11 @@ final class DiskCacheTests: QuickSpec {
       var cache: DiskCacheLevel<String, NSData>!
       let path = (NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as NSString).appendingPathComponent("com.carlos.default")
       var fileManager: FileManager!
-      var cancellable: AnyCancellable?
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
+        
         fileManager = FileManager.default
         _ = try? fileManager.removeItem(atPath: path)
         
@@ -26,8 +28,7 @@ final class DiskCacheTests: QuickSpec {
       }
       
       afterEach {
-        cancellable?.cancel()
-        cancellable = nil
+        cancellables = nil
       }
       
       context("when calling get") {
@@ -36,12 +37,13 @@ final class DiskCacheTests: QuickSpec {
         var failureSentinel: Bool?
         
         beforeEach {
-          cancellable = cache.get(key)
+          cache.get(key)
             .sink(receiveCompletion: { completion in
               if case .failure = completion {
                 failureSentinel = true
               }
             }, receiveValue: { result = $0 })
+            .store(in: &cancellables)
         }
         
         it("should fail") {
@@ -58,19 +60,22 @@ final class DiskCacheTests: QuickSpec {
           beforeEach {
             failureSentinel = nil
             
-            _ = cache.set(value as NSData, forKey: key)
+            cache.set(value as NSData, forKey: key)
+              .sink(receiveCompletion: { _ in }, receiveValue: {})
+              .store(in: &cancellables)
           }
           
           context("when getting the value for another key") {
             let anotherKey = "test_key_2"
             
             beforeEach {
-              cancellable = cache.get(anotherKey)
+              cache.get(anotherKey)
                 .sink(receiveCompletion: { completion in
                   if case .failure = completion {
                     failureSentinel = true
                   }
                 }, receiveValue: { result = $0 })
+                .store(in: &cancellables)
             }
             
             it("should not succeed") {
@@ -94,9 +99,10 @@ final class DiskCacheTests: QuickSpec {
         beforeEach {
           writeSucceeded = false
           
-          cancellable = cache.set(value as NSData, forKey: key).sink(receiveCompletion: { _ in }, receiveValue: { _ in
-            writeSucceeded = true
-          })
+          cache.set(value as NSData, forKey: key)
+            .sink(receiveCompletion: { _ in }, receiveValue: { _ in
+              writeSucceeded = true
+            }).store(in: &cancellables)
         }
         
         afterEach {
@@ -119,12 +125,13 @@ final class DiskCacheTests: QuickSpec {
         
         context("when calling get") {
           beforeEach {
-            cancellable = cache.get(key)
+            cache.get(key)
               .sink(receiveCompletion: { completion in
                 if case .failure = completion {
                   failureSentinel = true
                 }
               }, receiveValue: { result = $0 })
+              .store(in: &cancellables)
           }
           
           it("should succeed") {
@@ -140,7 +147,9 @@ final class DiskCacheTests: QuickSpec {
           let newValue = "another value".data(using: .utf8, allowLossyConversion: false)!
           
           beforeEach {
-            _ = cache.set(newValue as NSData, forKey: key)
+            cache.set(newValue as NSData, forKey: key)
+              .sink(receiveCompletion: { _ in }, receiveValue: {})
+              .store(in: &cancellables)
           }
           
           it("should keep the key on disk") {
@@ -153,12 +162,13 @@ final class DiskCacheTests: QuickSpec {
           
           context("when calling get") {
             beforeEach {
-              cancellable = cache.get(key)
+              cache.get(key)
                 .sink(receiveCompletion: { completion in
                   if case .failure = completion {
                     failureSentinel = true
                   }
                 }, receiveValue: { result = $0 })
+                .store(in: &cancellables)
             }
             
             it("should succeed with the overwritten value") {
@@ -177,7 +187,9 @@ final class DiskCacheTests: QuickSpec {
           
           beforeEach {
             for (key, value) in zip(otherKeys, otherValues) {
-              _ = cache.set(value.data(using: .utf8, allowLossyConversion: false)! as NSData, forKey: key)
+              cache.set(value.data(using: .utf8, allowLossyConversion: false)! as NSData, forKey: key)
+                .sink(receiveCompletion: { _ in }, receiveValue: { })
+                .store(in: &cancellables)
             }
           }
           
@@ -185,12 +197,13 @@ final class DiskCacheTests: QuickSpec {
             var evictedAtLeastOne = false
             
             for key in otherKeys {
-              cancellable = cache.get(key)
+              cache.get(key)
                 .sink(receiveCompletion: { completion in
                   if case .failure = completion {
                     evictedAtLeastOne = true
                   }
                 }, receiveValue: { result = $0 })
+                .store(in: &cancellables)
             }
             
             expect(evictedAtLeastOne).toEventually(beTrue())
@@ -210,12 +223,13 @@ final class DiskCacheTests: QuickSpec {
           
           context("when calling get") {
             beforeEach {
-              cancellable = cache.get(key)
+              cache.get(key)
                 .sink(receiveCompletion: { completion in
                   if case .failure = completion {
                     failureSentinel = true
                   }
                 }, receiveValue: { result = $0 })
+                .store(in: &cancellables)
             }
             
             it("should fail") {
@@ -238,12 +252,13 @@ final class DiskCacheTests: QuickSpec {
           context("when calling get") {
             beforeEach {
               beforeEach {
-                cancellable = cache.get(key)
+                cache.get(key)
                   .sink(receiveCompletion: { completion in
                     if case .failure = completion {
                       failureSentinel = true
                     }
                   }, receiveValue: { result = $0 })
+                  .store(in: &cancellables)
               }
               
               it("should not fail") {

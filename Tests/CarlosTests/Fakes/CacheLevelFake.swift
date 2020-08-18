@@ -11,7 +11,6 @@ class CacheLevelFake<A: Hashable, B>: CacheLevel {
   
   // MARK: Get
   
-  var queueUsedForTheLastCall: UnsafeMutableRawPointer!
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
   var getSubject: PassthroughSubject<OutputType, Error>?
@@ -19,7 +18,6 @@ class CacheLevelFake<A: Hashable, B>: CacheLevel {
   func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
     numberOfTimesCalledGet += 1
     didGetKey = key
-    queueUsedForTheLastCall = currentQueueSpecific()
     
     if let getSubject = getSubject {
       return getSubject.eraseToAnyPublisher()
@@ -48,8 +46,6 @@ class CacheLevelFake<A: Hashable, B>: CacheLevel {
     didSetKey = key
     didSetValue = value
     
-    queueUsedForTheLastCall = currentQueueSpecific()
-    
     if let setSubject = setSubject {
       return setSubject.eraseToAnyPublisher()
     }
@@ -67,14 +63,10 @@ class CacheLevelFake<A: Hashable, B>: CacheLevel {
   var numberOfTimesCalledClear = 0
   func clear() {
     numberOfTimesCalledClear += 1
-    
-    queueUsedForTheLastCall = currentQueueSpecific()
   }
   
   var numberOfTimesCalledOnMemoryWarning = 0
   func onMemoryWarning() {
     numberOfTimesCalledOnMemoryWarning += 1
-    
-    queueUsedForTheLastCall = currentQueueSpecific()
   }
 }
