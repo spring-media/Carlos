@@ -1,6 +1,8 @@
 import WatchKit
 import Foundation
+
 import Carlos
+import OpenCombine
 
 private struct Country {
   let name: String
@@ -10,7 +12,9 @@ private struct Country {
 class InterfaceController: WKInterfaceController {
   @IBOutlet var tableView: WKInterfaceTable!
   
-  let imageCache = CacheProvider.imageCache().capRequests(3)
+  let imageCache = CacheProvider.imageCache()
+  
+  private var cancellables = Set<AnyCancellable>()
   
   private let countries = [
     Country(name: "Italy", flagURL: URL(string: "http://2.bp.blogspot.com/-51ZhmfLCi9s/VBLNUQL-giI/AAAAAAAAAfA/LTayxh5K3C4/s1600/flag_italy_mini.gif")!),
@@ -37,9 +41,9 @@ class InterfaceController: WKInterfaceController {
         row.countryName.setText(country.name)
         row.flagImage.setImage(UIImage(named: "placeholder"))
         
-        imageCache.get(country.flagURL).onSuccess {
-          row.flagImage.setImage($0)
-        }
+        imageCache.get(country.flagURL).sink(receiveCompletion: { _ in }) { image in
+          row.flagImage.setImage(image)
+        }.store(in: &cancellables)
       }
     }
   }

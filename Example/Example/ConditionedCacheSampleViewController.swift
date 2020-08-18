@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
+
 import Carlos
-import PiedPiper
+import OpenCombine
 
 enum ConditionError: Error {
   case globalKillSwitch
@@ -17,17 +18,23 @@ enum ConditionError: Error {
   }
 }
 
-class ConditionedCacheSampleViewController: BaseCacheViewController {
+final class ConditionedCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<URL, NSData>!
   private var globalKillSwitch = false
+  
+  private var cancellables = Set<AnyCancellable>()
   
   override func fetchRequested() {
     super.fetchRequested()
     
     cache.get(URL(string: urlKeyField?.text ?? "")!)
-      .onFailure { errorThrowing in
-        self.eventsLogView.text = "\(self.eventsLogView.text!)Failed because of condition\n"
-      }
+      .sink(receiveCompletion: { completion in
+        if case let .failure(error) = completion {
+          self.eventsLogView.text = "\(self.eventsLogView.text!)Failed because of condition\n"
+          print(error)
+        }
+      }, receiveValue: { _ in })
+      .store(in: &cancellables)
   }
   
   override func titleForScreen() -> String {
@@ -41,18 +48,15 @@ class ConditionedCacheSampleViewController: BaseCacheViewController {
   override func setupCache() {
     super.setupCache()
     
-    cache = simpleCache().conditioned { key -> Future<Bool> in
-      let result = Promise<Bool>()
-      
+    cache = simpleCache().conditioned { key -> AnyPublisher<Bool, Error> in
       if self.globalKillSwitch {
-        result.fail(ConditionError.globalKillSwitch)
+        return Fail(error: ConditionError.globalKillSwitch).eraseToAnyPublisher()
       } else if key.scheme != "http" {
-        result.fail(ConditionError.urlScheme)
-      } else {
-        result.succeed(true)
+        return Fail(error: ConditionError.urlScheme).eraseToAnyPublisher()
       }
       
-      return result.future
+      return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
+
     }
   }
 }

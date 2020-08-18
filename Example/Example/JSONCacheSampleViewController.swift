@@ -1,18 +1,23 @@
 import Foundation
 import UIKit
+
 import Carlos
+import OpenCombine
 
 private var myContext = 0
 
-class JSONCacheSampleViewController: BaseCacheViewController {
+final class JSONCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<URL, AnyObject>!
+  private var cancellables = Set<AnyCancellable>()
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    cache.get(URL(string: urlKeyField?.text ?? "")!).onSuccess { JSON in
-      self.eventsLogView.text = "\(self.eventsLogView.text!)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
-    }
+    cache.get(URL(string: urlKeyField?.text ?? "")!)
+      .sink(receiveCompletion: { _ in }, receiveValue: { JSON in
+        self.eventsLogView.text = "\(self.eventsLogView.text!)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
+      })
+      .store(in: &cancellables)
     
     let progress = Progress.current()
     progress?.addObserver(self, forKeyPath: "fractionCompleted", options: .initial, context: &myContext)

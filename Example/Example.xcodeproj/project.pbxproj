@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,6 @@
 		520863771B64268000F740C7 /* DataCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */; };
 		5208637F1B64268E00F740C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5208637C1B64268E00F740C7 /* Main.storyboard */; };
 		520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */; };
-		520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */; };
 		520863851B64314400F740C7 /* DelayedNetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */; };
 		5216CD0F1BC04B43005B729F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD0E1BC04B43005B729F /* AppDelegate.swift */; };
 		5216CD111BC04B43005B729F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5216CD101BC04B43005B729F /* ViewController.swift */; };
@@ -40,14 +39,10 @@
 		AD64D98E1B8DE69200C783D3 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD64D98D1B8DE69200C783D3 /* ExtensionDelegate.swift */; };
 		AD64D9901B8DE69200C783D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD64D98F1B8DE69200C783D3 /* Assets.xcassets */; };
 		AD64D9941B8DE69200C783D3 /* ExampleWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AD64D97A1B8DE69200C783D3 /* ExampleWatchSample.app */; };
-		CCC88FA824ADDB60008C4060 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FA724ADDB60008C4060 /* Carlos.framework */; };
-		CCC88FA924ADDB60008C4060 /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FA724ADDB60008C4060 /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CCC88FAB24ADDB78008C4060 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FAA24ADDB78008C4060 /* Carlos.framework */; };
-		CCC88FAC24ADDB78008C4060 /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FAA24ADDB78008C4060 /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CCC88FAE24ADDB7F008C4060 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FAD24ADDB7F008C4060 /* Carlos.framework */; };
-		CCC88FAF24ADDB7F008C4060 /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FAD24ADDB7F008C4060 /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CCC88FB224ADDB83008C4060 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FB124ADDB83008C4060 /* Carlos.framework */; };
-		CCC88FB324ADDB83008C4060 /* Carlos.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88FB124ADDB83008C4060 /* Carlos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CC6E521924EC192700DF1D80 /* Carlos in Frameworks */ = {isa = PBXBuildFile; productRef = CC6E521824EC192700DF1D80 /* Carlos */; };
+		CC6E521B24EC192F00DF1D80 /* Carlos in Frameworks */ = {isa = PBXBuildFile; productRef = CC6E521A24EC192F00DF1D80 /* Carlos */; };
+		CC6E521D24EC193500DF1D80 /* Carlos in Frameworks */ = {isa = PBXBuildFile; productRef = CC6E521C24EC193500DF1D80 /* Carlos */; };
+		CC6E521F24EC194E00DF1D80 /* Carlos in Frameworks */ = {isa = PBXBuildFile; productRef = CC6E521E24EC194E00DF1D80 /* Carlos */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,17 +63,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5216CD291BC04BD9005B729F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88FB324ADDB83008C4060 /* Carlos.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		AD64D9981B8DE69200C783D3 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,17 +74,6 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD695D251B46CD73004E998D /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88FAC24ADDB78008C4060 /* Carlos.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ADBC8F4C1B8DE4AB0080EF0A /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -110,28 +83,6 @@
 				AD64D9941B8DE69200C783D3 /* ExampleWatchSample.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC03131424ACA5B1002AB2BE /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88FA924ADDB60008C4060 /* Carlos.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCC88FB024ADDB7F008C4060 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88FAF24ADDB7F008C4060 /* Carlos.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -149,7 +100,6 @@
 		520863781B64268700F740C7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5208637D1B64268E00F740C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PooledCacheSampleViewController.swift; sourceTree = "<group>"; };
-		520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CappedRequestCacheSampleViewController.swift; sourceTree = "<group>"; };
 		520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayedNetworkFetcher.swift; sourceTree = "<group>"; };
 		5216CD0C1BC04B43005B729F /* ExampleTvSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleTvSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5216CD0E1BC04B43005B729F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -189,7 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC88FB224ADDB83008C4060 /* Carlos.framework in Frameworks */,
+				CC6E521D24EC193500DF1D80 /* Carlos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC88FAE24ADDB7F008C4060 /* Carlos.framework in Frameworks */,
+				CC6E521B24EC192F00DF1D80 /* Carlos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC88FA824ADDB60008C4060 /* Carlos.framework in Frameworks */,
+				CC6E521F24EC194E00DF1D80 /* Carlos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC88FAB24ADDB78008C4060 /* Carlos.framework in Frameworks */,
+				CC6E521924EC192700DF1D80 /* Carlos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,7 +267,6 @@
 				5208636D1B64268000F740C7 /* MemoryWarningSampleViewController.swift */,
 				5208636E1B64268000F740C7 /* DataCacheSampleViewController.swift */,
 				520863801B642D4A00F740C7 /* PooledCacheSampleViewController.swift */,
-				520863821B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift */,
 				520863841B64314400F740C7 /* DelayedNetworkFetcher.swift */,
 				528FAD471B7B0DCB0020A70E /* SwitchCacheSampleViewController.swift */,
 				522A4E6A1B7BDACB00646D52 /* ImageCacheSampleViewController.swift */,
@@ -345,13 +294,15 @@
 				5216CD081BC04B43005B729F /* Sources */,
 				5216CD091BC04B43005B729F /* Frameworks */,
 				5216CD0A1BC04B43005B729F /* Resources */,
-				5216CD291BC04BD9005B729F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ExampleTvSample;
+			packageProductDependencies = (
+				CC6E521C24EC193500DF1D80 /* Carlos */,
+			);
 			productName = CarlosTvSample;
 			productReference = 5216CD0C1BC04B43005B729F /* ExampleTvSample.app */;
 			productType = "com.apple.product-type.application";
@@ -363,13 +314,15 @@
 				52CF0ACA1B920DC20061022D /* Sources */,
 				52CF0ACB1B920DC20061022D /* Frameworks */,
 				52CF0ACC1B920DC20061022D /* Resources */,
-				CCC88FB024ADDB7F008C4060 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ExampleMacSample;
+			packageProductDependencies = (
+				CC6E521A24EC192F00DF1D80 /* Carlos */,
+			);
 			productName = CarlosMacSample;
 			productReference = 52CF0ACE1B920DC20061022D /* ExampleMacSample.app */;
 			productType = "com.apple.product-type.application";
@@ -398,13 +351,15 @@
 				AD64D9821B8DE69200C783D3 /* Sources */,
 				AD64D9831B8DE69200C783D3 /* Frameworks */,
 				AD64D9841B8DE69200C783D3 /* Resources */,
-				CC03131424ACA5B1002AB2BE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "ExampleWatchSample Extension";
+			packageProductDependencies = (
+				CC6E521E24EC194E00DF1D80 /* Carlos */,
+			);
 			productName = "CarlosWatchSample Extension";
 			productReference = AD64D9861B8DE69200C783D3 /* ExampleWatchSample Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
@@ -416,7 +371,6 @@
 				AD695CDB1B46CD65004E998D /* Sources */,
 				AD695CDC1B46CD65004E998D /* Frameworks */,
 				AD695CDD1B46CD65004E998D /* Resources */,
-				AD695D251B46CD73004E998D /* Embed Frameworks */,
 				ADBC8F4C1B8DE4AB0080EF0A /* Embed Watch Content */,
 			);
 			buildRules = (
@@ -425,6 +379,9 @@
 				AD64D9931B8DE69200C783D3 /* PBXTargetDependency */,
 			);
 			name = ExampleSample;
+			packageProductDependencies = (
+				CC6E521824EC192700DF1D80 /* Carlos */,
+			);
 			productName = CarlosSample;
 			productReference = AD695CDF1B46CD65004E998D /* ExampleSample.app */;
 			productType = "com.apple.product-type.application";
@@ -437,7 +394,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = WeltN24;
 				TargetAttributes = {
 					5216CD0B1BC04B43005B729F = {
@@ -572,7 +529,6 @@
 				522A4E6B1B7BDACB00646D52 /* ImageCacheSampleViewController.swift in Sources */,
 				5208636F1B64268000F740C7 /* AppDelegate.swift in Sources */,
 				520863721B64268000F740C7 /* ConditionedCacheSampleViewController.swift in Sources */,
-				520863831B6430C600F740C7 /* CappedRequestCacheSampleViewController.swift in Sources */,
 				520863741B64268000F740C7 /* ExamplesListViewController.swift in Sources */,
 				520863711B64268000F740C7 /* ComplexCacheSampleViewController.swift in Sources */,
 				520863811B642D4A00F740C7 /* PooledCacheSampleViewController.swift in Sources */,
@@ -636,7 +592,6 @@
 		5216CD181BC04B43005B729F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -645,19 +600,21 @@
 					"$(PROJECT_DIR)/../Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = CarlosTvSample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosTvSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.2;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
 		5216CD191BC04B43005B729F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -665,12 +622,15 @@
 					"$(PROJECT_DIR)/../Carthage/Build/tvOS",
 				);
 				INFOPLIST_FILE = CarlosTvSample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosTvSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.2;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -678,6 +638,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -685,7 +646,10 @@
 					"$(PROJECT_DIR)/../Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = CarlosMacSample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosMacSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -698,13 +662,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = CarlosMacSample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosMacSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -722,7 +690,11 @@
 					"$(PROJECT_DIR)/../Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosSample.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -741,13 +713,18 @@
 					"$(PROJECT_DIR)/../Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "CarlosWatchSample Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosSample.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
@@ -811,6 +788,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -836,7 +814,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 0.10.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -845,7 +823,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvos macosx watchos watchsimulator appletvsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Debug;
@@ -873,6 +851,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -891,15 +870,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 0.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.carlos;
 				PRODUCT_NAME = Carlos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvos macosx watchos watchsimulator appletvsimulator";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
@@ -916,8 +896,11 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -938,8 +921,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.CarlosSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1007,6 +993,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CC6E521824EC192700DF1D80 /* Carlos */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Carlos;
+		};
+		CC6E521A24EC192F00DF1D80 /* Carlos */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Carlos;
+		};
+		CC6E521C24EC193500DF1D80 /* Carlos */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Carlos;
+		};
+		CC6E521E24EC194E00DF1D80 /* Carlos */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Carlos;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD695CD71B46CD65004E998D /* Project object */;
 }

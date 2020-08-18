@@ -1,29 +1,30 @@
 import Foundation
 import UIKit
-import Carlos
 
-class ImageCacheSampleViewController: BaseCacheViewController {
+import Carlos
+import OpenCombine
+
+final class ImageCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<URL, UIImage>!
+  private var cancellables = Set<AnyCancellable>()
+  
   @IBOutlet weak var imageView: UIImageView?
   
   override func fetchRequested() {
     super.fetchRequested()
     
     cache.get(URL(string: urlKeyField?.text ?? "")!)
-      .onCompletion { result in
-        guard let imageView = self.imageView else {
-          return
-        }
-        
-        switch result {
-        case .success(let image):
-          imageView.image = image
-        case .error(_):
-          imageView.image = self.imageWithColor(.darkGray, size: imageView.frame.size)
+      .sink(receiveCompletion: { completion in
+        switch completion {
+        case .failure:
+          self.imageView?.image = self.imageWithColor(.darkGray, size: self.imageView?.frame.size ?? .zero)
         default:
           break
         }
-      }
+      }, receiveValue: { image in
+        self.imageView?.image = image
+      })
+      .store(in: &cancellables)
   }
   
   private func imageWithColor(_ color: UIColor, size: CGSize) -> UIImage {

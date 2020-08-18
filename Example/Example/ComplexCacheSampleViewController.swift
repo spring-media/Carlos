@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
+
 import Carlos
-import PiedPiper
+import OpenCombine
 
 struct ModelDomain {
   let name: String
@@ -23,18 +24,16 @@ class CustomCacheLevel: Fetcher {
   typealias KeyType = Int
   typealias OutputType = String
   
-  func get(_ key: KeyType) -> Future<OutputType> {
-    let request = Promise<OutputType>()
-    
+  func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
     if key > 0 {
-      Logger.log("Fetched \(key) on the custom cache", .Info)
-      request.succeed("\(key)")
-    } else {
-      Logger.log("Failed fetching \(key) on the custom cache", .Info)
-      request.fail(IgnoreError.ignore)
+      Logger.log("Fetched \(key) on the custom cache", .info)
+      return Just("\(key)")
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
     }
     
-    return request.future
+    Logger.log("Failed fetching \(key) on the custom cache", .info)
+    return Fail(error: IgnoreError.ignore).eraseToAnyPublisher()
   }
 }
 
@@ -46,6 +45,8 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
   
   private var cache: BasicCache<ModelDomain, NSData>!
   
+  private var cancellables = Set<AnyCancellable>()
+  
   override func titleForScreen() -> String {
     return "Complex cache"
   }
@@ -54,15 +55,17 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     super.setupCache()
     
     let modelDomainToString = OneWayTransformationBox<ModelDomain, String>(transform: {
-      Future($0.name)
+      Just($0.name).setFailureType(to: Error.self).eraseToAnyPublisher()
     })
     
     let modelDomainToInt = OneWayTransformationBox<ModelDomain, Int>(transform: {
-      Future($0.identifier)
+      Just($0.identifier).setFailureType(to: Error.self).eraseToAnyPublisher()
     })
     
     let stringToData = StringTransformer().invert()
-    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: { Future($0.uppercased()) })
+    let uppercaseTransformer = OneWayTransformationBox<String, String>(transform: {
+      Just($0.uppercased()).setFailureType(to: Error.self).eraseToAnyPublisher()
+    })
     
     let memoryAndDisk = MemoryCacheLevel()
       .compose(DiskCacheLevel<String, NSData>())
@@ -76,16 +79,13 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
       .compose(customCache)
       .compose(
         BasicFetcher(getClosure: { (key: ModelDomain) in
-          let request = Promise<NSData>()
+          Logger.log("Fetched \(key.name) on the fetcher closure", .info)
           
-          Logger.log("Fetched \(key.name) on the fetcher closure", .Info)
-          
-          request.succeed(("Last level was hit!".data(using: .utf8, allowLossyConversion: false) as NSData?)!)
-          
-          return request.future
+          return Just(("Last level was hit!".data(using: .utf8, allowLossyConversion: false) as NSData?)!)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
         })
       )
-      .dispatch(DispatchQueue.global(qos: .userInitiated))
   }
   
   override func fetchRequested() {
@@ -93,7 +93,11 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     
     let key = ModelDomain(name: nameField.text ?? "", identifier: Int(identifierField.text ?? "") ?? 0, URL: URL(string: urlField.text ?? "")!)
     
-    _ = cache.get(key)
+    cache.get(key)
+      .subscribe(on: DispatchQueue(label: "carlose test queu", qos: .userInitiated).ocombine)
+      .sink(receiveCompletion: { _ in }) { data in
+        print(data)
+      }.store(in: &cancellables)
     
     for field in [nameField, identifierField, urlField] {
       field?.resignFirstResponder()
