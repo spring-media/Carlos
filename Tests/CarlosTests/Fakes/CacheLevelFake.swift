@@ -3,7 +3,7 @@ import Foundation
 import Carlos
 import OpenCombine
 
-class CacheLevelFake<A, B>: CacheLevel {
+class CacheLevelFake<A: Hashable, B>: CacheLevel {
   typealias KeyType = A
   typealias OutputType = B
   
@@ -15,26 +15,24 @@ class CacheLevelFake<A, B>: CacheLevel {
   var numberOfTimesCalledGet = 0
   var didGetKey: KeyType?
   var getSubject: PassthroughSubject<OutputType, Error>?
-  var getPublishers: [AnyPublisher<OutputType, Error>] = []
+  var getPublishers: [KeyType: PassthroughSubject<OutputType, Error>] = [:]
   func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
     numberOfTimesCalledGet += 1
-    
     didGetKey = key
-    
     queueUsedForTheLastCall = currentQueueSpecific()
     
-    let publisher: AnyPublisher<OutputType, Error>
-    
-    if let subject = getSubject {
-      publisher = subject.eraseToAnyPublisher()
-    } else {
-      getSubject = PassthroughSubject()
-      publisher = getSubject!.eraseToAnyPublisher()
+    if let getSubject = getSubject {
+      return getSubject.eraseToAnyPublisher()
     }
     
-    getPublishers.append(publisher)
+    if let subject = getPublishers[key] {
+      return subject.eraseToAnyPublisher()
+    }
     
-    return publisher
+    let newSubject = PassthroughSubject<OutputType, Error>()
+    getPublishers[key] = newSubject
+    
+    return newSubject.eraseToAnyPublisher()
   }
   
   // MARK: Set
@@ -43,7 +41,7 @@ class CacheLevelFake<A, B>: CacheLevel {
   var didSetValue: OutputType?
   var didSetKey: KeyType?
   var setSubject: PassthroughSubject<Void, Error>?
-  var setPublishers: [AnyPublisher<Void, Error>] = []
+  var setPublishers: [KeyType: PassthroughSubject<Void, Error>] = [:]
   func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error> {
     numberOfTimesCalledSet += 1
     
@@ -52,18 +50,18 @@ class CacheLevelFake<A, B>: CacheLevel {
     
     queueUsedForTheLastCall = currentQueueSpecific()
     
-    let publisher: AnyPublisher<Void, Error>
-    
-    if let subject = setSubject {
-      publisher = subject.eraseToAnyPublisher()
-    } else {
-      setSubject = PassthroughSubject()
-      publisher = setSubject!.eraseToAnyPublisher()
+    if let setSubject = setSubject {
+      return setSubject.eraseToAnyPublisher()
     }
     
-    setPublishers.append(publisher)
+    if let subject = setPublishers[key] {
+      return subject.eraseToAnyPublisher()
+    }
     
-    return publisher
+    let newSubject = PassthroughSubject<Void, Error>()
+    setPublishers[key] = newSubject
+    
+    return newSubject.eraseToAnyPublisher()
   }
   
   var numberOfTimesCalledClear = 0

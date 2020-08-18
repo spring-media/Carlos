@@ -143,7 +143,7 @@ final class NSNumberFormatterTransformerTests: QuickSpec {
             }
             
             it("should return the expected number") {
-              expect("\(result)").toEventually(equal(originString))
+              expect(result.map { "\($0)" }).toEventually(equal(originString))
             }
           }
           

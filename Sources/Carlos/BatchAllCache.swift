@@ -18,10 +18,12 @@ public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLeve
    Merge the results -- if any key fails, it all fails
   */
   public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-    key.map(cache.get).publisher
+    let all = key.map(cache.get)
+    
+    return all.publisher
       .setFailureType(to: Error.self)
       .flatMap { $0 }
-      .collect()
+      .collect(all.count)
       .eraseToAnyPublisher()
   }
 
