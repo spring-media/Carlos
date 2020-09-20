@@ -61,11 +61,17 @@ public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: 
       
       Logger.log("Setting a value for the key \(key.toString()) on the user defaults cache \(self)")
       
-      softCache[key.toString()] = NSKeyedArchiver.archivedData(withRootObject: value)
-      self.internalDomain = softCache
-      self.userDefaults.setPersistentDomain(softCache, forName: self.domainName)
-      
-      promise(.success(()))
+      if let data = try? NSKeyedArchiver.archivedData(withRootObject: value, requiringSecureCoding: false) {
+        softCache[key.toString()] = data
+        self.internalDomain = softCache
+        self.userDefaults.setPersistentDomain(softCache, forName: self.domainName)
+        
+        promise(.success(()))
+      } else {
+        Logger.log("Failed setting a value for the key \(key.toString()) on the user defaults cache \(self)")
+
+        promise(.failure(FetchError.invalidCachedData))
+      }
     }
   }
   
@@ -81,7 +87,7 @@ public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: 
   public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
     DispatchQueue.global().publisher { promise in
       if let cachedValue = self.safeInternalDomain[key.toString()] {
-        if let unencodedObject = NSKeyedUnarchiver.unarchiveObject(with: cachedValue) as? T {
+        if let unencodedObject = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(cachedValue) as? T {
           Logger.log("Fetched \(key.toString()) on user defaults level (domain \(self.domainName)")
           promise(.success(unencodedObject))
         } else {

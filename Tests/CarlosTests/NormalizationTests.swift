@@ -126,8 +126,8 @@ final class NormalizationTests: QuickSpec {
         
         itBehavesLike("no-op if the original cache is a BasicCache") {
           [
-            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache,
-            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest
+            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache as Any,
+            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest as Any
           ]
         }
       }
@@ -142,8 +142,8 @@ final class NormalizationTests: QuickSpec {
         
         itBehavesLike("wrap the original cache into a BasicCache") {
           [
-            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache,
-            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest
+            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache as Any,
+            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest as Any
           ]
         }
       }

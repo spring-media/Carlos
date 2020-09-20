@@ -132,9 +132,9 @@ final class PostProcessSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("a fetch closure with post-processing step") {
         [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
+          PostProcessSharedExamplesContext.CacheToTest: cache as Any,
+          PostProcessSharedExamplesContext.InternalCache: internalCache as Any,
+          PostProcessSharedExamplesContext.Transformer: transformer as Any
         ]
       }
       
@@ -206,9 +206,9 @@ final class PostProcessTests: QuickSpec {
       
       itBehavesLike("a cache with post-processing step") {
         [
-          PostProcessSharedExamplesContext.CacheToTest: cache,
-          PostProcessSharedExamplesContext.InternalCache: internalCache,
-          PostProcessSharedExamplesContext.Transformer: transformer
+          PostProcessSharedExamplesContext.CacheToTest: cache as Any,
+          PostProcessSharedExamplesContext.InternalCache: internalCache as Any,
+          PostProcessSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

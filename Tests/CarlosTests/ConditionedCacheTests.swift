@@ -188,8 +188,8 @@ final class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("a conditioned fetch closure") {
         [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache as Any,
         ]
       }
       
@@ -262,8 +262,8 @@ final class ConditionedCacheTests: QuickSpec {
       
       itBehavesLike("a conditioned cache") {
         [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache as Any
         ]
       }
     }

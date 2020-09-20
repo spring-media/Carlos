@@ -389,9 +389,9 @@ final class ConditionedValueTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with conditioned value transformation") {
         [
-          ConditionedValueTransformationSharedExamplesContext.CacheToTest: cache,
-          ConditionedValueTransformationSharedExamplesContext.InternalCache: internalCache,
-          ConditionedValueTransformationSharedExamplesContext.Transformer: transformer
+          ConditionedValueTransformationSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedValueTransformationSharedExamplesContext.InternalCache: internalCache as Any,
+          ConditionedValueTransformationSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

@@ -312,9 +312,9 @@ final class ValueTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed values") {
         [
-          ValueTransformationsSharedExamplesContext.CacheToTest: cache,
-          ValueTransformationsSharedExamplesContext.InternalCache: internalCache,
-          ValueTransformationsSharedExamplesContext.Transformer: transformer
+          ValueTransformationsSharedExamplesContext.CacheToTest: cache as Any,
+          ValueTransformationsSharedExamplesContext.InternalCache: internalCache as Any,
+          ValueTransformationsSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

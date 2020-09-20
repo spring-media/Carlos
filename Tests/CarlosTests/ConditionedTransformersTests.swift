@@ -267,7 +267,7 @@ final class ConditionedTransformersTests: QuickSpec {
       
       itBehavesLike("a conditioned one-way transformer") {
         [
-          ConditionedTransformerSharedExamplesContext.TransformerToTest: transformer
+          ConditionedTransformerSharedExamplesContext.TransformerToTest: transformer as Any
         ]
       }
     }
@@ -311,7 +311,7 @@ final class ConditionedTransformersTests: QuickSpec {
       
       itBehavesLike("a conditioned two-way transformer") {
         [
-          ConditionedTransformerSharedExamplesContext.TransformerToTest: transformer
+          ConditionedTransformerSharedExamplesContext.TransformerToTest: transformer as Any
         ]
       }
     }

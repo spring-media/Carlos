@@ -256,9 +256,9 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
         
         itBehavesLike("get without considering set calls") {
           [
-            ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-            ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-            ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+            ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+            ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+            ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
           ]
         }
         
@@ -307,17 +307,17 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("first cache is a cache") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
       
       itBehavesLike("second cache is a cache") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
       
@@ -633,9 +633,9 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("get without considering set calls") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
     }
@@ -653,17 +653,17 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("get without considering set calls") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
       
       itBehavesLike("second cache is a cache") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
     }
@@ -681,17 +681,17 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("get on caches") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
       
       itBehavesLike("first cache is a cache") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
     }
@@ -709,17 +709,17 @@ final class CompositionSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("get on caches") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
       
       itBehavesLike("both caches are caches") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
     }
@@ -742,9 +742,9 @@ final class CacheLevelCompositionTests: QuickSpec {
       
       itBehavesLike("a composed cache") {
         [
-          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1,
-          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2,
-          ComposedCacheSharedExamplesContext.CacheToTest: composedCache
+          ComposedCacheSharedExamplesContext.FirstComposedCache: cache1 as Any,
+          ComposedCacheSharedExamplesContext.SecondComposedCache: cache2 as Any,
+          ComposedCacheSharedExamplesContext.CacheToTest: composedCache as Any
         ]
       }
     }

@@ -140,9 +140,9 @@ final class FetcherValueTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed values") {
         [
-          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
-          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
-          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher as Any,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher as Any,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

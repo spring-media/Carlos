@@ -318,8 +318,8 @@ final class PoolCacheTests: QuickSpec {
       
       itBehavesLike("a pooled cache") {
         [
-          PoolCacheSharedExamplesContext.CacheToTest: cache,
-          PoolCacheSharedExamplesContext.InternalCache: internalCache
+          PoolCacheSharedExamplesContext.CacheToTest: cache as Any,
+          PoolCacheSharedExamplesContext.InternalCache: internalCache as Any
         ]
       }
     }
@@ -332,8 +332,8 @@ final class PoolCacheTests: QuickSpec {
       
       itBehavesLike("a pooled cache") {
         [
-          PoolCacheSharedExamplesContext.CacheToTest: cache,
-          PoolCacheSharedExamplesContext.InternalCache: internalCache
+          PoolCacheSharedExamplesContext.CacheToTest: cache as Any,
+          PoolCacheSharedExamplesContext.InternalCache: internalCache as Any
         ]
       }
     }

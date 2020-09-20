@@ -104,7 +104,7 @@ final class OneWayTransformerCompositionTests: QuickSpec {
       
       itBehavesLike("a composed one-way transformer") {
         [
-          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
+          ComposedOneWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer as Any
         ]
       }
     }

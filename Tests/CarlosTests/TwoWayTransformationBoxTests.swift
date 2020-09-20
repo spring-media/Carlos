@@ -295,7 +295,7 @@ final class TwoWayTransformationBoxTests: QuickSpec {
         
         itBehavesLike("an inverted two-way transformation box") {
           [
-            TwoWayTransformationBoxSharedExamplesContext.TransformerToTest: invertedBox
+            TwoWayTransformationBoxSharedExamplesContext.TransformerToTest: invertedBox as Any
           ]
         }
       }

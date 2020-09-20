@@ -161,7 +161,7 @@ final class TwoWayTransformerCompositionTests: QuickSpec {
       
       itBehavesLike("a composed two-way transformer") {
         [
-          ComposedTwoWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer
+          ComposedTwoWayTransformerSharedExamplesContext.TransformerToTest: composedTransformer as Any
         ]
       }
     }

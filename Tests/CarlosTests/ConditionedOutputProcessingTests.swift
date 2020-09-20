@@ -246,9 +246,9 @@ final class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguratio
       
       itBehavesLike("a fetch closure with conditioned post-processing") {
         [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
+          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache as Any,
+          ConditionedPostProcessSharedExamplesContext.Transformer: transformer as Any
         ]
       }
       
@@ -322,9 +322,9 @@ final class ConditionedOutputPostProcessingTests: QuickSpec {
       
       itBehavesLike("a cache with conditioned post-processing") {
         [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
+          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache as Any,
+          ConditionedPostProcessSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

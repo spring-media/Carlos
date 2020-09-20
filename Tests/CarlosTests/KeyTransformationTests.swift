@@ -137,7 +137,7 @@ final class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
             fakeRequest = PassthroughSubject()
             internalCache.getSubject = fakeRequest
             
-            cache.get(key)
+            _ = cache.get(key)
               .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
                   failureValue = error
@@ -181,9 +181,9 @@ final class KeyTransformationSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("a fetch closure with transformed keys") {
         [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache as Any,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache as Any,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer as Any
         ]
       }
       
@@ -327,9 +327,9 @@ final class KeyTransformationTests: QuickSpec {
       
       itBehavesLike("a cache with transformed keys") {
         [
-          KeyTransformationsSharedExamplesContext.CacheToTest: cache,
-          KeyTransformationsSharedExamplesContext.InternalCache: internalCache,
-          KeyTransformationsSharedExamplesContext.Transformer: transformer
+          KeyTransformationsSharedExamplesContext.CacheToTest: cache as Any,
+          KeyTransformationsSharedExamplesContext.InternalCache: internalCache as Any,
+          KeyTransformationsSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

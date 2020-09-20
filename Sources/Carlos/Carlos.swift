@@ -2,16 +2,8 @@ import Foundation
 import OpenCombine
 
 public struct CarlosGlobals {
-  public static let QueueNamePrefix = "com.carlos."
-  public static let Caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
-}
-
-internal func wrapClosureIntoFetcher<A, B>(_ closure: @escaping (_ key: A) -> AnyPublisher<B, Error>) -> BasicFetcher<A, B> {
-  return BasicFetcher(getClosure: closure)
-}
-
-internal func wrapClosureIntoOneWayTransformer<A, B>(_ transformerClosure: @escaping (A) -> AnyPublisher<B, Error>) -> OneWayTransformationBox<A, B> {
-  return OneWayTransformationBox(transform: transformerClosure)
+  public static let queueNamePrefix = "com.carlos."
+  public static let caches = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] 
 }
 
 /// An abstraction for a generic cache level

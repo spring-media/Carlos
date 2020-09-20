@@ -11,7 +11,7 @@ public final class Logger {
     case error = "Error"
   }
 
-  private static let queue = DispatchQueue(label: CarlosGlobals.QueueNamePrefix + "logger")
+  private static let queue = DispatchQueue(label: CarlosGlobals.queueNamePrefix + "logger")
 
   /**
   Called to output the log message. Override for custom logging.

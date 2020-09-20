@@ -185,9 +185,9 @@ final class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
     }
@@ -211,9 +211,9 @@ final class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
       
@@ -388,9 +388,9 @@ final class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
       
@@ -526,9 +526,9 @@ final class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
       
@@ -661,9 +661,9 @@ final class SwitchCacheTests: QuickSpec {
       
       itBehavesLike("a switched cache with 2 cache levels") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
     }
