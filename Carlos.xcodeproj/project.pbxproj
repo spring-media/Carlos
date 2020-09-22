@@ -314,9 +314,7 @@
 		CCC88F6D24ADD491008C4060 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F6824ADD484008C4060 /* PiedPiper.framework */; };
 		CCC88F6E24ADD491008C4060 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F6724ADD484008C4060 /* Quick.framework */; };
 		CCC88F7024ADD4DB008C4060 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F6F24ADD4DB008C4060 /* PiedPiper.framework */; };
-		CCC88F7124ADD4DB008C4060 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F6F24ADD4DB008C4060 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CCC88F7324ADD4E0008C4060 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F6224ADD453008C4060 /* PiedPiper.framework */; };
-		CCC88F7424ADD4E0008C4060 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F6224ADD453008C4060 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CCC88F7624ADD4F2008C4060 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC03141924ACCF94002AB2BE /* Carlos.framework */; };
 		CCC88F7A24ADD4FB008C4060 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CCC88F7724ADD4FB008C4060 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CCC88F7B24ADD4FB008C4060 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CCC88F7824ADD4FB008C4060 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -325,7 +323,6 @@
 		CCC88F7E24ADD50D008C4060 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F7824ADD4FB008C4060 /* PiedPiper.framework */; };
 		CCC88F7F24ADD50D008C4060 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F7924ADD4FB008C4060 /* Quick.framework */; };
 		CCC88F8124ADD564008C4060 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F8024ADD564008C4060 /* PiedPiper.framework */; };
-		CCC88F8224ADD564008C4060 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F8024ADD564008C4060 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CCC88F8424ADD56C008C4060 /* Carlos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC03148B24ACCFA0002AB2BE /* Carlos.framework */; };
 		CCC88F8824ADD575008C4060 /* PiedPiper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CCC88F8524ADD575008C4060 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CCC88F8924ADD575008C4060 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CCC88F8624ADD575008C4060 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -334,7 +331,6 @@
 		CCC88F8C24ADD587008C4060 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F8524ADD575008C4060 /* PiedPiper.framework */; };
 		CCC88F8D24ADD587008C4060 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F8724ADD575008C4060 /* Quick.framework */; };
 		CCC88F8F24ADD5A1008C4060 /* PiedPiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F8E24ADD5A1008C4060 /* PiedPiper.framework */; };
-		CCC88F9024ADD5A1008C4060 /* PiedPiper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCC88F8E24ADD5A1008C4060 /* PiedPiper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,50 +393,6 @@
 				CCC88F8924ADD575008C4060 /* Nimble.framework in CopyFiles */,
 				CCC88F8A24ADD575008C4060 /* Quick.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCC88F7224ADD4DB008C4060 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88F7124ADD4DB008C4060 /* PiedPiper.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCC88F7524ADD4E0008C4060 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88F7424ADD4E0008C4060 /* PiedPiper.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCC88F8324ADD564008C4060 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88F8224ADD564008C4060 /* PiedPiper.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCC88F9124ADD5A1008C4060 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CCC88F9024ADD5A1008C4060 /* PiedPiper.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -851,7 +803,6 @@
 				52635A191B4F0F3D00F187EE /* Frameworks */,
 				52635A1A1B4F0F3D00F187EE /* Headers */,
 				52635A1B1B4F0F3D00F187EE /* Resources */,
-				CCC88F7524ADD4E0008C4060 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -889,7 +840,6 @@
 				CC03141124ACCF94002AB2BE /* Frameworks */,
 				CC03141324ACCF94002AB2BE /* Headers */,
 				CC03141524ACCF94002AB2BE /* Resources */,
-				CCC88F7224ADD4DB008C4060 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -927,7 +877,6 @@
 				CC03148324ACCFA0002AB2BE /* Frameworks */,
 				CC03148524ACCFA0002AB2BE /* Headers */,
 				CC03148724ACCFA0002AB2BE /* Resources */,
-				CCC88F8324ADD564008C4060 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -965,7 +914,6 @@
 				CC03152C24ACCFB1002AB2BE /* Frameworks */,
 				CC03152E24ACCFB1002AB2BE /* Headers */,
 				CC03153024ACCFB1002AB2BE /* Resources */,
-				CCC88F9124ADD5A1008C4060 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
