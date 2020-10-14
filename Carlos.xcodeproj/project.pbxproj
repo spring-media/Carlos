@@ -41,7 +41,6 @@
 		526339831B52866900074CB9 /* BasicCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339821B52866900074CB9 /* BasicCacheTests.swift */; };
 		526339851B52A82800074CB9 /* CompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339841B52A82800074CB9 /* CompositionTests.swift */; };
 		526339891B52B51C00074CB9 /* DiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339881B52B51C00074CB9 /* DiskCacheTests.swift */; };
-		52635A221B4F0F3D00F187EE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52635A4F1B4F0F6F00F187EE /* BasicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3C1B4F0F6F00F187EE /* BasicCache.swift */; };
 		52635A511B4F0F6F00F187EE /* Carlos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3E1B4F0F6F00F187EE /* Carlos.swift */; };
 		52635A521B4F0F6F00F187EE /* Composed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52635A3F1B4F0F6F00F187EE /* Composed.swift */; };
@@ -119,7 +118,6 @@
 		CC03140E24ACCF94002AB2BE /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
 		CC03140F24ACCF94002AB2BE /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
 		CC03141024ACCF94002AB2BE /* ConditionedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222107B1C501C5400E682D1 /* ConditionedOneWayTransformer.swift */; };
-		CC03141424ACCF94002AB2BE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CC03142024ACCF99002AB2BE /* ImageTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */; };
 		CC03142124ACCF99002AB2BE /* MemoryWarningNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */; };
 		CC03142224ACCF99002AB2BE /* StringConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4BE1B77686300737B3B /* StringConvertibleTests.swift */; };
@@ -194,7 +192,6 @@
 		CC03148024ACCFA0002AB2BE /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
 		CC03148124ACCFA0002AB2BE /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
 		CC03148224ACCFA0002AB2BE /* ConditionedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222107B1C501C5400E682D1 /* ConditionedOneWayTransformer.swift */; };
-		CC03148624ACCFA0002AB2BE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CC0314C924ACCFAC002AB2BE /* ImageTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526005AE1BB84AB200D96242 /* ImageTransformerTests.swift */; };
 		CC0314CA24ACCFAC002AB2BE /* MemoryWarningNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526339801B52805000074CB9 /* MemoryWarningNotificationTests.swift */; };
 		CC0314CB24ACCFAC002AB2BE /* StringConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C4BE1B77686300737B3B /* StringConvertibleTests.swift */; };
@@ -269,10 +266,6 @@
 		CC03152924ACCFB1002AB2BE /* BasicFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5274A99F1BC0613C006962E8 /* BasicFetcher.swift */; };
 		CC03152A24ACCFB1002AB2BE /* Normalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250E37F1BB1345700EB7388 /* Normalize.swift */; };
 		CC03152B24ACCFB1002AB2BE /* ConditionedOneWayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222107B1C501C5400E682D1 /* ConditionedOneWayTransformer.swift */; };
-		CC03152F24ACCFB1002AB2BE /* Carlos.h in Headers */ = {isa = PBXBuildFile; fileRef = 52635A211B4F0F3D00F187EE /* Carlos.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CC5C368524EC1603004AD171 /* OpenCombineDispatch in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C368424EC1603004AD171 /* OpenCombineDispatch */; };
-		CC5C368724EC1603004AD171 /* OpenCombineFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C368624EC1603004AD171 /* OpenCombineFoundation */; };
-		CC5C368924EC1603004AD171 /* OpenCombine in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C368824EC1603004AD171 /* OpenCombine */; };
 		CC5C369224EC164D004AD171 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C369024EC164C004AD171 /* FunctionComposition.swift */; };
 		CC5C369324EC164D004AD171 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C369024EC164C004AD171 /* FunctionComposition.swift */; };
 		CC5C369424EC164D004AD171 /* FunctionComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C369024EC164C004AD171 /* FunctionComposition.swift */; };
@@ -281,21 +274,12 @@
 		CC5C369724EC164D004AD171 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C369124EC164D004AD171 /* UnfairLock.swift */; };
 		CC5C369824EC164D004AD171 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C369124EC164D004AD171 /* UnfairLock.swift */; };
 		CC5C369924EC164D004AD171 /* UnfairLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C369124EC164D004AD171 /* UnfairLock.swift */; };
-		CC5C369B24EC16A8004AD171 /* OpenCombine in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C369A24EC16A8004AD171 /* OpenCombine */; };
-		CC5C369D24EC16A8004AD171 /* OpenCombineDispatch in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C369C24EC16A8004AD171 /* OpenCombineDispatch */; };
-		CC5C369F24EC16A8004AD171 /* OpenCombineFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C369E24EC16A8004AD171 /* OpenCombineFoundation */; };
 		CC5C36A124EC16BB004AD171 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36A024EC16BB004AD171 /* Quick */; };
 		CC5C36A324EC16BF004AD171 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36A224EC16BF004AD171 /* Nimble */; };
 		CC5C36A524EC16C6004AD171 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36A424EC16C6004AD171 /* Quick */; };
 		CC5C36A724EC16C9004AD171 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36A624EC16C9004AD171 /* Nimble */; };
-		CC5C36A924EC16CF004AD171 /* OpenCombine in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36A824EC16CF004AD171 /* OpenCombine */; };
-		CC5C36AB24EC16CF004AD171 /* OpenCombineDispatch in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36AA24EC16CF004AD171 /* OpenCombineDispatch */; };
-		CC5C36AD24EC16CF004AD171 /* OpenCombineFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36AC24EC16CF004AD171 /* OpenCombineFoundation */; };
 		CC5C36AF24EC16D3004AD171 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36AE24EC16D3004AD171 /* Quick */; };
 		CC5C36B124EC16D3004AD171 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36B024EC16D3004AD171 /* Nimble */; };
-		CC5C36B324EC16DA004AD171 /* OpenCombine in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36B224EC16DA004AD171 /* OpenCombine */; };
-		CC5C36B524EC16DA004AD171 /* OpenCombineDispatch in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36B424EC16DA004AD171 /* OpenCombineDispatch */; };
-		CC5C36B724EC16DA004AD171 /* OpenCombineFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C36B624EC16DA004AD171 /* OpenCombineFoundation */; };
 		CC5C36BD24EC1725004AD171 /* FetcherFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C36B824EC1717004AD171 /* FetcherFake.swift */; };
 		CC5C36BE24EC1726004AD171 /* FetcherFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C36B824EC1717004AD171 /* FetcherFake.swift */; };
 		CC5C36BF24EC1727004AD171 /* FetcherFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C36B824EC1717004AD171 /* FetcherFake.swift */; };
@@ -428,7 +412,6 @@
 		526339881B52B51C00074CB9 /* DiskCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheTests.swift; sourceTree = "<group>"; };
 		52635A1D1B4F0F3D00F187EE /* Carlos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Carlos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52635A201B4F0F3D00F187EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52635A211B4F0F3D00F187EE /* Carlos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Carlos.h; sourceTree = "<group>"; };
 		52635A3C1B4F0F6F00F187EE /* BasicCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCache.swift; sourceTree = "<group>"; };
 		52635A3E1B4F0F6F00F187EE /* Carlos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Carlos.swift; sourceTree = "<group>"; };
 		52635A3F1B4F0F6F00F187EE /* Composed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Composed.swift; sourceTree = "<group>"; };
@@ -487,9 +470,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC5C368524EC1603004AD171 /* OpenCombineDispatch in Frameworks */,
-				CC5C368724EC1603004AD171 /* OpenCombineFoundation in Frameworks */,
-				CC5C368924EC1603004AD171 /* OpenCombine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,9 +487,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC5C369D24EC16A8004AD171 /* OpenCombineDispatch in Frameworks */,
-				CC5C369F24EC16A8004AD171 /* OpenCombineFoundation in Frameworks */,
-				CC5C369B24EC16A8004AD171 /* OpenCombine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,9 +504,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC5C36AB24EC16CF004AD171 /* OpenCombineDispatch in Frameworks */,
-				CC5C36AD24EC16CF004AD171 /* OpenCombineFoundation in Frameworks */,
-				CC5C36A924EC16CF004AD171 /* OpenCombine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,9 +521,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC5C36B524EC16DA004AD171 /* OpenCombineDispatch in Frameworks */,
-				CC5C36B724EC16DA004AD171 /* OpenCombineFoundation in Frameworks */,
-				CC5C36B324EC16DA004AD171 /* OpenCombine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,7 +561,6 @@
 				52635A4D1B4F0F6F00F187EE /* Transformers.swift */,
 				52635A4E1B4F0F6F00F187EE /* TwoWayTransformer.swift */,
 				526339741B52435C00074CB9 /* KeyTransformation.swift */,
-				52635A211B4F0F3D00F187EE /* Carlos.h */,
 				AD22FB2C1B70BBF5007F319F /* CacheProvider.swift */,
 				5243C4B21B77670F00737B3B /* StringConvertible.swift */,
 				527C65461B7A66D90005023B /* SwitchCache.swift */,
@@ -724,7 +694,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52635A221B4F0F3D00F187EE /* Carlos.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,7 +701,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC03141424ACCF94002AB2BE /* Carlos.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,7 +708,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC03148624ACCFA0002AB2BE /* Carlos.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -748,7 +715,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC03152F24ACCFB1002AB2BE /* Carlos.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -771,9 +737,6 @@
 			);
 			name = "Carlos iOS";
 			packageProductDependencies = (
-				CC5C368424EC1603004AD171 /* OpenCombineDispatch */,
-				CC5C368624EC1603004AD171 /* OpenCombineFoundation */,
-				CC5C368824EC1603004AD171 /* OpenCombine */,
 			);
 			productName = Carlos;
 			productReference = 52635A1D1B4F0F3D00F187EE /* Carlos.framework */;
@@ -817,9 +780,6 @@
 			);
 			name = "Carlos macOS";
 			packageProductDependencies = (
-				CC5C369A24EC16A8004AD171 /* OpenCombine */,
-				CC5C369C24EC16A8004AD171 /* OpenCombineDispatch */,
-				CC5C369E24EC16A8004AD171 /* OpenCombineFoundation */,
 			);
 			productName = Carlos;
 			productReference = CC03141924ACCF94002AB2BE /* Carlos.framework */;
@@ -864,9 +824,6 @@
 			);
 			name = "Carlos tvOS";
 			packageProductDependencies = (
-				CC5C36A824EC16CF004AD171 /* OpenCombine */,
-				CC5C36AA24EC16CF004AD171 /* OpenCombineDispatch */,
-				CC5C36AC24EC16CF004AD171 /* OpenCombineFoundation */,
 			);
 			productName = Carlos;
 			productReference = CC03148B24ACCFA0002AB2BE /* Carlos.framework */;
@@ -911,9 +868,6 @@
 			);
 			name = "Carlos watchOS";
 			packageProductDependencies = (
-				CC5C36B224EC16DA004AD171 /* OpenCombine */,
-				CC5C36B424EC16DA004AD171 /* OpenCombineDispatch */,
-				CC5C36B624EC16DA004AD171 /* OpenCombineFoundation */,
 			);
 			productName = Carlos;
 			productReference = CC03153424ACCFB1002AB2BE /* Carlos.framework */;
@@ -951,7 +905,6 @@
 			);
 			mainGroup = AD695CD61B46CD65004E998D;
 			packageReferences = (
-				CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */,
 				CC5C368A24EC1619004AD171 /* XCRemoteSwiftPackageReference "Quick" */,
 				CC5C368D24EC1636004AD171 /* XCRemoteSwiftPackageReference "Nimble" */,
 			);
@@ -1380,7 +1333,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1408,7 +1361,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -1524,8 +1477,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Sources/Carlos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.carlos;
@@ -1581,8 +1534,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Sources/Carlos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.axelspringer.carlos;
 				PRODUCT_NAME = Carlos;
@@ -1612,7 +1565,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1638,7 +1591,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = macosx;
@@ -1718,12 +1671,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1744,12 +1698,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1824,7 +1779,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1832,6 +1787,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -1850,7 +1806,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 1.0.0;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos";
@@ -1858,6 +1814,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
@@ -1939,14 +1896,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/OpenCombine/OpenCombine.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.10.0;
-			};
-		};
 		CC5C368A24EC1619004AD171 /* XCRemoteSwiftPackageReference "Quick" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Quick.git";
@@ -1966,36 +1915,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		CC5C368424EC1603004AD171 /* OpenCombineDispatch */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineDispatch;
-		};
-		CC5C368624EC1603004AD171 /* OpenCombineFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineFoundation;
-		};
-		CC5C368824EC1603004AD171 /* OpenCombine */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombine;
-		};
-		CC5C369A24EC16A8004AD171 /* OpenCombine */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombine;
-		};
-		CC5C369C24EC16A8004AD171 /* OpenCombineDispatch */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineDispatch;
-		};
-		CC5C369E24EC16A8004AD171 /* OpenCombineFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineFoundation;
-		};
 		CC5C36A024EC16BB004AD171 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CC5C368A24EC1619004AD171 /* XCRemoteSwiftPackageReference "Quick" */;
@@ -2016,21 +1935,6 @@
 			package = CC5C368D24EC1636004AD171 /* XCRemoteSwiftPackageReference "Nimble" */;
 			productName = Nimble;
 		};
-		CC5C36A824EC16CF004AD171 /* OpenCombine */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombine;
-		};
-		CC5C36AA24EC16CF004AD171 /* OpenCombineDispatch */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineDispatch;
-		};
-		CC5C36AC24EC16CF004AD171 /* OpenCombineFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineFoundation;
-		};
 		CC5C36AE24EC16D3004AD171 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CC5C368A24EC1619004AD171 /* XCRemoteSwiftPackageReference "Quick" */;
@@ -2040,21 +1944,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CC5C368D24EC1636004AD171 /* XCRemoteSwiftPackageReference "Nimble" */;
 			productName = Nimble;
-		};
-		CC5C36B224EC16DA004AD171 /* OpenCombine */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombine;
-		};
-		CC5C36B424EC16DA004AD171 /* OpenCombineDispatch */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineDispatch;
-		};
-		CC5C36B624EC16DA004AD171 /* OpenCombineFoundation */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CC5C368324EC1603004AD171 /* XCRemoteSwiftPackageReference "OpenCombine" */;
-			productName = OpenCombineFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

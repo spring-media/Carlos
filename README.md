@@ -1,12 +1,12 @@
 # Carlos
 
 [![Build Status](https://travis-ci.org/spring-media/Carlos.svg?branch=master)](https://travis-ci.org/spring-media/Carlos)
-[![Version](https://img.shields.io/cocoapods/v/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![License](https://img.shields.io/cocoapods/l/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
-[![Platform](https://img.shields.io/cocoapods/p/Carlos.svg?style=flat)](http://cocoapods.org/pods/Carlos)
 
-> A simple but flexible cache, written in Swift for `iOS 10+` and `WatchOS 3` apps.
+> A simple but flexible cache, written in Swift for `iOS 13+` and `WatchOS 6` apps.
+
+# Breaking Changes
+Carlos 1.0.0 has been migrated from PiedPiper dependency to Combine hence the minimum supported platfroms versions are equal to the Combine's minimum supported platforms versions. See the releases page for more information. 
 
 # Contents of this Readme
 
@@ -64,67 +64,36 @@ With `Carlos` you can:
 - easily [**pool requests**](#pooling-requests) so you don't have to care whether 5 requests with the same key have to be executed by an expensive cache level before even only 1 of them is done. `Carlos` can take care of that for you
 - [batch get requests](#batching-get-requests) to only get notified when all of them are done
 - setup [multiple lanes](#multiple-cache-lanes) for complex scenarios where, depending on certain keys or conditions, different caches should be used
-- [Cap the number of concurrent requests](#limiting-concurrent-requests) a cache should handle
-- [Dispatch](#dispatching-caches) all the operations of your cache on a specific GCD queue
 - have a type-safe complex cache that won't even compile if the code doesn't satisfy the type requirements
-
 
 ## Installation
 
-### CocoaPods
+### Swift Package Manager (Preferred)
+Add `Carlos` to your project through the Xcode or add the following line to your package dependencies: 
+```swift
+.package("https://github.com/spring-media/Carlos", from: "1.0.0")
+```
 
+### CocoaPods
 `Carlos` is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```
-pod "Carlos"
+pod "Carlos", :git => "https://github.com/spring-media/Carlos"
 ```
 
-### Submodule
-
-If you don't use CocoaPods, you can still add `Carlos` as a submodule, drag and drop `Carlos.xcodeproj` into your project, and embed `Carlos.framework` in your target.
-
-- Drag `Carlos.xcodeproj` to your project
-- Select your app target
-- Click the `+` button on the `Embedded binaries` section
-- Add `Carlos.framework`
-
 ### Carthage
-
 `Carthage` is also supported.
 
-### Manual
-
-You can directly drag and drop the needed files into your project, but keep in mind that this way you won't be able to automatically get all the latest `Carlos` features (e.g. new files including new operations).
-
-The files are contained in the `Carlos` folder.
-
-If you want to integrate `Carlos` in a WatchOS 3 app, please don't include the file `MemoryWarning.swift`.
-
-## Playground
-
-We ship a small Xcode Playground with the project, so you can quickly see how `Carlos` works and experiment with your custom layers, layers combinations and different configurations for requests pooling, capping, etc.
-
-To use our Playground, please follow these steps:
-
-- Open the Xcode project `Carlos.xcodeproj`
-- Select the `Carlos` framework target, and a **64-bit platform** (e.g. `iPhone 6`)
-- Build the target with `⌘+B`
-- Click the Playground file `Carlos.playground`
-- Write your code
-
 ## Requirements
-
-- iOS 10.0+
-- WatchOS 3+
-- Xcode 11.5+
+- iOS 13.0+
+- WatchOS 6+
+- Xcode 12+
 
 ## Usage
-
 To run the example project, clone the repo.
 
 ### Usage examples
-
 ```swift
 let cache = MemoryCacheLevel<String, NSData>().compose(DiskCacheLevel())
 ```
@@ -154,61 +123,28 @@ To fetch a value from a cache, use the `get` method.
 
 ```swift
 cache.get("key")
-  .onSuccess { value in
+  .sink( 
+    receiveCompletion: { completion in 
+      if case let .failure(error) = completion {
+        print("An error occurred :( \(error)")
+      }
+    },
+    receiveValue: { value in 
       print("I found \(value)!")
-  }
-  .onFailure { error in
-      print("An error occurred :( \(error)")
-  }
-```
-
-You can also store the request somewhere and then attach multiple `onSuccess` or `onFailure` listeners to it:
-
-```swift
-let request = cache.get("key")
-
-request.onSuccess { value in
-    print("I found \(value)!")
-}
-
-[... somewhere else]
-
-
-request.onSuccess { value in
-    print("I can read \(value), too!")
-}
-
+    }
+  )
 ```
 
 A request can also be canceled with the `cancel()` method, and you can be notified of this event by calling `onCancel` on a given request:
 
 ```swift
-let request = cache.get(key).onCancel {
-	print(""Looks like somebody canceled this request!")
-}
-
+let cancellable = cache.get(key)
+                    .handleEvents(receiveCancel: { 
+                      print("Looks like somebody canceled this request!")
+                    })
+                    .sink(...)
 [... somewhere else]
-request.cancel()
-```
-
-**When the cache request succeeds, all its listeners are called**. And **even if you add a listener after the request already did its job, you will still get the callback**.
-**A request is in only one state between *executing*, *succeeded*, *failed* or *canceled* at any given time**, and **cannot fail, succeed or be canceled more than once**.
-
-If you are just interested in when the request completes, regardless of whether it succeeded, failed or was canceled, you can use `onCompletion`:
-
-```swift
-request.onCompletion { result in
-   switch result {
-   case .success(let value):
-     print("Request succeeded with value \(value)")
-   case .error(let error):
-     print("Request failed with code \(error)")
-   case .cancelled:
-     print("This request has been canceled")
-   }
-
-   print("Nevertheless the request completed")
-}
+cancellable.cancel()
 ```
 
 This cache is not very useful, though. It will never *actively* fetch values, just store them for later use. Let's try to make it more interesting:
@@ -233,7 +169,19 @@ enum URLTransformationError: Error {
     case invalidURLString
 }
 
-let transformedCache = NetworkFetcher().transformKeys(OneWayTransformationBox(transform: { Future(value: URL(string: $0), error: URLTransformationError.invalidURLString) }))
+let transformedCache = NetworkFetcher().transformKeys(
+  OneWayTransformationBox(
+    transform: {
+      Future { promise in 
+        let url = URL(string: $0) {
+          promise(.success(url))
+        } else {
+          promise(.failure(URLTransformationError.invalidURLString))
+        }
+      }
+    }
+  )
+)
 ```
 
 With the line above, we're saying that all the keys coming into the NetworkFetcher level have to be transformed to `URL` values first. We can now plug this cache into a previously defined cache level that takes `String` keys:
@@ -250,12 +198,12 @@ struct Image {
   let URL: Foundation.URL
 }
 
-let imageToString = OneWayTransformationBox(transform: { (image: Image) -> Future<String> in
-    Future(image.identifier)
+let imageToString = OneWayTransformationBox(transform: { (image: Image) -> AnyPublisher<String, String> in
+    Just(image.identifier).eraseToAnyPublisher()
 })
 
-let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> Future<URL> in
-    Future(image.URL)
+let imageToURL = OneWayTransformationBox(transform: { (image: Image) -> AnyPublisher<URL> in
+    Just(image.URL).eraseToAnyPublisher()
 })
 
 let memoryLevel = MemoryCacheLevel<String, NSData>().transformKeys(imageToString)
@@ -270,18 +218,26 @@ Now we can perform safe requests like this:
 ```swift
 let image = Image(identifier: "550e8400-e29b-41d4-a716-446655440000", URL: URL(string: "http://goo.gl/KcGz8T")!)
 
-cache.get(image).onSuccess { value in
+cache.get(image).sink {
   print("Found \(value)!")
 }
 ```
 
-Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for key transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Future<Bool>`, having the chance to return a specific error for the failure of the transformation.
+Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for key transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `AnyPublisher<Bool, Error>`, having the chance to return a specific error for the failure of the transformation.
 
 ```swift
 let transformer = OneWayTransformationBox<String, URL>(transform: { key in
-  Future(value: URL(string: key), error: MyError.stringIsNotURL)
+  Future { promise in 
+    if let value = URL(string: key) {
+      promise(.success(value))
+    } else {
+      promise(.failure(MyError.stringIsNotURL))
+    }
+  }.eraseToAnyPublisher()
 }).conditioned { key in
-  Future(key.rangeOfString("http") != nil)
+  Just(key)
+    .filter { $0.rangeOfString("http") != nil }
+    .eraseToAnyPublisher()
 }
 
 let cache = CacheProvider.imageCache().transformKeys(transformer)
@@ -296,10 +252,10 @@ What if our disk cache only stores `Data`, but we want our memory cache to conve
 Value transformers let you have a cache that (let's say) stores `Data` and mutate it to a cache that stores `UIImage` values. Let's see how:
 
 ```swift
-let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> Future<Data> in
-    Future(UIImagePNGRepresentation(image))
-}, inverseTransform: { (data: Data) -> Future<UIImage> in
-    Future(UIImage(data: data)!)
+let dataTransformer = TwoWayTransformationBox(transform: { (image: UIImage) -> AnyPublisher<Data, Error> in
+    Just(UIImagePNGRepresentation(image)).eraseToAnyPublisher()
+}, inverseTransform: { (data: Data) -> AnyPublisher<UIImage, Error> in
+    Just(UIImage(data: data)!).eraseToAnyPublisher()
 })
 
 let memoryLevel = MemoryCacheLevel<String, UIImage>().transformKeys(imageToString).transformValues(dataTransformer)
@@ -321,13 +277,13 @@ This means you can easily chain `Fetcher`s that get a JSON from the internet and
 
 As of `Carlos 0.5`, all transformers natively support asynchronous computation, so you can have expensive transformations in your custom transformers without blocking other operations. In fact, the `ImageTransformer` that comes out of the box processes image transformations on a background queue.
 
-As of `Carlos 0.5` you can also apply conditions to `TwoWayTransformers` used for value transformations. Just call the `conditioned` function on the transformer and pass your conditions (one for the forward transformation, one for the inverse transformation). The conditions can also be asynchronous and have to return a `Future<Bool>`, having the chance to return a specific error for the failure of the transformation.
+As of `Carlos 0.5` you can also apply conditions to `TwoWayTransformers` used for value transformations. Just call the `conditioned` function on the transformer and pass your conditions (one for the forward transformation, one for the inverse transformation). The conditions can also be asynchronous and have to return a `AnyPublisher<Bool, Error>`, having the chance to return a specific error for the failure of the transformation.
 
 ```swift
 let transformer = JSONTransformer().conditioned({ input in
-  Future(myCondition)
+  Just(myCondition).eraseToAnyPublisher()
 }, inverseCondition: { input in
-  Future(myCondition)
+  Just(myCondition)eraseToAnyPublisher()
 })
 
 let cache = CacheProvider.dataCache().transformValues(transformer)
@@ -344,7 +300,7 @@ The `postProcess` function takes a `CacheLevel` and a `OneWayTransformer` with `
 
 ```swift
 // Let's create a simple "to uppercase" transformer
-let transformer = OneWayTransformationBox<NSString, String>(transform: { Future($0.uppercased() as String) })
+let transformer = OneWayTransformationBox<NSString, String>(transform: { Just($0.uppercased() as String).eraseToAnyPublisher() })
 
 // Our memory cache
 let memoryCache = MemoryCacheLevel<String, NSString>()
@@ -356,23 +312,29 @@ let transformedCache = memoryCache.postProcess(transformer)
 memoryCache.set("test String", forKey: "key")
 
 // We get the lowercase value from the undecorated memory layer
-memoryCache.get("key").onSuccess { value in
+memoryCache.get("key").sink { value in
   let x = value
 }
 
 // We get the uppercase value from the decorated cache, though
-transformedCache.get("key").onSuccess { value in
+transformedCache.get("key").sink { value in
   let x = value
 }
 ```
 
-Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for post processing transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `Future<Bool>`, having the chance to return a specific error for the failure of the transformation. Keep in mind that the condition will actually take the output of the cache as the input, not the key used to fetch this value! If you want to apply conditions based on the key, use `conditionedPostProcess` instead, but keep in mind this doesn't support using `OneWayTransformer` instances yet.
+Since `Carlos 0.5` you can also apply conditions to `OneWayTransformers` used for post processing transformations. Just call the `conditioned` function on the transformer and pass your condition. The condition can also be asynchronous and has to return a `AnyPublisher<Bool, Error>`, having the chance to return a specific error for the failure of the transformation. Keep in mind that the condition will actually take the output of the cache as the input, not the key used to fetch this value! If you want to apply conditions based on the key, use `conditionedPostProcess` instead, but keep in mind this doesn't support using `OneWayTransformer` instances yet.
 
 ```swift
 let processer = OneWayTransformationBox<NSData, NSData>(transform: { value in
-      Future(value: String(data: value as Data, encoding: .utf8)?.uppercased().data(using: .utf8) as NSData?, error: FetchError.conditionNotSatisfied)
+      Future { promise in 
+        if let value = String(data: value as Data, encoding: .utf8)?.uppercased().data(using: .utf8) as NSData? {
+          promise(.success(value))
+        } else {
+          promise(.failure(FetchError.conditionNotSatisfied))
+        }
+      }
     }).conditioned { value in
-      Future(value.length < 1000)
+      Just(value.length < 1000).eraseToAnyPublisher()
     }
 
 let cache = CacheProvider.dataCache().postProcess(processer)
@@ -395,9 +357,9 @@ let memoryCache = MemoryCacheLevel<String, NSString>()
 // Our decorated cache
 let transformedCache = memoryCache.conditionedPostProcess(ConditionedOneWayTransformationBox(conditionalTransformClosure: { (key, value) in
 	if key == "some sentinel value" {
-	    return Future(value.uppercased())
+	    return Just(value.uppercased()).eraseToAnyPublisher()
 	} else {
-	    return Future(value)
+	    return Just(value).eraseToAnyPublisher()
 	}
 })
 
@@ -405,12 +367,12 @@ let transformedCache = memoryCache.conditionedPostProcess(ConditionedOneWayTrans
 memoryCache.set("test String", forKey: "some sentinel value")
 
 // We get the lowercase value from the undecorated memory layer
-memoryCache.get("some sentinel value").onSuccess { value in
+memoryCache.get("some sentinel value").sink { value in
   let x = value
 }
 
 // We get the uppercase value from the decorated cache, though
-transformedCache.get("some sentinel value").onSuccess { value in
+transformedCache.get("some sentinel value").sink { value in
   let x = value
 }
 ```
@@ -432,15 +394,15 @@ let memoryCache = MemoryCacheLevel<String, NSString>()
 // Our decorated cache
 let transformedCache = memoryCache.conditionedValueTransformation(ConditionedTwoWayTransformationBox(conditionalTransformClosure: { (key, value) in
 	if key == "some sentinel value" {
-	    return Future(1)
+	    return Just(1).eraseToAnyPublisher()
 	} else {
-	    return Future(0)
+	    return Just(0).eraseToAnyPublisher()
 	}
 }, conditionalInverseTransformClosure: { (key, value) in
     if key > 0 {
-	    return Future("Positive")
+	    return Just("Positive").eraseToAnyPublisher()
 	} else {
-		return Future("Null or negative")
+		return Just("Null or negative").eraseToAnyPublisher()
 	}
 })
 
@@ -448,12 +410,12 @@ let transformedCache = memoryCache.conditionedValueTransformation(ConditionedTwo
 memoryCache.set("test String", forKey: "some sentinel value")
 
 // We get the same value from the undecorated memory layer
-memoryCache.get("some sentinel value").onSuccess { value in
+memoryCache.get("some sentinel value").sink { value in
   let x = value
 }
 
 // We get 1 from the decorated cache, though
-transformedCache.get("some sentinel value").onSuccess { value in
+transformedCache.get("some sentinel value").sink { value in
   let x = value
 }
 
@@ -511,11 +473,11 @@ Now we can execute multiple fetches for the same `Image` value and be sure that 
 ### Batching get requests
 
 Since `Carlos 0.7` you can pass a list of keys to your `CacheLevel` through `batchGetSome`.
-This returns a `Future` that succeeds when all the requests for the specified keys *complete*, not necessarily succeeding. You will only get the successful values in the success callback, though.
+This returns a `AnyPublisher` that succeeds when all the requests for the specified keys *complete*, not necessarily succeeding. You will only get the successful values in the success callback, though.
 
 Since `Carlos 0.9` you can transform your `CacheLevel` into one that takes a list of keys through `allBatch`.
-Calling `get` on such a `CacheLevel` returns a `Future` that succeeds only when the requests for **all** of the specified keys succeed, and fails **as soon as one** of the requests for the specified keys fails.
-If you cancel the `Future` returned by this `CacheLevel`, all of the pending requests are canceled, too.
+Calling `get` on such a `CacheLevel` returns a `AnyPublisher` that succeeds only when the requests for **all** of the specified keys succeed, and fails **as soon as one** of the requests for the specified keys fails.
+If you cancel the `AnyPublisher` returned by this `CacheLevel`, all of the pending requests are canceled, too.
 
 An example of the usage:
 
@@ -528,41 +490,21 @@ for iter in 0..<99 {
 
 let keysToBatch = (0..<100).map { "key_\($0)" }
 
-cache.batchGetSome().get(keysToBatch)
-  .onSuccess { values in
-    print("Got \(values.count) values in total")
-  }.onFailure {
-    print("Failed because \($0)")
-  }
+cache.batchGetSome(keysToBatch).sink(
+    receiveCompletion: { completion in 
+        print("Failed because \($0)")
+    },
+    receiveValue: { values in 
+        print("Got \(values.count) values in total")
+    }
+)
 ```
 
 In this case the `allBatch().get` call would fail because there are only 99 keys set and the last request will make the whole batch fail, with a `valueNotInCache` error. The `batchGetSome().get` will succeed instead, printing `Got 99 values in total`.
 
-
 Since `allBatch` returns a new `CacheLevel` instance, it can be composed or transformed just like any other cache:
 
-```swift
-let cache = MemoryCacheLevel<String, Int>()
-              .allBatch()
-              .capRequests(3)
-```
-
-In this case `cache` is a cache that takes a sequence of `String` keys and returns a `Future` of a list of `Int` values, but is limited to 3 concurrent requests (see the next paragraph for more information on limiting concurrent requests).
-
-### Limiting concurrent requests
-
-If you want to limit the number of concurrent requests a cache level can take, independently of the key (otherwise, see the [pooling requests](#pooling-requests) paragraph), you may want to have a look at the `capRequests` function.
-
-This is how it looks in practice:
-
-```swift
-let myCache = MyFirstLevel().compose(MySecondLevel())
-
-let cappedCache = myCache.capRequests(3)
-```
-
-`cappedCache` will now only accept a maximum of `3` concurrent `get` operations. If a fourth request comes, it will be enqueued and executed only at a later point when one of the executing requests is done. This may be useful when a resource is only accessible by a limited number of consumers at the same time, and creating another connection to the resource could be expensive or decrease the performance of the already executing requests.
-
+In this case `cache` is a cache that takes a sequence of `String` keys and returns a `AnyPublisher` of a list of `Int` values, but is limited to 3 concurrent requests (see the next paragraph for more information on limiting concurrent requests).
 
 ### Conditioning caches
 
@@ -570,25 +512,13 @@ Sometimes we may have levels that should only be queried under some conditions. 
 
 ```swift
 let conditionedCache = cache.conditioned { key in
-  Future(appSettingIsEnabled)
+  Just(appSettingIsEnabled).eraseToAnyPublisher()
 }
 ```
 
-The closure gets the key the cache was asked to fetch and has to return a `Future<Bool>` object indicating whether the request can proceed or should skip the level, with the possibility to fail with a specific `Error` to communicate the error to the caller.
+The closure gets the key the cache was asked to fetch and has to return a `AnyPublisher<Bool, Error>` object indicating whether the request can proceed or should skip the level, with the possibility to fail with a specific `Error` to communicate the error to the caller.
 
 At runtime, if the variable `appSettingIsEnabled` is `false`, the `get` request will skip the level (or fail if this was the only or last level in the cache). If `true`, the `get` request will be executed.
-
-### Dispatching caches
-
-Since the `Carlos 0.5` release it's possible to dispatch all the operations of a given `CacheLevel` on a specific GCD queue through the `dispatch` protocol extension.
-
-```swift
-let queue = DispatchQueue(label: "com.vendor.customQueue", attributes: .concurrent)
-
-let cache = CacheProvider.imageCache().dispatch(queue)
-```
-
-The resulting `CacheLevel` will dispatch `get`, `set`, `onMemoryWarning` and `clear` operations on the specified queue.
 
 ### Multiple cache lanes
 
@@ -633,11 +563,10 @@ Keep in mind that this functionality is not yet supported by the WatchOS 2 frame
 
 ### Normalization
 
-In case you need to store the result of multiple `Carlos` composition calls in a property, it may be troublesome to set the type of the property to `BasicCache` as some calls return different types (e.g. `PoolCache`, `RequestCapperCache`). In this case, you can `normalize` the cache level before assigning it to the property and it will be converted to a `BasicCache` value.
+In case you need to store the result of multiple `Carlos` composition calls in a property, it may be troublesome to set the type of the property to `BasicCache` as some calls return different types (e.g. `PoolCache`). In this case, you can `normalize` the cache level before assigning it to the property and it will be converted to a `BasicCache` value.
 
 ```swift
 import Carlos
-import PiedPiper
 
 class CacheManager {
   let cache: BasicCache<URL, NSData>
@@ -649,9 +578,9 @@ class CacheManager {
 
 [...]
 
-let manager = CacheManager(injectedCache: CacheProvider.dataCache().pooled().capRequests(3)) // This won't compile
+let manager = CacheManager(injectedCache: CacheProvider.dataCache().pooled()) // This won't compile
 
-let manager = CacheManager(injectedCache: CacheProvider.dataCache().pooled().capRequests(3).normalize()) // This will
+let manager = CacheManager(injectedCache: CacheProvider.dataCache().pooled().normalize()) // This will
 ```
 
 As a tip, always use `normalize` if you need to assign the result of multiple composition calls to a property. The call is a no-op if the value is already a `BasicCache`, so there will be no performance loss in that case.
@@ -667,24 +596,16 @@ class MyLevel: CacheLevel {
   typealias KeyType = Int
   typealias OutputType = Float
 
-  func get(_ key: KeyType) -> Future<OutputType> {
-    let request = Promise<OutputType>()
-
-    // Perform the fetch and either succeed or fail
-    [...]
-
-    request.succeed(1.0)
-
-    return request.future
+  func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
+    Future {
+      // Perform the fetch and either succeed or fail
+    }.eraseToAnyPublisher()
   }
 
-  func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {  
- 	let promise = Promise<OutputType>()
-
-    // Store the value (db, memory, file, etc) and call this on completion:
-    promise.succeed()
-
-    return promise.future
+  func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error> {  
+    Future {
+      // Store the value (db, memory, file, etc) and call this on completion:
+    }.eraseToAnyPublisher()
   }
 
   func clear() {
@@ -701,48 +622,7 @@ The above class conforms to the `CacheLevel` protocol.
 First thing we need is to declare what key types we accept and what output types we return. In this example case, we have `Int` keys and `Float` output values.
 
 The required methods to implement are 4: `get`, `set`, `clear` and `onMemoryWarning`.
-
-`get` has to return a `Future`, we can create a `Promise` in the beginning of the method body and return its associated `Future` by calling `future` on it. Then we inform the listeners by calling `succeed` or `fail` on it depending on the outcome of the fetch. These calls can (and most of the times will) be asynchronous.
-
-`set` has to return a `Future` signaling the result of the operation. It also has to store the given value for the given key.
-
-`clear` expresses the intent to wipe the cache level.
-
-`onMemoryWarning` notifies a memory pressure event in case the `listenToMemoryWarning` method was called before.
-
 This sample cache can now be pipelined to a list of other caches, transforming its keys or values if needed as we saw in the earlier paragraphs.
-
-You can create a `Promise` in several ways:
-- as shown in the snippet above, that is by instantiating one and calling `succeed` or `fail` depending on the result of the operation;
-- by directly returning the result of the initialization, passing either a value, an error, or both (if the value is optional):
-
-Remember to call `future` on your `Promise` in the `return` statement!
-
-```swift
-//#1
-let result: Promise<String>()
-
-[...]
-
-result.succeed("success")
-
-// or
-
-result.fail(MyError.invalidData)
-
-return result.future
-```
-
-```swift
-//#2
-return Future("success")
-
-//#3
-return Future(MyError.invalidData)
-
-//#4
-return Future<String>(value: optionalString, error: MyError.invalidData)
-```
 
 ### Creating custom fetchers
 
@@ -755,8 +635,8 @@ class CustomFetcher: Fetcher {
   typealias KeyType = String
   typealias OutputType = String
 
-  func get(_ key: KeyType) -> Future<OutputType> {
-    return Future("Found an hardcoded value :)")
+  func get(_ key: KeyType) -> Anypublisher<OutputType, Error> {
+    return Just("Found an hardcoded value :)").eraseToAnyPublisher()
   }
 }
 ```
@@ -799,8 +679,6 @@ Carlos.Logger.output = { message, level in
    myLibrary.log(message) //Plug here your logging library
 }
 ```
-
-We're using [XCGLogger](https://github.com/DaveWoodCom/XCGLogger) in production and we are able to only log in debug builds without too much effort.
 
 ## Tests
 
@@ -847,8 +725,5 @@ Esad Hajdarevic, @esad
 ## Acknowledgements
 
 `Carlos` internally uses:
-
-- The implementation of MD5 by **KingFisher** (available on [Github](https://github.com/onevcat/Kingfisher/blob/master/Sources/String%2BMD5.swift))
-- **ConcurrentOperation** (by [Caleb Davenport](https://github.com/calebd)), unmodified
 
 The **DiskCacheLevel** class is inspired by [Haneke](https://github.com/Haneke/HanekeSwift). The source code has been heavily modified, but adapting the original file has proven valuable for `Carlos` development.
