@@ -15,7 +15,7 @@ Composes two sync closures
 
 - returns: A closure taking an A parameter and returning an Optional<C> obtained by combining f and g in a way similar to g(f(x))
 */
-public func >>> <A, B, C>(f: @escaping (A) -> B?, g: @escaping (B) -> C?) -> (A) -> C? {
+func >>> <A, B, C>(f: @escaping (A) -> B?, g: @escaping (B) -> C?) -> (A) -> C? {
   return { x in
     if let fx = f(x) {
       return g(fx)
@@ -33,7 +33,7 @@ public func >>> <A, B, C>(f: @escaping (A) -> B?, g: @escaping (B) -> C?) -> (A)
  
  - returns: A closure taking an A parameter and returning a value of type C obtained by combining f and g through g(f(x))
  */
-public func >>> <A, B, C>(f: @escaping (A) -> B, g: @escaping (B) -> C) -> (A) -> C {
+func >>> <A, B, C>(f: @escaping (A) -> B, g: @escaping (B) -> C) -> (A) -> C {
   return { x in
     g(f(x))
   }
@@ -47,7 +47,7 @@ Composes two async (Future) closures
 
 - returns: A closure taking an A parameter and returning a Future<C> (basically a future for a C return type) obtained by combining f and g in a way similar to g(f(x)) (if the closures were sync)
 */
-public func >>> <A, B, C>(f: @escaping (A) -> AnyPublisher<B, Error>, g: @escaping (B) -> AnyPublisher<C, Error>) -> (A) -> AnyPublisher<C, Error> {
+func >>> <A, B, C>(f: @escaping (A) -> AnyPublisher<B, Error>, g: @escaping (B) -> AnyPublisher<C, Error>) -> (A) -> AnyPublisher<C, Error> {
   return { param in
     return f(param).flatMap(g).eraseToAnyPublisher()
   }

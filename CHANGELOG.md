@@ -1,12 +1,23 @@
 # Changelog
 
+## 1.0.0 
+**Breaking Changes**
+- Swift 5.3 and Xcode 12 support 
+- The codebase has been migrated from PiedPiper to Combine
+- The minimum supported OS version set to Combine's minimum supported version: iOS 13, macOS 10.15, watchOS 6, tvOS 13.
+- Removed `Dispatched.swift` and `RequestCapperCache.swift` because the functionality they provided could be easily re-implemented using Combine operators.
+
+**New Features** 
+- `Carlos` is now powered by Combine which means you can use awesome Combine provided operators on the Carlos cached values!
+
 ## 0.10.0
+**New Features**
 - Swift Package Manager Support 
 - Xcode 11.5 Migration
 
 ## 0.9
 
-**Breaking changes**
+**Breaking Changes**
 - Swift 3.0 support (for Swift 2.3 use specific commit `5d354c829d766568f164c386c59de21357b5ccff` instead)
 - `batchGetAll` has been removed and replaced with a reified `allBatch` (see **New features**)
 - All deprecated functions have been removed
@@ -20,12 +31,12 @@
 
 ## 0.8
 
-**Breaking changes**
+**Breaking Changes**
 - The codebase has been migrated to Swift 2.2
 - `Promise` now has only an empty `init`. If you used one of the convenience `init` (with `value:`, with `error:` or with `value:error:`), they now moved to `Future`.
 
 ## 0.7
-**Breaking changes**
+**Breaking Changes**
 - `onCompletion` argument now is a closure accepting a `Result<T>` as a parameter instead of a tuple `(value: T?, error: ErrorType?)`. `Result<T>` is the usual `enum` (aka `Either`) that can be `.Success(T)`, `.Error(ErrorType)` or `Cancelled` in case of canceled computations.
 - Please add a `import PiedPiper` line everywhere you make use of Carlos' `Future`s or `Promise`s, since with 0.7 we now ship a separate `Pied Piper` framework.
 - `AsyncComputation` has been removed from the public API. Please use `OneWayTransformer` (or `CacheLevel`) instead now.
@@ -33,7 +44,7 @@
 **Deprecated**
 - APIs using closures instead of `Fetcher`, `CacheLevel` or `OneWayTransformer` parameters are now deprecated in favor of their counterparts. They will be removed from Carlos with the 1.0 release.
 
-**New features**
+**New Features**
 - It's now possible to batch a set of fetch requests. You can use `batchGetAll` if you want to pass a list of keys and get the success callback when **all** of them succeed and the failure callback **as soon as one** of them fails, or `batchGetSome` if you want to pass a list of keys and get the success callback when all of them completed (successfully or not) but only get the list of successful responses back.
 
 **Fixes**
