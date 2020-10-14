@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 import Carlos
-import OpenCombine
+import Combine
 
 final class ImageCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<URL, UIImage>!

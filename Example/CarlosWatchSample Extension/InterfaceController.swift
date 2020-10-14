@@ -2,7 +2,7 @@ import WatchKit
 import Foundation
 
 import Carlos
-import OpenCombine
+import Combine
 
 private struct Country {
   let name: String

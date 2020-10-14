@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 import Carlos
-import OpenCombine
+import Combine
 
 struct ModelDomain {
   let name: String
@@ -94,7 +94,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     let key = ModelDomain(name: nameField.text ?? "", identifier: Int(identifierField.text ?? "") ?? 0, URL: URL(string: urlField.text ?? "")!)
     
     cache.get(key)
-      .subscribe(on: DispatchQueue(label: "carlose test queu", qos: .userInitiated).ocombine)
+      .subscribe(on: DispatchQueue(label: "carlose test queu", qos: .userInitiated))
       .sink(receiveCompletion: { _ in }) { data in
         print(data)
       }.store(in: &cancellables)

@@ -1,7 +1,7 @@
 import Foundation
 
 import Carlos
-import OpenCombine
+import Combine
 
 class CacheLevelFake<A: Hashable, B>: CacheLevel {
   typealias KeyType = A

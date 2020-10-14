@@ -4,7 +4,7 @@ import Quick
 import Nimble
 
 import Carlos
-import OpenCombine
+import Combine
 
 enum TestError: Error {
   case anotherError

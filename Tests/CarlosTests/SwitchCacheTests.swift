@@ -4,7 +4,7 @@ import Quick
 import Nimble
 
 import Carlos
-import OpenCombine
+import Combine
 
 let switchClosure: (String) -> CacheLevelSwitchResult = { str in
   if str.count > 5 {

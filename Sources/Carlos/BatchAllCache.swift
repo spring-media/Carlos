@@ -1,4 +1,4 @@
-import OpenCombine
+import Combine
 
 /// A reified batchGetAll
 public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLevel where KeySeq.Iterator.Element == Cache.KeyType {

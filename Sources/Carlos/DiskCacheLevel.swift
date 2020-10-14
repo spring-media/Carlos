@@ -1,7 +1,6 @@
 import Foundation
 
-import OpenCombine
-import OpenCombineDispatch
+import Combine
 
 public enum DiskCacheLevelError: Error {
   case diskArchiveWriteFailed
@@ -68,7 +67,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     
     return Just((value, key))
       .setFailureType(to: Error.self)
-      .receive(on: cacheQueue.ocombine)
+      .receive(on: cacheQueue)
       .flatMap(setDataSync)
       .eraseToAnyPublisher()
   }

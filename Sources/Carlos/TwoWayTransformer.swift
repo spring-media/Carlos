@@ -1,5 +1,5 @@
 import Foundation
-import OpenCombine
+import Combine
 
 /// Abstract an object that can transform values to another type and back to the original one
 public protocol TwoWayTransformer: OneWayTransformer {

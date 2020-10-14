@@ -1,5 +1,5 @@
 import Foundation
-import OpenCombine
+import Combine
 
 /** 
  Default name for the persistent domain used by the NSUserDefaultsCacheLevel

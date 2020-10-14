@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 import Carlos
-import OpenCombine
+import Combine
 
 final class PooledCacheSampleViewController: BaseCacheViewController {
   private var cache: PoolCache<BasicCache<URL, NSData>>!

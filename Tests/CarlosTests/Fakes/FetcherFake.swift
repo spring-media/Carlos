@@ -8,7 +8,7 @@
 import Foundation
 
 import Carlos
-import OpenCombine
+import Combine
 
 class FetcherFake<A, B>: Fetcher {
   typealias KeyType = A

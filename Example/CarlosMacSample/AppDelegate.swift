@@ -1,6 +1,6 @@
 import Cocoa
 import Carlos
-import OpenCombine
+import Combine
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {

@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 import Carlos
-import OpenCombine
+import Combine
 
 final class UserDefaultsCacheSampleViewController: BaseCacheViewController {
   private var cache: NSUserDefaultsCacheLevel<String, NSData>!

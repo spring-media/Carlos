@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
   name: "Carlos",
   platforms: [
-    .iOS(.v12),
+    .iOS(.v13),
     .macOS(.v10_15),
-    .tvOS(.v12),
+    .tvOS(.v13),
     .watchOS(.v5)
   ],
   products: [
@@ -16,18 +16,13 @@ let package = Package(
       targets: ["Carlos"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/OpenCombine/OpenCombine.git", from: "0.10.0"),
     .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
     .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.1.0")),
   ],
   targets: [
     .target(
       name: "Carlos",
-      dependencies: [
-        "OpenCombine",
-        .product(name: "OpenCombineDispatch", package: "OpenCombine"),
-        .product(name: "OpenCombineFoundation", package: "OpenCombine")
-      ]
+      dependencies: []
     ),
     .testTarget(
       name: "CarlosTests",

@@ -12,7 +12,7 @@ import Quick
 import Nimble
 
 import Carlos
-import OpenCombine
+import Combine
 
 final class NetworkFetcherTests: QuickSpec {
   override func spec() {

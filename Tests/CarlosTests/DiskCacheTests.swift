@@ -4,7 +4,7 @@ import Quick
 import Nimble
 
 import Carlos
-import OpenCombine
+import Combine
 
 private func filesInDirectory(directory: String) -> [String] {
   let result = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []

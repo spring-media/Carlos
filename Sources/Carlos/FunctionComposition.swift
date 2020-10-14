@@ -1,5 +1,5 @@
 import Foundation
-import OpenCombine
+import Combine
 
 infix operator >>>: CompositionPrecedence
 precedencegroup CompositionPrecedence {

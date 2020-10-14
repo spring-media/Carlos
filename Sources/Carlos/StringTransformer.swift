@@ -1,5 +1,5 @@
 import Foundation
-import OpenCombine
+import Combine
 
 /**
 This class takes care of transforming NSData instances into String values.

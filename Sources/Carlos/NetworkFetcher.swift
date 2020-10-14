@@ -1,8 +1,6 @@
 import Foundation
 
-import OpenCombine
-import OpenCombineDispatch
-import OpenCombineFoundation
+import Combine
 
 public enum NetworkFetcherError: Error {
   /// Used when the status code of the network response is not included in the range 200..<300
@@ -35,7 +33,7 @@ open class NetworkFetcher: Fetcher {
   }
   
   private func startRequest(_ URL: Foundation.URL) -> AnyPublisher<NSData, Error> {
-    URLSession.shared.ocombine.dataTaskPublisher(for: URL)
+    URLSession.shared.dataTaskPublisher(for: URL)
       .tryMap { (data, response) -> NSData in
         guard let response = response as? HTTPURLResponse else {
           throw NetworkFetcherError.invalidNetworkResponse
@@ -69,7 +67,7 @@ open class NetworkFetcher: Fetcher {
   */
   open func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
     startRequest(key)
-      .receive(on: DispatchQueue.main.ocombine)
+      .receive(on: DispatchQueue.main)
       .eraseToAnyPublisher()
   }
 }

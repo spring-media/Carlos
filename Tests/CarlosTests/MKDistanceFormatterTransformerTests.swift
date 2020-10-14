@@ -5,7 +5,7 @@ import Quick
 import Nimble
 
 import Carlos
-import OpenCombine
+import Combine
 
 final class MKDistanceFormatterTransformerTests: QuickSpec {
   override func spec() {

@@ -4,7 +4,7 @@ import Quick
 import Nimble
 
 import Carlos
-import OpenCombine
+import Combine
 
 struct FetcherValueTransformationsSharedExamplesContext {
   static let FetcherToTest = "fetcher"

@@ -1,7 +1,6 @@
 import Foundation
 
-import OpenCombine
-import OpenCombineDispatch
+import Combine
 
 #if os(macOS)
     import Cocoa
@@ -42,7 +41,7 @@ public final class ImageTransformer: TwoWayTransformer {
         promise(.failure(TransformationError.invalidData))
       }
     }
-    .receive(on: DispatchQueue.main.ocombine)
+    .receive(on: DispatchQueue.main)
     .eraseToAnyPublisher()
   }
   
@@ -73,7 +72,7 @@ public final class ImageTransformer: TwoWayTransformer {
         .setFailureType(to: Error.self)
         .eraseToAnyPublisher()
     }
-    .receive(on: DispatchQueue.main.ocombine)
+    .receive(on: DispatchQueue.main)
     .eraseToAnyPublisher()
   }
 }

@@ -4,7 +4,7 @@ import Quick
 import Nimble
 
 import Carlos
-import OpenCombine
+import Combine
 
 struct KeyTransformationsSharedExamplesContext {
   static let CacheToTest = "cache"
