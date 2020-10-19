@@ -1,8 +1,10 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
-import PiedPiper
+import Combine
 
 let switchClosure: (String) -> CacheLevelSwitchResult = { str in
   if str.count > 5 {
@@ -18,28 +20,35 @@ struct SwitchCacheSharedExamplesContext {
   static let CacheToTest = "sutCache"
 }
 
-class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
+final class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(_ configuration: Configuration) {
     sharedExamples("should correctly get") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
+        
         cacheA = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheA] as? CacheLevelFake<String, Int>
         cacheB = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheB] as? CacheLevelFake<String, Int>
         finalCache = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
+      afterEach {
+        cancellables = nil
+      }
+      
       context("when calling get") {
-        var fakeRequest: Promise<Int>!
+        var fakeRequest: PassthroughSubject<Int, Error>!
         var successValue: Int?
         var errorValue: Error?
         
         beforeEach {
-          fakeRequest = Promise<Int>()
-          cacheA.cacheRequestToReturn = fakeRequest.future
-          cacheB.cacheRequestToReturn = fakeRequest.future
+          fakeRequest = PassthroughSubject()
+          cacheA.getSubject = fakeRequest
+          cacheB.getSubject = fakeRequest
           
           successValue = nil
           errorValue = nil
@@ -49,40 +58,40 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "quite long key"
           
           beforeEach {
-            _ = finalCache.get(key)
-              .onSuccess { value in
-                successValue = value
-              }
-              .onFailure { error in
-                errorValue = error
-              }
+            finalCache.get(key)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  errorValue = error
+                }
+              }, receiveValue: { successValue = $0 })
+              .store(in: &cancellables)
           }
           
           it("should not dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledGet).to(equal(0))
+            expect(cacheB.numberOfTimesCalledGet).toEventually(equal(0))
           }
           
           it("should dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledGet).to(equal(1))
+            expect(cacheA.numberOfTimesCalledGet).toEventually(equal(1))
           }
           
           it("should pass the right key") {
-            expect(cacheA.didGetKey).to(equal(key))
+            expect(cacheA.didGetKey).toEventually(equal(key))
           }
           
           context("when the request succeeds") {
             let value = 2010
             
             beforeEach {
-              fakeRequest.succeed(value)
+              fakeRequest.send(value)
             }
             
             it("should call the original success closure") {
-              expect(successValue).to(equal(value))
+              expect(successValue).toEventually(equal(value))
             }
             
             it("should not call the original failure closure") {
-              expect(errorValue).to(beNil())
+              expect(errorValue).toEventually(beNil())
             }
           }
           
@@ -90,15 +99,15 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
             let errorCode = TestError.simpleError
             
             beforeEach {
-              fakeRequest.fail(errorCode)
+              fakeRequest.send(completion: .failure(errorCode))
             }
             
             it("should call the original failure closure") {
-              expect(errorValue as? TestError).to(equal(errorCode))
+              expect(errorValue as? TestError).toEventually(equal(errorCode))
             }
             
             it("should not call the original success closure") {
-              expect(successValue).to(beNil())
+              expect(successValue).toEventually(beNil())
             }
           }
         }
@@ -107,40 +116,40 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            _ = finalCache.get(key)
-              .onSuccess { value in
-                successValue = value
-              }
-              .onFailure { error in
-                errorValue = error
-            }
+            finalCache.get(key)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  errorValue = error
+                }
+              }, receiveValue: { successValue = $0 })
+              .store(in: &cancellables)
           }
           
           it("should not dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledGet).to(equal(0))
+            expect(cacheA.numberOfTimesCalledGet).toEventually(equal(0))
           }
           
           it("should dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledGet).to(equal(1))
+            expect(cacheB.numberOfTimesCalledGet).toEventually(equal(1))
           }
           
           it("should pass the right key") {
-            expect(cacheB.didGetKey).to(equal(key))
+            expect(cacheB.didGetKey).toEventually(equal(key))
           }
           
           context("when the request succeeds") {
             let value = 2010
             
             beforeEach {
-              fakeRequest.succeed(value)
+              fakeRequest.send(value)
             }
             
             it("should call the original success closure") {
-              expect(successValue).to(equal(value))
+              expect(successValue).toEventually(equal(value))
             }
             
             it("should not call the original failure closure") {
-              expect(errorValue).to(beNil())
+              expect(errorValue).toEventually(beNil())
             }
           }
           
@@ -148,15 +157,15 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
             let errorCode = TestError.anotherError
             
             beforeEach {
-              fakeRequest.fail(errorCode)
+              fakeRequest.send(completion: .failure(errorCode))
             }
             
             it("should call the original failure closure") {
-              expect(errorValue as? TestError).to(equal(errorCode))
+              expect(errorValue as? TestError).toEventually(equal(errorCode))
             }
             
             it("should not call the original success closure") {
-              expect(successValue).to(beNil())
+              expect(successValue).toEventually(beNil())
             }
           }
         }
@@ -176,9 +185,9 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
     }
@@ -187,18 +196,24 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
         cacheA = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheA] as? CacheLevelFake<String, Int>
         cacheB = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheB] as? CacheLevelFake<String, Int>
         finalCache = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
+      afterEach {
+        cancellables = nil
+      }
+      
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
       
@@ -216,36 +231,38 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "quite long key"
           
           beforeEach {
-            finalCache.set(value, forKey: key).onSuccess {
-              setSucceeded = true
-            }.onFailure {
-              setError = $0
-            }
+            finalCache.set(value, forKey: key)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  setError = error
+                }
+              }, receiveValue: { setSucceeded = true })
+              .store(in: &cancellables)
           }
           
           it("should not dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheB.numberOfTimesCalledSet).toEventually(equal(0))
           }
           
           it("should dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledSet).to(equal(1))
+            expect(cacheA.numberOfTimesCalledSet).toEventually(equal(1))
           }
           
           it("should pass the right key") {
-            expect(cacheA.didSetKey).to(equal(key))
+            expect(cacheA.didSetKey).toEventually(equal(key))
           }
           
           it("should pass the right value") {
-            expect(cacheA.didSetValue).to(equal(value))
+            expect(cacheA.didSetValue).toEventually(equal(value))
           }
           
           context("when set succeeds") {
             beforeEach {
-              cacheA.setPromisesReturned.first?.succeed(())
+              cacheA.setPublishers[key]?.send()
             }
             
             it("should succeed") {
-              expect(setSucceeded).to(beTrue())
+              expect(setSucceeded).toEventually(beTrue())
             }
           }
           
@@ -253,15 +270,15 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
             let setFailure = TestError.anotherError
             
             beforeEach {
-              cacheA.setPromisesReturned.first?.fail(setFailure)
+              cacheA.setPublishers[key]?.send(completion: .failure(setFailure))
             }
             
             it("should fail") {
-              expect(setError).notTo(beNil())
+              expect(setError).toEventuallyNot(beNil())
             }
             
             it("should pass the error through") {
-              expect(setError as? TestError).to(equal(setFailure))
+              expect(setError as? TestError).toEventually(equal(setFailure))
             }
           }
         }
@@ -270,36 +287,38 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            finalCache.set(value, forKey: key).onSuccess {
-              setSucceeded = true
-            }.onFailure {
-              setError = $0
-            }
+            finalCache.set(value, forKey: key)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  setError = error
+                }
+              }, receiveValue: { setSucceeded = true })
+              .store(in: &cancellables)
           }
           
           it("should not dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheA.numberOfTimesCalledSet).toEventually(equal(0))
           }
           
           it("should dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledSet).to(equal(1))
+            expect(cacheB.numberOfTimesCalledSet).toEventually(equal(1))
           }
           
           it("should pass the right key") {
-            expect(cacheB.didSetKey).to(equal(key))
+            expect(cacheB.didSetKey).toEventually(equal(key))
           }
           
           it("should pass the right value") {
-            expect(cacheB.didSetValue).to(equal(value))
+            expect(cacheB.didSetValue).toEventually(equal(value))
           }
           
           context("when set succeeds") {
             beforeEach {
-              cacheB.setPromisesReturned.first?.succeed(())
+              cacheB.setPublishers[key]?.send()
             }
             
             it("should succeed") {
-              expect(setSucceeded).to(beTrue())
+              expect(setSucceeded).toEventually(beTrue())
             }
           }
           
@@ -307,15 +326,15 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
             let setFailure = TestError.anotherError
             
             beforeEach {
-              cacheB.setPromisesReturned.first?.fail(setFailure)
+              cacheB.setPublishers[key]?.send(completion: .failure(setFailure))
             }
             
             it("should fail") {
-              expect(setError).notTo(beNil())
+              expect(setError).toEventuallyNot(beNil())
             }
             
             it("should pass the error through") {
-              expect(setError as? TestError).to(equal(setFailure))
+              expect(setError as? TestError).toEventually(equal(setFailure))
             }
           }
         }
@@ -327,11 +346,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should dispatch the call to the first cache") {
-          expect(cacheA.numberOfTimesCalledClear).to(equal(1))
+          expect(cacheA.numberOfTimesCalledClear).toEventually(equal(1))
         }
         
         it("should dispatch the call to the second cache") {
-          expect(cacheB.numberOfTimesCalledClear).to(equal(1))
+          expect(cacheB.numberOfTimesCalledClear).toEventually(equal(1))
         }
       }
       
@@ -341,11 +360,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should dispatch the call to the first cache") {
-          expect(cacheA.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(cacheA.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
         
         it("should dispatch the call to the second cache") {
-          expect(cacheB.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(cacheB.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
       }
     }
@@ -354,18 +373,24 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
         cacheA = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheA] as? CacheLevelFake<String, Int>
         cacheB = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheB] as? CacheLevelFake<String, Int>
         finalCache = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
+      afterEach {
+        cancellables = nil
+      }
+      
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
       
@@ -383,36 +408,38 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "quite long key"
           
           beforeEach {
-            finalCache.set(value, forKey: key).onSuccess {
-              setSucceeded = true
-            }.onFailure {
-              setError = $0
-            }
+            finalCache.set(value, forKey: key)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  setError = error
+                }
+              }, receiveValue: { setSucceeded = true })
+              .store(in: &cancellables)
           }
           
           it("should not dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheB.numberOfTimesCalledSet).toEventually(equal(0))
           }
           
           it("should dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledSet).to(equal(1))
+            expect(cacheA.numberOfTimesCalledSet).toEventually(equal(1))
           }
           
           it("should pass the right key") {
-            expect(cacheA.didSetKey).to(equal(key))
+            expect(cacheA.didSetKey).toEventually(equal(key))
           }
           
           it("should pass the right value") {
-            expect(cacheA.didSetValue).to(equal(value))
+            expect(cacheA.didSetValue).toEventually(equal(value))
           }
           
           context("when set succeeds") {
             beforeEach {
-              cacheA.setPromisesReturned.first?.succeed(())
+              cacheA.setPublishers[key]?.send()
             }
             
             it("should succeed") {
-              expect(setSucceeded).to(beTrue())
+              expect(setSucceeded).toEventually(beTrue())
             }
           }
           
@@ -420,15 +447,15 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
             let setFailure = TestError.anotherError
             
             beforeEach {
-              cacheA.setPromisesReturned.first?.fail(setFailure)
+              cacheA.setPublishers[key]?.send(completion: .failure(setFailure))
             }
             
             it("should fail") {
-              expect(setError).notTo(beNil())
+              expect(setError).toEventuallyNot(beNil())
             }
             
             it("should pass the error through") {
-              expect(setError as? TestError).to(equal(setFailure))
+              expect(setError as? TestError).toEventually(equal(setFailure))
             }
           }
         }
@@ -441,11 +468,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should not dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheA.numberOfTimesCalledSet).toEventually(equal(0))
           }
           
           it("should not dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheB.numberOfTimesCalledSet).toEventually(equal(0))
           }
         }
       }
@@ -456,11 +483,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should dispatch the call to the first cache") {
-          expect(cacheA.numberOfTimesCalledClear).to(equal(1))
+          expect(cacheA.numberOfTimesCalledClear).toEventually(equal(1))
         }
         
         it("should not dispatch the call to the second cache") {
-          expect(cacheB.numberOfTimesCalledClear).to(equal(0))
+          expect(cacheB.numberOfTimesCalledClear).toEventually(equal(0))
         }
       }
       
@@ -470,11 +497,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should dispatch the call to the first cache") {
-          expect(cacheA.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(cacheA.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
         
         it("should not dispatch the call to the second cache") {
-          expect(cacheB.numberOfTimesCalledOnMemoryWarning).to(equal(0))
+          expect(cacheB.numberOfTimesCalledOnMemoryWarning).toEventually(equal(0))
         }
       }
     }
@@ -483,18 +510,25 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
       var cacheA: CacheLevelFake<String, Int>!
       var cacheB: CacheLevelFake<String, Int>!
       var finalCache: BasicCache<String, Int>!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
+        
         cacheA = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheA] as? CacheLevelFake<String, Int>
         cacheB = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheB] as? CacheLevelFake<String, Int>
         finalCache = sharedExampleContext()[SwitchCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
       }
       
+      afterEach {
+        cancellables = nil
+      }
+      
       itBehavesLike("should correctly get") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
       
@@ -516,11 +550,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should not dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheB.numberOfTimesCalledSet).toEventually(equal(0))
           }
           
           it("should not dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheA.numberOfTimesCalledSet).toEventually(equal(0))
           }
         }
         
@@ -528,36 +562,38 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = "short"
           
           beforeEach {
-            finalCache.set(value, forKey: key).onSuccess {
-              setSucceeded = true
-            }.onFailure {
-              setError = $0
-            }
+            finalCache.set(value, forKey: key)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  setError = error
+                }
+              }, receiveValue: { setSucceeded = true })
+              .store(in: &cancellables)
           }
           
           it("should not dispatch the call to the first cache") {
-            expect(cacheA.numberOfTimesCalledSet).to(equal(0))
+            expect(cacheA.numberOfTimesCalledSet).toEventually(equal(0))
           }
           
           it("should dispatch the call to the second cache") {
-            expect(cacheB.numberOfTimesCalledSet).to(equal(1))
+            expect(cacheB.numberOfTimesCalledSet).toEventually(equal(1))
           }
           
           it("should pass the right key") {
-            expect(cacheB.didSetKey).to(equal(key))
+            expect(cacheB.didSetKey).toEventually(equal(key))
           }
           
           it("should pass the right value") {
-            expect(cacheB.didSetValue).to(equal(value))
+            expect(cacheB.didSetValue).toEventually(equal(value))
           }
           
           context("when set succeeds") {
             beforeEach {
-              cacheB.setPromisesReturned.first?.succeed(())
+              cacheB.setPublishers[key]?.send()
             }
             
             it("should succeed") {
-              expect(setSucceeded).to(beTrue())
+              expect(setSucceeded).toEventually(beTrue())
             }
           }
           
@@ -565,15 +601,15 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
             let setFailure = TestError.anotherError
             
             beforeEach {
-              cacheB.setPromisesReturned.first?.fail(setFailure)
+              cacheB.setPublishers[key]?.send(completion: .failure(setFailure))
             }
             
             it("should fail") {
-              expect(setError).notTo(beNil())
+              expect(setError).toEventuallyNot(beNil())
             }
             
             it("should pass the error through") {
-              expect(setError as? TestError).to(equal(setFailure))
+              expect(setError as? TestError).toEventually(equal(setFailure))
             }
           }
         }
@@ -585,11 +621,11 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not dispatch the call to the first cache") {
-          expect(cacheA.numberOfTimesCalledClear).to(equal(0))
+          expect(cacheA.numberOfTimesCalledClear).toEventually(equal(0))
         }
         
         it("should dispatch the call to the second cache") {
-          expect(cacheB.numberOfTimesCalledClear).to(equal(1))
+          expect(cacheB.numberOfTimesCalledClear).toEventually(equal(1))
         }
       }
       
@@ -599,18 +635,18 @@ class SwitchCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should not dispatch the call to the first cache") {
-          expect(cacheA.numberOfTimesCalledOnMemoryWarning).to(equal(0))
+          expect(cacheA.numberOfTimesCalledOnMemoryWarning).toEventually(equal(0))
         }
         
         it("should dispatch the call to the second cache") {
-          expect(cacheB.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(cacheB.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
       }
     }
   }
 }
 
-class SwitchCacheTests: QuickSpec {
+final class SwitchCacheTests: QuickSpec {
   override func spec() {
     var cacheA: CacheLevelFake<String, Int>!
     var cacheB: CacheLevelFake<String, Int>!
@@ -625,9 +661,9 @@ class SwitchCacheTests: QuickSpec {
       
       itBehavesLike("a switched cache with 2 cache levels") {
         [
-          SwitchCacheSharedExamplesContext.CacheA: cacheA,
-          SwitchCacheSharedExamplesContext.CacheB: cacheB,
-          SwitchCacheSharedExamplesContext.CacheToTest: finalCache
+          SwitchCacheSharedExamplesContext.CacheA: cacheA as Any,
+          SwitchCacheSharedExamplesContext.CacheB: cacheB as Any,
+          SwitchCacheSharedExamplesContext.CacheToTest: finalCache as Any
         ]
       }
     }

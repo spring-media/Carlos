@@ -1,14 +1,22 @@
 import Foundation
-import Carlos
+
 import Quick
 import Nimble
-import PiedPiper
 
-class ConditionedTwoWayTransformationBoxTests: QuickSpec {
+import Carlos
+import Combine
+
+final class ConditionedTwoWayTransformationBoxTests: QuickSpec {
   override func spec() {
     describe("Conditioned two-way transformation box") {
       var box: ConditionedTwoWayTransformationBox<Int, NSURL, String>!
       var error: Error!
+      var cancellable: AnyCancellable?
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
+      }
       
       context("when created through closures") {
         beforeEach {
@@ -16,17 +24,23 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
           
           box = ConditionedTwoWayTransformationBox<Int, NSURL, String>(conditionalTransformClosure: { (key, value) in
             if key > 0 {
-              let possible = value.scheme == "http"
+              guard value.scheme == "http", let value = value.absoluteString else {
+                return Fail(error: TestError.simpleError).eraseToAnyPublisher()
+              }
               
-              return Future(value: possible ? value.absoluteString : nil, error: TestError.simpleError)
+              return Just(value).setFailureType(to: Error.self).eraseToAnyPublisher()
             } else {
-              return Future(TestError.anotherError)
+              return Fail(error: TestError.anotherError).eraseToAnyPublisher()
             }
           }, conditionalInverseTransformClosure: { (key, value) in
             if key > 0 {
-              return Future(value: NSURL(string: value), error: TestError.simpleError)
+              guard let value = NSURL(string: value) else {
+                return Fail(error: TestError.simpleError).eraseToAnyPublisher()
+              }
+              
+              return Just(value).setFailureType(to: Error.self).eraseToAnyPublisher()
             } else {
-              return Future(TestError.anotherError)
+              return Fail(error: TestError.anotherError).eraseToAnyPublisher()
             }
           })
         }
@@ -42,61 +56,70 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
             let expectedResult = "http://www.google.de?test=1"
             
             beforeEach {
-              box.conditionalTransform(key: 1, value: NSURL(string: expectedResult)!)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: 1, value: NSURL(string: expectedResult)!)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected result") {
-              expect(result).to(equal(expectedResult))
+              expect(result).toEventually(equal(expectedResult))
             }
           }
           
           context("if the transformation is not possible") {
             beforeEach {
-              box.conditionalTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.simpleError))
+              expect(error as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
           
           context("if the key doesn't satisfy the condition") {
             beforeEach {
-              box.conditionalTransform(key: -1, value: NSURL(string: "http://google.de/robots.txt")!)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: -1, value: NSURL(string: "ftp://google.de/robots.txt")!)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.anotherError))
+              expect(error as? TestError).toEventually(equal(TestError.anotherError))
             }
           }
         }
@@ -112,61 +135,70 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
             let usedString = "http://www.google.de?test=1"
             
             beforeEach {
-              box.conditionalInverseTransform(key: 1, value: usedString)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalInverseTransform(key: 1, value: usedString)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected result") {
-              expect(result).to(equal(NSURL(string: usedString)!))
+              expect(result).toEventually(equal(NSURL(string: usedString)!))
             }
           }
           
           context("if the transformation is not possible") {
             beforeEach {
-              box.conditionalInverseTransform(key: 1, value: "this is not a valid URL :'(")
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalInverseTransform(key: 1, value: "this is not a valid URL :'(")
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.simpleError))
+              expect(error as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
           
           context("if the key doesn't satisfy the condition") {
             beforeEach {
-              box.conditionalInverseTransform(key: -1, value: "http://validurl.de")
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalInverseTransform(key: -1, value: "http://validurl.de")
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.anotherError))
+              expect(error as? TestError).toEventually(equal(TestError.anotherError))
             }
           }
         }
@@ -189,61 +221,70 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
               let expectedResult = "http://www.google.de?test=1"
               
               beforeEach {
-                invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: expectedResult)!)
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: expectedResult)!)
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should call the success closure") {
-                expect(result).notTo(beNil())
+                expect(result).toEventuallyNot(beNil())
               }
               
               it("should not call the failure closure") {
-                expect(error).to(beNil())
+                expect(error).toEventually(beNil())
               }
               
               it("should return the expected result") {
-                expect(result).to(equal(expectedResult))
+                expect(result).toEventually(equal(expectedResult))
               }
             }
             
             context("if the transformation is not possible") {
               beforeEach {
-                invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should not call the success closure") {
-                expect(result).to(beNil())
+                expect(result).toEventually(beNil())
               }
               
               it("should call the failure closure") {
-                expect(error).notTo(beNil())
+                expect(error).toEventuallyNot(beNil())
               }
               
               it("should pass the right error") {
-                expect(error as? TestError).to(equal(TestError.simpleError))
+                expect(error as? TestError).toEventually(equal(TestError.simpleError))
               }
             }
             
             context("if the key doesn't satisfy the condition") {
               beforeEach {
-                invertedBox.conditionalInverseTransform(key: -1, value: NSURL(string: "http://google.de/robots.txt")!)
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalInverseTransform(key: -1, value: NSURL(string: "ftp://google.de/robots.txt")!)
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should not call the success closure") {
-                expect(result).to(beNil())
+                expect(result).toEventually(beNil())
               }
               
               it("should call the failure closure") {
-                expect(error).notTo(beNil())
+                expect(error).toEventuallyNot(beNil())
               }
               
               it("should pass the right error") {
-                expect(error as? TestError).to(equal(TestError.anotherError))
+                expect(error as? TestError).toEventually(equal(TestError.anotherError))
               }
             }
           }
@@ -259,61 +300,70 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
               let usedString = "http://www.google.de?test=1"
               
               beforeEach {
-                invertedBox.conditionalTransform(key: 1, value: usedString)
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalTransform(key: 1, value: usedString)
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should call the success closure") {
-                expect(result).notTo(beNil())
+                expect(result).toEventuallyNot(beNil())
               }
               
               it("should not call the failure closure") {
-                expect(error).to(beNil())
+                expect(error).toEventually(beNil())
               }
               
               it("should return the expected result") {
-                expect(result).to(equal(NSURL(string: usedString)!))
+                expect(result).toEventually(equal(NSURL(string: usedString)!))
               }
             }
             
             context("if the transformation is not possible") {
               beforeEach {
-                invertedBox.conditionalTransform(key: 1, value: "this is not a valid URL :'(")
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalTransform(key: 1, value: "this is not a valid URL :'(")
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should not call the success closure") {
-                expect(result).to(beNil())
+                expect(result).toEventually(beNil())
               }
               
               it("should call the failure closure") {
-                expect(error).notTo(beNil())
+                expect(error).toEventuallyNot(beNil())
               }
               
               it("should pass the right error") {
-                expect(error as? TestError).to(equal(TestError.simpleError))
+                expect(error as? TestError).toEventually(equal(TestError.simpleError))
               }
             }
             
             context("if the key doesn't satisfy the condition") {
               beforeEach {
-                invertedBox.conditionalTransform(key: -1, value: "http://validurl.de")
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalTransform(key: -1, value: "http://validurl.de")
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should not call the success closure") {
-                expect(result).to(beNil())
+                expect(result).toEventually(beNil())
               }
               
               it("should call the failure closure") {
-                expect(error).notTo(beNil())
+                expect(error).toEventuallyNot(beNil())
               }
               
               it("should pass the right error") {
-                expect(error as? TestError).to(equal(TestError.anotherError))
+                expect(error as? TestError).toEventually(equal(TestError.anotherError))
               }
             }
           }
@@ -326,11 +376,17 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
         beforeEach {
           error = nil
           originalTransformer = TwoWayTransformationBox(transform: { (value) in
-            let possible = value.scheme == "http"
+            guard value.scheme == "http", let value = value.absoluteString else {
+              return Fail(error: TestError.simpleError).eraseToAnyPublisher()
+            }
             
-            return Future(value: possible ? value.absoluteString : nil, error: TestError.simpleError)
+            return Just(value).setFailureType(to: Error.self).eraseToAnyPublisher()
           }, inverseTransform: { (value) in
-              return Future(value: NSURL(string: value), error: TestError.simpleError)
+            guard let value = NSURL(string: value) else {
+              return Fail(error: TestError.simpleError).eraseToAnyPublisher()
+            }
+            
+            return Just(value).setFailureType(to: Error.self).eraseToAnyPublisher()
           })
           
           box = ConditionedTwoWayTransformationBox<Int, NSURL, String>(transformer: originalTransformer)
@@ -347,41 +403,47 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
             let expectedResult = "http://www.google.de?test=1"
             
             beforeEach {
-              box.conditionalTransform(key: -1, value: NSURL(string: expectedResult)!)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: -1, value: NSURL(string: expectedResult)!)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected result") {
-              expect(result).to(equal(expectedResult))
+              expect(result).toEventually(equal(expectedResult))
             }
           }
           
           context("if the transformation is not possible") {
             beforeEach {
-              box.conditionalTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.simpleError))
+              expect(error as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
         }
@@ -397,41 +459,47 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
             let usedString = "http://www.google.de?test=1"
             
             beforeEach {
-              box.conditionalInverseTransform(key: -1, value: usedString)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalInverseTransform(key: -1, value: usedString)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected result") {
-              expect(result).to(equal(NSURL(string: usedString)!))
+              expect(result).toEventually(equal(NSURL(string: usedString)!))
             }
           }
           
           context("if the transformation is not possible") {
             beforeEach {
-              box.conditionalInverseTransform(key: 1, value: "this is not a valid URL :'(")
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalInverseTransform(key: 1, value: "this is not a valid URL :'(")
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.simpleError))
+              expect(error as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
         }
@@ -454,41 +522,47 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
               let expectedResult = "http://www.google.de?test=1"
               
               beforeEach {
-                invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: expectedResult)!)
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: expectedResult)!)
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should call the success closure") {
-                expect(result).notTo(beNil())
+                expect(result).toEventuallyNot(beNil())
               }
               
               it("should not call the failure closure") {
-                expect(error).to(beNil())
+                expect(error).toEventually(beNil())
               }
               
               it("should return the expected result") {
-                expect(result).to(equal(expectedResult))
+                expect(result).toEventually(equal(expectedResult))
               }
             }
             
             context("if the transformation is not possible") {
               beforeEach {
-                invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalInverseTransform(key: 1, value: NSURL(string: "ftp://google.de/robots.txt")!)
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should not call the success closure") {
-                expect(result).to(beNil())
+                expect(result).toEventually(beNil())
               }
               
               it("should call the failure closure") {
-                expect(error).notTo(beNil())
+                expect(error).toEventuallyNot(beNil())
               }
               
               it("should pass the right error") {
-                expect(error as? TestError).to(equal(TestError.simpleError))
+                expect(error as? TestError).toEventually(equal(TestError.simpleError))
               }
             }
           }
@@ -504,41 +578,47 @@ class ConditionedTwoWayTransformationBoxTests: QuickSpec {
               let usedString = "http://www.google.de?test=1"
               
               beforeEach {
-                invertedBox.conditionalTransform(key: 1, value: usedString)
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalTransform(key: 1, value: usedString)
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should call the success closure") {
-                expect(result).notTo(beNil())
+                expect(result).toEventuallyNot(beNil())
               }
               
               it("should not call the failure closure") {
-                expect(error).to(beNil())
+                expect(error).toEventually(beNil())
               }
               
               it("should return the expected result") {
-                expect(result).to(equal(NSURL(string: usedString)!))
+                expect(result).toEventually(equal(NSURL(string: usedString)!))
               }
             }
             
             context("if the transformation is not possible") {
               beforeEach {
-                invertedBox.conditionalTransform(key: 1, value: "this is not a valid URL :'(")
-                  .onSuccess({ result = $0 })
-                  .onFailure({ error = $0 })
+                cancellable = invertedBox.conditionalTransform(key: 1, value:  "this is not a valid URL :'(")
+                  .sink(receiveCompletion: { completion in
+                    if case let .failure(e) = completion {
+                      error = e
+                    }
+                  }, receiveValue: { result = $0 })
               }
               
               it("should not call the success closure") {
-                expect(result).to(beNil())
+                expect(result).toEventually(beNil())
               }
               
               it("should call the failure closure") {
-                expect(error).notTo(beNil())
+                expect(error).toEventuallyNot(beNil())
               }
               
               it("should pass the right error") {
-                expect(error as? TestError).to(equal(TestError.simpleError))
+                expect(error as? TestError).toEventually(equal(TestError.simpleError))
               }
             }
           }

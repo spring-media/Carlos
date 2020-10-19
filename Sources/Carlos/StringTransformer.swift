@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import Combine
 
 /**
 This class takes care of transforming NSData instances into String values.
@@ -31,8 +31,15 @@ final public class StringTransformer: TwoWayTransformer {
   
   - returns: A Future containing the serialized String with the given encoding if the input is valid
   */
-  public func transform(_ val: TypeIn) -> Future<TypeOut> {
-    return Future(value: String(data: val as Data, encoding: encoding), error: TransformationError.invalidData)
+  public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
+    DispatchQueue.global().publisher { promise in
+      guard let string = String(data: val as Data, encoding: self.encoding) else {
+        promise(.failure(TransformationError.invalidData))
+        return
+      }
+      
+      promise(.success(string))
+    }
   }
   
   /**
@@ -42,7 +49,14 @@ final public class StringTransformer: TwoWayTransformer {
   
   - returns: A Future<NSData> instance containing the bytes representation of the given string
   */
-  public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
-    return Future(value: val.data(using: encoding, allowLossyConversion: false) as NSData?, error: TransformationError.dataConversionToStringFailed)
+  public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
+    DispatchQueue.global().publisher { promise in
+      guard let data = val.data(using: self.encoding, allowLossyConversion: false) as NSData? else {
+        promise(.failure(TransformationError.dataConversionToStringFailed))
+        return
+      }
+      
+      promise(.success(data))
+    }
   }
 }

@@ -1,10 +1,17 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
-import PiedPiper
 
-class BasicCacheTests: QuickSpec {
+import Carlos
+import Combine
+
+enum TestError: Error {
+  case anotherError
+  case simpleError
+}
+
+final class BasicCacheTests: QuickSpec {
   override func spec() {
     describe("BasicCache") {
       var cache: BasicCache<String, Int>!
@@ -15,8 +22,10 @@ class BasicCacheTests: QuickSpec {
       var didSetKey: String?
       var didSetValue: Int?
       var didGetKey: String?
-      var getResult: Promise<Int>!
-      var setResult: Promise<()>!
+      var getSubject: PassthroughSubject<Int, Error>!
+      var setSubject: PassthroughSubject<Void, Error>!
+      
+      var cancellable: AnyCancellable?
       
       beforeEach {
         numberOfTimesCalledClear = 0
@@ -24,22 +33,22 @@ class BasicCacheTests: QuickSpec {
         numberOfTimesCalledOnMemoryWarning = 0
         numberOfTimesCalledSet = 0
         
-        getResult = Promise<Int>()
-        setResult = Promise<()>()
+        getSubject = PassthroughSubject()
+        setSubject = PassthroughSubject()
         
         cache = BasicCache<String, Int>(
           getClosure: { key in
             didGetKey = key
             numberOfTimesCalledGet += 1
             
-            return getResult.future
+            return getSubject.eraseToAnyPublisher()
           },
           setClosure: { (value, key) in
             didSetKey = key
             didSetValue = value
             numberOfTimesCalledSet += 1
             
-            return setResult.future
+            return setSubject.eraseToAnyPublisher()
           },
           clearClosure: {
             numberOfTimesCalledClear += 1
@@ -48,6 +57,11 @@ class BasicCacheTests: QuickSpec {
             numberOfTimesCalledOnMemoryWarning += 1
           }
         )
+      }
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
       }
       
       context("when calling get") {
@@ -61,10 +75,17 @@ class BasicCacheTests: QuickSpec {
           failed = nil
           succeeded = nil
           
-          cache.get(key)
-            .onSuccess { succeeded = $0 }
-            .onFailure { failed = $0 }
-            .onCancel { canceled = true }
+          cancellable = cache.get(key)
+            .handleEvents(receiveCancel: {
+              canceled = true
+            })
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failed = error
+              }
+            }, receiveValue: {
+              succeeded = $0
+            })
         }
         
         it("should call the closure") {
@@ -79,7 +100,7 @@ class BasicCacheTests: QuickSpec {
           let value = 3
           
           beforeEach {
-            getResult.succeed(value)
+            getSubject.send(value)
           }
           
           it("should succeed the future") {
@@ -89,7 +110,7 @@ class BasicCacheTests: QuickSpec {
         
         context("when the get clousure is canceled") {
           beforeEach {
-            getResult.cancel()
+            cancellable?.cancel()
           }
           
           it("should cancel the future") {
@@ -101,7 +122,7 @@ class BasicCacheTests: QuickSpec {
           let error = TestError.anotherError
           
           beforeEach {
-            getResult.fail(error)
+            getSubject.send(completion: .failure(error))
           }
           
           it("should fail the future") {
@@ -122,10 +143,17 @@ class BasicCacheTests: QuickSpec {
           failed = nil
           canceled = false
           
-          cache.set(value, forKey: key)
-            .onSuccess { _ in succeeded = true }
-            .onFailure { failed = $0 }
-            .onCancel { canceled = true }
+          cancellable = cache.set(value, forKey: key)
+            .handleEvents(receiveCancel: {
+              canceled = true
+            })
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failed = error
+              }
+            }, receiveValue: {
+              succeeded = true
+            })
         }
         
         it("should call the closure") {
@@ -142,7 +170,7 @@ class BasicCacheTests: QuickSpec {
         
         context("when the set closure succeeds") {
           beforeEach {
-            setResult.succeed(())
+            setSubject.send()
           }
           
           it("should succeed the future") {
@@ -152,7 +180,7 @@ class BasicCacheTests: QuickSpec {
         
         context("when the set clousure is canceled") {
           beforeEach {
-            setResult.cancel()
+            cancellable?.cancel()
           }
           
           it("should cancel the future") {
@@ -164,7 +192,7 @@ class BasicCacheTests: QuickSpec {
           let error = TestError.anotherError
           
           beforeEach {
-            setResult.fail(error)
+            setSubject.send(completion: .failure(error))
           }
           
           it("should fail the future") {

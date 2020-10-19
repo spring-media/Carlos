@@ -1,15 +1,17 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
-import PiedPiper
+import Combine
 
 struct NormalizedCacheSharedExamplesContext {
   static let CacheToTest = "normalizedCache"
   static let OriginalCache = "originalCache"
 }
 
-class NormalizationSharedExamplesConfiguration: QuickConfiguration {
+final class NormalizationSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(_ configuration: Configuration) {
     sharedExamples("no-op if the original cache is a BasicCache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheToTest: BasicCache<String, Int>!
@@ -32,21 +34,26 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
     sharedExamples("wrap the original cache into a BasicCache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cacheToTest: BasicCache<String, Int>!
       var originalCache: CacheLevelFake<String, Int>!
+      var cancellable: AnyCancellable?
       
       beforeEach {
         cacheToTest = sharedExampleContext()[NormalizedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
         originalCache = sharedExampleContext()[NormalizedCacheSharedExamplesContext.OriginalCache] as? CacheLevelFake<String, Int>
       }
       
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
+      }
+      
       context("when calling get") {
         let key = "key to test"
-        var request: Future<Int>!
-        var expectedRequest: Promise<Int>!
+        var expectedRequest: PassthroughSubject<Int, Error>!
         
         beforeEach {
-          expectedRequest = Promise<Int>()
-          originalCache.cacheRequestToReturn = expectedRequest.future
-          request = cacheToTest.get(key)
+          expectedRequest = PassthroughSubject()
+          originalCache.getSubject = expectedRequest
+          cancellable = cacheToTest.get(key).sink(receiveCompletion: { _ in }, receiveValue: { _ in })
         }
         
         it("should call the closure") {
@@ -55,10 +62,6 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
         
         it("should pass the right key") {
           expect(originalCache.didGetKey).to(equal(key))
-        }
-        
-        it("should not modify the request") {
-          expect(request).to(beIdenticalTo(expectedRequest.future))
         }
       }
       
@@ -106,7 +109,7 @@ class NormalizationSharedExamplesConfiguration: QuickConfiguration {
   }
 }
 
-class NormalizationTests: QuickSpec {
+final class NormalizationTests: QuickSpec {
   override func spec() {
     var cacheToTest: BasicCache<String, Int>!
     
@@ -116,15 +119,15 @@ class NormalizationTests: QuickSpec {
         var keyTransformer: OneWayTransformationBox<String, String>!
         
         beforeEach {
-          keyTransformer = OneWayTransformationBox(transform: Future.init)
+          keyTransformer = OneWayTransformationBox(transform: { Just($0).setFailureType(to: Error.self).eraseToAnyPublisher() })
           originalCache = CacheLevelFake<String, Int>().transformKeys(keyTransformer)
           cacheToTest = originalCache.normalize()
         }
         
         itBehavesLike("no-op if the original cache is a BasicCache") {
           [
-            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache,
-            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest
+            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache as Any,
+            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest as Any
           ]
         }
       }
@@ -139,8 +142,8 @@ class NormalizationTests: QuickSpec {
         
         itBehavesLike("wrap the original cache into a BasicCache") {
           [
-            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache,
-            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest
+            NormalizedCacheSharedExamplesContext.OriginalCache: originalCache as Any,
+            NormalizedCacheSharedExamplesContext.CacheToTest: cacheToTest as Any
           ]
         }
       }

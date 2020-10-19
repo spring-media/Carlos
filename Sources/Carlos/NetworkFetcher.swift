@@ -1,5 +1,6 @@
 import Foundation
-import PiedPiper
+
+import Combine
 
 public enum NetworkFetcherError: Error {
   /// Used when the status code of the network response is not included in the range 200..<300
@@ -15,7 +16,6 @@ public enum NetworkFetcherError: Error {
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
 open class NetworkFetcher: Fetcher {
   private static let ValidStatusCodes = 200..<300
-  private let lock: ReadWriteLock = PThreadReadWriteLock()
   
   /// The network cache accepts only NSURL keys
   public typealias KeyType = URL
@@ -32,62 +32,25 @@ open class NetworkFetcher: Fetcher {
     return responseIsValid
   }
   
-  private func startRequest(_ URL: Foundation.URL) -> Future<NSData> {
-    let result = Promise<NSData>()
-    
-    let task = URLSession.shared.dataTask(with: URL, completionHandler: { [weak self] (data, response, error) in
-      guard let strongSelf = self else { return }
-      
-      if let error = error as NSError? {
-        if error.domain != NSURLErrorDomain || error.code != NSURLErrorCancelled {
-          GCD.main {
-            result.fail(error)
-          }
+  private func startRequest(_ URL: Foundation.URL) -> AnyPublisher<NSData, Error> {
+    URLSession.shared.dataTaskPublisher(for: URL)
+      .tryMap { (data, response) -> NSData in
+        guard let response = response as? HTTPURLResponse else {
+          throw NetworkFetcherError.invalidNetworkResponse
         }
-      } else if let httpResponse = response as? HTTPURLResponse {
-        if !NetworkFetcher.ValidStatusCodes.contains(httpResponse.statusCode) {
-          GCD.main {
-            result.fail(NetworkFetcherError.statusCodeNotOk)
-          }
-        } else if let data = data , !strongSelf.validate(httpResponse, withData: data) {
-          GCD.main {
-            result.fail(NetworkFetcherError.invalidNetworkResponse)
-          }
-        } else if let data = data {
-          GCD.main {
-            result.succeed(data as NSData)
-          }
-        } else {
-          GCD.main {
-            result.fail(NetworkFetcherError.noDataRetrieved)
-          }
+        
+        guard 200..<300 ~= response.statusCode else {
+          throw NetworkFetcherError.statusCodeNotOk
         }
+
+
+        if self.validate(response, withData: data) {
+          return data as NSData
+        }
+
+        throw NetworkFetcherError.invalidNetworkResponse
       }
-    }) 
-    
-    result.onCancel {
-      task.cancel()
-    }
-    
-    task.resume()
-    
-    return result.future
-  }
-
-  private var pendingRequests: [Future<OutputType>] = []
-
-  private func addPendingRequest(_ request: Future<OutputType>) {
-    lock.withWriteLock {
-      self.pendingRequests.append(request)
-    }
-  }
-
-  private func removePendingRequests(_ request: Future<OutputType>) {
-    if let idx = lock.withReadLock({ self.pendingRequests.firstIndex(where: { $0 === request }) }) {
-      _ = lock.withWriteLock {
-        self.pendingRequests.remove(at: idx)
-      }
-    }
+      .eraseToAnyPublisher()
   }
 
   /**
@@ -102,25 +65,9 @@ open class NetworkFetcher: Fetcher {
   
   - returns: A Future that you can use to get the asynchronous results of the network fetch
   */
-  open func get(_ key: KeyType) -> Future<OutputType> {
-    let result = startRequest(key)
-      
-    result
-      .onSuccess { _ in
-        Logger.log("Fetched \(key) from the network fetcher")
-        self.removePendingRequests(result)
-      }
-      .onFailure { _ in
-        Logger.log("Failed fetching \(key) from the network fetcher", .Error)
-        self.removePendingRequests(result)
-      }
-      .onCancel {
-        Logger.log("Canceled request for \(key) on the network fetcher", .Info)
-        self.removePendingRequests(result)
-      }
-    
-    self.addPendingRequest(result)
-    
-    return result
+  open func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
+    startRequest(key)
+      .receive(on: DispatchQueue.main)
+      .eraseToAnyPublisher()
   }
 }

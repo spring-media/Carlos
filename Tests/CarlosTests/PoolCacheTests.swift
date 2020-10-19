@@ -1,27 +1,35 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
-import PiedPiper
+import Combine
 
 struct PoolCacheSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
 }
 
-class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
+final class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(_ configuration: Configuration) {
     sharedExamples("a pooled cache") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: PoolCache<CacheLevelFake<String, Int>>!
       var internalCache: CacheLevelFake<String, Int>!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
         cache = sharedExampleContext()[PoolCacheSharedExamplesContext.CacheToTest] as? PoolCache<CacheLevelFake<String, Int>>
         internalCache = sharedExampleContext()[PoolCacheSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
       }
       
+      afterEach {
+        cancellables = nil
+      }
+      
       context("when calling get") {
-        var fakeRequest: Promise<Int>!
+        var fakeRequest: PassthroughSubject<Int, Error>!
         let key = "key_test"
         var successSentinel: Bool?
         var failureSentinel: Bool?
@@ -32,51 +40,58 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           failureSentinel = nil
           successValue = nil
           
-          fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest.future
+          fakeRequest = PassthroughSubject()
+          internalCache.getSubject = fakeRequest
           
-          cache.get(key).onSuccess({ value in
+          cache.get(key).sink(receiveCompletion: { completion in
+            if case .failure = completion {
+              failureSentinel = true
+            }
+          }, receiveValue: { value in
             successSentinel = true
             successValue = value
-          }).onFailure({ _ in
-            failureSentinel = true
           })
+          .store(in: &cancellables)
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+          expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
         }
         
         it("should pass the right key") {
-          expect(internalCache.didGetKey).to(equal(key))
+          expect(internalCache.didGetKey).toEventually(equal(key))
         }
         
         context("as long as the request doesn't succeed or fail, when other requests with different keys are made") {
-          var fakeRequest2: Promise<Int>!
+          var fakeRequest2: PassthroughSubject<Int, Error>!
           let otherKey = "key_test_2"
           
           beforeEach {
-            fakeRequest2 = Promise<Int>()
-            internalCache.cacheRequestToReturn = fakeRequest2.future
+            fakeRequest2 = PassthroughSubject()
+            internalCache.getSubject = fakeRequest2
             
-            _ = cache.get(otherKey)
+            cache.get(otherKey)
+              .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+              .store(in: &cancellables)
           }
           
           it("should forward the call to the internal cache") {
-            expect(internalCache.numberOfTimesCalledGet).to(equal(2))
+            expect(internalCache.numberOfTimesCalledGet).toEventually(equal(2))
           }
           
           it("should pass the right key") {
-            expect(internalCache.didGetKey).to(equal(otherKey))
+            expect(internalCache.didGetKey).toEventually(equal(otherKey))
           }
           
           context("as long as the request doesn't succeed or fail, when other requests with the same key are made") {
             beforeEach {
-              _ = cache.get(otherKey)
+              cache.get(otherKey)
+                .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+                .store(in: &cancellables)
             }
             
             it("should not forward the call to the internal cache") {
-              expect(internalCache.numberOfTimesCalledGet).to(equal(2))
+              expect(internalCache.numberOfTimesCalledGet).toEventually(equal(2))
             }
           }
         }
@@ -97,81 +112,75 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
               otherFailureSentinels.append(nil)
               otherSuccessValues.append(nil)
               let currentIndex = otherSuccessValues.count - 1
-              cache.get(key).onSuccess({ value in
+              cache.get(key).sink(receiveCompletion: { completion in
+                if case .failure = completion {
+                  otherFailureSentinels[currentIndex] = true
+                }
+              }, receiveValue: { value in
                 otherSuccessSentinels[currentIndex] = true
                 otherSuccessValues[currentIndex] = value
-              }).onFailure({ _ in
-                otherFailureSentinels[currentIndex] = true
-              })
+              }).store(in: &cancellables)
             }
           }
           
           it("should not forward the call to the internal cache") {
-            expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+            expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
           }
           
           context("when the first request succeeds") {
             let successValuePassed = 10
             
             beforeEach {
-              fakeRequest.succeed(successValuePassed)
+              fakeRequest.send(successValuePassed)
             }
             
             it("should call the closure on the first request") {
-              expect(successSentinel).notTo(beNil())
+              expect(successSentinel).toEventuallyNot(beNil())
             }
             
             it("should pass the right value on the first request") {
-              expect(successValue).to(equal(successValuePassed))
+              expect(successValue).toEventually(equal(successValuePassed))
             }
             
             it("should call the closure on the other requests") {
-              expect(otherSuccessSentinels).to(allPass({ $0 != nil }))
+              expect(otherSuccessSentinels).toEventually(allPass({ $0 != nil }))
             }
             
             it("should pass the right value on the other requests") {
-              expect(otherSuccessValues).to(allPass({ $0! == successValuePassed }))
+              expect(otherSuccessValues).toEventually(allPass({ $0! == successValuePassed }))
             }
             
             it("should not call get on the internal cache") {
-              expect(internalCache.numberOfTimesCalledGet).to(equal(1))
-            }
-            
-            context("when other requests are done") {
-              beforeEach {
-                _ = cache.get(key)
-              }
-              
-              it("should forward the call to the internal cache") {
-                expect(internalCache.numberOfTimesCalledGet).to(equal(2))
-              }
+              expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
             }
           }
           
           context("when the first request fails") {
             beforeEach {
-              fakeRequest.fail(TestError.simpleError)
+              fakeRequest.send(completion: .failure(TestError.simpleError))
             }
             
             it("should call the closure on the first request") {
-              expect(failureSentinel).notTo(beNil())
+              expect(failureSentinel).toEventuallyNot(beNil())
             }
             
             it("should call the closure on the other requests") {
-              expect(otherFailureSentinels).to(allPass({ $0 != nil }))
+              expect(otherFailureSentinels).toEventually(allPass({ $0 != nil }))
             }
             
             it("should not call get on the internal cache") {
-              expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+              expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
             }
             
             context("when other requests are done") {
               beforeEach {
-                _ = cache.get(key)
+                cache.get(key)
+                  .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+                  .store(in: &cancellables)
               }
               
               it("should forward the call to the internal cache") {
-                expect(internalCache.numberOfTimesCalledGet).to(equal(2))
+                expect(internalCache.numberOfTimesCalledGet).toEventually(equal(2))
               }
             }
           }
@@ -187,33 +196,35 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         beforeEach {
           setSucceeded = false
           setError = nil
-        
-          cache.set(value, forKey: key).onSuccess {
-            setSucceeded = true
-          }.onFailure {
-            setError = $0
-          }
+          
+          cache.set(value, forKey: key)
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                setError = error
+              }
+            }, receiveValue: { setSucceeded = true })
+            .store(in: &cancellables)
         }
         
         it("should forward it to the internal cache") {
-          expect(internalCache.numberOfTimesCalledSet).to(equal(1))
+          expect(internalCache.numberOfTimesCalledSet).toEventually(equal(1))
         }
         
         it("should set the right key") {
-          expect(internalCache.didSetKey).to(equal(key))
+          expect(internalCache.didSetKey).toEventually(equal(key))
         }
         
         it("should set the right value") {
-          expect(internalCache.didSetValue).to(equal(value))
+          expect(internalCache.didSetValue).toEventually(equal(value))
         }
         
         context("when set succeeds") {
           beforeEach {
-            internalCache.setPromisesReturned.first?.succeed(())
+            internalCache.setPublishers[key]?.send()
           }
           
           it("should succeed") {
-            expect(setSucceeded).to(beTrue())
+            expect(setSucceeded).toEventually(beTrue())
           }
         }
         
@@ -221,26 +232,30 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           let setFailure = TestError.anotherError
           
           beforeEach {
-            internalCache.setPromisesReturned.first?.fail(setFailure)
+            internalCache.setPublishers[key]?.send(completion: .failure(setFailure))
           }
           
           it("should fail") {
-            expect(setError).notTo(beNil())
+            expect(setError).toEventuallyNot(beNil())
           }
           
           it("should pass the error through") {
-            expect(setError as? TestError).to(equal(setFailure))
+            expect(setError as? TestError).toEventually(equal(setFailure))
           }
         }
         
         context("when calling it multiple times") {
           beforeEach {
-            _ = cache.set(value, forKey: key)
-            _ = cache.set(value, forKey: key)
+            cache.set(value, forKey: key)
+              .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+              .store(in: &cancellables)
+            cache.set(value, forKey: key)
+              .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+              .store(in: &cancellables)
           }
           
           it("should not pool these calls") {
-            expect(internalCache.numberOfTimesCalledSet).to(equal(3))
+            expect(internalCache.numberOfTimesCalledSet).toEventually(equal(3))
           }
         }
       }
@@ -251,7 +266,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward it to the internal cache") {
-          expect(internalCache.numberOfTimesCalledClear).to(equal(1))
+          expect(internalCache.numberOfTimesCalledClear).toEventually(equal(1))
         }
         
         context("when calling it multiple times") {
@@ -261,7 +276,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should not pool these calls") {
-            expect(internalCache.numberOfTimesCalledClear).to(equal(3))
+            expect(internalCache.numberOfTimesCalledClear).toEventually(equal(3))
           }
         }
       }
@@ -272,7 +287,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward it to the internal cache") {
-          expect(internalCache.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(internalCache.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
         
         context("when calling it multiple times") {
@@ -282,7 +297,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
           }
           
           it("should not pool these calls") {
-            expect(internalCache.numberOfTimesCalledOnMemoryWarning).to(equal(3))
+            expect(internalCache.numberOfTimesCalledOnMemoryWarning).toEventually(equal(3))
           }
         }
       }
@@ -290,7 +305,7 @@ class PoolCacheSharedExamplesConfiguration: QuickConfiguration {
   }
 }
 
-class PoolCacheTests: QuickSpec {
+final class PoolCacheTests: QuickSpec {
   override func spec() {
     var cache: PoolCache<CacheLevelFake<String, Int>>!
     var internalCache: CacheLevelFake<String, Int>!
@@ -303,12 +318,12 @@ class PoolCacheTests: QuickSpec {
       
       itBehavesLike("a pooled cache") {
         [
-          PoolCacheSharedExamplesContext.CacheToTest: cache,
-          PoolCacheSharedExamplesContext.InternalCache: internalCache
+          PoolCacheSharedExamplesContext.CacheToTest: cache as Any,
+          PoolCacheSharedExamplesContext.InternalCache: internalCache as Any
         ]
       }
     }
-        
+    
     describe("The pooled instance function, applied to a cache level") {
       beforeEach {
         internalCache = CacheLevelFake<String, Int>()
@@ -317,8 +332,8 @@ class PoolCacheTests: QuickSpec {
       
       itBehavesLike("a pooled cache") {
         [
-          PoolCacheSharedExamplesContext.CacheToTest: cache,
-          PoolCacheSharedExamplesContext.InternalCache: internalCache
+          PoolCacheSharedExamplesContext.CacheToTest: cache as Any,
+          PoolCacheSharedExamplesContext.InternalCache: internalCache as Any
         ]
       }
     }

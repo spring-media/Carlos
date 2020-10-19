@@ -1,21 +1,33 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
-import PiedPiper
 
-class ConditionedOneWayTransformationBoxTests: QuickSpec {
+import Carlos
+import Combine
+
+final class ConditionedOneWayTransformationBoxTests: QuickSpec {
   override func spec() {
     describe("Conditioned one-way transformation box") {
       var box: ConditionedOneWayTransformationBox<[String: Bool], String, Int>!
+      var cancellable: AnyCancellable?
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
+      }
       
       context("when created through a closure") {
         beforeEach {
           box = ConditionedOneWayTransformationBox(conditionalTransformClosure: { key, value in
             if let _ = key["value"] {
-              return Future(value: Int(value), error: TestError.simpleError)
+              guard let intValue = Int(value) else {
+                return Fail(error: TestError.simpleError).eraseToAnyPublisher()
+              }
+              
+              return Just(intValue).setFailureType(to: Error.self).eraseToAnyPublisher()
             } else {
-              return Future(TestError.anotherError)
+              return Fail(error: TestError.anotherError).eraseToAnyPublisher()
             }
           })
         }
@@ -33,21 +45,24 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "102"
             
             beforeEach {
-              box.conditionalTransform(key: ["value": true], value: originString)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: ["value": true], value: originString)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected result") {
-              expect(result).to(equal(Int(originString)))
+              expect(result).toEventually(equal(Int(originString)))
             }
           }
           
@@ -55,41 +70,47 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "10asd2"
             
             beforeEach {
-              box.conditionalTransform(key: ["value": true], value: originString)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: ["value": true], value: originString)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.simpleError))
+              expect(error as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
           
           context("if the key doesn't satisfy the condition") {
             beforeEach {
-              box.conditionalTransform(key: [:], value: "whatever")
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: [:], value: "whatever")
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.anotherError))
+              expect(error as? TestError).toEventually(equal(TestError.anotherError))
             }
           }
         }
@@ -98,7 +119,11 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
       context("when created through a one way transformer") {
         beforeEach {
           let transformer = OneWayTransformationBox<String, Int>(transform: { value in
-            Future(value: Int(value), error: TestError.simpleError)
+            guard let intValue = Int(value) else {
+              return Fail(error: TestError.simpleError).eraseToAnyPublisher()
+            }
+            
+            return Just(intValue).setFailureType(to: Error.self).eraseToAnyPublisher()
           })
           
           box = ConditionedOneWayTransformationBox(transformer: transformer)
@@ -117,21 +142,24 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "102"
             
             beforeEach {
-              box.conditionalTransform(key: ["value": true], value: originString)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: ["value": true], value: originString)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected result") {
-              expect(result).to(equal(Int(originString)))
+              expect(result).toEventually(equal(Int(originString)))
             }
           }
           
@@ -139,21 +167,24 @@ class ConditionedOneWayTransformationBoxTests: QuickSpec {
             let originString = "10asd2"
             
             beforeEach {
-              box.conditionalTransform(key: [:], value: originString)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = box.conditionalTransform(key: [:], value: originString)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the failure closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(error as? TestError).to(equal(TestError.simpleError))
+              expect(error as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
         }

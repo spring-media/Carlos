@@ -1,8 +1,10 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
-import PiedPiper
+import Combine
 
 struct FetcherValueTransformationsSharedExamplesContext {
   static let FetcherToTest = "fetcher"
@@ -10,14 +12,17 @@ struct FetcherValueTransformationsSharedExamplesContext {
   static let Transformer = "transformer"
 }
 
-class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration {
+final class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(_ configuration: Configuration) {
     sharedExamples("a fetch closure with transformed values") { (sharedExampleContext: @escaping SharedExampleContext) in
       var fetcher: BasicFetcher<String, String>!
       var internalFetcher: FetcherFake<String, Int>!
       var transformer: OneWayTransformationBox<Int, String>!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
+        
         fetcher = sharedExampleContext()[FetcherValueTransformationsSharedExamplesContext.FetcherToTest] as? BasicFetcher<String, String>
         internalFetcher = sharedExampleContext()[FetcherValueTransformationsSharedExamplesContext.InternalFetcher] as? FetcherFake<String, Int>
         transformer = sharedExampleContext()[FetcherValueTransformationsSharedExamplesContext.Transformer] as? OneWayTransformationBox<Int, String>
@@ -27,21 +32,27 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
         let key = "12"
         var successValue: String?
         var failureValue: Error?
-        var fakeRequest: Promise<Int>!
+        var getSubject: PassthroughSubject<Int, Error>!
         
         beforeEach {
-          fakeRequest = Promise<Int>()
-          internalFetcher.cacheRequestToReturn = fakeRequest.future
+          getSubject = PassthroughSubject()
+          internalFetcher.getSubject = getSubject
           
-          fetcher.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
+          fetcher.get(key)
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failureValue = error
+              }
+            }, receiveValue: { successValue = $0 })
+            .store(in: &cancellables)
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalFetcher.numberOfTimesCalledGet).to(equal(1))
+          expect(internalFetcher.numberOfTimesCalledGet).toEventually(equal(1))
         }
         
         it("should pass the right key") {
-          expect(internalFetcher.didGetKey).to(equal(key))
+          expect(internalFetcher.didGetKey).toEventually(equal(key))
         }
         
         context("when the request succeeds") {
@@ -49,17 +60,19 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
             let value = 101
             
             beforeEach {
-              fakeRequest.succeed(value)
+              getSubject.send(value)
             }
             
             it("should call the original success closure") {
-              expect(successValue).notTo(beNil())
+              expect(successValue).toEventuallyNot(beNil())
             }
             
             it("should transform the value") {
               var expected: String!
-              transformer.transform(value).onSuccess { expected = $0 }
-              expect(successValue).to(equal(expected))
+              transformer.transform(value)
+                .sink(receiveCompletion: { _ in }, receiveValue: { expected = $0 })
+                .store(in: &cancellables)
+              expect(successValue).toEventually(equal(expected))
             }
           }
           
@@ -68,19 +81,19 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
             
             beforeEach {
               successValue = nil
-              fakeRequest.succeed(value)
+              getSubject.send(value)
             }
             
             it("should not call the original success closure") {
-              expect(successValue).to(beNil())
+              expect(successValue).toEventually(beNil())
             }
             
             it("should call the original failure closure") {
-              expect(failureValue).notTo(beNil())
+              expect(failureValue).toEventuallyNot(beNil())
             }
             
             it("should fail with the right code") {
-              expect(failureValue as? TestError).to(equal(TestError.simpleError))
+              expect(failureValue as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
         }
@@ -89,15 +102,15 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
           let errorCode = TestError.anotherError
           
           beforeEach {
-            fakeRequest.fail(errorCode)
+            getSubject.send(completion: .failure(errorCode))
           }
           
           it("should call the original failure closure") {
-            expect(failureValue).notTo(beNil())
+            expect(failureValue).toEventuallyNot(beNil())
           }
           
           it("should fail with the right code") {
-            expect(failureValue as? TestError).to(equal(errorCode))
+            expect(failureValue as? TestError).toEventually(equal(errorCode))
           }
         }
       }
@@ -105,19 +118,17 @@ class FetcherValueTransformationSharedExamplesConfiguration: QuickConfiguration 
   }
 }
 
-class FetcherValueTransformationTests: QuickSpec {
+final class FetcherValueTransformationTests: QuickSpec {
   override func spec() {
     var fetcher: BasicFetcher<String, String>!
     var internalFetcher: FetcherFake<String, Int>!
     var transformer: OneWayTransformationBox<Int, String>!
-    let forwardTransformationClosure: (Int) -> Future<String> = {
-      let result = Promise<String>()
+    let forwardTransformationClosure: (Int) -> AnyPublisher<String, Error> = {
       if $0 > 0 {
-        result.succeed("\($0 + 1)")
-      } else {
-        result.fail(TestError.simpleError)
+        return Just("\($0 + 1)").setFailureType(to: Error.self).eraseToAnyPublisher()
       }
-      return result.future
+      
+      return Fail(error: TestError.simpleError).eraseToAnyPublisher()
     }
     
     describe("Value transformation using a transformer and a fetcher, with the instance function") {
@@ -129,9 +140,9 @@ class FetcherValueTransformationTests: QuickSpec {
       
       itBehavesLike("a fetch closure with transformed values") {
         [
-          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher,
-          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher,
-          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer
+          FetcherValueTransformationsSharedExamplesContext.FetcherToTest: fetcher as Any,
+          FetcherValueTransformationsSharedExamplesContext.InternalFetcher: internalFetcher as Any,
+          FetcherValueTransformationsSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

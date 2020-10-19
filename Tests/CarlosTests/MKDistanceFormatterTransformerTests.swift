@@ -1,17 +1,26 @@
 import Foundation
-import Quick
-import Nimble
-import Carlos
 import MapKit
 
-class MKDistanceFormatterTransformerTests: QuickSpec {
+import Quick
+import Nimble
+
+import Carlos
+import Combine
+
+final class MKDistanceFormatterTransformerTests: QuickSpec {
   override func spec() {
     describe("MKDistanceFormatter") {
       var formatter: MKDistanceFormatter!
+      var cancellable: AnyCancellable?
       
       beforeEach {
         formatter = MKDistanceFormatter()
         formatter.units = .metric
+      }
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
       }
       
       context("when used as a transformer") {
@@ -20,11 +29,12 @@ class MKDistanceFormatterTransformerTests: QuickSpec {
           var resultString: String!
           
           beforeEach {
-            formatter.transform(originDistance).onSuccess { resultString = $0 }
+            cancellable = formatter.transform(originDistance)
+              .sink(receiveCompletion: { _ in }, receiveValue: { resultString = $0 })
           }
           
           it("should return the expected string") {
-            expect(resultString).to(equal("10 km"))
+            expect(resultString).toEventually(equal("10 km"))
           }
         }
         
@@ -33,11 +43,12 @@ class MKDistanceFormatterTransformerTests: QuickSpec {
           var resultDistance: CLLocationDistance!
           
           beforeEach {
-            formatter.inverseTransform(originString).onSuccess { resultDistance = $0 }
+            cancellable = formatter.inverseTransform(originString)
+              .sink(receiveCompletion: { _ in }, receiveValue: { resultDistance = $0 })
           }
           
           it("should return the expected number") {
-            expect(resultDistance).to(equal(10000.0))
+            expect(resultDistance).toEventually(equal(10000.0))
           }
         }
       }

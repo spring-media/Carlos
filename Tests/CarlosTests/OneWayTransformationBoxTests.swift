@@ -1,18 +1,30 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
-import PiedPiper
 
-class OneWayTransformationBoxTests: QuickSpec {
+import Carlos
+import Combine
+
+final class OneWayTransformationBoxTests: QuickSpec {
   override func spec() {
     describe("OneWayTransformationBox") {
       var box: OneWayTransformationBox<String, Int>!
+      var cancellable: AnyCancellable?
       
       beforeEach {
-        box = OneWayTransformationBox(transform: {
-          Future(value: Int($0), error: TestError.simpleError)
+        box = OneWayTransformationBox(transform: { value in
+          guard let intValue = Int(value) else {
+            return Fail(error: TestError.simpleError).eraseToAnyPublisher()
+          }
+          
+          return Just(intValue).setFailureType(to: Error.self).eraseToAnyPublisher()
         })
+      }
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
       }
       
       context("when using the transformation") {
@@ -28,9 +40,12 @@ class OneWayTransformationBoxTests: QuickSpec {
           let originString = "102"
           
           beforeEach {
-            box.transform(originString)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
+            cancellable = box.transform(originString)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(e) = completion {
+                  error = e
+                }
+              }, receiveValue: { result = $0 })
           }
           
           it("should call the success closure") {
@@ -50,9 +65,12 @@ class OneWayTransformationBoxTests: QuickSpec {
           let originString = "10asd2"
           
           beforeEach {
-            box.transform(originString)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
+            cancellable = box.transform(originString)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(e) = completion {
+                  error = e
+                }
+              }, receiveValue: { result = $0 })
           }
           
           it("should not call the success closure") {

@@ -1,8 +1,7 @@
 import Foundation
-import PiedPiper
+import Combine
 
 extension CacheLevel {
-  
   /**
   Applies a transformation to the cache level
   The transformation works by changing the type of the key the cache accepts
@@ -15,12 +14,16 @@ extension CacheLevel {
   public func transformKeys<A: OneWayTransformer>(_ transformer: A) -> BasicCache<A.TypeIn, OutputType> where KeyType == A.TypeOut {
     return BasicCache(
       getClosure: { key in
-        transformer.transform(key).flatMap(self.get)
+        transformer.transform(key)
+          .flatMap(self.get)
+          .eraseToAnyPublisher()
       },
       setClosure: { (value, key) in
-        return transformer.transform(key).flatMap { transformedKey in
-          self.set(value, forKey: transformedKey)
-        }
+        return transformer.transform(key)
+          .flatMap { transformedKey in
+            self.set(value, forKey: transformedKey)
+          }
+          .eraseToAnyPublisher()
       },
       clearClosure: self.clear,
       memoryClosure: self.onMemoryWarning

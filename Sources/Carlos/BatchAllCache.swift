@@ -1,4 +1,4 @@
-import PiedPiper
+import Combine
 
 /// A reified batchGetAll
 public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLevel where KeySeq.Iterator.Element == Cache.KeyType {
@@ -17,19 +17,29 @@ public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLeve
    Dispatch each key in the sequence in parallel
    Merge the results -- if any key fails, it all fails
   */
-  public func get(_ key: KeyType) -> Future<OutputType> {
-    return key.traverse(cache.get)
+  public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
+    let all = key.map(cache.get)
+    
+    return all.publisher
+      .setFailureType(to: Error.self)
+      .flatMap { $0 }
+      .collect(all.count)
+      .eraseToAnyPublisher()
   }
 
   /**
   Zip the keys with the values and set them all
   */
-  public func set(_ value: OutputType, forKey key: KeyType) -> Future<()> {
+  public func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error> {
+    let initial = Just(())
+      .setFailureType(to: Error.self)
+      .eraseToAnyPublisher()
     return zip(value, key)
       .map(cache.set)
-      .reduce(Future<()>(()), { previous, current in
+      .reduce(initial) { previous, current in
         previous.flatMap { current }
-      })
+          .eraseToAnyPublisher()
+      }
   }
 
   public func clear() {

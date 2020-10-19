@@ -1,13 +1,13 @@
 import Foundation
-import PiedPiper
+import Combine
 
 /// A wrapper cache that explicitly takes get, set, clear and memory warning closures
 public final class BasicCache<A, B>: CacheLevel {
   public typealias KeyType = A
   public typealias OutputType = B
   
-  private let getClosure: (_ key: A) -> Future<B>
-  private let setClosure: (_ value: B, _ key: A) -> Future<()>
+  private let getClosure: (_ key: A) -> AnyPublisher<B, Error>
+  private let setClosure: (_ value: B, _ key: A) -> AnyPublisher<Void, Error>
   private let clearClosure: () -> Void
   private let memoryClosure: () -> Void
   
@@ -19,7 +19,7 @@ public final class BasicCache<A, B>: CacheLevel {
   - parameter clearClosure: The closure to execute when you call clear() on this instance
   - parameter memoryClosure: The closure to execute when you call onMemoryWarning() on this instance, or when a memory warning is thrown by the system and the cache level is listening for memory pressure events
   */
-  public init(getClosure: @escaping (_ key: A) -> Future<B>, setClosure: @escaping (_ value: B, _ key: A) -> Future<()>, clearClosure: @escaping () -> Void, memoryClosure: @escaping () -> Void) {
+  public init(getClosure: @escaping (_ key: A) -> AnyPublisher<B, Error>, setClosure: @escaping (_ value: B, _ key: A) -> AnyPublisher<Void, Error>, clearClosure: @escaping () -> Void, memoryClosure: @escaping () -> Void) {
     self.getClosure = getClosure
     self.setClosure = setClosure
     self.clearClosure = clearClosure
@@ -33,7 +33,7 @@ public final class BasicCache<A, B>: CacheLevel {
   
   - returns: The result of the getClosure specified when initializing the instance
   */
-  public func get(_ key: KeyType) -> Future<OutputType> {
+  public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
     return getClosure(key)
   }
   
@@ -45,7 +45,7 @@ public final class BasicCache<A, B>: CacheLevel {
   
   This call executes the setClosure specified when initializing the instance
   */
-  public func set(_ value: B, forKey key: A) -> Future<()> {
+  public func set(_ value: B, forKey key: A) -> AnyPublisher<Void, Error> {
     return setClosure(value, key)
   }
   

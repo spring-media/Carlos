@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+
 
 extension Fetcher {
   
@@ -15,7 +15,9 @@ extension Fetcher {
   public func transformValues<A: OneWayTransformer>(_ transformer: A) -> BasicFetcher<KeyType, A.TypeOut> where OutputType == A.TypeIn {
     return BasicFetcher(
       getClosure: { key in
-        return self.get(key).mutate(transformer)
+        return self.get(key)
+          .flatMap(transformer.transform)
+          .eraseToAnyPublisher()
       }
     )
   }

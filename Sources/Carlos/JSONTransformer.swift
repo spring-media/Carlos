@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import Combine
 
 /**
 This class takes care of transforming NSData instances into JSON objects in the form of AnyObject instances. Depending on your usage, the AnyObject could contain an Array, a Dictionary, or nil if the NSData is not a valid JSON
@@ -18,17 +18,15 @@ public final class JSONTransformer: TwoWayTransformer {
   
   - returns: A Future<AnyObject> value, with the parsed JSON if the input data was valid
   */
-  public func transform(_ val: TypeIn) -> Future<TypeOut> {
-    let result = Promise<TypeOut>()
-    
-    do {
-      let transformed = try JSONSerialization.jsonObject(with: val as Data, options: [.allowFragments]) as AnyObject
-      result.succeed(transformed)
-    } catch {
-      result.fail(error)
+  public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
+    DispatchQueue.global().publisher { promise in
+      do {
+        let transformed = try JSONSerialization.jsonObject(with: val as Data, options: [.allowFragments]) as AnyObject
+        promise(.success(transformed))
+      } catch {
+        promise(.failure(error))
+      }
     }
-    
-    return result.future
   }
   
   /**
@@ -38,16 +36,14 @@ public final class JSONTransformer: TwoWayTransformer {
   
   - returns: A Future<NSData> value, with the deserialized JSON if the input was valid
   */
-  public func inverseTransform(_ val: TypeOut) -> Future<TypeIn> {
-    let result = Promise<TypeIn>()
-    
-    do {
-      let transformed = try JSONSerialization.data(withJSONObject: val, options: [])
-      result.succeed(transformed as NSData)
-    } catch {
-      result.fail(error)
+  public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
+    DispatchQueue.global().publisher { promise in
+      do {
+        let transformed = try JSONSerialization.data(withJSONObject: val, options: [])
+        promise(.success(transformed as NSData))
+      } catch {
+        promise(.failure(error))
+      }
     }
-    
-    return result.future
   }
 }

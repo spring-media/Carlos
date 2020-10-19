@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import Combine
 
 /// Abstract an object that can conditionally transform values to another type
 public protocol ConditionedOneWayTransformer {
@@ -20,7 +20,7 @@ public protocol ConditionedOneWayTransformer {
    
    - returns: A Future that will contain the transformed value, or fail if the transformation failed
    */
-  func conditionalTransform(key: KeyType, value: TypeIn) -> Future<TypeOut>
+  func conditionalTransform(key: KeyType, value: TypeIn) -> AnyPublisher<TypeOut, Error>
 }
 
 /// Simple implementation of the ConditionedOneWayTransformer protocol
@@ -34,14 +34,14 @@ public final class ConditionedOneWayTransformationBox<Key, InputType, OutputType
   /// The key type used by the transformation box
   public typealias KeyType = Key
   
-  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> Future<OutputType>
+  private let conditionalTransformClosure: (_ key: Key, _ value: InputType) -> AnyPublisher<OutputType, Error>
   
   /**
    Initializes a conditioned 1-way transformation box with the given closure
    
    - parameter conditionalTransformClosure: The conditional transformation closure to convert a value of type TypeIn into a value of type TypeOut given a key of type KeyType
    */
-  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> Future<OutputType>) {
+  public init(conditionalTransformClosure: @escaping (_ key: Key, _ value: InputType) -> AnyPublisher<OutputType, Error>) {
     self.conditionalTransformClosure = conditionalTransformClosure
   }
   
@@ -66,7 +66,7 @@ public final class ConditionedOneWayTransformationBox<Key, InputType, OutputType
    
    - returns: A Future that will contain the converted value or fail if the transformation fails
    */
-  public func conditionalTransform(key: KeyType, value: TypeIn) -> Future<TypeOut> {
+  public func conditionalTransform(key: KeyType, value: TypeIn) -> AnyPublisher<TypeOut, Error> {
     return conditionalTransformClosure(key, value)
   }
 }

@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+import Combine
 
 extension CacheLevel {
   
@@ -12,7 +12,7 @@ extension CacheLevel {
   
   The condition doesn't apply to the set, clear, onMemoryWarning calls
   */
-  public func conditioned(_ condition: @escaping (KeyType) -> Future<Bool>) -> BasicCache<KeyType, OutputType> {
+  public func conditioned(_ condition: @escaping (KeyType) -> AnyPublisher<Bool, Error>) -> BasicCache<KeyType, OutputType> {
     return BasicCache(
       getClosure: conditionedClosure(self.get, condition: condition),
       setClosure: self.set,
@@ -22,15 +22,15 @@ extension CacheLevel {
   }
 }
 
-private func conditionedClosure<A, B>(_ closure: @escaping (A) -> Future<B>, condition: @escaping (A) -> Future<Bool>) -> ((A) -> Future<B>) {
+private func conditionedClosure<A, B>(_ closure: @escaping (A) -> AnyPublisher<B, Error>, condition: @escaping (A) -> AnyPublisher<Bool, Error>) -> ((A) -> AnyPublisher<B, Error>) {
   return { input in
-    return condition(input).flatMap { (passesCondition: Bool) -> Future<B> in
+    return condition(input).flatMap { (passesCondition: Bool) -> AnyPublisher<B, Error> in
       if passesCondition {
         return closure(input)
       } else {
-        return Future(FetchError.conditionNotSatisfied)
+        return Fail(error: FetchError.conditionNotSatisfied).eraseToAnyPublisher()
       }
-    }
+    }.eraseToAnyPublisher()
   }
 }
 
@@ -42,7 +42,7 @@ extension OneWayTransformer {
    
   - returns: A new OneWayTransformer that will check for the condition before every transformation is dispatched to the decorated transformer
   */
-  public func conditioned(_ condition: @escaping (TypeIn) -> Future<Bool>) -> OneWayTransformationBox<TypeIn, TypeOut> {
+  public func conditioned(_ condition: @escaping (TypeIn) -> AnyPublisher<Bool, Error>) -> OneWayTransformationBox<TypeIn, TypeOut> {
     return OneWayTransformationBox(transform: conditionedClosure(self.transform, condition: condition))
   }
 }
@@ -56,7 +56,7 @@ extension TwoWayTransformer {
    
   - returns: A new TwoWayTransformer that will check for the conditions before every transformation is dispatched to the decorated transformer
   */
-  public func conditioned(_ condition: @escaping (TypeIn) -> Future<Bool>, inverseCondition: @escaping (TypeOut) -> Future<Bool>) -> TwoWayTransformationBox<TypeIn, TypeOut> {
+  public func conditioned(_ condition: @escaping (TypeIn) -> AnyPublisher<Bool, Error>, inverseCondition: @escaping (TypeOut) -> AnyPublisher<Bool, Error>) -> TwoWayTransformationBox<TypeIn, TypeOut> {
     return TwoWayTransformationBox(
       transform: conditionedClosure(self.transform, condition: condition),
       inverseTransform: conditionedClosure(self.inverseTransform, condition: inverseCondition)

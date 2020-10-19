@@ -1,12 +1,16 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
 
-class NSNumberFormatterTransformerTests: QuickSpec {
+import Carlos
+import Combine
+
+final class NSNumberFormatterTransformerTests: QuickSpec {
   override func spec() {
     describe("NumberFormatter") {
       var formatter: NumberFormatter!
+      var cancellable: AnyCancellable?
       
       beforeEach {
         formatter = NumberFormatter()
@@ -16,35 +20,44 @@ class NSNumberFormatterTransformerTests: QuickSpec {
         formatter.minimumFractionDigits = 3
       }
       
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
+      }
+      
       context("when used as a transformer") {
         var error: Error!
         
         context("when transforming") {
           var result: String!
           
-          beforeEach {
+          afterEach {
             result = nil
+            error = nil
           }
           
           context("when the number contains a valid number of fraction digits") {
             let originNumber = 10.1203
             
             beforeEach {
-              formatter.transform(NSNumber(value: originNumber))
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = formatter.transform(NSNumber(value: originNumber))
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected string") {
-              expect(result).to(equal("10.1203"))
+              expect(result).toEventually(equal("10.1203"))
             }
           }
           
@@ -52,21 +65,24 @@ class NSNumberFormatterTransformerTests: QuickSpec {
             let originNumber = 10.12
             
             beforeEach {
-              formatter.transform(NSNumber(value: originNumber))
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = formatter.transform(NSNumber(value: originNumber))
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected string") {
-              expect(result).to(equal("10.120"))
+              expect(result).toEventually(equal("10.120"))
             }
           }
           
@@ -74,68 +90,85 @@ class NSNumberFormatterTransformerTests: QuickSpec {
             let originNumber = 10.120312
             
             beforeEach {
-              formatter.transform(NSNumber(value: originNumber))
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = formatter.transform(NSNumber(value: originNumber))
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: { result = $0 })
             }
-                
+            
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
-                
+            
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected string") {
-              expect(result).to(equal("10.12031"))
+              expect(result).toEventually(equal("10.12031"))
             }
           }
         }
         
         context("when inverse transforming") {
           var result: NSNumber!
-              
-          beforeEach {
-            result = nil
-          }
           
           context("when the string is valid") {
             let originString = "10.1203"
             
             beforeEach {
-              formatter.inverseTransform(originString)
-                .onSuccess({ result = $0 })
-                .onFailure({ error = $0 })
+              cancellable = formatter.inverseTransform(originString)
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                  }
+                }, receiveValue: {
+                  result = $0
+                })
+            }
+            
+            afterEach {
+              result = nil
+              error = nil
             }
             
             it("should call the success closure") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(error).to(beNil())
+              expect(error).toEventually(beNil())
             }
             
             it("should return the expected number") {
-              let compare = result ?? NSNumber(value: 0)
-              expect("\(compare)").to(equal(originString))
+              expect(result.map { "\($0)" }).toEventually(equal(originString))
             }
           }
           
           context("when the string is invalid") {
             beforeEach {
-              formatter.inverseTransform("not a number!")
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
+              cancellable = formatter.inverseTransform("not a number!")
+                .sink(receiveCompletion: { completion in
+                  if case let .failure(e) = completion {
+                    error = e
+                    result = nil
+                  }
+                }, receiveValue: { result = $0 })
             }
-                
+            
+            afterEach {
+              result = nil
+              error = nil
+            }
+            
             it("should not call the success closure") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should call the error closure") {
-              expect(error).notTo(beNil())
+              expect(error).toEventuallyNot(beNil())
             }
           }
         }

@@ -1,19 +1,28 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
 
-class NSUserDefaultsCacheLevelTests: QuickSpec {
+import Carlos
+import Combine
+
+final class NSUserDefaultsCacheLevelTests: QuickSpec {
   override func spec() {
     describe("User defaults cache level") {
       var cache: NSUserDefaultsCacheLevel<String, NSString>!
       var secondCache: NSUserDefaultsCacheLevel<String, NSString>!
       var standardCache: UserDefaults!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set<AnyCancellable>()
         standardCache = UserDefaults.standard
         cache = NSUserDefaultsCacheLevel(name: "tests")
         secondCache = NSUserDefaultsCacheLevel(name: "fallback")
+      }
+      
+      afterEach {
+        cancellables = nil
       }
       
       afterSuite {
@@ -27,39 +36,57 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
         var failureSentinel: Bool?
         
         beforeEach {
-          cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+          cache.get(key)
+            .sink(receiveCompletion: { completion in
+              if case .failure = completion {
+                failureSentinel = true
+              }
+            }, receiveValue: {
+              result = $0
+            })
+            .store(in: &cancellables)
+        }
+        
+        afterEach {
+          result = nil
+          failureSentinel = nil
         }
         
         it("should fail") {
-          expect(failureSentinel).to(beTrue())
+          expect(failureSentinel).toEventually(beTrue())
         }
         
         it("should not succeed") {
-          expect(result).to(beNil())
+          expect(result).toEventually(beNil())
         }
         
         context("when setting a value for that key") {
-          let value = "value to set"
-          
-          beforeEach {
-            failureSentinel = nil
-            
-            _ = cache.set(value as NSString, forKey: key)
-          }
-          
           context("when getting the value for another key") {
+            let value = "value to set"
             let anotherKey = "test_key_2"
             
             beforeEach {
-              cache.get(anotherKey).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              cache.set(value as NSString, forKey: key)
+                .flatMap {
+                  cache.get(anotherKey)
+                }
+                .sink(receiveCompletion: { completion in
+                  if case .failure = completion {
+                    result = nil
+                    failureSentinel = true
+                  }
+                }, receiveValue: {
+                  result = $0
+                })
+                .store(in: &cancellables)
             }
             
             it("should not succeed") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should fail") {
-              expect(failureSentinel).notTo(beNil())
+              expect(failureSentinel).toEventuallyNot(beNil())
             }
           }
         }
@@ -74,10 +101,15 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
         
         beforeEach {
           didWrite = false
-          cache.set(value as NSString, forKey: key).onSuccess {
-            didWrite = true
-          }
-          _ = secondCache.set(value as NSString, forKey: key)
+          
+          cache.set(value as NSString, forKey: key)
+            .sink(receiveCompletion: { _ in }, receiveValue: { didWrite = true })
+            .store(in: &cancellables)
+          
+          secondCache.set(value as NSString, forKey: key)
+            .sink(receiveCompletion: { _ in }, receiveValue: {})
+            .store(in: &cancellables)
+          
           standardCache.set(value, forKey: key)
         }
         
@@ -87,36 +119,49 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
         
         context("when calling get") {
           beforeEach {
-            cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+            cache.get(key)
+              .sink(receiveCompletion: { completion in
+                if case .failure = completion {
+                  failureSentinel = true
+                }
+              }, receiveValue: { result = $0 })
+              .store(in: &cancellables)
           }
           
           it("should succeed") {
-            expect(result).notTo(beNil())
+            expect(result).toEventuallyNot(beNil())
           }
           
           it("should return the right value") {
-            expect(result).to(equal(value as NSString))
+            expect(result).toEventually(equal(value as NSString))
           }
           
           it("should not fail") {
-            expect(failureSentinel).to(beNil())
+            expect(failureSentinel).toEventually(beNil())
           }
         }
         
         context("when setting a different value for the same key") {
           let newValue = "another value"
           
-          beforeEach {
-            _ = cache.set(newValue as NSString, forKey: key)
-          }
-          
           context("when calling get") {
             beforeEach {
-              cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              cache.set(newValue as NSString, forKey: key)
+                .flatMap {
+                  return cache.get(key)
+                }
+                .sink(receiveCompletion: { completion in
+                  if case .failure = completion {
+                    failureSentinel = true
+                  }
+                }, receiveValue: {
+                  result = $0
+                })
+                .store(in: &cancellables)
             }
             
             it("should succeed with the overwritten value") {
-              expect(result).to(equal(newValue as NSString))
+              expect(result).toEventually(equal(newValue as NSString), timeout: 5)
             }
           }
         }
@@ -131,33 +176,45 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           
           context("when calling get") {
             beforeEach {
-              cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              cache.get(key)
+                .sink(receiveCompletion: { completion in
+                  if case .failure = completion {
+                    failureSentinel = true
+                  }
+                }, receiveValue: { result = $0 })
+                .store(in: &cancellables)
             }
             
             it("should fail") {
-              expect(failureSentinel).to(beTrue())
+              expect(failureSentinel).toEventually(beTrue())
             }
             
             it("should not succeed") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
           }
           
           context("when calling get on the other cache") {
             beforeEach {
-              secondCache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              secondCache.get(key)
+                .sink(receiveCompletion: { completion in
+                  if case .failure = completion {
+                    failureSentinel = true
+                  }
+                }, receiveValue: { result = $0 })
+                .store(in: &cancellables)
             }
             
             it("should not fail") {
-              expect(failureSentinel).to(beNil())
+              expect(failureSentinel).toEventually(beNil())
             }
             
             it("should succeed") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value as NSString))
+              expect(result).toEventually(equal(value as NSString))
             }
           }
           
@@ -167,11 +224,11 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
             
             it("should succeed") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value as NSString))
+              expect(result).toEventually(equal(value as NSString))
             }
           }
         }
@@ -186,38 +243,50 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
           context("when calling get") {
             beforeEach {
               beforeEach {
-                cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+                cache.get(key)
+                  .sink(receiveCompletion: { completion in
+                    if case .failure = completion {
+                      failureSentinel = true
+                    }
+                  }, receiveValue: { result = $0 })
+                  .store(in: &cancellables)
               }
               
               it("should not fail") {
-                expect(failureSentinel).to(beNil())
+                expect(failureSentinel).toEventually(beNil())
               }
               
               it("should succeed") {
-                expect(result).notTo(beNil())
+                expect(result).toEventuallyNot(beNil())
               }
               
               it("should return the right value") {
-                expect(result).to(equal(value as NSString))
+                expect(result).toEventually(equal(value as NSString))
               }
             }
           }
           
           context("when calling get on the other cache") {
             beforeEach {
-              secondCache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              secondCache.get(key)
+                .sink(receiveCompletion: { completion in
+                  if case .failure = completion {
+                    failureSentinel = true
+                  }
+                }, receiveValue: { result = $0 })
+                .store(in: &cancellables)
             }
             
             it("should not fail") {
-              expect(failureSentinel).to(beNil())
+              expect(failureSentinel).toEventually(beNil())
             }
             
             it("should succeed") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value as NSString))
+              expect(result).toEventually(equal(value as NSString))
             }
           }
           
@@ -227,11 +296,11 @@ class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
             
             it("should succeed") {
-              expect(result).notTo(beNil())
+              expect(result).toEventuallyNot(beNil())
             }
             
             it("should return the right value") {
-              expect(result).to(equal(value as NSString))
+              expect(result).toEventually(equal(value as NSString))
             }
           }
         }

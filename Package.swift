@@ -1,14 +1,14 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.2
 
 import PackageDescription
 
 let package = Package(
   name: "Carlos",
   platforms: [
-    .iOS(.v10),
-    .macOS(.v10_12),
-    .tvOS(.v10),
-    .watchOS(.v3)
+    .iOS(.v13),
+    .macOS(.v10_15),
+    .tvOS(.v13),
+    .watchOS(.v6)
   ],
   products: [
     .library(
@@ -16,16 +16,13 @@ let package = Package(
       targets: ["Carlos"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/spring-media/PiedPiper", .branch("master")),
     .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
     .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.1.0")),
   ],
   targets: [
     .target(
       name: "Carlos",
-      dependencies: [
-        "PiedPiper"
-      ]
+      dependencies: []
     ),
     .testTarget(
       name: "CarlosTests",
@@ -33,7 +30,6 @@ let package = Package(
         "Carlos",
         "Quick",
         "Nimble",
-        "PiedPiper"
       ]
     ),
   ],

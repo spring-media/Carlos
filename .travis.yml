@@ -5,14 +5,7 @@
 language: objective-c
 cache:
   bundler: true
-  directories:
-  - "./Carthage"
-osx_image: xcode11.5
-
-# before_install:
-before_script:
-- "./travis/bootstrap-if-needed.sh"
+osx_image: xcode12
 
 script:
 - bundle exec fastlane test
-- pod lib lint --quick

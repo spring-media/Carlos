@@ -1,15 +1,26 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
 
-class MemoryCacheLevelTests: QuickSpec {
+import Carlos
+import Combine
+
+final class MemoryCacheLevelTests: QuickSpec {
   override func spec() {
     describe("Memory cache level") {
       var cache: MemoryCacheLevel<String, NSString>!
+      var cancellable: AnyCancellable?
       
       beforeEach {
         cache = MemoryCacheLevel(capacity: 100)
+      }
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
+        
+        cache = nil
       }
       
       context("when calling get") {
@@ -18,15 +29,24 @@ class MemoryCacheLevelTests: QuickSpec {
         var failureSentinel: Bool?
         
         beforeEach {
-          cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+          cancellable = cache.get(key).sink(receiveCompletion: { completion in
+            if case .failure = completion {
+              failureSentinel = true
+            }
+          }, receiveValue: { result = $0 })
+        }
+        
+        afterEach {
+          failureSentinel = nil
+          result = nil
         }
         
         it("should fail") {
-          expect(failureSentinel).to(beTrue())
+          expect(failureSentinel).toEventually(beTrue())
         }
         
         it("should not succeed") {
-          expect(result).to(beNil())
+          expect(result).toEventually(beNil())
         }
         
         context("when setting a value for that key") {
@@ -42,15 +62,19 @@ class MemoryCacheLevelTests: QuickSpec {
             let anotherKey = "test_key_2"
             
             beforeEach {
-              cache.get(anotherKey).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              cancellable = cache.get(anotherKey).sink(receiveCompletion: { completion in
+                if case .failure = completion {
+                  failureSentinel = true
+                }
+              }, receiveValue: { result = $0 })
             }
             
             it("should not succeed") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
             
             it("should fail") {
-              expect(failureSentinel).notTo(beNil())
+              expect(failureSentinel).toEventuallyNot(beNil())
             }
           }
         }
@@ -64,31 +88,39 @@ class MemoryCacheLevelTests: QuickSpec {
         var didWrite: Bool!
         
         beforeEach {
+          cancellable = cache.set(value as NSString, forKey: key)
+            .sink(receiveCompletion: { _ in }, receiveValue: { didWrite = true })
+        }
+        
+        afterEach {
           didWrite = false
-          cache.set(value as NSString, forKey: key).onSuccess {
-            didWrite = true
-          }
+          result = nil
+          failureSentinel = nil
         }
         
         it("should immediately succeed the future") {
-          expect(didWrite).to(beTrue())
+          expect(didWrite).toEventually(beTrue())
         }
         
         context("when calling get") {
           beforeEach {
-            cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+            cancellable = cache.get(key).sink(receiveCompletion: { completion in
+              if case .failure = completion {
+                failureSentinel = true
+              }
+            }, receiveValue: { result = $0 })
           }
           
           it("should succeed") {
-            expect(result).notTo(beNil())
+            expect(result).toEventuallyNot(beNil())
           }
           
           it("should return the right value") {
-            expect(result).to(equal(value as NSString))
+            expect(result).toEventually(equal(value as NSString))
           }
           
           it("should not fail") {
-            expect(failureSentinel).to(beNil())
+            expect(failureSentinel).toEventually(beNil())
           }
         }
         
@@ -101,11 +133,15 @@ class MemoryCacheLevelTests: QuickSpec {
           
           context("when calling get") {
             beforeEach {
-              cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              cancellable = cache.get(key).sink(receiveCompletion: { completion in
+                if case .failure = completion {
+                  failureSentinel = true
+                }
+              }, receiveValue: { result = $0 })
             }
             
             it("should succeed with the overwritten value") {
-              expect(result).to(equal(newValue as NSString))
+              expect(result).toEventually(equal(newValue as NSString))
             }
           }
         }
@@ -115,7 +151,7 @@ class MemoryCacheLevelTests: QuickSpec {
           let otherValues = [
             "long string value",
             "even longer string value but should still fit the cache",
-            "longest string value that should fill the cache capacity and force it to evict some values"
+            "longest string value that should fill the cache capacity and force it to evict some values and we will hope it happends"
           ]
           
           beforeEach {
@@ -128,10 +164,14 @@ class MemoryCacheLevelTests: QuickSpec {
             var evictedAtLeastOne = false
             
             for key in otherKeys {
-              cache.get(key).onFailure({ _ in evictedAtLeastOne = true })
+              cancellable = cache.get(key).sink(receiveCompletion: { completion in
+                if case .failure = completion {
+                  evictedAtLeastOne = true
+                }
+              }, receiveValue: { _ in })
             }
             
-            expect(evictedAtLeastOne).to(beTrue())
+            expect(evictedAtLeastOne).toEventually(beTrue(), timeout: 5)
           }
         }
         
@@ -144,15 +184,19 @@ class MemoryCacheLevelTests: QuickSpec {
           
           context("when calling get") {
             beforeEach {
-              cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+              cancellable = cache.get(key).sink(receiveCompletion: { completion in
+                if case .failure = completion {
+                  failureSentinel = true
+                }
+              }, receiveValue: { result = $0 })
             }
             
             it("should fail") {
-              expect(failureSentinel).to(beTrue())
+              expect(failureSentinel).toEventually(beTrue())
             }
             
             it("should not succeed") {
-              expect(result).to(beNil())
+              expect(result).toEventually(beNil())
             }
           }
         }
@@ -167,15 +211,19 @@ class MemoryCacheLevelTests: QuickSpec {
           context("when calling get") {
             beforeEach {
               beforeEach {
-                cache.get(key).onSuccess({ result = $0 }).onFailure({ _ in failureSentinel = true })
+                cancellable = cache.get(key).sink(receiveCompletion: { completion in
+                  if case .failure = completion {
+                    failureSentinel = true
+                  }
+                }, receiveValue: { result = $0 })
               }
               
               it("should fail") {
-                expect(failureSentinel).to(beTrue())
+                expect(failureSentinel).toEventually(beTrue())
               }
               
               it("should not succeed") {
-                expect(result).to(beNil())
+                expect(result).toEventually(beNil())
               }
             }
           }

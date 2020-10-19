@@ -1,29 +1,38 @@
 import Foundation
+
 import Quick
 import Nimble
-import Carlos
-import PiedPiper
 
-class BasicFetcherTests: QuickSpec {
+import Carlos
+import Combine
+
+final class BasicFetcherTests: QuickSpec {
   override func spec() {
     describe("BasicFetcher") {
       var fetcher: BasicFetcher<String, Int>!
       var numberOfTimesCalledGet = 0
       var didGetKey: String?
-      var getResult: Promise<Int>!
+      var getSubject: PassthroughSubject<Int, Error>!
+      
+      var cancellable: AnyCancellable?
       
       beforeEach {
         numberOfTimesCalledGet = 0
-        getResult = Promise<Int>()
+        getSubject = PassthroughSubject()
         
         fetcher = BasicFetcher<String, Int>(
           getClosure: { key in
             didGetKey = key
             numberOfTimesCalledGet += 1
             
-            return getResult.future
+            return getSubject.eraseToAnyPublisher()
           }
         )
+      }
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
       }
       
       context("when calling get") {
@@ -37,10 +46,13 @@ class BasicFetcherTests: QuickSpec {
           failed = nil
           succeeded = nil
           
-          fetcher.get(key)
-            .onSuccess { succeeded = $0 }
-            .onFailure { failed = $0 }
-            .onCancel { canceled = true }
+          cancellable = fetcher.get(key)
+            .handleEvents(receiveCancel: { canceled = true })
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failed = error
+              }
+            }, receiveValue: { succeeded = $0 })
         }
         
         it("should call the closure") {
@@ -55,7 +67,7 @@ class BasicFetcherTests: QuickSpec {
           let value = 3
           
           beforeEach {
-            getResult.succeed(value)
+            getSubject.send(value)
           }
           
           it("should succeed the future") {
@@ -65,7 +77,7 @@ class BasicFetcherTests: QuickSpec {
         
         context("when the get clousure is canceled") {
           beforeEach {
-            getResult.cancel()
+            cancellable?.cancel()
           }
           
           it("should cancel the future") {
@@ -77,7 +89,7 @@ class BasicFetcherTests: QuickSpec {
           let error = TestError.anotherError
           
           beforeEach {
-            getResult.fail(error)
+            getSubject.send(completion: .failure(error))
           }
           
           it("should fail the future") {
@@ -92,7 +104,10 @@ class BasicFetcherTests: QuickSpec {
         beforeEach {
           succeeded = false
           
-          fetcher.set(0, forKey: "").onSuccess { _ in succeeded = true }
+          _ = fetcher.set(0, forKey: "")
+            .sink(receiveCompletion: { _ in }) { value in
+              succeeded = true
+            }
         }
         
         it("should immediately succeed the future") {

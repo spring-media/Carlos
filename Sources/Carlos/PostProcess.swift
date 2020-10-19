@@ -1,5 +1,5 @@
 import Foundation
-import PiedPiper
+
 
 extension CacheLevel {
   
@@ -15,7 +15,9 @@ extension CacheLevel {
   public func postProcess<A: OneWayTransformer>(_ transformer: A) -> BasicCache<KeyType, OutputType> where OutputType == A.TypeIn, A.TypeIn == A.TypeOut {
     return BasicCache(
       getClosure: { key in
-        self.get(key).mutate(transformer)
+        self.get(key)
+          .flatMap(transformer.transform)
+          .eraseToAnyPublisher()
       },
       setClosure: self.set,
       clearClosure: self.clear,

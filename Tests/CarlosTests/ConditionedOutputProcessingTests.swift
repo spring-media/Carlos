@@ -1,8 +1,10 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
-import PiedPiper
+import Combine
 
 struct ConditionedPostProcessSharedExamplesContext {
   static let CacheToTest = "cache"
@@ -10,53 +12,68 @@ struct ConditionedPostProcessSharedExamplesContext {
   static let Transformer = "transformer"
 }
 
-class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
+final class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(_ configuration: Configuration) {
     sharedExamples("a fetch closure with conditioned post-processing") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
       var transformer: ConditionedOneWayTransformationBox<String, Int, Int>!
+      var cancellables: Set<AnyCancellable>!
       
       beforeEach {
+        cancellables = Set()
+        
         cache = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
         internalCache = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.InternalCache] as? CacheLevelFake<String, Int>
         transformer = sharedExampleContext()[ConditionedPostProcessSharedExamplesContext.Transformer] as? ConditionedOneWayTransformationBox<String, Int, Int>
+      }
+      
+      afterEach {
+        cancellables = nil
       }
       
       context("when calling get with a key that triggers some post-processing") {
         let key = "do"
         var successValue: Int?
         var failureValue: Error?
-        var fakeRequest: Promise<Int>!
+        var getSubject: PassthroughSubject<Int, Error>!
         
         beforeEach {
-          fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest.future
+          getSubject = PassthroughSubject()
+          internalCache.getSubject = getSubject
           successValue = nil
           failureValue = nil
           
-          cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
+          cache.get(key)
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failureValue = error
+              }
+            }, receiveValue: { successValue = $0 })
+            .store(in: &cancellables)
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+          expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
         }
         
         it("should forward the key") {
-          expect(internalCache.didGetKey).to(equal(key))
+          expect(internalCache.didGetKey).toEventually(equal(key))
         }
         
         context("when the request succeeds") {
           let value = 101
           
           beforeEach {
-            fakeRequest.succeed(value)
+            getSubject.send(value)
           }
           
           it("should call the transformation closure with the right value") {
             var expected: Int!
-            transformer.conditionalTransform(key: key, value: value).onSuccess { expected = $0 }
-            expect(successValue).to(equal(expected))
+            transformer.conditionalTransform(key: key, value: value)
+              .sink(receiveCompletion: { _ in }, receiveValue: { expected = $0 })
+              .store(in: &cancellables)
+            expect(successValue).toEventually(equal(expected))
           }
         }
         
@@ -64,11 +81,11 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
           let errorCode = TestError.simpleError
           
           beforeEach {
-            fakeRequest.fail(errorCode)
+            getSubject.send(completion: .failure(errorCode))
           }
           
           it("should call the original failure closure") {
-            expect(failureValue as? TestError).to(equal(errorCode))
+            expect(failureValue as? TestError).toEventually(equal(errorCode))
           }
         }
       }
@@ -77,42 +94,48 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
         let key = "don't"
         var successValue: Int?
         var failureValue: Error?
-        var fakeRequest: Promise<Int>!
+        var getSubject: PassthroughSubject<Int, Error>!
         
         beforeEach {
-          fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest.future
+          getSubject = PassthroughSubject()
+          internalCache.getSubject = getSubject
           successValue = nil
           failureValue = nil
           
-          cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
+          cache.get(key)
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failureValue = error
+              }
+            }, receiveValue: { successValue = $0 })
+            .store(in: &cancellables)
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+          expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
         }
         
         it("should forward the key") {
-          expect(internalCache.didGetKey).to(equal(key))
+          expect(internalCache.didGetKey).toEventually(equal(key))
         }
         
         context("when the request succeeds") {
           let value = -101
           
           beforeEach {
-            fakeRequest.succeed(value)
+            getSubject.send(value)
           }
           
           it("should not call the original success closure") {
-            expect(successValue).to(beNil())
+            expect(successValue).toEventually(beNil())
           }
           
           it("should call the original failure closure") {
-            expect(failureValue).notTo(beNil())
+            expect(failureValue).toEventuallyNot(beNil())
           }
           
           it("should pass the right error code") {
-            expect(failureValue as? TestError).to(equal(TestError.anotherError))
+            expect(failureValue as? TestError).toEventually(equal(TestError.anotherError))
           }
         }
         
@@ -120,11 +143,11 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
           let errorCode = TestError.simpleError
           
           beforeEach {
-            fakeRequest.fail(errorCode)
+            getSubject.send(completion: .failure(errorCode))
           }
           
           it("should call the original failure closure") {
-            expect(failureValue as? TestError).to(equal(errorCode))
+            expect(failureValue as? TestError).toEventually(equal(errorCode))
           }
         }
       }
@@ -133,23 +156,29 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
         let key = "12"
         var successValue: Int?
         var failureValue: Error?
-        var fakeRequest: Promise<Int>!
+        var getSubject: PassthroughSubject<Int, Error>!
         
         beforeEach {
-          fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest.future
+          getSubject = PassthroughSubject()
+          internalCache.getSubject = getSubject
           successValue = nil
           failureValue = nil
           
-          cache.get(key).onSuccess { successValue = $0 }.onFailure { failureValue = $0 }
+          cache.get(key)
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failureValue = error
+              }
+            }, receiveValue: { successValue = $0 })
+            .store(in: &cancellables)
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+          expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
         }
         
         it("should forward the key") {
-          expect(internalCache.didGetKey).to(equal(key))
+          expect(internalCache.didGetKey).toEventually(equal(key))
         }
         
         context("when the request succeeds") {
@@ -157,13 +186,15 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
             let value = 101
             
             beforeEach {
-              fakeRequest.succeed(value)
+              getSubject.send(value)
             }
             
             it("should call the transformation closure with the success value") {
               var expected: Int!
-              transformer.conditionalTransform(key: key, value: value).onSuccess { expected = $0 }
-              expect(successValue).to(equal(expected))
+              transformer.conditionalTransform(key: key, value: value)
+                .sink(receiveCompletion: { _ in }, receiveValue: { expected = $0 })
+                .store(in: &cancellables)
+              expect(successValue).toEventually(equal(expected))
             }
           }
           
@@ -171,19 +202,19 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
             let value = -101
             
             beforeEach {
-              fakeRequest.succeed(value)
+              getSubject.send(value)
             }
             
             it("should not call the original success closure") {
-              expect(successValue).to(beNil())
+              expect(successValue).toEventually(beNil())
             }
             
             it("should call the original failure closure") {
-              expect(failureValue).notTo(beNil())
+              expect(failureValue).toEventuallyNot(beNil())
             }
             
             it("should pass the right error code") {
-              expect(failureValue as? TestError).to(equal(TestError.simpleError))
+              expect(failureValue as? TestError).toEventually(equal(TestError.simpleError))
             }
           }
         }
@@ -192,11 +223,11 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
           let errorCode = TestError.anotherError
           
           beforeEach {
-            fakeRequest.fail(errorCode)
+            getSubject.send(completion: .failure(errorCode))
           }
           
           it("should call the original failure closure") {
-            expect(failureValue as? TestError).to(equal(errorCode))
+            expect(failureValue as? TestError).toEventually(equal(errorCode))
           }
         }
       }
@@ -215,9 +246,9 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("a fetch closure with conditioned post-processing") {
         [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
+          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache as Any,
+          ConditionedPostProcessSharedExamplesContext.Transformer: transformer as Any
         ]
       }
       
@@ -230,15 +261,15 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledSet).to(equal(1))
+          expect(internalCache.numberOfTimesCalledSet).toEventually(equal(1))
         }
         
         it("should forward the key") {
-          expect(internalCache.didSetKey).to(equal(key))
+          expect(internalCache.didSetKey).toEventually(equal(key))
         }
         
         it("should pass the right value") {
-          expect(internalCache.didSetValue).to(equal(value))
+          expect(internalCache.didSetValue).toEventually(equal(value))
         }
       }
       
@@ -248,7 +279,7 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledClear).to(equal(1))
+          expect(internalCache.numberOfTimesCalledClear).toEventually(equal(1))
         }
       }
       
@@ -258,33 +289,29 @@ class ConditionedPostProcessSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(internalCache.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
       }
     }
   }
 }
 
-class ConditionedOutputPostProcessingTests: QuickSpec {
+final class ConditionedOutputPostProcessingTests: QuickSpec {
   override func spec() {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
     let transformer: ConditionedOneWayTransformationBox<String, Int, Int> = ConditionedOneWayTransformationBox(conditionalTransformClosure: { (key, value) in
-      let result = Promise<Int>()
-      
       if key == "do" {
-        result.succeed(value * 2)
+        return Just(value * 2).setFailureType(to: Error.self).eraseToAnyPublisher()
       } else if key == "don't" {
-        result.fail(TestError.anotherError)
-      } else {
-        if value > 0 {
-          result.succeed(value)
-        } else {
-          result.fail(TestError.simpleError)
-        }
+        return Fail(error: TestError.anotherError).eraseToAnyPublisher()
       }
       
-      return result.future
+      if value > 0 {
+        return Just(value).setFailureType(to: Error.self).eraseToAnyPublisher()
+      }
+      
+      return Fail(error: TestError.simpleError).eraseToAnyPublisher()
     })
     
     describe("Conditioned post processing on a CacheLevel with the protocol extension") {
@@ -295,9 +322,9 @@ class ConditionedOutputPostProcessingTests: QuickSpec {
       
       itBehavesLike("a cache with conditioned post-processing") {
         [
-          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache,
-          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache,
-          ConditionedPostProcessSharedExamplesContext.Transformer: transformer
+          ConditionedPostProcessSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedPostProcessSharedExamplesContext.InternalCache: internalCache as Any,
+          ConditionedPostProcessSharedExamplesContext.Transformer: transformer as Any
         ]
       }
     }

@@ -1,21 +1,28 @@
 import Foundation
-import Carlos
+
 import Quick
 import Nimble
-import PiedPiper
 
-class BatchAllCacheTests: QuickSpec {
+import Carlos
+import Combine
+
+final class BatchAllCacheTests: QuickSpec {
   override func spec() {
     describe("allBatch") {
       let requestsCount = 5
-
+      
       var internalCache: CacheLevelFake<Int, String>!
       var cache: BatchAllCache<[Int], CacheLevelFake<Int, String>>!
-      var resultingFuture: Future<[String]>!
-
+      var cancellable: AnyCancellable?
+      
       beforeEach {
         internalCache = CacheLevelFake<Int, String>()
         cache = internalCache.allBatch()
+      }
+      
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
       }
       
       context("when calling clear") {
@@ -24,7 +31,7 @@ class BatchAllCacheTests: QuickSpec {
         }
         
         it("should call clear on the internal cache") {
-          expect(internalCache.numberOfTimesCalledClear).to(equal(1))
+          expect(internalCache.numberOfTimesCalledClear).toEventually(equal(1))
         }
       }
       
@@ -34,178 +41,133 @@ class BatchAllCacheTests: QuickSpec {
         }
         
         it("should call onMemoryWarning on the internal cache") {
-          expect(internalCache.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(internalCache.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
       }
       
       context("when calling set") {
         var succeeded: Bool!
         var failed: Error?
-        var canceled: Bool!
         
         let keys = [1, 2, 3]
         let values = ["", "", ""]
         
         beforeEach {
-          cache.set(values, forKey: keys)
-            .onSuccess { _ in succeeded = true }
-            .onFailure { failed = $0 }
-            .onCancel { canceled = true }
+          cancellable = cache.set(values, forKey: keys)
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                failed = error
+              }
+            }, receiveValue: { _ in succeeded = true })
         }
         
         it("should call set on the internal cache") {
-          expect(internalCache.numberOfTimesCalledSet).to(equal(values.count))
+          expect(internalCache.numberOfTimesCalledSet).toEventually(equal(values.count))
         }
         
         context("when one of the set calls fails") {
           let error = TestError.anotherError
           
           beforeEach {
-            internalCache.setPromisesReturned[0].succeed(())
-            internalCache.setPromisesReturned[1].fail(error)
+            internalCache.setPublishers[0]?.send()
+            internalCache.setPublishers[1]?.send(completion: .failure(error))
           }
           
           it("should fail the whole future") {
-            expect(failed as? TestError).to(equal(error))
-          }
-        }
-        
-        context("when one of the set calls is canceled") {
-          beforeEach {
-            internalCache.setPromisesReturned[0].succeed(())
-            internalCache.setPromisesReturned[1].cancel()
-          }
-          
-          it("should cancel the whole future") {
-            expect(canceled).to(beTrue())
+            expect(failed as? TestError).toEventually(equal(error))
           }
         }
         
         context("when all the set calls succeed") {
           beforeEach {
-            internalCache.setPromisesReturned[0].succeed(())
-            internalCache.setPromisesReturned[1].succeed(())
-            internalCache.setPromisesReturned[2].succeed(())
+            internalCache.setPublishers[1]?.send()
+            internalCache.setPublishers[2]?.send()
+            internalCache.setPublishers[3]?.send()
           }
           
           it("should succeed the whole future") {
-            expect(succeeded).to(beTrue())
+            expect(succeeded).toEventually(beTrue())
           }
         }
       }
       
       context("when calling get") {
-        var result: [String]!
+        var result: [String]?
         var errors: [Error]!
-        var canceled: Bool!
         
         beforeEach {
           errors = []
           result = nil
-          canceled = false
           
-          resultingFuture = cache.get(Array(0..<requestsCount))
-            .onSuccess {
+          cancellable = cache.get(Array(0..<requestsCount))
+            .sink(receiveCompletion: { completion in
+              if case let .failure(error) = completion {
+                errors.append(error)
+              }
+            }, receiveValue: {
               result = $0
-            }
-            .onFailure {
-              errors.append($0)
-            }
-            .onCancel {
-              canceled = true
-          }
+            })
         }
         
         it("should dispatch all of the requests to the underlying cache") {
-          expect(internalCache.numberOfTimesCalledGet).to(equal(requestsCount))
+          expect(internalCache.numberOfTimesCalledGet).toEventually(equal(requestsCount))
         }
         
         context("when one of the requests fails") {
           beforeEach {
-            internalCache.promisesReturned[0].fail(TestError.simpleError)
+            internalCache.getPublishers[0]?.send(completion: .failure(TestError.simpleError))
           }
           
           it("should fail the resulting future") {
-            expect(errors).notTo(beEmpty())
+            expect(errors).toEventuallyNot(beEmpty())
           }
           
           it("should pass the right error") {
-            expect(errors.first as? TestError).to(equal(TestError.simpleError))
+            expect(errors.first as? TestError).toEventually(equal(TestError.simpleError))
           }
           
           it("should not call the success closure") {
-            expect(result).to(beNil())
+            expect(result).toEventually(beNil())
           }
         }
         
         context("when one of the requests succeeds") {
           beforeEach {
-            internalCache.promisesReturned[0].succeed("Test")
+            internalCache.getPublishers[0]?.send("Test")
           }
           
           it("should not call the failure closure") {
-            expect(errors).to(beEmpty())
+            expect(errors).toEventually(beEmpty())
           }
           
           it("should not call the success closure") {
-            expect(result).to(beNil())
+            expect(result).toEventually(beNil())
           }
         }
         
         context("when all of the requests succeed") {
           beforeEach {
-            internalCache.promisesReturned.enumerated().forEach { (iteration, promise) in
-              promise.succeed("\(iteration)")
+            internalCache.getPublishers.forEach { (key, value) in
+              value.send("\(key)")
             }
           }
           
           it("should not call the failure closure") {
-            expect(errors).to(beEmpty())
+            expect(errors).toEventually(beEmpty())
           }
           
           it("should call the success closure") {
-            expect(result).notTo(beNil())
+            expect(result).toEventuallyNot(beNil())
           }
           
           it("should pass all the values") {
-            expect(result.count).to(equal(internalCache.promisesReturned.count))
+            expect(result?.count).toEventually(equal(internalCache.getPublishers.count))
           }
           
           it("should pass the individual results in the right order") {
-            expect(result).to(equal(internalCache.promisesReturned.enumerated().map { (iteration, _) in
+            expect(result?.sorted()).toEventually(equal(internalCache.getPublishers.enumerated().map { (iteration, _) in
               "\(iteration)"
-              }))
-          }
-        }
-        
-        context("when one of the requests is canceled") {
-          beforeEach {
-            internalCache.promisesReturned[0].cancel()
-          }
-          
-          it("should not call the success closure") {
-            expect(result).to(beNil())
-          }
-          
-          it("should call the onCancel closure") {
-            expect(canceled).to(beTrue())
-          }
-        }
-        
-        context("when the resulting request is canceled") {
-          beforeEach {
-            resultingFuture.cancel()
-          }
-          
-          it("should cancel all the underlying requests") {
-            var canceledCount = 0
-            internalCache.promisesReturned.forEach { promise in
-              promise.onCancel {
-                canceledCount += 1
-              }
-            }
-            
-            expect(canceledCount).to(equal(internalCache.promisesReturned.count))
+            }))
           }
         }
       }
@@ -213,319 +175,154 @@ class BatchAllCacheTests: QuickSpec {
   }
 }
 
-class BatchTests: QuickSpec {
+final class BatchTests: QuickSpec {
   override func spec() {
     let requestsCount = 5
     
     var cache: CacheLevelFake<Int, String>!
-    var resultingFuture: Future<[String]>!
+    var cancellable: AnyCancellable?
     
     beforeEach {
       cache = CacheLevelFake<Int, String>()
     }
     
-    /*describe("batchGetAll") {
-      var result: [String]!
-      var errors: [Error]!
-      var canceled: Bool!
-      
-      beforeEach {
-        errors = []
-        result = nil
-        canceled = false
-        
-        resultingFuture = cache.batchGetAll(Array(0..<requestsCount))
-          .onSuccess {
-            result = $0
-          }
-          .onFailure {
-            errors.append($0)
-          }
-          .onCancel {
-            canceled = true
-          }
-      }
-      
-      it("should dispatch all of the requests to the underlying cache") {
-        expect(cache.numberOfTimesCalledGet).to(equal(requestsCount))
-      }
-      
-      context("when one of the requests fails") {
-        beforeEach {
-          cache.promisesReturned[0].fail(TestError.simpleError)
-        }
-        
-        it("should fail the resulting future") {
-          expect(errors).notTo(beEmpty())
-        }
-        
-        it("should pass the right error") {
-          expect(errors.first as? TestError).to(equal(TestError.simpleError))
-        }
-        
-        it("should not call the success closure") {
-          expect(result).to(beNil())
-        }
-      }
-      
-      context("when one of the requests succeeds") {
-        beforeEach {
-          cache.promisesReturned[0].succeed("Test")
-        }
-        
-        it("should not call the failure closure") {
-          expect(errors).to(beEmpty())
-        }
-        
-        it("should not call the success closure") {
-          expect(result).to(beNil())
-        }
-      }
-      
-      context("when all of the requests succeed") {
-        beforeEach {
-          cache.promisesReturned.enumerated().forEach { (iteration, promise) in
-            promise.succeed("\(iteration)")
-          }
-        }
-        
-        it("should not call the failure closure") {
-          expect(errors).to(beEmpty())
-        }
-        
-        it("should call the success closure") {
-          expect(result).notTo(beNil())
-        }
-        
-        it("should pass all the values") {
-          expect(result.count).to(equal(cache.promisesReturned.count))
-        }
-        
-        it("should pass the individual results in the right order") {
-          expect(result).to(equal(cache.promisesReturned.enumerated().map { (iteration, _) in
-            "\(iteration)"
-          }))
-        }
-      }
-      
-      context("when one of the requests is canceled") {
-        beforeEach {
-          cache.promisesReturned[0].cancel()
-        }
-        
-        it("should not call the success closure") {
-          expect(result).to(beNil())
-        }
-        
-        it("should call the onCancel closure") {
-          expect(canceled).to(beTrue())
-        }
-      }
-      
-      context("when the resulting request is canceled") {
-        beforeEach {
-          resultingFuture.cancel()
-        }
-        
-        it("should cancel all the underlying requests") {
-          var canceledCount = 0
-          cache.promisesReturned.forEach { promise in
-            promise.onCancel {
-              canceledCount += 1
-            }
-          }
-          
-          expect(canceledCount).to(equal(cache.promisesReturned.count))
-        }
-      }
-    }*/
+    afterEach {
+      cancellable?.cancel()
+    }
     
     describe("batchGetSome") {
       var result: [String]!
       var errors: [Error]!
-      var canceled: Bool!
       
       beforeEach {
         errors = []
         result = nil
-        canceled = false
         
-        resultingFuture = cache.batchGetSome(Array(0..<requestsCount))
-          .onSuccess {
-            result = $0
-          }
-          .onFailure {
-            errors.append($0)
-          }
-          .onCancel {
-            canceled = true
-          }
+        cancellable = cache.batchGetSome(Array(0..<requestsCount))
+          .sink(receiveCompletion: { completion in
+            if case let .failure(error) = completion {
+              errors.append(error)
+            }
+          }, receiveValue: { result = $0 })
       }
       
       it("should dispatch all of the requests to the underlying cache") {
-        expect(cache.numberOfTimesCalledGet).to(equal(requestsCount))
+        expect(cache.numberOfTimesCalledGet).toEventually(equal(requestsCount))
       }
       
       context("when one of the requests fails") {
         let failedIndex = 2
         
         beforeEach {
-          cache.promisesReturned[failedIndex].fail(TestError.simpleError)
+          cache.getPublishers[failedIndex]?.send(completion: .failure((TestError.simpleError)))
         }
         
         it("should not call the success closure") {
-          expect(result).to(beNil())
+          expect(result).toEventually(beNil())
         }
         
         it("should not call the failure closure") {
-          expect(errors).to(beEmpty())
-        }
-        
-        it("should not call the cancel closure") {
-          expect(canceled).to(beFalse())
+          expect(errors).toEventually(beEmpty())
         }
         
         context("when all the other requests succeed") {
           beforeEach {
-            cache.promisesReturned.enumerated().forEach { (iteration, promise) in
-              promise.succeed("\(iteration)")
+            cache.getPublishers.forEach { (key, value) in
+              value.send("\(key)")
             }
           }
           
           it("should call the success closure") {
-            expect(result).notTo(beNil())
+            expect(result).toEventuallyNot(beNil())
           }
           
           it("should pass the right number of results") {
-            expect(result.count).to(equal(cache.promisesReturned.count - 1))
+            expect(result.count).toEventually(equal(cache.getPublishers.count - 1))
           }
           
           it("should only pass the succeeded requests") {
-            var expectedResult = cache.promisesReturned.enumerated().map { (iteration, _) in
+            var expectedResult = cache.getPublishers.enumerated().map { (iteration, _) in
               "\(iteration)"
             }
             _ = expectedResult.remove(at: failedIndex)
             
-            expect(result).to(equal(expectedResult))
+            expect(result.sorted()).toEventually(equal(expectedResult))
           }
           
           it("should not call the failure closure") {
-            expect(errors).to(beEmpty())
-          }
-          
-          it("should not call the cancel closure") {
-            expect(canceled).to(beFalse())
+            expect(errors).toEventually(beEmpty())
           }
         }
       }
       
-      context("when one of the requests succeeds") {
+      context("when all the other requests complete") {
         beforeEach {
-          cache.promisesReturned[1].succeed("1")
+          cache.getPublishers.forEach { (key, value) in
+            value.send("\(key)")
+          }
+        }
+        
+        it("should call the success closure") {
+          expect(result).toEventuallyNot(beNil())
+        }
+        
+        it("should pass the right number of results") {
+          expect(result.count).toEventually(equal(cache.getPublishers.count))
+        }
+        
+        it("should only pass the succeeded requests") {
+          expect(result.sorted()).toEventually(equal(cache.getPublishers.enumerated().map { (iteration, _) in
+            "\(iteration)"
+          }))
         }
         
         it("should not call the failure closure") {
-          expect(errors).to(beEmpty())
-        }
-        
-        it("should not call the success closure") {
-          expect(result).to(beNil())
-        }
-        
-        context("when all the other requests complete") {
-          beforeEach {
-            cache.promisesReturned.enumerated().forEach { (iteration, promise) in
-              promise.succeed("\(iteration)")
-            }
-          }
-          
-          it("should call the success closure") {
-            expect(result).notTo(beNil())
-          }
-          
-          it("should pass the right number of results") {
-            expect(result.count).to(equal(cache.promisesReturned.count))
-          }
-          
-          it("should only pass the succeeded requests") {
-            expect(result).to(equal(cache.promisesReturned.enumerated().map { (iteration, _) in
-              "\(iteration)"
-            }))
-          }
-          
-          it("should not call the failure closure") {
-            expect(errors).to(beEmpty())
-          }
-          
-          it("should not call the cancel closure") {
-            expect(canceled).to(beFalse())
-          }
+          expect(errors).toEventually(beEmpty())
         }
       }
       
-      context("when one of the requests is canceled") {
-        let canceledIndex = 3
+      context("when one of the requests fails") {
+        let failedIndex = 3
         
         beforeEach {
-          cache.promisesReturned[canceledIndex].cancel()
+          cache.getPublishers[failedIndex]?.send(completion: .failure(TestError.simpleError))
         }
         
         it("should not call the success closure") {
-          expect(result).to(beNil())
+          expect(result).toEventually(beNil())
         }
         
-        it("should not call the onCancel closure") {
-          expect(canceled).to(beFalse())
+        it("should not call the error closure") {
+          expect(errors).toEventually(beEmpty())
         }
         
         context("when all the other requests complete") {
           beforeEach {
-            cache.promisesReturned.enumerated().forEach { (iteration, promise) in
-              promise.succeed("\(iteration)")
+            cache.getPublishers.forEach { (key, value) in
+              value.send("\(key)")
             }
           }
           
           it("should call the success closure") {
-            expect(result).notTo(beNil())
+            expect(result).toEventuallyNot(beNil())
           }
           
           it("should pass the right number of results") {
-            expect(result.count).to(equal(cache.promisesReturned.count - 1))
+            expect(result.count).toEventually(equal(cache.getPublishers.count - 1))
           }
           
           it("should only pass the succeeded requests") {
-            var expectedResult = cache.promisesReturned.enumerated().map { (iteration, _) in
+            var expectedResult = cache.getPublishers.enumerated().map { (iteration, _) in
               "\(iteration)"
             }
-            _ = expectedResult.remove(at: canceledIndex)
+            _ = expectedResult.remove(at: failedIndex)
             
-            expect(result).to(equal(expectedResult))
+            expect(result.sorted()).toEventually(equal(expectedResult))
           }
           
           it("should not call the failure closure") {
-            expect(errors).to(beEmpty())
+            expect(errors).toEventually(beEmpty())
           }
-          
-          it("should not call the cancel closure") {
-            expect(canceled).to(beFalse())
-          }
-        }
-      }
-      
-      context("when the resulting request is canceled") {
-        beforeEach {
-          resultingFuture.cancel()
-        }
-        
-        it("should cancel all the underlying requests") {
-          var canceledCount = 0
-          cache.promisesReturned.forEach { promise in
-            promise.onCancel {
-              canceledCount += 1
-            }
-          }
-          
-          expect(canceledCount).to(equal(cache.promisesReturned.count))
         }
       }
     }

@@ -1,14 +1,19 @@
 import Foundation
 import UIKit
-import Carlos
 
-class UserDefaultsCacheSampleViewController: BaseCacheViewController {
+import Carlos
+import Combine
+
+final class UserDefaultsCacheSampleViewController: BaseCacheViewController {
   private var cache: NSUserDefaultsCacheLevel<String, NSData>!
+  private var cancellables = Set<AnyCancellable>()
   
   override func fetchRequested() {
     super.fetchRequested()
     
-    _ = cache.get(urlKeyField?.text ?? "")
+   cache.get(urlKeyField?.text ?? "")
+    .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+    .store(in: &cancellables)
   }
   
   override func titleForScreen() -> String {
@@ -30,7 +35,9 @@ class UserDefaultsCacheSampleViewController: BaseCacheViewController {
     ]
     
     for (key, value) in values {
-      _ = cache.set(value as NSData, forKey: key)
+      cache.set(value as NSData, forKey: key)
+        .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+        .store(in: &cancellables)
     }
     
     let prepopulatingMessage = values.reduce("", { accumulator, value in

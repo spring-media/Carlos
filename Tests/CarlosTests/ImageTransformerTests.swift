@@ -1,17 +1,22 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
+import Combine
 
 #if !os(macOS)
 import UIKit
 
-class ImageTransformerTests: QuickSpec {
+final class ImageTransformerTests: QuickSpec {
   override func spec() {
     describe("Image transformer") {
       var transformer: ImageTransformer!
       var error: Error!
-      var sampleData: Data!
+      let sampleData = Data(base64Encoded: base64EncodedImage, options: .ignoreUnknownCharacters)!
+      
+      var cancellable: AnyCancellable?
       
       beforeEach {
         error = nil
@@ -19,12 +24,9 @@ class ImageTransformerTests: QuickSpec {
         transformer = ImageTransformer()
       }
       
-      beforeSuite {
-        sampleData = Data(base64Encoded: base64EncodedImage, options: .ignoreUnknownCharacters)
-      }
-      
-      afterSuite {
-        sampleData = nil
+      afterEach {
+        cancellable?.cancel()
+        cancellable = nil
       }
       
       context("when transforming NSData to UIImage") {
@@ -40,9 +42,12 @@ class ImageTransformerTests: QuickSpec {
           beforeEach {
             imageSample = UIImage(data: sampleData)
             
-            transformer.transform(imageSample.pngData()! as NSData)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
+            cancellable = transformer.transform(imageSample.pngData()! as NSData)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(e) = completion {
+                  error = e
+                }
+              }, receiveValue: { result = $0 })
           }
           
           it("should call the success closure") {
@@ -54,15 +59,18 @@ class ImageTransformerTests: QuickSpec {
           }
           
           it("should return the expected data") {
-            expect(result!.pngData()).toEventually(equal(imageSample.pngData()))
+            expect(result?.pngData()).toEventually(equal(imageSample.pngData()))
           }
         }
         
         context("when the NSData is not a valid image") {
           beforeEach {
-            transformer.transform(("test for an invalid image".data(using: .utf8) as NSData?)!)
-              .onSuccess({ result = $0 })
-              .onFailure({ error = $0 })
+            cancellable = transformer.transform(("test for an invalid image".data(using: .utf8) as NSData?)!)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(e) = completion {
+                  error = e
+                }
+              }, receiveValue: { result = $0 })
           }
           
           it("should not call the success closure") {
@@ -83,9 +91,12 @@ class ImageTransformerTests: QuickSpec {
         beforeEach {
           imageSample = UIImage(data: sampleData)
           
-          transformer.inverseTransform(imageSample)
-            .onSuccess({ result = $0 })
-            .onFailure({ error = $0 })
+          cancellable = transformer.inverseTransform(imageSample)
+            .sink(receiveCompletion: { completion in
+              if case let .failure(e) = completion {
+                error = e
+              }
+            }, receiveValue: { result = $0 })
         }
         
         it("should call the success closure") {

@@ -1,19 +1,22 @@
 import Foundation
+
 import Quick
 import Nimble
+
 import Carlos
-import PiedPiper
+import Combine
 
 struct ConditionedCacheSharedExamplesContext {
   static let CacheToTest = "cache"
   static let InternalCache = "internalCache"
 }
 
-class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
+final class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
   override class func configure(_ configuration: Configuration) {
     sharedExamples("a conditioned fetch closure") { (sharedExampleContext: @escaping SharedExampleContext) in
       var cache: BasicCache<String, Int>!
       var internalCache: CacheLevelFake<String, Int>!
+      var cancellable: AnyCancellable?
       
       beforeEach {
         cache = sharedExampleContext()[ConditionedCacheSharedExamplesContext.CacheToTest] as? BasicCache<String, Int>
@@ -22,7 +25,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
       
       context("when calling get") {
         let value = 221
-        var fakeRequest: Promise<Int>!
+        var fakeRequest: PassthroughSubject<Int, Error>!
         var successSentinel: Bool?
         var successValue: Int?
         var failureSentinel: Bool?
@@ -36,70 +39,77 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
           successValue = nil
           cancelSentinel = nil
           
-          fakeRequest = Promise<Int>()
-          internalCache.cacheRequestToReturn = fakeRequest.future
+          fakeRequest = PassthroughSubject()
+          internalCache.getSubject = fakeRequest
+        }
+        
+        afterEach {
+          cancellable?.cancel()
+          cancellable = nil
         }
         
         context("when the condition is satisfied") {
           let key = "this key works"
           
           beforeEach {
-            cache.get(key).onSuccess { success in
-              successSentinel = true
-              successValue = value
-            }.onFailure { error in
-              failureValue = error
-              failureSentinel = true
-            }.onCancel {
-              cancelSentinel = true
-            }
+            cancellable = cache.get(key)
+              .handleEvents(receiveCancel: { cancelSentinel = true })
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  failureSentinel = true
+                  failureValue = error
+                }
+              }, receiveValue: { value in
+                successSentinel = true
+                successValue = value
+              })
           }
           
           it("should forward the call to the internal cache") {
-            expect(internalCache.numberOfTimesCalledGet).to(equal(1))
+            expect(internalCache.numberOfTimesCalledGet).toEventually(equal(1))
           }
           
           it("should pass the right key") {
-            expect(internalCache.didGetKey).to(equal(key))
+            expect(internalCache.didGetKey).toEventually(equal(key))
           }
           
           context("when the request succeeds") {
             beforeEach {
-              fakeRequest.succeed(value)
+              fakeRequest.send(value)
             }
             
             it("should call the original closure") {
-              expect(successSentinel).notTo(beNil())
+              expect(successSentinel).toEventuallyNot(beNil())
             }
             
             it("should pass the right value") {
-              expect(successValue).to(equal(value))
+              expect(successValue).toEventually(equal(value))
             }
             
             it("should not call the cancel closure") {
-              expect(cancelSentinel).to(beNil())
+              expect(cancelSentinel).toEventually(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(failureSentinel).to(beNil())
+              expect(failureSentinel).toEventually(beNil())
             }
           }
           
           context("when the request is canceled") {
             beforeEach {
-              fakeRequest.cancel()
+              cancellable?.cancel()
             }
             
             it("should call the original closure") {
-              expect(cancelSentinel).to(beTrue())
+              expect(cancelSentinel).toEventually(beTrue())
             }
             
             it("should not call the success closure") {
-              expect(successSentinel).to(beNil())
+              expect(successSentinel).toEventually(beNil())
             }
             
             it("should not call the failure closure") {
-              expect(failureSentinel).to(beNil())
+              expect(failureSentinel).toEventually(beNil())
             }
           }
           
@@ -107,23 +117,23 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
             let errorCode = TestError.simpleError
             
             beforeEach {
-              fakeRequest.fail(errorCode)
+              fakeRequest.send(completion: .failure(errorCode))
             }
             
             it("should call the original closure") {
-              expect(failureSentinel).notTo(beNil())
+              expect(failureSentinel).toEventuallyNot(beNil())
             }
             
             it("should pass the right error") {
-              expect(failureValue as? TestError).to(equal(errorCode))
+              expect(failureValue as? TestError).toEventually(equal(errorCode))
             }
             
             it("should not call the cancel closure") {
-              expect(cancelSentinel).to(beNil())
+              expect(cancelSentinel).toEventually(beNil())
             }
             
             it("should not call the success closure") {
-              expect(successSentinel).to(beNil())
+              expect(successSentinel).toEventually(beNil())
             }
           }
         }
@@ -132,33 +142,36 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
           let key = ":("
           
           beforeEach {
-            cache.get(key).onSuccess { success in
-              successSentinel = true
-              successValue = value
-            }.onFailure { error in
-              failureValue = error
-              failureSentinel = true
-            }
+            cancellable = cache.get(key)
+              .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                  failureSentinel = true
+                  failureValue = error
+                }
+              }, receiveValue: { value in
+                successSentinel = true
+                successValue = value
+              })
           }
           
           it("should not forward the call to the internal cache") {
-            expect(internalCache.numberOfTimesCalledGet).to(equal(0))
+            expect(internalCache.numberOfTimesCalledGet).toEventually(equal(0))
           }
           
           it("should call the failure closure") {
-            expect(failureSentinel).notTo(beNil())
+            expect(failureSentinel).toEventuallyNot(beNil())
           }
           
           it("should pass the provided error") {
-            expect(failureValue as? ConditionError).to(equal(ConditionError.MyError))
+            expect(failureValue as? ConditionError).toEventually(equal(ConditionError.MyError))
           }
           
           it("should not call the cancel closure") {
-            expect(cancelSentinel).to(beNil())
+            expect(cancelSentinel).toEventually(beNil())
           }
           
           it("should not call the success closure") {
-            expect(successSentinel).to(beNil())
+            expect(successSentinel).toEventually(beNil())
           }
         }
       }
@@ -175,8 +188,8 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
       
       itBehavesLike("a conditioned fetch closure") {
         [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache,
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache as Any,
         ]
       }
       
@@ -185,19 +198,19 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         let value = 201
         
         beforeEach {
-          _ = cache.set(value, forKey: key)
+          _ = cache.set(value, forKey: key).sink(receiveCompletion: { _ in }, receiveValue: { _ in })
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledSet).to(equal(1))
+          expect(internalCache.numberOfTimesCalledSet).toEventually(equal(1))
         }
         
         it("should pass the right key") {
-          expect(internalCache.didSetKey).to(equal(key))
+          expect(internalCache.didSetKey).toEventually(equal(key))
         }
         
         it("should pass the right value") {
-          expect(internalCache.didSetValue).to(equal(value))
+          expect(internalCache.didSetValue).toEventually(equal(value))
         }
       }
       
@@ -207,7 +220,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledClear).to(equal(1))
+          expect(internalCache.numberOfTimesCalledClear).toEventually(equal(1))
         }
       }
       
@@ -217,7 +230,7 @@ class ConditionedCacheSharedExamplesConfiguration: QuickConfiguration {
         }
         
         it("should forward the call to the internal cache") {
-          expect(internalCache.numberOfTimesCalledOnMemoryWarning).to(equal(1))
+          expect(internalCache.numberOfTimesCalledOnMemoryWarning).toEventually(equal(1))
         }
       }
     }
@@ -229,15 +242,15 @@ private enum ConditionError: Error {
   case AnotherError
 }
 
-class ConditionedCacheTests: QuickSpec {
+final class ConditionedCacheTests: QuickSpec {
   override func spec() {
     var cache: BasicCache<String, Int>!
     var internalCache: CacheLevelFake<String, Int>!
-    let closure: ((String) -> Future<Bool>) = { key in
+    let closure: ((String) -> AnyPublisher<Bool, Error>) = { key in
       if key.count >= 5 {
-        return Future(true)
+        return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
       } else {
-        return Future(ConditionError.MyError)
+        return Fail(error: ConditionError.MyError).eraseToAnyPublisher()
       }
     }
     
@@ -249,8 +262,8 @@ class ConditionedCacheTests: QuickSpec {
       
       itBehavesLike("a conditioned cache") {
         [
-          ConditionedCacheSharedExamplesContext.CacheToTest: cache,
-          ConditionedCacheSharedExamplesContext.InternalCache: internalCache
+          ConditionedCacheSharedExamplesContext.CacheToTest: cache as Any,
+          ConditionedCacheSharedExamplesContext.InternalCache: internalCache as Any
         ]
       }
     }
