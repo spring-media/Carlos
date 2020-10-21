@@ -19,7 +19,7 @@ public final class JSONTransformer: TwoWayTransformer {
   - returns: A Future<AnyObject> value, with the parsed JSON if the input data was valid
   */
   public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       do {
         let transformed = try JSONSerialization.jsonObject(with: val as Data, options: [.allowFragments]) as AnyObject
         promise(.success(transformed))
@@ -27,6 +27,7 @@ public final class JSONTransformer: TwoWayTransformer {
         promise(.failure(error))
       }
     }
+    .eraseToAnyPublisher()
   }
   
   /**
@@ -37,7 +38,7 @@ public final class JSONTransformer: TwoWayTransformer {
   - returns: A Future<NSData> value, with the deserialized JSON if the input was valid
   */
   public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       do {
         let transformed = try JSONSerialization.data(withJSONObject: val, options: [])
         promise(.success(transformed as NSData))
@@ -45,5 +46,6 @@ public final class JSONTransformer: TwoWayTransformer {
         promise(.failure(error))
       }
     }
+    .eraseToAnyPublisher()
   }
 }

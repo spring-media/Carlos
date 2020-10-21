@@ -32,7 +32,7 @@ final public class StringTransformer: TwoWayTransformer {
   - returns: A Future containing the serialized String with the given encoding if the input is valid
   */
   public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       guard let string = String(data: val as Data, encoding: self.encoding) else {
         promise(.failure(TransformationError.invalidData))
         return
@@ -40,6 +40,7 @@ final public class StringTransformer: TwoWayTransformer {
       
       promise(.success(string))
     }
+    .eraseToAnyPublisher()
   }
   
   /**
@@ -50,7 +51,7 @@ final public class StringTransformer: TwoWayTransformer {
   - returns: A Future<NSData> instance containing the bytes representation of the given string
   */
   public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       guard let data = val.data(using: self.encoding, allowLossyConversion: false) as NSData? else {
         promise(.failure(TransformationError.dataConversionToStringFailed))
         return
@@ -58,5 +59,6 @@ final public class StringTransformer: TwoWayTransformer {
       
       promise(.success(data))
     }
+    .eraseToAnyPublisher()
   }
 }

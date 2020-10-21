@@ -15,8 +15,6 @@ public enum NetworkFetcherError: Error {
 
 /// This class is a network cache level, mostly acting as a fetcher (meaning that calls to the set method won't have any effect). It internally uses NSURLSession to retrieve values from the internet
 open class NetworkFetcher: Fetcher {
-  private static let ValidStatusCodes = 200..<300
-  
   /// The network cache accepts only NSURL keys
   public typealias KeyType = URL
   
@@ -66,8 +64,6 @@ open class NetworkFetcher: Fetcher {
   - returns: A Future that you can use to get the asynchronous results of the network fetch
   */
   open func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-    startRequest(key)
-      .receive(on: DispatchQueue.main)
-      .eraseToAnyPublisher()
+    startRequest(key).eraseToAnyPublisher()
   }
 }

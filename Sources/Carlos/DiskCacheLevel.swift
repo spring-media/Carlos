@@ -43,7 +43,11 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   - parameter capacity: The total capacity in bytes for the disk cache. Defaults to 100 MB
   - parameter fileManager: The file manager to use. Defaults to the default NSFileManager. It's here mainly for dependency injection testing purposes.
   */
-  public init(path: String = (CarlosGlobals.caches as NSString).appendingPathComponent(CarlosGlobals.queueNamePrefix + "default"), capacity: UInt64 = 100 * 1024 * 1024, fileManager: FileManager = FileManager.default) {
+  public init(
+    path: String = (CarlosGlobals.caches as NSString).appendingPathComponent(CarlosGlobals.queueNamePrefix + "default"),
+    capacity: UInt64 = 100 * 1024 * 1024,
+    fileManager: FileManager = FileManager.default
+  ) {
     self.path = path
     self.fileManager = fileManager
     self.capacity = capacity
@@ -67,7 +71,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     
     return Just((value, key))
       .setFailureType(to: Error.self)
-      .receive(on: cacheQueue)
+      .subscribe(on: cacheQueue)
       .flatMap(setDataSync)
       .eraseToAnyPublisher()
   }
@@ -80,7 +84,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
   - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
   */
   public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-    cacheQueue.publisher { promise in
+    Publishers.create { promise in
       let path = self.pathForKey(key)
       
       if let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
@@ -99,6 +103,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
         promise(.failure(FetchError.valueNotInCache))
       }
     }
+    .subscribe(on: cacheQueue)
     .eraseToAnyPublisher()
   }
   

@@ -16,13 +16,14 @@ extension DateFormatter: TwoWayTransformer {
   public typealias TypeOut = String
   
   public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       promise(.success(self.string(from: val)))
     }
+    .eraseToAnyPublisher()
   }
   
   public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       guard let date = self.date(from: val) else {
         promise(.failure(NSDateFormatterError.invalidInputString))
         return
@@ -30,6 +31,7 @@ extension DateFormatter: TwoWayTransformer {
       
       promise(.success(date))
     }
+    .eraseToAnyPublisher()
   }
 }
 
@@ -48,18 +50,19 @@ extension NumberFormatter: TwoWayTransformer {
   public typealias TypeOut = String
   
   public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       guard let string = self.string(from: val) else {
         promise(.failure(NSNumberFormatterError.cannotConvertToString))
         return
       }
       
       promise(.success(string))
-    }.eraseToAnyPublisher()
+    }
+    .eraseToAnyPublisher()
   }
   
   public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       guard let number = self.number(from: val) else {
         promise(.failure(NSNumberFormatterError.invalidString))
         return
@@ -67,6 +70,7 @@ extension NumberFormatter: TwoWayTransformer {
       
       promise(.success(number))
     }
+    .eraseToAnyPublisher()
   }
 }
 
@@ -80,10 +84,12 @@ extension MKDistanceFormatter: TwoWayTransformer {
   public typealias TypeOut = String
   
   public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
-    DispatchQueue.global().publisher { $0(.success(self.string(fromDistance: val))) }
+    Publishers.create { $0(.success(self.string(fromDistance: val))) }
+      .eraseToAnyPublisher()
   }
   
   public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
-    DispatchQueue.global().publisher { $0(.success(self.distance(from: val))) }
+    Publishers.create { $0(.success(self.distance(from: val))) }
+      .eraseToAnyPublisher()
   }
 }

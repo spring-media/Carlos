@@ -14,11 +14,11 @@ extension CacheLevel {
       getClosure: { key in
         self.get(key)
           .catch { error -> AnyPublisher<OutputType, Error> in
-            Logger.log("Composed| error on getting value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .info)
+            Logger.log("Composed| error on getting value for key \(key) on cache \(String(describing: self)).", .info)
 
             return cache.get(key)
               .handleEvents(receiveOutput: { value in
-                Logger.log("Composed| trying to set value for key \(key) on cache \(String(describing: self)). Queue - \(OperationQueue.current.debugDescription)", .info)
+                Logger.log("Composed| trying to set value for key \(key) on cache \(String(describing: self)).", .info)
                 self.set(value, forKey: key)
               })
               .eraseToAnyPublisher()

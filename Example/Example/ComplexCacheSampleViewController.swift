@@ -96,6 +96,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     cache.get(key)
       .subscribe(on: DispatchQueue(label: "carlose test queu", qos: .userInitiated))
       .sink(receiveCompletion: { _ in }) { data in
+        print("Is Main Thread:", Thread.isMainThread)
         print(data)
       }.store(in: &cancellables)
     

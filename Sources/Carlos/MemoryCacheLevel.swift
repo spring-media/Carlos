@@ -27,15 +27,16 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
    - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
    */
   public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       if let result = self.internalCache.object(forKey: key.toString() as NSString) as? T {
-        Logger.log("MemoryCacheLevel| Fetched \(key.toString()) on memory level. Queue - \(OperationQueue.current.debugDescription)", .info)
+        Logger.log("MemoryCacheLevel| Fetched \(key.toString()) on memory level.", .info)
         promise(.success(result))
       } else {
-        Logger.log("MemoryCacheLevel| Failed fetching \(key.toString()) on the memory cache. Queue - \(OperationQueue.current.debugDescription)", .info)
+        Logger.log("MemoryCacheLevel| Failed fetching \(key.toString()) on the memory cache.", .info)
         promise(.failure(FetchError.valueNotInCache))
       }
     }
+    .eraseToAnyPublisher()
   }
   
   /**
@@ -52,7 +53,7 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
    - parameter key: The key for the value
    */
   public func set(_ value: T, forKey key: K) -> AnyPublisher<Void, Error> {
-    Logger.log("MemoryCacheLevel| Setting a value for the key \(key.toString()) on the memory cache \(self). Queue - \(OperationQueue.current.debugDescription)", .info)
+    Logger.log("MemoryCacheLevel| Setting a value for the key \(key.toString()) on the memory cache \(self).", .info)
     internalCache.setObject(value, forKey: key.toString() as NSString, cost: value.cost)
     
     return Just(())

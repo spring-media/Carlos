@@ -12,12 +12,13 @@ public extension String {
   }
 }
 
-extension DispatchQueue {
-  func publisher<Output, Failure: Error>(_ block: @escaping (Future<Output, Failure>.Promise) -> Void) -> AnyPublisher<Output, Failure> {
-      Future<Output, Failure> { promise in
-          self.async { block(promise) }
+extension Publishers {
+  static func create<Output, Failure: Error>(_ block: @escaping (Future<Output, Failure>.Promise) -> Void) -> AnyPublisher<Output, Failure> {
+    Deferred {
+      Future { promise in
+        block(promise)
       }
-      .receive(on: DispatchQueue.main)
-      .eraseToAnyPublisher()
+    }
+    .eraseToAnyPublisher()
   }
 }

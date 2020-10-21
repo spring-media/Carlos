@@ -127,7 +127,13 @@ final class DiskCacheTests: QuickSpec {
         
         context("when calling get") {
           beforeEach {
-            cache.get(key)
+            result = nil
+            failureSentinel = nil 
+            
+            cache.set(value as NSData, forKey: key)
+              .flatMap {
+                cache.get(key)
+              }
               .sink(receiveCompletion: { completion in
                 if case .failure = completion {
                   failureSentinel = true
@@ -164,7 +170,10 @@ final class DiskCacheTests: QuickSpec {
           
           context("when calling get") {
             beforeEach {
-              cache.get(key)
+              cache.set(newValue as NSData, forKey: key)
+                .flatMap {
+                  cache.get(key)
+                }
                 .sink(receiveCompletion: { completion in
                   if case .failure = completion {
                     failureSentinel = true

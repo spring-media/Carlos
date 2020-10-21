@@ -34,14 +34,13 @@ public final class ImageTransformer: TwoWayTransformer {
   - returns: A Future<UIImage> object
   */
   public func transform(_ val: TypeIn) -> AnyPublisher<TypeOut, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       if let image = CarlosImage(data: val as Data) {
         promise(.success(image))
       } else {
         promise(.failure(TransformationError.invalidData))
       }
     }
-    .receive(on: DispatchQueue.main)
     .eraseToAnyPublisher()
   }
   
@@ -53,7 +52,7 @@ public final class ImageTransformer: TwoWayTransformer {
   - returns: A Future<NSData> instance obtained with UIImagePNGRepresentation
   */
   public func inverseTransform(_ val: TypeOut) -> AnyPublisher<TypeIn, Error> {
-    DispatchQueue.global().publisher { promise in
+    Publishers.create { promise in
       #if os(macOS)
         if let rep = val.tiffRepresentation, let bitmapImageRep = NSBitmapImageRep(data: rep) {
           promise(.success(bitmapImageRep.representation(using: .png, properties: [:])))
@@ -72,7 +71,6 @@ public final class ImageTransformer: TwoWayTransformer {
         .setFailureType(to: Error.self)
         .eraseToAnyPublisher()
     }
-    .receive(on: DispatchQueue.main)
     .eraseToAnyPublisher()
   }
 }
