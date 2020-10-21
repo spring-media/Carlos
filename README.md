@@ -6,7 +6,7 @@
 > A simple but flexible cache, written in Swift for `iOS 13+` and `WatchOS 6` apps.
 
 # Breaking Changes
-Carlos 1.0.0 has been migrated from PiedPiper dependency to Combine hence the minimum supported platfroms versions are equal to the Combine's minimum supported platforms versions. See the releases page for more information. 
+Carlos 1.0.0 has been migrated from PiedPiper dependency to Combine hence the minimum supported platforms versions are equal to the Combine's minimum supported platforms versions. See the releases page for more information. 
 
 # Contents of this Readme
 
