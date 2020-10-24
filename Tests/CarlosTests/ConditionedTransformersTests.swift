@@ -1,7 +1,7 @@
 import Foundation
 
-import Quick
 import Nimble
+import Quick
 
 import Carlos
 import Combine
@@ -11,29 +11,29 @@ struct ConditionedTransformerSharedExamplesContext {
 }
 
 final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguration {
-  override class func configure(_ configuration: Configuration) {
+  override class func configure(_: Configuration) {
     sharedExamples("a conditioned one-way transformer") { (sharedExampleContext: @escaping SharedExampleContext) in
       var transformer: OneWayTransformationBox<String, Int>!
       var cancellable: AnyCancellable?
-      
+
       beforeEach {
         transformer = sharedExampleContext()[ConditionedTransformerSharedExamplesContext.TransformerToTest] as? OneWayTransformationBox<String, Int>
       }
-      
+
       afterEach {
         cancellable?.cancel()
         cancellable = nil
       }
-      
+
       context("when calling transform") {
         var result: Int?
         var failure: Error?
-        
+
         beforeEach {
           result = nil
           failure = nil
         }
-        
+
         context("when the condition is satisfied") {
           context("when the transformation is successful") {
             beforeEach {
@@ -44,20 +44,20 @@ final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguratio
                   }
                 }, receiveValue: { result = $0 })
             }
-            
+
             it("should succeed") {
               expect(result).toEventuallyNot(beNil())
             }
-            
+
             it("should return the right value") {
               expect(result).toEventually(equal(15))
             }
-            
+
             it("should not fail") {
               expect(failure).toEventually(beNil())
             }
           }
-          
+
           context("when the transformation fails") {
             beforeEach {
               cancellable = transformer.transform("not a number")
@@ -67,21 +67,21 @@ final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguratio
                   }
                 }, receiveValue: { result = $0 })
             }
-            
+
             it("should not succeed") {
               expect(result).toEventually(beNil())
             }
-            
+
             it("should fail") {
               expect(failure).toEventuallyNot(beNil())
             }
-            
+
             it("should return the right error") {
               expect(failure as? TransformerError).toEventually(equal(TransformerError.transformationError))
             }
           }
         }
-        
+
         context("when the condition is not satisfied") {
           beforeEach {
             cancellable = transformer.transform("fail now")
@@ -91,20 +91,20 @@ final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguratio
                 }
               }, receiveValue: { result = $0 })
           }
-          
+
           it("should not succeed") {
             expect(result).toEventually(beNil())
           }
-          
+
           it("should fail") {
             expect(failure).toEventuallyNot(beNil())
           }
-          
+
           it("should return the right error") {
             expect(failure as? FetchError).toEventually(equal(FetchError.conditionNotSatisfied))
           }
         }
-        
+
         context("when the condition fails") {
           beforeEach {
             cancellable = transformer.transform("fail with custom error")
@@ -114,50 +114,50 @@ final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguratio
                 }
               }, receiveValue: { result = $0 })
           }
-          
+
           it("should not succeed") {
             expect(result).toEventually(beNil())
           }
-          
+
           it("should fail") {
             expect(failure).toEventuallyNot(beNil())
           }
-          
+
           it("should return the right error") {
             expect(failure as? ConditionError).toEventually(equal(ConditionError.customError))
           }
         }
       }
     }
-    
+
     sharedExamples("a conditioned two-way transformer") { (sharedExampleContext: @escaping SharedExampleContext) in
       var transformer: TwoWayTransformationBox<String, Int>!
       var cancellable: AnyCancellable?
-      
+
       beforeEach {
         transformer = sharedExampleContext()[ConditionedTransformerSharedExamplesContext.TransformerToTest] as? TwoWayTransformationBox<String, Int>
       }
-      
+
       afterEach {
         cancellable?.cancel()
         cancellable = nil
       }
-      
+
       itBehavesLike("a conditioned one-way transformer") {
         [
           ConditionedTransformerSharedExamplesContext.TransformerToTest: OneWayTransformationBox<String, Int>(transform: transformer.transform)
         ]
       }
-      
+
       context("when calling inverseTransform") {
         var result: String?
         var failure: Error?
-        
+
         beforeEach {
           result = nil
           failure = nil
         }
-        
+
         context("when the condition is satisfied") {
           beforeEach {
             cancellable = transformer.inverseTransform(15)
@@ -167,20 +167,20 @@ final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguratio
                 }
               }, receiveValue: { result = $0 })
           }
-          
+
           it("should succeed") {
             expect(result).toEventuallyNot(beNil())
           }
-          
+
           it("should return the right value") {
             expect(result).toEventually(equal("15"))
           }
-          
+
           it("should not fail") {
             expect(failure).toEventually(beNil())
           }
         }
-        
+
         context("when the condition is not satisfied") {
           beforeEach {
             cancellable = transformer.inverseTransform(-14)
@@ -190,20 +190,20 @@ final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguratio
                 }
               }, receiveValue: { result = $0 })
           }
-          
+
           it("should not succeed") {
             expect(result).toEventually(beNil())
           }
-          
+
           it("should fail") {
             expect(failure).toEventuallyNot(beNil())
           }
-          
+
           it("should return the right error") {
             expect(failure as? FetchError).toEventually(equal(FetchError.conditionNotSatisfied))
           }
         }
-        
+
         context("when the condition fails") {
           beforeEach {
             cancellable = transformer.inverseTransform(0)
@@ -213,15 +213,15 @@ final class ConditionedTransformerSharedExamplesConfiguration: QuickConfiguratio
                 }
               }, receiveValue: { result = $0 })
           }
-          
+
           it("should not succeed") {
             expect(result).toEventually(beNil())
           }
-          
+
           it("should fail") {
             expect(failure).toEventuallyNot(beNil())
           }
-          
+
           it("should return the right error") {
             expect(failure as? ConditionError).toEventually(equal(ConditionError.customError))
           }
@@ -254,24 +254,24 @@ final class ConditionedTransformersTests: QuickSpec {
           return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
       }
-      
+
       beforeEach {
         transformer = OneWayTransformationBox<String, Int>(transform: {
           guard let intValue = Int($0) else {
             return Fail(error: TransformerError.transformationError).eraseToAnyPublisher()
           }
-          
+
           return Just(intValue).setFailureType(to: Error.self).eraseToAnyPublisher()
         }).conditioned(condition)
       }
-      
+
       itBehavesLike("a conditioned one-way transformer") {
         [
           ConditionedTransformerSharedExamplesContext.TransformerToTest: transformer as Any
         ]
       }
     }
-    
+
     describe("Conditioned two way transformers") {
       var transformer: TwoWayTransformationBox<String, Int>!
       let condition: (String) -> AnyPublisher<Bool, Error> = { input in
@@ -296,19 +296,19 @@ final class ConditionedTransformersTests: QuickSpec {
           return Just(false).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
       }
-      
+
       beforeEach {
         transformer = TwoWayTransformationBox<String, Int>(transform: {
           guard let intValue = Int($0) else {
             return Fail(error: TransformerError.transformationError).eraseToAnyPublisher()
           }
-          
+
           return Just(intValue).setFailureType(to: Error.self).eraseToAnyPublisher()
         }, inverseTransform: {
           Just("\($0)").setFailureType(to: Error.self).eraseToAnyPublisher()
         }).conditioned(condition, inverseCondition: inverseCondition)
       }
-      
+
       itBehavesLike("a conditioned two-way transformer") {
         [
           ConditionedTransformerSharedExamplesContext.TransformerToTest: transformer as Any

@@ -1,10 +1,10 @@
-import UIKit
 import Carlos
 import Combine
+import UIKit
 
 class BitcoinResult {
   let USDValue: Float
-  
+
   init(USDValue: Float) {
     self.USDValue = USDValue
   }
@@ -12,7 +12,7 @@ class BitcoinResult {
 
 extension BitcoinResult: ExpensiveObject {
   var cost: Int {
-    return 1
+    1
   }
 }
 
@@ -22,13 +22,13 @@ enum SampleError: Error {
 
 class ViewController: UIViewController {
   private var cancellables = Set<AnyCancellable>()
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     let JSONFetcher: BasicFetcher<URL, AnyObject> = NetworkFetcher().transformValues(JSONTransformer())
     let cache = JSONFetcher.transformValues(BTCTransformer())
-    
+
     cache.get(URL(string: "http://coinabul.com/api.php")!)
       .sink(receiveCompletion: { completion in
         print(completion)

@@ -29,40 +29,40 @@ class ExamplesListViewController: UIViewController {
       Example(name: "Switched cache", shortDescription: "2 Simple switched lanes", segueIdentifier: "switchedCache")
     ])
   ]
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     title = "Carlos Samples"
   }
 }
 
 extension ExamplesListViewController: UITableViewDataSource {
-  func numberOfSections(in tableView: UITableView) -> Int {
-    return sections.count
+  func numberOfSections(in _: UITableView) -> Int {
+    sections.count
   }
-  
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return sections[section].samples.count
+
+  func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    sections[section].samples.count
   }
-  
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return sections[section].name
+
+  func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
+    sections[section].name
   }
-  
+
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: ExampleCell.Identifier, for: indexPath) as! ExampleCell
-    
+
     cell.configureWithExample(sections[(indexPath as NSIndexPath).section].samples[(indexPath as NSIndexPath).row])
-    
+
     return cell
   }
 }
 
 extension ExamplesListViewController: UITableViewDelegate {
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
     let example = sections[(indexPath as NSIndexPath).section].samples[(indexPath as NSIndexPath).row]
-    
+
     performSegue(withIdentifier: example.segueIdentifier, sender: self)
   }
 }

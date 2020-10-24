@@ -1,6 +1,6 @@
 //
 //  Base64EncodedImage.swift
-//  
+//
 //
 //  Created by Lisovyi, Ivan on 01.07.20.
 //

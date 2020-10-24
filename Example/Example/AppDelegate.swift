@@ -1,20 +1,19 @@
-import UIKit
 import Carlos
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
   var window: UIWindow?
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    return true
+  func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    true
   }
 }
 
 func simpleCache() -> BasicCache<URL, NSData> {
-  return CacheProvider.dataCache()
+  CacheProvider.dataCache()
 }
 
 func delayedNetworkCache() -> BasicCache<URL, NSData> {
-  return MemoryCacheLevel().compose(DiskCacheLevel()).compose(DelayedNetworkFetcher())
+  MemoryCacheLevel().compose(DiskCacheLevel()).compose(DelayedNetworkFetcher())
 }

@@ -13,11 +13,12 @@ let package = Package(
   products: [
     .library(
       name: "Carlos",
-      targets: ["Carlos"]),
+      targets: ["Carlos"]
+    )
   ],
   dependencies: [
     .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "3.0.0")),
-    .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.1.0")),
+    .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.1.0"))
   ],
   targets: [
     .target(
@@ -29,9 +30,9 @@ let package = Package(
       dependencies: [
         "Carlos",
         "Quick",
-        "Nimble",
+        "Nimble"
       ]
-    ),
+    )
   ],
   swiftLanguageVersions: [.v5]
 )
