@@ -28,6 +28,7 @@ final class ConditionedCacheSampleViewController: BaseCacheViewController {
     super.fetchRequested()
 
     cache.get(URL(string: urlKeyField?.text ?? "")!)
+      .receive(on: DispatchQueue.main)
       .sink(receiveCompletion: { completion in
         if case let .failure(error) = completion {
           self.eventsLogView.text = "\(self.eventsLogView.text!)Failed because of condition\n"

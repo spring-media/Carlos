@@ -14,6 +14,8 @@ final class ImageCacheSampleViewController: BaseCacheViewController {
     super.fetchRequested()
 
     cache.get(URL(string: urlKeyField?.text ?? "")!)
+      .receive(on: DispatchQueue.main)
+      .print()
       .sink(receiveCompletion: { completion in
         switch completion {
         case .failure:
@@ -21,6 +23,7 @@ final class ImageCacheSampleViewController: BaseCacheViewController {
         default:
           break
         }
+        print(completion)
       }, receiveValue: { image in
         self.imageView?.image = image
       })

@@ -27,8 +27,8 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
    - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
    */
   public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-    AnyPublisher.create { promise in
-      if let result = self.internalCache.object(forKey: key.toString() as NSString) as? T {
+    AnyPublisher.create { [weak self] promise in
+      if let result = self?.internalCache.object(forKey: key.toString() as NSString) as? T {
         Logger.log("MemoryCacheLevel| Fetched \(key.toString()) on memory level.", .info)
         promise(.success(result))
       } else {

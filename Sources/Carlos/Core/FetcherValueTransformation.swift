@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 extension Fetcher {
   /**
@@ -13,7 +14,7 @@ extension Fetcher {
   public func transformValues<A: OneWayTransformer>(_ transformer: A) -> BasicFetcher<KeyType, A.TypeOut> where OutputType == A.TypeIn {
     BasicFetcher(
       getClosure: { key in
-        self.get(key)
+        return self.get(key)
           .flatMap(transformer.transform)
           .eraseToAnyPublisher()
       }

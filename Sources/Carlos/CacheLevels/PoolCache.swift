@@ -32,7 +32,6 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
     lock = UnfairLock()
   }
   
-  
   /// Asks the cache to get the value for the given key
   ///
   ///  - Parameter key: The key for the value

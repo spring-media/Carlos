@@ -71,7 +71,13 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     return Just((value, key))
       .setFailureType(to: Error.self)
       .subscribe(on: cacheQueue)
-      .flatMap(setDataSync)
+      .flatMap { [weak self] payload -> AnyPublisher<Void, Error> in
+        guard let self = self else {
+          return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        return self.setDataSync(payload.0, key: payload.1)
+      }
       .eraseToAnyPublisher()
   }
 
@@ -83,11 +89,15 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
    - returns: A Future where you can call onSuccess and onFailure to be notified of the result of the fetch
    */
   public func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-    AnyPublisher.create { promise in
+    AnyPublisher.create { [weak self] promise in
+      guard let self = self else {
+        return
+      }
+
       let path = self.pathForKey(key)
 
       if let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-        let obj = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? T
+         let obj = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? T
       {
         Logger.log("DiskCacheLevel| Fetched \(key.toString()) on disk level", .info)
 

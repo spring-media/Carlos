@@ -93,7 +93,7 @@ class ComplexCacheSampleViewController: BaseCacheViewController {
     let key = ModelDomain(name: nameField.text ?? "", identifier: Int(identifierField.text ?? "") ?? 0, URL: URL(string: urlField.text ?? "")!)
 
     cache.get(key)
-      .subscribe(on: DispatchQueue(label: "carlose test queu", qos: .userInitiated))
+      .subscribe(on: DispatchQueue(label: "carlose test queue", qos: .userInitiated))
       .sink(receiveCompletion: { _ in }) { data in
         print("Is Main Thread:", Thread.isMainThread)
         print(data)

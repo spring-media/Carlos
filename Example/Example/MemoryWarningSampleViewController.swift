@@ -1,15 +1,19 @@
 import Carlos
 import Foundation
 import UIKit
+import Combine
 
 class MemoryWarningSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<URL, NSData>!
   private var token: NSObjectProtocol?
 
+  var cancellable: AnyCancellable?
+
   override func fetchRequested() {
     super.fetchRequested()
-
-    _ = cache.get(URL(string: urlKeyField?.text ?? "")!)
+    
+    cancellable = cache.get(URL(string: urlKeyField?.text ?? "")!)
+      .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
   }
 
   override func titleForScreen() -> String {

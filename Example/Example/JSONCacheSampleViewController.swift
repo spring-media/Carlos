@@ -14,6 +14,7 @@ final class JSONCacheSampleViewController: BaseCacheViewController {
     super.fetchRequested()
 
     cache.get(URL(string: urlKeyField?.text ?? "")!)
+      .receive(on: DispatchQueue.main)
       .sink(receiveCompletion: { _ in }, receiveValue: { JSON in
         self.eventsLogView.text = "\(self.eventsLogView.text!)\nJSON Dictionary result: \(JSON as? NSDictionary)\n"
       })

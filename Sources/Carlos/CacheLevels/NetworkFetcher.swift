@@ -21,35 +21,6 @@ open class NetworkFetcher: Fetcher {
   /// The network cache returns only NSData values
   public typealias OutputType = NSData
 
-  private func validate(_ response: HTTPURLResponse, withData data: Data) -> Bool {
-    var responseIsValid = true
-    let expectedContentLength = response.expectedContentLength
-    if expectedContentLength > -1 {
-      responseIsValid = Int64(data.count) >= expectedContentLength
-    }
-    return responseIsValid
-  }
-
-  private func startRequest(_ URL: Foundation.URL) -> AnyPublisher<NSData, Error> {
-    URLSession.shared.dataTaskPublisher(for: URL)
-      .tryMap { data, response -> NSData in
-        guard let response = response as? HTTPURLResponse else {
-          throw NetworkFetcherError.invalidNetworkResponse
-        }
-
-        guard 200..<300 ~= response.statusCode else {
-          throw NetworkFetcherError.statusCodeNotOk
-        }
-
-        if self.validate(response, withData: data) {
-          return data as NSData
-        }
-
-        throw NetworkFetcherError.invalidNetworkResponse
-      }
-      .eraseToAnyPublisher()
-  }
-
   /**
    Initializes a new instance of a NetworkFetcher
    */
@@ -63,6 +34,31 @@ open class NetworkFetcher: Fetcher {
    - returns: A Future that you can use to get the asynchronous results of the network fetch
    */
   open func get(_ key: KeyType) -> AnyPublisher<OutputType, Error> {
-    startRequest(key).eraseToAnyPublisher()
+    URLSession.shared.dataTaskPublisher(for: key)
+      .tryMap { [weak self] data, response -> NSData in
+        guard let response = response as? HTTPURLResponse else {
+          throw NetworkFetcherError.invalidNetworkResponse
+        }
+
+        guard 200..<300 ~= response.statusCode else {
+          throw NetworkFetcherError.statusCodeNotOk
+        }
+
+        if self?.validate(response, withData: data) == true {
+          return data as NSData
+        }
+
+        throw NetworkFetcherError.invalidNetworkResponse
+      }
+      .eraseToAnyPublisher()
+  }
+
+  private func validate(_ response: HTTPURLResponse, withData data: Data) -> Bool {
+    var responseIsValid = true
+    let expectedContentLength = response.expectedContentLength
+    if expectedContentLength > -1 {
+      responseIsValid = Int64(data.count) >= expectedContentLength
+    }
+    return responseIsValid
   }
 }
