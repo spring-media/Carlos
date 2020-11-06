@@ -1,7 +1,7 @@
 import Carlos
+import Combine
 import Foundation
 import UIKit
-import Combine
 
 class DataCacheSampleViewController: BaseCacheViewController {
   fileprivate var cache: BasicCache<URL, NSData>!

@@ -19,11 +19,11 @@ extension CacheLevel where KeyType: Hashable {
 public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashable {
   public typealias KeyType = C.KeyType
   public typealias OutputType = C.OutputType
-  
+
   private let internalCache: C
   private let lock: UnfairLock
   private var requestsPool: [C.KeyType: AnyPublisher<C.OutputType, Error>] = [:]
-  
+
   /// Creates a new instance of a pooled cache
   ///
   /// - Parameter internalCache: The CacheLevel instance that this pooled cache will manage
@@ -31,7 +31,7 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
     self.internalCache = internalCache
     lock = UnfairLock()
   }
-  
+
   /// Asks the cache to get the value for the given key
   ///
   ///  - Parameter key: The key for the value
@@ -43,15 +43,15 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
       Logger.log("Using pooled request \(pooledRequest) for key \(key)")
       return pooledRequest
     }
-    
+
     let request = internalCache.get(key)
-    
+
     lock.locked {
       self.requestsPool[key] = request
     }
-    
+
     Logger.log("Creating a new request \(request) for key \(key)")
-    
+
     return request
       .handleEvents(receiveCompletion: { _ in
         self.lock.locked {
@@ -60,7 +60,7 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
       })
       .eraseToAnyPublisher()
   }
-  
+
   /// Sets a value for the given key on the managed cache
   ///
   /// - Parameter value: The value to set
@@ -68,12 +68,12 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
   public func set(_ value: C.OutputType, forKey key: C.KeyType) -> AnyPublisher<Void, Error> {
     internalCache.set(value, forKey: key)
   }
-  
+
   /// Clears the managed cache
   public func clear() {
     internalCache.clear()
   }
-  
+
   /// Notifies the managed cache that a memory warning event was thrown
   public func onMemoryWarning() {
     internalCache.onMemoryWarning()

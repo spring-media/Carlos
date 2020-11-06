@@ -97,7 +97,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
       let path = self.pathForKey(key)
 
       if let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-         let obj = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? T
+        let obj = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? T
       {
         Logger.log("DiskCacheLevel| Fetched \(key.toString()) on disk level", .info)
 

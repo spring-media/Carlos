@@ -7,7 +7,7 @@ public enum CacheProvider {
 
   /// A shared JSON cache instance
   public static let sharedJSONCache: BasicCache<URL, AnyObject> = CacheProvider.JSONCache()
-  
+
   /// A shared image cache instance
   public static let sharedImageCache: BasicCache<URL, CarlosImage> = CacheProvider.imageCache()
 
@@ -28,7 +28,7 @@ public enum CacheProvider {
   public static func JSONCache() -> BasicCache<URL, AnyObject> {
     dataCache().transformValues(JSONTransformer())
   }
-  
+
   /// - Returns: An initialized and configured `CacheLevel` that takes URL keys and stores `CarlosImage` (UIImage | NSImage) values.
   ///            Network requests are pooled for efficiency. Keep in mind that calling this method twice returns two different instances.
   ///            You should take care of retaining the result or use `sharedImageCache` instead

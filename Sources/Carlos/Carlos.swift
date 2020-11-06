@@ -20,7 +20,7 @@ public protocol CacheLevel: AnyObject {
   ///
   /// - Returns: A `Publisher` that you can attach success and failure closures to
   func get(_ key: KeyType) -> AnyPublisher<OutputType, Error>
-  
+
   /// Tries to set a value on the cache level
   ///
   /// - Parameter value: The bytes to set on the cache level

@@ -94,7 +94,7 @@ public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: 
       guard let self = self else {
         return
       }
-      
+
       if let cachedValue = self.safeInternalDomain[key.toString()] {
         if let unencodedObject = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(cachedValue) as? T {
           Logger.log("Fetched \(key.toString()) on user defaults level (domain \(self.domainName)")

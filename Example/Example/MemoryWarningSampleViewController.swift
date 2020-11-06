@@ -1,7 +1,7 @@
 import Carlos
+import Combine
 import Foundation
 import UIKit
-import Combine
 
 class MemoryWarningSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<URL, NSData>!
@@ -11,7 +11,7 @@ class MemoryWarningSampleViewController: BaseCacheViewController {
 
   override func fetchRequested() {
     super.fetchRequested()
-    
+
     cancellable = cache.get(URL(string: urlKeyField?.text ?? "")!)
       .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
   }

@@ -1,12 +1,12 @@
 //
 //  Fetcher.swift
-//  
+//
 //
 //  Created by Lisovyi, Ivan on 24.10.20.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 /// An abstraction for a generic cache level that can only fetch values but not store them
 public protocol Fetcher: CacheLevel {}
