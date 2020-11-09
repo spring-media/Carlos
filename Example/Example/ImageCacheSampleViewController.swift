@@ -7,13 +7,15 @@ import Combine
 final class ImageCacheSampleViewController: BaseCacheViewController {
   private var cache: BasicCache<URL, UIImage>!
   private var cancellables = Set<AnyCancellable>()
-  
-  @IBOutlet weak var imageView: UIImageView?
-  
+
+  @IBOutlet var imageView: UIImageView?
+
   override func fetchRequested() {
     super.fetchRequested()
-    
+
     cache.get(URL(string: urlKeyField?.text ?? "")!)
+      .receive(on: DispatchQueue.main)
+      .print()
       .sink(receiveCompletion: { completion in
         switch completion {
         case .failure:
@@ -21,12 +23,13 @@ final class ImageCacheSampleViewController: BaseCacheViewController {
         default:
           break
         }
+        print(completion)
       }, receiveValue: { image in
         self.imageView?.image = image
       })
       .store(in: &cancellables)
   }
-  
+
   private func imageWithColor(_ color: UIColor, size: CGSize) -> UIImage {
     let rect = CGRect(origin: CGPoint.zero, size: size)
     UIGraphicsBeginImageContextWithOptions(size, false, 0)
@@ -36,14 +39,14 @@ final class ImageCacheSampleViewController: BaseCacheViewController {
     UIGraphicsEndImageContext()
     return image!
   }
-  
+
   override func titleForScreen() -> String {
-    return "Image cache"
+    "Image cache"
   }
-  
+
   override func setupCache() {
     super.setupCache()
-    
+
     cache = CacheProvider.imageCache()
   }
 }
