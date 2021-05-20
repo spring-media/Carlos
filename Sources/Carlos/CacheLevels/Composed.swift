@@ -28,10 +28,11 @@ extension CacheLevel {
           }.eraseToAnyPublisher()
       },
       setClosure: { value, key in
-        Publishers.Merge(
+        Publishers.Zip(
           self.set(value, forKey: key),
           cache.set(value, forKey: key)
         )
+        .map { _ in () }
         .eraseToAnyPublisher()
       },
       clearClosure: {
