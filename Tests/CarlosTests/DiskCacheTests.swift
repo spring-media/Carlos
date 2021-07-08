@@ -221,6 +221,31 @@ final class DiskCacheTests: QuickSpec {
           }
         }
 
+        context("when calling remove") {
+          var result = false
+          let key = "test-key"
+
+          beforeEach {
+            result = false
+
+            cache.clear()
+          }
+
+          it("shall remove object from cache for given key") {
+            cache.set("value".data(using: .utf8)! as NSData, forKey: key)
+              .flatMap { cache.remove(key) }
+              .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { _ in
+                  result = true
+                }
+              )
+              .store(in: &cancellables)
+
+            expect(result).toEventually(beTrue())
+          }
+        }
+
         context("when calling clear") {
           beforeEach {
             result = nil
