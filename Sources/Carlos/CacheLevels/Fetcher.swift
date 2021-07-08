@@ -14,6 +14,11 @@ public protocol Fetcher: CacheLevel {}
 /// Extending the Fetcher protocol to have a default no-op implementation for clear, onMemoryWarning and set
 extension Fetcher {
   /// No-op
+  public func remove(_ key: KeyType) -> AnyPublisher<Void, Error> {
+    Empty(completeImmediately: true).eraseToAnyPublisher()
+  }
+
+  /// No-op
   public func clear() {}
 
   /// No-op

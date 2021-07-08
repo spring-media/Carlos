@@ -8,6 +8,7 @@ public final class BasicCache<A, B>: CacheLevel {
 
   private let getClosure: (_ key: A) -> AnyPublisher<B, Error>
   private let setClosure: (_ value: B, _ key: A) -> AnyPublisher<Void, Error>
+  private let removeClosure: (_ key: A) -> AnyPublisher<Void, Error>
   private let clearClosure: () -> Void
   private let memoryClosure: () -> Void
 
@@ -22,11 +23,13 @@ public final class BasicCache<A, B>: CacheLevel {
   public init(
     getClosure: @escaping (_ key: A) -> AnyPublisher<B, Error>,
     setClosure: @escaping (_ value: B, _ key: A) -> AnyPublisher<Void, Error>,
+    removeClosure: @escaping (_ key: A) -> AnyPublisher<Void, Error>,
     clearClosure: @escaping () -> Void,
     memoryClosure: @escaping () -> Void
   ) {
     self.getClosure = getClosure
     self.setClosure = setClosure
+    self.removeClosure = removeClosure
     self.clearClosure = clearClosure
     self.memoryClosure = memoryClosure
   }
@@ -52,6 +55,10 @@ public final class BasicCache<A, B>: CacheLevel {
    */
   public func set(_ value: B, forKey key: A) -> AnyPublisher<Void, Error> {
     setClosure(value, key)
+  }
+
+  public func remove(_ key: A) -> AnyPublisher<Void, Error> {
+    removeClosure(key)
   }
 
   /**

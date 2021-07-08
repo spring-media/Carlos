@@ -35,6 +35,11 @@ extension CacheLevel {
         .map { _ in () }
         .eraseToAnyPublisher()
       },
+      removeClosure: { key in
+        Publishers.Zip(self.remove(key), cache.remove(key))
+          .map { _ in () }
+          .eraseToAnyPublisher()
+      },
       clearClosure: {
         self.clear()
         cache.clear()

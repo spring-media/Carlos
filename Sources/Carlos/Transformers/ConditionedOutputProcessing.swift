@@ -20,6 +20,7 @@ extension CacheLevel {
           .eraseToAnyPublisher()
       },
       setClosure: set,
+      removeClosure: remove,
       clearClosure: clear,
       memoryClosure: onMemoryWarning
     )

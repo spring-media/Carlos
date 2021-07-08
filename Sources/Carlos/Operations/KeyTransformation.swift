@@ -25,6 +25,11 @@ extension CacheLevel {
           }
           .eraseToAnyPublisher()
       },
+      removeClosure: {
+        transformer.transform($0)
+          .flatMap(self.remove)
+          .eraseToAnyPublisher()
+      },
       clearClosure: clear,
       memoryClosure: onMemoryWarning
     )

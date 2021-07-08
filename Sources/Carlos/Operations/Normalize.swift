@@ -14,6 +14,7 @@ extension CacheLevel {
       return BasicCache<KeyType, OutputType>(
         getClosure: get,
         setClosure: set,
+        removeClosure: remove,
         clearClosure: clear,
         memoryClosure: onMemoryWarning
       )

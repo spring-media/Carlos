@@ -69,6 +69,10 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
     internalCache.set(value, forKey: key)
   }
 
+  public func remove(_ key: C.KeyType) -> AnyPublisher<Void, Error> {
+    internalCache.remove(key)
+  }
+
   /// Clears the managed cache
   public func clear() {
     internalCache.clear()

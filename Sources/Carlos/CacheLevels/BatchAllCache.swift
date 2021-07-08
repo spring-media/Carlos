@@ -42,6 +42,15 @@ public final class BatchAllCache<KeySeq: Sequence, Cache: CacheLevel>: CacheLeve
       }
   }
 
+  public func remove(_ key: KeyType) -> AnyPublisher<Void, Error> {
+    let all = key.map(cache.remove)
+    return all.publisher
+      .setFailureType(to: Error.self)
+      .collect(all.count)
+      .map { _ in () }
+      .eraseToAnyPublisher()
+  }
+
   public func clear() {
     cache.clear()
   }

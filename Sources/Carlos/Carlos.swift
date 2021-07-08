@@ -29,6 +29,8 @@ public protocol CacheLevel: AnyObject {
   /// - Returns: A `Publisher that will reflect the status of the set operation
   func set(_ value: OutputType, forKey key: KeyType) -> AnyPublisher<Void, Error>
 
+  func remove(_ key: KeyType) -> AnyPublisher<Void, Error>
+
   /// Asks to clear the cache level
   func clear()
 
