@@ -11,8 +11,12 @@ extension CacheLevel {
    */
   public func compose<A: CacheLevel>(_ cache: A) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == KeyType, A.OutputType == OutputType {
     BasicCache(
-      getClosure: { key in
-        self.get(key)
+      getClosure: { [weak self] key in
+        guard let self = self else {
+          return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        return self.get(key)
           .catch { _ -> AnyPublisher<OutputType, Error> in
             Logger.log("Composed| error on getting value for key \(key) on cache \(String(describing: self)).", .info)
 
@@ -27,25 +31,33 @@ extension CacheLevel {
               .eraseToAnyPublisher()
           }.eraseToAnyPublisher()
       },
-      setClosure: { value, key in
-        Publishers.Zip(
+      setClosure: { [weak self] value, key in
+        guard let self = self else {
+          return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        return Publishers.Zip(
           self.set(value, forKey: key),
           cache.set(value, forKey: key)
         )
         .map { _ in () }
         .eraseToAnyPublisher()
       },
-      removeClosure: { key in
-        Publishers.Zip(self.remove(key), cache.remove(key))
+      removeClosure: { [weak self] key in
+        guard let self = self else {
+          return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        return Publishers.Zip(self.remove(key), cache.remove(key))
           .map { _ in () }
           .eraseToAnyPublisher()
       },
-      clearClosure: {
-        self.clear()
+      clearClosure: { [weak self] in
+        self?.clear()
         cache.clear()
       },
-      memoryClosure: {
-        self.onMemoryWarning()
+      memoryClosure: { [weak self] in
+        self?.onMemoryWarning()
         cache.onMemoryWarning()
       }
     )

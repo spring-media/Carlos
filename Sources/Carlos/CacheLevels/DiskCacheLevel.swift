@@ -53,7 +53,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
 
     _ = try? fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: [:])
 
-    cacheQueue.async { () -> Void in
+    cacheQueue.async {
       self.calculateSize()
       self.controlCapacity()
     }
@@ -146,7 +146,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
    All the cached files will be removed from the disk storage
    */
   public func clear() {
-    cacheQueue.async { () -> Void in
+    cacheQueue.async {
       self.itemsInDirectory(self.path).forEach { filePath in
         _ = try? self.fileManager.removeItem(atPath: filePath)
       }

@@ -53,9 +53,9 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
     Logger.log("Creating a new request \(request) for key \(key)")
 
     return request
-      .handleEvents(receiveCompletion: { _ in
-        self.lock.locked {
-          self.requestsPool[key] = nil
+      .handleEvents(receiveCompletion: { [weak self] _ in
+        self?.lock.locked {
+          self?.requestsPool[key] = nil
         }
       })
       .eraseToAnyPublisher()
