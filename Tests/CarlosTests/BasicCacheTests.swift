@@ -19,11 +19,15 @@ final class BasicCacheTests: QuickSpec {
       var numberOfTimesCalledOnMemoryWarning = 0
       var numberOfTimesCalledGet = 0
       var numberOfTimesCalledSet = 0
+      var numberOfTimesCalledRemove = 0
       var didSetKey: String?
       var didSetValue: Int?
       var didGetKey: String?
+      var removeKey: String?
+      
       var getSubject: PassthroughSubject<Int, Error>!
       var setSubject: PassthroughSubject<Void, Error>!
+      var removeSubject: PassthroughSubject<Void, Error>!
 
       var cancellable: AnyCancellable?
 
@@ -49,6 +53,11 @@ final class BasicCacheTests: QuickSpec {
             numberOfTimesCalledSet += 1
 
             return setSubject.eraseToAnyPublisher()
+          },
+          removeClosure: { key in
+            numberOfTimesCalledRemove += 1
+            removeKey = key
+            return removeSubject.eraseToAnyPublisher()
           },
           clearClosure: {
             numberOfTimesCalledClear += 1

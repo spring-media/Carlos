@@ -7,6 +7,10 @@ class CacheLevelFake<A: Hashable, B>: CacheLevel {
   typealias KeyType = A
   typealias OutputType = B
 
+  var numberOfTimesRemoveCalled = 0
+  var removeKey: KeyType?
+  var removeSubject: PassthroughSubject<Void, Error>!
+
   init() {}
 
   // MARK: Get
@@ -60,11 +64,23 @@ class CacheLevelFake<A: Hashable, B>: CacheLevel {
     return newSubject.eraseToAnyPublisher()
   }
 
+  // MARK: - Remove
+
+  func remove(_ key: A) -> AnyPublisher<Void, Error> {
+    numberOfTimesRemoveCalled += 1
+    removeKey = key
+
+    return removeSubject.eraseToAnyPublisher()
+  }
+
+  // MARK: - Clear
+
   var numberOfTimesCalledClear = 0
   func clear() {
     numberOfTimesCalledClear += 1
   }
 
+  // MARK: - On Memory Warning
   var numberOfTimesCalledOnMemoryWarning = 0
   func onMemoryWarning() {
     numberOfTimesCalledOnMemoryWarning += 1

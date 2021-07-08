@@ -39,6 +39,16 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
     .eraseToAnyPublisher()
   }
 
+  public func remove(_ key: K) -> AnyPublisher<Void, Error> {
+    AnyPublisher.create { [weak self] promise in
+      Logger.log("MemoryCacheLevel| Removing \(key.toString()) on memory level.", .info)
+
+      self?.internalCache.removeObject(forKey: key.toString() as NSString)
+      
+      promise(.success(()))
+    }
+  }
+
   /**
    Clears the contents of the cache
    */
@@ -53,12 +63,11 @@ public final class MemoryCacheLevel<K: StringConvertible, T: AnyObject>: CacheLe
    - parameter key: The key for the value
    */
   public func set(_ value: T, forKey key: K) -> AnyPublisher<Void, Error> {
-    Logger.log("MemoryCacheLevel| Setting a value for the key \(key.toString()) on the memory cache \(self).", .info)
-    internalCache.setObject(value, forKey: key.toString() as NSString, cost: value.cost)
+    AnyPublisher.create { [weak self] promise in
+      self?.internalCache.setObject(value, forKey: key.toString() as NSString, cost: value.cost)
 
-    return Just(())
-      .setFailureType(to: Error.self)
-      .eraseToAnyPublisher()
+      promise(.success(()))
+    }
   }
 
   /**

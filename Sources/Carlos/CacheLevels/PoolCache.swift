@@ -53,9 +53,9 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
     Logger.log("Creating a new request \(request) for key \(key)")
 
     return request
-      .handleEvents(receiveCompletion: { _ in
-        self.lock.locked {
-          self.requestsPool[key] = nil
+      .handleEvents(receiveCompletion: { [weak self] _ in
+        self?.lock.locked {
+          self?.requestsPool[key] = nil
         }
       })
       .eraseToAnyPublisher()
@@ -67,6 +67,10 @@ public final class PoolCache<C: CacheLevel>: CacheLevel where C.KeyType: Hashabl
   /// - Parameter key: The key for the value
   public func set(_ value: C.OutputType, forKey key: C.KeyType) -> AnyPublisher<Void, Error> {
     internalCache.set(value, forKey: key)
+  }
+
+  public func remove(_ key: C.KeyType) -> AnyPublisher<Void, Error> {
+    internalCache.remove(key)
   }
 
   /// Clears the managed cache

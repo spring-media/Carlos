@@ -161,8 +161,33 @@ final class NSUserDefaultsCacheLevelTests: QuickSpec {
             }
 
             it("should succeed with the overwritten value") {
-              expect(result).toEventually(equal(newValue as NSString), timeout: 5)
+              expect(result).toEventually(equal(newValue as NSString), timeout: .seconds(5))
             }
+          }
+        }
+
+        context("when calling remove") {
+          var result = false
+          let key = "test-key"
+
+          beforeEach {
+            result = false
+
+            cache.clear()
+          }
+
+          it("shall remove object from cache for given key") {
+            cache.set("value", forKey: key)
+              .flatMap { cache.remove(key) }
+              .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { _ in
+                  result = true
+                }
+              )
+              .store(in: &cancellables)
+
+            expect(result).toEventually(beTrue())
           }
         }
 

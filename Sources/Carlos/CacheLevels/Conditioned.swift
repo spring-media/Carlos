@@ -15,6 +15,7 @@ extension CacheLevel {
     BasicCache(
       getClosure: conditionedClosure(get, condition: condition),
       setClosure: set,
+      removeClosure: remove,
       clearClosure: clear,
       memoryClosure: onMemoryWarning
     )

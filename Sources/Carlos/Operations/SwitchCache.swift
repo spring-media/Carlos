@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 /// Convenience enumeration to specify which of two switched cache levels should be used for a get or set operation
 public enum CacheLevelSwitchResult {
@@ -35,6 +36,11 @@ public func switchLevels<A: CacheLevel, B: CacheLevel>(cacheA: A, cacheB: B, swi
       case .cacheB:
         return cacheB.set(value, forKey: key)
       }
+    },
+    removeClosure: {
+      Publishers.Zip(cacheA.remove($0), cacheB.remove($0))
+        .map { _ in () }
+        .eraseToAnyPublisher()
     },
     clearClosure: {
       cacheA.clear()

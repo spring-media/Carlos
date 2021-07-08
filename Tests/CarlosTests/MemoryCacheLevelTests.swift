@@ -127,22 +127,22 @@ final class MemoryCacheLevelTests: QuickSpec {
         context("when setting a different value for the same key") {
           let newValue = "another value"
 
-          beforeEach {
-            _ = cache.set(newValue as NSString, forKey: key)
-          }
-
-          context("when calling get") {
-            beforeEach {
-              cancellable = cache.get(key).sink(receiveCompletion: { completion in
-                if case .failure = completion {
-                  failureSentinel = true
+          it("should succeed with the overwritten value") {
+            cancellable =
+              cache.set(newValue as NSString, forKey: key)
+              .flatMap { _ in cache.get(key) }
+              .sink(
+                receiveCompletion: { completion in
+                  if case .failure = completion {
+                    failureSentinel = true
+                  }
+                },
+                receiveValue: {
+                  result = $0
                 }
-              }, receiveValue: { result = $0 })
-            }
+              )
 
-            it("should succeed with the overwritten value") {
-              expect(result).toEventually(equal(newValue as NSString))
-            }
+            expect(result).toEventually(equal(newValue as NSString))
           }
         }
 
@@ -171,7 +171,7 @@ final class MemoryCacheLevelTests: QuickSpec {
               }, receiveValue: { _ in })
             }
 
-            expect(evictedAtLeastOne).toEventually(beTrue(), timeout: 5)
+            expect(evictedAtLeastOne).toEventually(beTrue(), timeout: .seconds(5))
           }
         }
 
@@ -227,6 +227,28 @@ final class MemoryCacheLevelTests: QuickSpec {
               }
             }
           }
+        }
+      }
+
+      context("when calling remove") {
+        var result = false
+        let key = "test-key"
+
+        beforeEach {
+          result = false
+        }
+
+        it("shall remove object from cache for given key") {
+          cancellable = cache.set("value", forKey: key)
+            .flatMap { cache.remove(key) }
+            .sink(
+              receiveCompletion: { _ in },
+              receiveValue: { _ in
+                result = true
+              }
+            )
+
+          expect(result).toEventually(beTrue())
         }
       }
     }

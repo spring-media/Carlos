@@ -111,6 +111,13 @@ public final class NSUserDefaultsCacheLevel<K: StringConvertible, T: NSCoding>: 
     .eraseToAnyPublisher()
   }
 
+  public func remove(_ key: K) -> AnyPublisher<Void, Error> {
+    AnyPublisher.create { [weak self] promise in
+      self?.userDefaults.removeObject(forKey: key.toString())
+      promise(.success(()))
+    }
+  }
+
   /**
    Completely clears the contents of this cache
 

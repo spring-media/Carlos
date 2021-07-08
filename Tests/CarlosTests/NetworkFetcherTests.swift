@@ -47,7 +47,7 @@ final class NetworkFetcherTests: QuickSpec {
         }
 
         it("should complete all requests") {
-          expect(finished).toEventually(equal(simultaneousRequests), timeout: 10)
+          expect(finished).toEventually(equal(simultaneousRequests), timeout: .seconds(10))
         }
       }
     }

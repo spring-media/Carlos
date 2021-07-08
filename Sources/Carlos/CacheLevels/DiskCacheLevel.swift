@@ -53,7 +53,7 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
 
     _ = try? fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: [:])
 
-    cacheQueue.async { () -> Void in
+    cacheQueue.async {
       self.calculateSize()
       self.controlCapacity()
     }
@@ -117,13 +117,36 @@ public final class DiskCacheLevel<K: StringConvertible, T: NSCoding>: CacheLevel
     .eraseToAnyPublisher()
   }
 
+  public func remove(_ key: K) -> AnyPublisher<Void, Error> {
+    AnyPublisher.create { [weak self] promise in
+      guard let path = self?.pathForKey(key) else {
+        return
+      }
+
+      do {
+        Logger.log("DiskCacheLevel| Removing \(key.toString()) at path: \(path) on the disk cache", .info)
+        try self?.fileManager.removeItem(atPath: path)
+
+        self?.calculateSize()
+
+        promise(.success(()))
+      } catch {
+        Logger.log("DiskCacheLevel| Failed to remove \(key.toString()) at path: \(path) on the disk cache", .error)
+
+        promise(.failure(error))
+      }
+    }
+    .subscribe(on: cacheQueue)
+    .eraseToAnyPublisher()
+  }
+
   /**
    Asynchronously clears the contents of the cache
 
    All the cached files will be removed from the disk storage
    */
   public func clear() {
-    cacheQueue.async { () -> Void in
+    cacheQueue.async {
       self.itemsInDirectory(self.path).forEach { filePath in
         _ = try? self.fileManager.removeItem(atPath: filePath)
       }

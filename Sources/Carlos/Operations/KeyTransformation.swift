@@ -13,16 +13,33 @@ extension CacheLevel {
    */
   public func transformKeys<A: OneWayTransformer>(_ transformer: A) -> BasicCache<A.TypeIn, OutputType> where KeyType == A.TypeOut {
     BasicCache(
-      getClosure: { key in
-        transformer.transform(key)
+      getClosure: { [weak self] key in
+        guard let self = self else {
+          return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        return transformer.transform(key)
           .flatMap(self.get)
           .eraseToAnyPublisher()
       },
-      setClosure: { value, key in
-        transformer.transform(key)
+      setClosure: { [weak self] value, key in
+        guard let self = self else {
+          return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        return transformer.transform(key)
           .flatMap { transformedKey in
             self.set(value, forKey: transformedKey)
           }
+          .eraseToAnyPublisher()
+      },
+      removeClosure: { [weak self] in
+        guard let self = self else {
+          return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        return transformer.transform($0)
+          .flatMap(self.remove)
           .eraseToAnyPublisher()
       },
       clearClosure: clear,
