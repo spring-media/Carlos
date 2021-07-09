@@ -11,17 +11,17 @@ extension CacheLevel {
    */
   public func compose<A: CacheLevel>(_ cache: A) -> BasicCache<A.KeyType, A.OutputType> where A.KeyType == KeyType, A.OutputType == OutputType {
     BasicCache(
-      getClosure: { [weak self] key in
-        guard let self = self else {
-          return Empty(completeImmediately: true).eraseToAnyPublisher()
-        }
-
-        return self.get(key)
+      getClosure: { key in
+        self.get(key)
           .catch { _ -> AnyPublisher<OutputType, Error> in
             Logger.log("Composed| error on getting value for key \(key) on cache \(String(describing: self)).", .info)
 
             return cache.get(key)
-              .flatMap { value -> AnyPublisher<(OutputType, Void), Error> in
+              .flatMap { [weak self] value -> AnyPublisher<(OutputType, Void), Error> in
+                guard let self = self else {
+                  return Empty(completeImmediately: true).eraseToAnyPublisher()
+                }
+
                 let get = Just(value).setFailureType(to: Error.self)
                 let set = self.set(value, forKey: key)
                 return Publishers.Zip(get, set)
@@ -31,33 +31,25 @@ extension CacheLevel {
               .eraseToAnyPublisher()
           }.eraseToAnyPublisher()
       },
-      setClosure: { [weak self] value, key in
-        guard let self = self else {
-          return Empty(completeImmediately: true).eraseToAnyPublisher()
-        }
-
-        return Publishers.Zip(
+      setClosure: { value, key in
+        Publishers.Zip(
           self.set(value, forKey: key),
           cache.set(value, forKey: key)
         )
         .map { _ in () }
         .eraseToAnyPublisher()
       },
-      removeClosure: { [weak self] key in
-        guard let self = self else {
-          return Empty(completeImmediately: true).eraseToAnyPublisher()
-        }
-
-        return Publishers.Zip(self.remove(key), cache.remove(key))
+      removeClosure: { key in
+        Publishers.Zip(self.remove(key), cache.remove(key))
           .map { _ in () }
           .eraseToAnyPublisher()
       },
-      clearClosure: { [weak self] in
-        self?.clear()
+      clearClosure: {
+        self.clear()
         cache.clear()
       },
-      memoryClosure: { [weak self] in
-        self?.onMemoryWarning()
+      memoryClosure: {
+        self.onMemoryWarning()
         cache.onMemoryWarning()
       }
     )

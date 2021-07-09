@@ -13,12 +13,8 @@ extension Fetcher {
    */
   public func transformValues<A: OneWayTransformer>(_ transformer: A) -> BasicFetcher<KeyType, A.TypeOut> where OutputType == A.TypeIn {
     BasicFetcher(
-      getClosure: { [weak self] key in
-        guard let self = self else {
-          return Empty(completeImmediately: true).eraseToAnyPublisher()
-        }
-
-        return self.get(key)
+      getClosure: { key in
+        self.get(key)
           .flatMap(transformer.transform)
           .eraseToAnyPublisher()
       }

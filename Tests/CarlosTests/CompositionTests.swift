@@ -1,4 +1,5 @@
 import Foundation
+import XCTest
 
 import Nimble
 import Quick
@@ -750,5 +751,69 @@ final class CacheLevelCompositionTests: QuickSpec {
         ]
       }
     }
+  }
+}
+
+final class ComposedCacheTests: XCTestCase {
+  var cancellables: Set<AnyCancellable>!
+  var cache: BasicCache<String, NSData>!
+
+  override func setUp() {
+    super.setUp()
+
+    cancellables = Set()
+    cache = MemoryCacheLevel().compose(DiskCacheLevel<String, NSData>())
+  }
+
+  override func tearDown() {
+    cache.clear()
+
+    super.tearDown()
+  }
+
+  func testGet_whenKeyDoesNotExistInCache_shallCompleteWithError() {
+    let expectation = self.expectation(description: #function)
+
+    cache.get("does_not_exist")
+        .sink(receiveCompletion: { completion in
+          switch completion {
+          case let .failure(error):
+            XCTAssertEqual(error as! FetchError, FetchError.valueNotInCache)
+
+            expectation.fulfill()
+          case .finished:
+            XCTFail("Shall not finish")
+          }
+        }, receiveValue: { _ in
+          XCTFail("Shall not receive any value")
+        })
+      .store(in: &cancellables)
+
+    wait(for: [expectation], timeout: 1.0)
+  }
+
+  func testGet_whenKeyDoesExistInCache_shallReturnCachedValue() {
+    let expectation = self.expectation(description: #function)
+    let key = "does_exist"
+    let expectedValue = "value"
+
+    cache.set(expectedValue.data(using: .utf8)! as NSData, forKey: key)
+      .flatMap {
+        self.cache.get(key)
+      }
+      .sink(receiveCompletion: { completion in
+        switch completion {
+        case let .failure(error):
+          XCTFail("Shall not fail with error \(error)")
+        case .finished:
+          expectation.fulfill()
+        }
+      }, receiveValue: { value in
+        let resultValue = String(data: value as Data, encoding: .utf8)
+        XCTAssertEqual(resultValue, expectedValue)
+      })
+    .store(in: &cancellables)
+
+    wait(for: [expectation], timeout: 1.0)
   }
 }
