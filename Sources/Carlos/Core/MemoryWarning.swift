@@ -5,7 +5,7 @@ import Foundation
 #endif
 
 #if !os(watchOS)
-  extension CacheLevel where Self: AnyObject {
+  extension CacheLevel {
     /**
      Adds a memory warning listener on the given cache
 
